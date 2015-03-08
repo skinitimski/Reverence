@@ -55,96 +55,68 @@ namespace Atmosphere.Reverence
             }
         }
 
-
-
-
-
-
-        private void Draw()
-        {
-            Console.WriteLine("Enter");
-
-            lock (_window)
-            {
-                _isDrawing = true;
-            }
-
-            int width, height;
-
-            Gdk.Threads.Enter();
-            _pixmap.GetSize(out width, out height);
-            Gdk.Threads.Leave();
-
-            //Gdk.GC gc = new Gdk.GC(_pixmap);
-
-            //_pixmap.DrawRectangle(gc, true, 0, 0, width, height);
-
-            
-            
-            using (Context context = Gdk.CairoHelper.Create(_pixmap))
-            {
-#if DEBUG 
-                
-                context.Color = _gridColor;
-                
-                int ew = width / 8;
-                int eh = height / 7;
-                
-                for (int i = 0; i < 9; i++)
-                {
-                    int x = i * ew + _anime % ew;
-                    
-                    context.MoveTo(x, 0);
-                    context.LineTo(x, height);
-                    context.Stroke();
-                }
-                for (int j = 0; j < 8; j++)
-                {
-                    int y = j * eh + _anime % eh;
-                    
-                    context.MoveTo(0, y);
-                    context.LineTo(width, y);
-                    context.Stroke();
-                }
-#endif
-                
-                //_state.Draw(pixbuf, width, height);
-            }
-
-            lock (_window)
-            {
-                _isDrawing = false;
-            }
-
-            Console.WriteLine("Leave");
-        }
-
-
-
-
-        
-
         [GdkMethod()]
-        private bool Update()
+        private bool OnTimedDraw()
         {
             _anime++;
 
-            bool isDrawing;
+            bool draw = false;
+
 
             lock (_window)
             {
-                isDrawing = _isDrawing;
-
-            if (!isDrawing)
-            {
-                if (_drawingThread != null)
+                if (!_isDrawing)
                 {
-                    _drawingThread.Join();
+                    _isDrawing = true;
+                    draw = true;
+                }
+            }
+
+            if (draw)
+            {
+                int w, h;
+
+                _pixmap.GetSize(out w, out h);
+                Gdk.GC gc = new Gdk.GC(_pixmap);            
+                _pixmap.DrawRectangle(gc, true, 0, 0, w, h);
+                
+
+                using (Context context = Gdk.CairoHelper.Create(_pixmap))
+                {
+#if DEBUG 
+                    
+                    context.Color = _gridColor;
+
+                    int ew = w / 8;
+                    int eh = h / 7;
+                    
+                    for (int i = 0; i < 9; i++)
+                    {
+                        int x = i * ew + _anime % ew;
+                        
+                        context.MoveTo(x, 0);
+                        context.LineTo(x, h);
+                        context.Stroke();
+                    }
+                    for (int j = 0; j < 8; j++)
+                    {
+                        int y = j * eh + _anime % eh;
+                        
+                        context.MoveTo(0, y);
+                        context.LineTo(w, y);
+                        context.Stroke();
+                    }
+#endif
+                    
+                    //_state.Draw(pixbuf, width, height);
+                }
+                
+                lock (_window)
+                {
+                    _isDrawing = false;
                 }
 
-                _drawingThread = new Thread(new ThreadStart(Draw));
-                _drawingThread.Start();
-            }
+                lock (_window) _isDrawing = false;
             }
 
 
@@ -347,7 +319,7 @@ namespace Atmosphere.Reverence
             _window.ExposeEvent += OnExposed;
 
 
-            GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(Update));
+            GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
                         
             _window.ShowAll();
             
