@@ -46,5 +46,9 @@
       <Project>{CF91CBF2-F955-4B29-A784-545CD97640FD}</Project>
       <Name>Simulator</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
+      <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
+      <Name>ReverenceLib</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
