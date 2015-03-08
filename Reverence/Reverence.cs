@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
+using System.Threading;
 
 using NLua;
 using Gtk;
@@ -25,7 +26,9 @@ namespace Atmosphere.Reverence
         private readonly int _width;
         private readonly int _height;
 
-
+        
+        private bool _isDrawing = false;
+        private Thread _drawThread;
 
 
         private Reverence()
@@ -35,15 +38,18 @@ namespace Atmosphere.Reverence
         }
 
 
-
+        
+        [GdkMethod()]
         private bool Draw()
         {
             Gdk.Threads.Enter();
 
+            _isDrawing = true;
+
             Gdk.GC gc = new Gdk.GC(_pixmap);
             _pixmap.DrawRectangle(gc, true, 0, 0, _width, _height);
             
-            
+
             
             #region Draw Grid
             
@@ -71,25 +77,50 @@ namespace Atmosphere.Reverence
 
             return true;
         }
+
+        
+        private bool TimedDraw()
+        {
+            if (!_isDrawing)
+            {
+                lock (_drawThread)
+                {
+                    if (_drawThread != null)
+                    {
+                        _drawThread.Join();
+                    }
+
+                    _drawThread = new Thread(new ThreadStart(Draw));
+                    _drawThread.Start();
+                
+                }
+            }
+            
+            _window.QueueDrawArea(0, 0, _width, _height);
+                        
+            return true;
+        }
         
         
+        [GdkMethod()]
         private void OnExposed(object o, ExposeEventArgs args)
         {
             Gtk.DrawingArea area = (DrawingArea)o;
             Gdk.Window win = area.GdkWindow;
-            Gdk.GC gc2 = new Gdk.GC(win);
+            Gdk.GC gc = new Gdk.GC(win);
             
-            win.DrawDrawable(gc2, _pixmap, 0, 0, 0, 0, Config.Instance.WindowWidth, Config.Instance.WindowHeight);
+            win.DrawDrawable(gc, _pixmap, 0, 0, 0, 0, Config.Instance.WindowWidth, Config.Instance.WindowHeight);
         }
 
-
+        
+        [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
             Application.Quit();
             _quit = true;
-        }
-        
-        
+        }        
+
+        [GdkMethod()]
         [GLib.ConnectBefore()]
         private void OnKeyPress(object o, Gtk.KeyPressEventArgs args)
         {
@@ -156,6 +187,7 @@ namespace Atmosphere.Reverence
             
         }
         
+        [GdkMethod()]
         [GLib.ConnectBefore()]
         private void OnKeyRelease(object o, Gtk.KeyReleaseEventArgs args)
         {
@@ -223,7 +255,7 @@ namespace Atmosphere.Reverence
         }
 
 
-        private void Init()
+        private void Go()
         {
             Application.Init();
 
@@ -235,32 +267,22 @@ namespace Atmosphere.Reverence
 
             _window = new Window(Config.Instance.WindowTitle);
             _window.Resize(_width, _height);
-            _window.AppPaintable = true;
-            _window.DoubleBuffered = false;
+            _window.ExposeEvent += OnExposed;
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
 
-            _pixmap = new Gdk.Pixmap(_window.GdkWindow, _width, _height);
-            
-            DrawingArea da = new DrawingArea();
-            da.ExposeEvent += OnExposed;
-            
-            Gdk.Color col = new Gdk.Color(0, 0, 0);
-            _window.ModifyBg(StateType.Normal, col);
-            da.ModifyBg(StateType.Normal, col);
-                        
-            GLib.Timeout.Add(33, new GLib.TimeoutHandler(Draw));
-
-            _window.Add(da);
             _window.ShowAll();
+            _window.AppPaintable = true;
+            _window.DoubleBuffered = false;
+
+            _pixmap = new Gdk.Pixmap(_window.GdkWindow, _width, _height);
+
+            GLib.Timeout.Add(33, new GLib.TimeoutHandler(TimedDraw));
+                        
+            Application.Run();
 
             Gdk.Threads.Leave();
-        }
-
-        private void Run()
-        {
-            Application.Run();
         }
 
         
@@ -299,9 +321,7 @@ namespace Atmosphere.Reverence
         {
             Reverence game = new Reverence();
 
-            game.Init();
-
-            game.Run();
+            game.Go();
         }
     }
 }

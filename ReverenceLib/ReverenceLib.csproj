@@ -59,6 +59,7 @@
     <Compile Include="Time\Timer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="GdkMethodAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\savegame.xml">

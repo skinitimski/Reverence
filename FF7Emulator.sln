@@ -33,7 +33,7 @@ Global
 		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = UnitTests\UnitTests.csproj
+		StartupItem = Reverence\Reverence.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedFlat
