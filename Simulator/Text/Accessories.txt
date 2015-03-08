@@ -1,0 +1,45 @@
+﻿
+ 
+01 A Power Wrist        Power +10
+02 A Protect Vest       Vitality +10
+03 A Choco Feather      Dexterity +10
+04 A Earring            Magic +10
+05 A Talisman           Spirit +10
+06 A Amulet             Luck +10
+07 A Championship Belt  Strength and Vitality +30
+08 A Circlet            Magic and Spirit +30
+09 A Touph Ring         Vitality and Spirit +50
+
+11 E Fire Ring          Nullifies [Fire] Attacks
+12 E Ice Ring           Nullifies [Ice] Attacks
+13 E Bolt Ring          Nullifies [Lightning] attacks
+14 E Poison Ring        Absorbs [Poison] Attacks, Protects against [Poison]
+15 E Tetra Elemental    Absorbs [Fire/Cold/Earth/Lightning] Attacks
+16 E Water Ring         Absorbs [Water] Attacks
+
+
+
+
+
+
+
+21 P Fairy Ring         Protects against [Poison/Darkness]
+22 P Jem Ring           Protects against [Paralyze/Petrify/Slow-numb]
+23 P Peace Ring         Protects against [Berserk/Fury/Sadness]
+24 P Headband           Protects against [Sleep]
+25 P Safety Bit         Protects against [Sudden Death/Petrify/Slow-numb]
+26 P Silver Glasses     Protects against [Darkness]
+27 P Star Pendant       Protects against [Poison]
+28 P White Cape         Protects against [Frog/Small]
+29 P Ribbon             Protects against all abnormal status ailments
+ 
+31 A Cursed Ring        It raises each status but...
+ 
+41 T Protect Ring       Automatically sets up [Barrier/MBarrier]
+42 T Reflect Ring       Automatically sets up [Reflect]
+43 T Fury Ring          Automatically sets up [Berserk]
+44 T Sprint Shoes       Automatically sets up [Haste]
+ 
+32 S HypnoCrown         Increases Manipulation rate
+33 S Sneak Glove        Increases Stealing Rate
+34 S Cat's Bell         Restores HP as you walk (~2 HP/ step)

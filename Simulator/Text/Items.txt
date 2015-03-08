@@ -1,0 +1,119 @@
+﻿  0 [test]              [this is where test items will be stored]
+H 1 Potion              Restores 100 HP
+H 2 Hi-Potion           Restores 500 HP
+H 3 X-Potion            Restores all HP
+H 4 Ether               Restores 100 MP
+H 5 Turbo Ether         Restores all MP
+H 6 Elixir              Restores all HP/MP (aka Recovery)
+H 7 Megalixir           Restores all HP/MP in whole party
+H 8 Phoenix Down        Restores life and MaxHP/10
+F 9 Tent                Restores all HP/MP (Save Point or World Map)
+ 
+H 11 Tranquilizer        Causes Sadness status, cures Fury status
+H 12 Hyper               Causes Fury status, cures Sadness status
+ 
+F 21 Power Source        Increases Strength
+F 22 Guard Source        Increases Vitality
+F 23 Speed Source        Increases Dexterity
+F 24 Magic Source        Increases Magic
+F 25 Mind Source         Increases Spirit
+F 26 Luck Source         Increases Luck
+
+B Fire Fang           Casts Fire 2 (all)
+B Fire Veil           Casts Fire 3 (all)
+B Antarctic Wind      Casts Ice 2 (all)
+B Ice Crystal         Casts Ice 3 (all)
+B Bolt Plume          Casts Bolt 2 (all)
+B Swift Bolt          Casts Bolt 3 (all)
+B Earth Drum          Casts Quake 2 (all)
+B Earth Mallet        Casts Quake 3 (all)
+B Hazardous Waste     Casts Bio 2 (all)
+B M-Tentacles         Casts Bio 3 (all)
+B Graviball           Casts Demi
+B T/S Bomb            Casts Demi 2
+B Stardust            Casts Comet 2 (all)
+B Dragon Scales       Casts Aqualung (all)
+B Cauldron            Casts Bad Breath (all)
+B Bird Wing           Inflicts Wind damage
+B Shrapnel            Inflicts Fire damage
+B Molotov             Inflicts Fire damage
+B Dragon Fang         Inflicts Lightning damage
+B Grenade             Inflicts light damage
+B S-mine              Inflicts medium damage
+B Right arm           Inflicts medium damage
+B 8-inch Cannon       Inflicts heavy damage
+B Ghost Hand          Absorbs MP
+B Vampire Fang        Absorbs HP
+B Smoke Bomb          Casts Escape
+B Holy Torch          Casts DeSpell
+
+
+B Eye drop            Cures Darkness status
+B Echo Screen         Cures Sleep status
+B Cornucopia          Cures Minimum status
+B Antidote            Cures Poison status
+B Remedy              Cures all status ailments
+B Soft                Cures Petrify status
+B Maiden's Kiss       Cures Toad status
+
+B Hero Drink          Raises all stats in battle
+
+B Speed Drink         Causes Haste
+B Spider Web          Causes Slow
+B Hourglass           Causes Stop
+B Ink                 Causes Darkness
+B Shrivel             Causes Minimum
+B Imapler             Causes Toad
+B Dream Powder        Causes Sleep
+B Mute Mask           Causes Silence
+B Vagyrisk Claw       Causes Petrify
+B Dazers              Causes Paralysis
+B Loco weed           Causes Confusion
+B War Gong            Causes Berserk
+B Light Curtain       Causes Barrier
+B Lunar Curtain       Causes MBarrier
+B Mirror              Causes Reflect
+B Vaccine             Causes Resist
+B Kiss of Death       Causes Death
+
+
+L OmniSlash           Lv.4 Limit Break - Cloud
+L Final Heaven        Lv.4 Limit Break - Tifa
+L Catastrophe         Lv.4 Limit Break - Barret
+L Great Gospel        Lv.4 Limit Break - Aeris
+L Cosmo Memory        Lv.4 Limit Break - Red 13
+L All Creation        Lv.4 Limit Break - Yuffie
+L Chaos               Lv.4 Limit Break - Vincent
+L Highwind            Lv.4 Limit Break - Cid
+
+N Carob Nut           Used to breed chocobos
+N Lasan Nut           Used to breed chocobos
+N Luchile Nut         Used to breed chocobos
+N Pipio Nut           Used to breed chocobos
+N Porov Nut           Used to breed chocobos
+N Pram Nut            Used to breed chocobos
+N Saraha Nut          Used to breed chocobos
+N Zeio Nut            Used to breed Chocobos
+
+G Gysahl Greens       Stamina Up
+G Cureil Greens       Stamina Up
+G Sylkis Greens       Speed Plus, Stamina, and Kashiisa Up
+G Tantal Greens       Stamina&Kashiisa Up
+G Reagan Greens       Stamina Up
+G Pahsana Greens      Kashiisa Up
+G Mimett Greens       (N/A)
+G Krakka Greens       Kashiisa Up
+
+N Guide Book          Trade for the Underwater Materia
+N Desert Rose         Trade for the Gold Chocobo
+N Earth Harp          Trade for the Master Materias
+
+S Save Crystal        Make a Save Point once in the Northern Crater
+
+N 1/35 soldier        Part of a set of twelve.
+N Autograph           (N/A)
+N Fight Diary         (N/A)
+N Gambler             (N/A)
+N Masamune Blade      (N/A)
+N Super Sweeper       (N/A)
+N Tissue              (N/A)

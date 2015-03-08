@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CF91CBF2-F955-4B29-A784-545CD97640FD}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Atmosphere.BattleSimulator</RootNamespace>
+    <AssemblyName>Simulator</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LuaInterface, Version=2.0.0.16708, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\dll\Lua\LuaInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AbilityState.cs" />
+    <Compile Include="BattleScreen\EnemySkillMenu.cs" />
+    <Compile Include="Enum\ESex.cs" />
+    <Compile Include="MenuScreen\HoardScreen.cs" />
+    <Compile Include="MenuScreen\VictoryScreen.cs" />
+    <Compile Include="States\PostBattleState.cs" />
+    <Compile Include="Structures\Accessory.cs" />
+    <Compile Include="Structures\Ally.cs" />
+    <Compile Include="Structures\Armor.cs" />
+    <Compile Include="BattleScreen\BattleScreen.cs" />
+    <Compile Include="BattleScreen\EventBar.cs" />
+    <Compile Include="BattleScreen\InfoBar.cs" />
+    <Compile Include="BattleScreen\ItemMenu.cs" />
+    <Compile Include="BattleScreen\MagicMenu.cs" />
+    <Compile Include="BattleScreen\StatusBars.cs" />
+    <Compile Include="BattleScreen\SummonMenu.cs" />
+    <Compile Include="Structures\Character.cs" />
+    <Compile Include="Enum\EAddedAbility.cs" />
+    <Compile Include="Enum\EAttackType.cs" />
+    <Compile Include="Enum\EGrowth.cs" />
+    <Compile Include="Enum\EElement.cs" />
+    <Compile Include="Enum\EItemType.cs" />
+    <Compile Include="Enum\EMateriaType.cs" />
+    <Compile Include="Enum\EStatus.cs" />
+    <Compile Include="Enum\ETargetGroup.cs" />
+    <Compile Include="Enum\ETargetType.cs" />
+    <Compile Include="Formula.cs" />
+    <Compile Include="Interface\IController.cs" />
+    <Compile Include="Interface\IItem.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="Interface\ISlotHolder.cs" />
+    <Compile Include="Structures\Item.cs" />
+    <Compile Include="Structures\Materia\CommandMateria.cs" />
+    <Compile Include="Structures\Materia\IndependentMateria.cs" />
+    <Compile Include="Structures\Materia\MagicMateria.cs" />
+    <Compile Include="Materiatory.cs" />
+    <Compile Include="Structures\Spell.cs" />
+    <Compile Include="Structures\Materia\SummonMateria.cs" />
+    <Compile Include="Structures\Materia\SupportMateria.cs" />
+    <Compile Include="MenuScreen\ItemScreen.cs" />
+    <Compile Include="MenuScreen\MateriaScreen.cs" />
+    <Compile Include="MenuScreen\PhsScreen.cs" />
+    <Compile Include="BattleScreen\Selector.cs" />
+    <Compile Include="MenuScreen\StatusScreen.cs" />
+    <Compile Include="States\BattleState.cs" />
+    <Compile Include="Enum\EWeaponType.cs" />
+    <Compile Include="Graphics.cs" />
+    <Compile Include="Structures\Enemy.cs" />
+    <Compile Include="Exceptions.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Enum\EKey.cs" />
+    <Compile Include="MenuScreen\MenuScreen.cs" />
+    <Compile Include="Menu.cs" />
+    <Compile Include="States\MenuState.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interface\ICombatant.cs" />
+    <Compile Include="BattleScreen\BattleMenu.cs" />
+    <Compile Include="MenuScreen\EquipScreen.cs" />
+    <Compile Include="MenuScreen\MainScreen.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="Terminal.cs" />
+    <Compile Include="Util.cs" />
+    <Compile Include="Structures\Weapon.cs" />
+    <Compile Include="Timer.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="Structures\Materia.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\armour.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\characters.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\enemies.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Data\gradient.table">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Data\items.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\weapons.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\accessories.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\materia.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\spells.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\savegame.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\aeris.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\aeris_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\barret.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\barret_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\caitsith.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\caitsith_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cid.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cid_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cloud.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\cloud_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\redxiii.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\redxiii_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\sephiroth.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\sephiroth_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\tifa.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\tifa_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\vincent.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\vincent_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\yuffie.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\yuffie_small.JPG">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Text\Accessories.txt" />
+    <Content Include="Text\Armour.txt" />
+    <Content Include="Text\Items.txt" />
+    <Content Include="Text\KnownBugs.txt" />
+    <Content Include="Text\Materia.txt" />
+    <Content Include="Text\Status.txt" />
+    <Content Include="Text\Support.txt" />
+    <Content Include="Text\Weapons.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Data\base.table">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\diffs.table">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,24 @@
+﻿
+
+
+!! All of a sudden during a battle the threads will get lost
+** I think this one is fixed
+
+!! When you win the battle and restart it, who knows what happens, but it breaks
+** Fixed? Hasn't happened in a while!
+
+!! When you arrange the materiatory then immediately do it again, you get caught a different sort order. This bug works mod 3
+** Definitely fixed. Sorting is much more specific and it works.
+
+
+
+
+
+!! When you use an item in battle, its inventory count is not immediately decremented (it waits for the item to be used)
+
+
+
+
+
+
+

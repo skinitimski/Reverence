@@ -1,0 +1,432 @@
+﻿---  ---------------
+2.4  Support Materia
+---  ---------------
+Materia Name: All
+Desc: 'All' effects on paired Magic
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Use paired Magic against all once per battle        0
+ 2   Use paired Magic against all twice per battle       1500
+ 3   Use paired Magic against all three times per battle 6000
+ 4   Use paired Magic against all four times per battle  18000
+ 5   Use paired Magic against all five times per battle  35000
+
+Can be paired with:
+  Restore, Heal, Revive, Fire, Ice, Lightning, Earth, Poison, Gravity, Seal,
+  Mystify, Transform, Time, Barrier, Destruct, Master Magic
+Notes:
+  Allows certain abilities (those marked 'All Tar/1 Tar') to be able to
+    target All Tar.  Only abilities on the above Materia listing require the
+    All Materia to be able to use the All Tar part of 'All Tar/1 Tar'
+
+
+Materia Name: Counter
+Desc: Attacks with paired Command when damage is incurred
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   30% chance of counter with paired Command           0
+ 2   40% chance of counter with paired Command           20000
+ 3   60% chance of counter with paired Command           40000
+ 4   80% chance of counter with paired Command           60000
+ 5   100% chance of counter with paired Command          100000
+
+Can be paired with:
+  Steal, Sense, Throw, Morph, Deathblow, Manipulate, Mime, Master Command
+Notes:
+  With the exception of Master Command, you will counter once with all the
+    abilities you are considered to know that are also on the linked Materia.
+    While this seems straightforward for most of them, it is especially
+    important with the Throw and Steal Materia.
+  Your known ability from any given Throw or Steal Materia will be the one
+    highlighted on the materia.  You will be unable to counter with the other
+    darkened ability *UNLESS* you have another source for that particular
+    ability.  If you have a source for both abilities on the Materia, then
+    you will counter with *BOTH*, the higher level ability being used
+    immediately after the lower level ability.
+  As an example, Counter+Steal L2 (granting Mug) would counter with the Mug
+    ability.  However, if you also added a Steal L1 Materia to the character
+    so that they theoretically know Steal *AND* Mug at the same time, then
+    you will counter *TWICE* when attacked - first with Steal, then with Mug
+    - while only needing a single Counter Materia.  However, this will take
+    up two of the eight maximum counter effects you may have on a single
+    character.
+  When linked to Master Command, one of the commands out of Steal, Sense,
+    Throw, Morph, D. blow, Manip and Mine will be picked at random to be
+    used for a single counter attack.  Coin will never be used as a counter
+    from a Master Command linkup, even though Master Command counts as giving
+    you Coin, and not Throw.
+  Final Attack, Sneak Attack, Counter, Magic Counter and Counter Attack all
+    share the same command space, and there are only room for 8 such attacks.
+    Only the first eight Counter Effects placed chronologically onto a
+    character will be used.
+  Support abilities (that naturally target party members) will be used on the
+    Countering player or the player's group if the ability is naturally area.
+    Attack abilities will be used on the enemy that triggered the counter.
+
+
+Materia Name: Magic Counter
+Desc: Attacks with paired Magic/Summon when attacked
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   30% chance of counter with paired Magic             0
+ 2   40% chance of counter with paired Magic             20000
+ 3   60% chance of counter with paired Magic             40000
+ 4   80% chance of counter with paired Magic             80000
+ 5   100% chance of counter with paired Magic            300000
+
+Can be paired with:
+  All Magic and Summon Materia
+Notes:
+  When linked to normal Magic Materia, the ability countered with will be the
+    highest level ability that the current level of the linked Materia can
+    bestow.  Linking to normal Summon Materia will simply counter with the
+    appropriate summon.
+  When linked to Master Magic, any of the 54 possible spells will be picked
+    at random to be used to counter attack.
+  When linked to Master Summon, any of the 16 possible summons will be picked
+    at random to be used to counter attack.
+  Support abilities (that naturally target party members) will be used on the
+    Countering player or the player's group if the ability is naturally area.
+    Attack abilities will be used on the enemy that triggered the counter.
+  Final Attack, Sneak Attack, Counter, Magic Counter and Counter Attack all
+    share the same command space, and there are only room for 8 such attacks.
+    Only the first eight Counter Effects placed chronologically onto a
+    character will be used.
+
+
+Materia Name: MP Turbo
+Desc: Uses extra MP and Increases power of paired Magic
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   10% MP Increase, 10% Damage Increase                0
+ 2   20% MP Increase, 20% Damage Increase                10000
+ 3   30% MP Increase, 30% Damage Increase                30000
+ 4   40% MP Increase, 40% Damage Increase                60000
+ 5   50% MP Increase, 50% Damage Increase                120000
+
+Can be paired with:
+  All Magic and Summon Materia
+Notes:
+  MP Cost = [MP Cost * (10 + MP Turbo Lv) / 10)] + 1
+  If (MP Cost > 255) then: MP Cost = 255
+  Even if the MP Cost is 255, the Magic Damage Increase will still be the
+    full amount the Materia should give.
+  Damage Increase is only applied to spells that use the Physical, Magical
+    and Cure Formulas.  Spells like Demi will not be affected, but will still
+    suffer from the MP Cost Increase.
+  Status spells that do not have an automatic 100% chance to hit are also
+    affected by MP Turbo, and are multiplied by the same formula damage is
+    increased by.
+  Multiple MP Turbo Materia can stack on the same spells up to the maximum of
+    50% increase - the strength of a single L5 MP Turbo.  MP Turbo Materia
+    only gives its effect to abilities that the linked materia can give at
+    its *current* level.
+  
+
+Materia Name: HP Absorb
+Desc: Attacks with paired Materia, absorbs HP at same time
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Add HP Absorb effect to paired Materia              0
+ 2   --                                                  100000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  HP Absorb will restore [Damage / 10] HP when the ability it is enhancing is
+    used.  If the ability healed its target, then HP Absorb will hurt you
+    instead.
+  When linked to Magic and Summon Materia, the Support Materia will apply its
+    effect to all abilities granted by that materia.  In the case of Magic
+    Materia, this is dependent on the Magic Materia's current level.
+  When linked with normal Command Materia, the Support Materia will apply its
+    effect to the highlighted ability on the materia.  The darkened ability
+    will only be allowed to get the effect if you have *another* source for
+    that particular ability equipped.  For example, if you have Throw L2
+    (which grants Coin), then you would get HP Absorb applied to Coin only
+    and not Throw, unless you *also* added a Throw L1 Materia to the
+    character (which grants Throw only).
+  When linked with Master Command, the Support Materia will apply its effect
+    to *ALL* commands you currently have equipped, with the exception of
+    Limit, Magic, W-Magic, Summon, W-Sum. and E.Skill.  Note that Throw is
+    exempt unless you have another source for the Throw ability (since Master
+    Command doesn't support Throw as a separate ability), but that Attack,
+    Item, W-Item and all other additional commands are all able to gain the
+    effects of the Support Materia.
+
+
+Materia Name: MP Absorb
+Desc: Attack with paired Materia, absorbs MP at same time
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Add MP Absorb effect to paired Materia              0
+ 2   --                                                  100000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  MP Absorb will restore [Damage / 100] MP when the ability it is enhancing
+    is used.  If the ability healed its target, then MP Absorb will hurt you
+    instead.
+  When linked to Magic and Summon Materia, the Support Materia will apply its
+    effect to all abilities granted by that materia.  In the case of Magic
+    Materia, this is dependent on the Magic Materia's current level.
+  When linked with normal Command Materia, the Support Materia will apply its
+    effect to the highlighted ability on the materia.  The darkened ability
+    will only be allowed to get the effect if you have *another* source for
+    that particular ability equipped.  For example, if you have Throw L2
+    (which grants Coin), then you would get MP Absorb applied to Coin only
+    and not Throw, unless you *also* added a Throw L1 Materia to the
+    character (which grants Throw only).
+  When linked with Master Command, the Support Materia will apply its effect
+    to *ALL* commands you currently have equipped, with the exception of
+    Limit, Magic, W-Magic, Summon, W-Sum. and E.Skill.  Note that Throw is
+    exempt unless you have another source for the Throw ability (since Master
+    Command doesn't support Throw as a separate ability), but that Attack,
+    Item, W-Item and all other additional commands are all able to gain the
+    effects of the Support Materia.
+
+
+Materia Name: Elemental
+Desc: Adds Materia element to equipped weapon or armor
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Half Element                                        0
+ 2   Void Element                                        10000
+ 3   Absorb Element                                      40000
+ 4   --                                                  80000
+
+Can be paired with:
+  All Materia except Support Materia (see below)
+Notes:
+  Equip on Weapon to Attack with Element
+  Equip on Armor to Defend against Element (level of defense depends on level
+    of Elemental Materia)
+
+  Fire is gained from Fire, Ifrit, Phoenix
+  Ice is gained from Ice, Shiva
+  Lightning is gained from Lightning, Ramuh
+  Earth is gained from Earth, Titan
+  Poison is gained from Poison
+  Gravity is gained from Gravity
+  Water is gained from Leviathan
+  Wind is gained from Choco/Mog, Typhon
+  Holy is gained from Alexander
+
+  Hidden is gained from any non-Support Materia not listed above
+    (see Element in Section 1.2.1 in the FF7 Battle Mechanics for an
+     explanation)
+
+
+Materia Name: Added Effect
+Desc: Adds Materia status to equipped weapon or armor
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Added Effect                                        0
+ 2   --                                                  100000
+
+Can be paired with:
+  Poison, Seal, Mystify, Transform, Time, Destruct, Contain, Choco/Mog, Odin,
+  Hades
+Notes:
+  Equip on Weapon to get: [ 20] Inflict Status
+  Equip on Armor to get:  Immune: Status
+  The level of the paired Materia does not matter - you will gain all
+    statuses that Materia can grant
+  Poison grants 'Poison'
+  Seal grants 'Sleep', 'Silence'
+  Mystify grants 'Confusion', 'Berserk'
+  Transform grants 'Frog', 'Small'
+  Time grants 'Slow', 'Stop'
+  Destruct grants 'Death'
+  Contain grants 'Confusion', 'Stop', 'Petrify'
+  Choco/Mog grants 'Stop'
+  Hades grants 'Sleep', 'Poison', 'Confusion', 'Silence', 'Frog', 'Small'
+  Odin grants 'Death'
+
+
+Materia Name: Quadra Magic
+Desc: Paired Magic used 4 times
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Use paired Magic with 4x-M once per battle          0
+ 2   Use paired Magic with 4x-M twice per battle         40000
+ 3   Use paired Magic with 4x-M three times per battle   80000
+ 4   Use paired Magic with 4x-M four times per battle    120000
+ 5   Use paired Magic with 4x-M five times per battle    200000
+
+Can be paired with:
+  All Magic and Summon Materia except Knights of Round
+Notes:
+  Any valid spell used with Quadra Magic will pick a random target out of the
+    party chosen, and attempt to unleash all four castings against that
+    target.  If the target dies during the castings, all unused castings are
+    lost.
+  Spells that are naturally area will simply hit the chosen party four times.
+  Each casting will automatically have its damage cut in half; this includes
+    HP% and Max HP%-based attacks like Demi and FullCure.  MP Cost will be as
+    if only a single spell had been cast.
+  Status effects without a 100% chance of hitting will also have their chance
+    to hit cut in half.
+  Quadra Magic will work with all abilities on the listed Materia above, with
+    the exception of Escape and Knights of Round.
+  Attaching multiple Quadra Magic to the same Materia will cause the spell to
+    hit an extra time per Materia.  For example, having three Quadra Magics
+    attached to three Earths would cause Quake to cast 6 times when used.
+    This can be done up to a maximum of 8 times if you use five or more
+    instances of Quadra Magic.
+  In the event that the first spell is Reflected, the rest of the Quadra
+    Magic hits will hit the target the spell was successfully reflected to,
+    without needing to reflect again.
+
+
+Materia Name: Sneak Attack
+Desc: Pre-emptive attack with paired Materia
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   20% chance of Sneak Attacking with paired Materia   0
+ 2   35% chance of Sneak Attacking with paired Materia   20000
+ 3   50% chance of Sneak Attacking with paired Materia   60000
+ 4   65% chance of Sneak Attacking with paired Materia   100000
+ 5   80% chance of Sneak Attacking with paired Materia   150000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  See the notes for Counter for linking with Command Materia
+  See the notes for Magic Counter for linking with Magic and Summon Materia
+  Sneak Attack allows a chance to use the chosen ability at the start of the
+    battle, immediately after the setup routines
+  The target chosen by the Sneak Attack will be random, based on the default
+    target for the ability used
+  Final Attack, Sneak Attack, Counter, Magic Counter and Counter Attack all
+    share the same command space, and there are only room for 8 such attacks.
+    Only the first eight Counter Effects placed chronologically onto a
+    character will be used
+
+
+Materia Name: Final Attack
+Desc: Automatically uses paired Materia when disabled
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Use paired Materia when KOed, once maximum          0
+ 2   Use paired Materia when KOed, twice maximum         20000
+ 3   Use paired Materia when KOed, three times maximum   40000
+ 4   Use paired Materia when KOed, four times maximum    80000
+ 5   Use paired Materia when KOed, five times maximum    160000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  See the notes for Counter for linking with Command Materia
+  See the notes for Magic Counter for linking with Magic and Summon Materia
+  Final Attack allows the use of the chosen ability as a counter attack
+    against an attack that knocks out the character.  The standard rules for
+    counter attacks still apply however
+  Final Attacks will hit either the enemy or allies, depending on the default
+    target for the ability.  In the case of abilities that target enemies by
+    default, a random group or single enemy will be chosen.  All supportive
+    spells will be targetted on the character using the Final Attack (or that
+    character's group if area)
+  Final Attack, Sneak Attack, Counter, Magic Counter and Counter Attack all
+    share the same command space, and there are only room for 8 such attacks.
+    Only the first eight Counter Effects placed chronologically onto a
+    character will be used
+
+
+Materia Name: Added Cut
+Desc: Attacks simultaneously when paired Materia is used
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Use Attack on target(s) after using paired Materia  0
+ 2   --                                                  200000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  Added Cut causes the Attack Command to be used on the same target as the
+    affected ability immediately after its execution.
+  If the ability was an area effect, a random target within the targetted
+    group will be used.
+  When linked to Magic and Summon Materia, the Support Materia will apply its
+    effect to all abilities granted by that materia.  In the case of Magic
+    Materia, this is dependent on the Magic Materia's current level.
+  When linked with normal Command Materia, the Support Materia will apply its
+    effect to the highlighted ability on the materia.  The darkened ability
+    will only be allowed to get the effect if you have *another* source for
+    that particular ability equipped.  For example, if you have Throw L2
+    (which grants Coin), then you would get Added Cut applied to Coin only
+    and not Throw, unless you *also* added a Throw L1 Materia to the
+    character (which grants Throw only).
+  When linked with Master Command, the Support Materia will apply its effect
+    to *ALL* commands you currently have equipped, with the exception of
+    Limit, Magic, W-Magic, Summon, W-Sum. and E.Skill.  Note that Throw is
+    exempt unless you have another source for the Throw ability (since Master
+    Command doesn't support Throw as a separate ability), but that Attack,
+    Item, W-Item and all other additional commands are all able to gain the
+    effects of the Support Materia.
+
+
+Materia Name: Steal As Well
+Desc: Steal simultaneously when paired Materia is used
+HP:    -     Str:  -    Vit:  -    Dex:  -
+MP:    -     Mag:  -    Spr:  -    Lck:  -
+
+Lvl  Ability Gained                                      Total AP Req
+ 1   Use Steal on target(s) after using paired Materia   0
+ 2   --                                                  200000
+
+Can be paired with:
+  All Magic and Summon Materia, Steal, Sense, Throw, Morph, Deathblow,
+  Manipulate, Mime, Master Command
+Notes:
+  Will use the standard Steal effect (as seen in the Enemy Mechanics Guide
+    and in summarised form on the Steal and Mug Command below) on all targets
+    that are successfully hit by the linked ability.
+  When linked to Magic and Summon Materia, the Support Materia will apply its
+    effect to all abilities granted by that materia.  In the case of Magic
+    Materia, this is dependent on the Magic Materia's current level.
+  When linked with normal Command Materia, the Support Materia will apply its
+    effect to the highlighted ability on the materia.  The darkened ability
+    will only be allowed to get the effect if you have *another* source for
+    that particular ability equipped.  For example, if you have Throw L2
+    (which grants Coin), then you would get Steal As Well applied to Coin
+    only and not Throw, unless you *also* added a Throw L1 Materia to the
+    character (which grants Throw only).
+  When linked with Master Command, the Support Materia will apply its effect
+    to *ALL* commands you currently have equipped, with the exception of
+    Limit, Magic, W-Magic, Summon, W-Sum. and E.Skill.  Note that Throw is
+    exempt unless you have another source for the Throw ability (since Master
+    Command doesn't support Throw as a separate ability), but that Attack,
+    Item, W-Item and all other additional commands are all able to gain the
+    effects of the Support Materia.
+

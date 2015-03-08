@@ -1,0 +1,128 @@
+<!-- ********* ENEMIES ********* -->
+<enemies>
+    <enemy>
+        <name>Moth Slasher</name>
+        <lvl>13</lvl>
+        <hp>260</hp>
+        <mp>0</mp>
+        <exp>46</exp>
+        <ap>5</ap>
+        <gil>75</gil>
+        <atk>31</atk>
+        <def>28</def>
+        <defp>4</defp>
+        <dex>59</dex>
+        <mat>0</mat>
+        <mdf>58</mdf>
+        <lck>0</lck>
+        <weaks>
+            <weak>Lightning</weak>
+        </weaks>
+        <halves/>
+        <voids/>
+        <absorbs/>
+        <immunities>
+            <immunity>Sleep</immunity>
+            <immunity>Poison</immunity>
+            <immunity>Sadness</immunity>
+            <immunity>Fury</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>DeathSentence</immunity>
+            <immunity>Paralyzed</immunity>
+        </immunities>
+        <win/>
+        <steal>
+            <item id="carbonbangle" type="armor" chance="8"/>
+        </steal>
+        <morph/>
+    </enemy>
+    <enemy>
+        <name>Soldier:3rd</name>
+        <lvl>13</lvl>
+        <hp>250</hp>
+        <mp>40</mp>
+        <exp>54</exp>
+        <ap>6</ap>
+        <gil>116</gil>
+        <atk>27</atk>
+        <def>38</def>
+        <defp>12</defp>
+        <dex>60</dex>
+        <mat>8</mat>
+        <mdf>72</mdf>
+        <lck>8</lck>
+        <weaks>
+            <weak>Fire</weak>
+        </weaks>
+        <halves/>
+        <voids/>
+        <absorbs/>
+        <immunities/>
+        <win>
+            <item id="locoweed" type="item" chance="8"/>
+        </win>
+        <steal>
+            <item id="hardedge" type="weapon" chance="8"/>
+        </steal>
+        <morph id="boltplume" type="item"/>
+    </enemy>
+    <enemy>
+        <name>Razor Weed</name>
+        <lvl>27</lvl>
+        <hp>1000</hp>
+        <mp>145</mp>
+        <exp>375</exp>
+        <ap>30</ap>
+        <gil>350</gil>
+        <atk>58</atk>
+        <def>50</def>
+        <defp>1</defp>
+        <dex>60</dex>
+        <mat>25</mat>
+        <mdf>100</mdf>
+        <lck>0</lck>
+        <weaks/>
+        <halves/>
+        <voids/>
+        <absorbs/>
+        <immunities/>
+        <win>
+            <item id="tranquilizer" type="item" chance="8"/>
+            <item id="hipotion" type="item" chance="8"/>
+            <item id="locoweed" type="item" chance="8"/>
+        </win>
+        <steal/>
+        <morph/>
+    </enemy>
+    <enemy>
+        <name>Bagrisk</name>
+        <lvl>19</lvl>
+        <hp>400</hp>
+        <mp>50</mp>
+        <exp>240</exp>
+        <ap>30</ap>
+        <gil>275</gil>
+        <atk>58</atk>
+        <def>50</def>
+        <defp>1</defp>
+        <dex>60</dex>
+        <mat>25</mat>
+        <mdf>100</mdf>
+        <lck>0</lck>
+        <weaks/>
+        <halves/>
+        <voids/>
+        <absorbs/>
+        <immunities/>
+        <win>
+            <item id="soft" type="item" chance="8"/>
+        </win>
+        <steal>
+            <item id="soft" type="item" chance="32" />
+            <item id="soft" type="item" chance="32" />
+            <item id="vagyriskclaw" type="item" chance="8" />
+        </steal>
+        <morph id="remedy" type="item" />
+    </enemy>
+</enemies>

@@ -1,0 +1,33 @@
+﻿Bronze Bangle       8   0   0   0  --               None       --  --
+Iron Bangle        10   0   2   0  O                Normal    160  --
+Titan Bangle       14   2   4   0  O O              Normal    280  --
+Mythril Armlet     18   3   8   0  O=O              Normal    350  --
+Carbon Bangle      27   3  14   0  O=O O            Normal    800  --
+Silver Armlet      34   4  22   0  O=O O O          Normal   1300  --
+Gold Armlet        46   4  28   0  O=O O=O          Normal   2000  --
+Diamond Bangle     57   6  37   0  O=O O=O O        Normal   3200  --
+Crystal Bangle     10   8  45   1  O=O O=O O=O      Normal   4800  --
+Platinum Bangle    20   0  12   0  O O              Double   1800  --
+Rune Armlet        43   5  24   0  O O O O          Double   3700  --
+Edincoat           50   0  33   0  O O O O O O O    Normal   8000  Magic +5
+Wizard Bracelet     6   3  85   3  O=O O=O O=O O=O  Normal  12000  Magic +20
+Adaman Bangle      93   0  23   0  O=O              Normal     --  --
+Gigas Armlet       59   0   0   0  O=O O=O O        None       --  Strength +30
+Imperial Guard     82   0  74   0  O=O O=O O=O      Normal     --  --
+Aegis Armlet       55  15  86  50  O=O O=O          Normal     --  --
+Fourth Bracelet    74   3 100   3  O=O O=O O        Normal     --  Magic +20
+Warrior Bangle     96   0  21   0  O=O O=O          None       --  Strength +20
+Shinra Beta        30   0   0   0  O=O O O          Normal     --  --
+Shinra Alpha       77   0  34   0  O=O O=O O=O      Normal     --  --
+Four Slots         12   0  10   0  O O O O          Normal   1300  --
+Fire Armlet        72   8  52   3  O=O O=O          Normal     --  Absorbs [Fire] attacks
+Aurora Armlet      76   8  54   3  O=O O=O          Normal     --  Absorbs [Ice] attacks
+Bolt Armlet        74   8  55   3  O=O O=O          Normal     --  Absorbs [Lightning] attacks
+Dragon Armlet      58   3  47   2  O=O O=O O=O      Normal     --  Drains 1/2 [Fire/Ice/Lightning] attacks
+Escort Guard       62   5  55   0  O=O O=O O=O      Normal     --  Man's armlet nullifies [Lightning/Earth/Water/Poison]
+Minerva Band       60   8  57   0  O=O O=O O=O      Normal     --  Woman's armlet nullifies [Fire/Ice/Gravity/Holy]
+Mystile            65  50  72  60  O=O O=O O=O      Normal     --  
+Ziedrich          100  15  98  18  --               None       --  Strength&Magic +20; all elements reduced by 1/2
+Precious Watch      0   0   0   0  O O O O O O O O  Normal     --  --
+Chocobracelet      35  10  38  10  O O O O          Normal     --  Dexterity +30, Luck +20
+

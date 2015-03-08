@@ -1,0 +1,93 @@
+﻿
+0 MAGIC
+0   Master Magic 
+5   Ultima
+10  Shield
+15  Full Cure
+20  Contain
+25  Comet
+30  Time 
+35  Destruct
+40  Barrier
+45  Exit 
+50  Transform
+55  Mystify
+60  Seal
+65  Heal
+70  Revive 
+75  Restore
+80  Gravity 
+85  Poison
+90  Earth
+95  Lightning 
+100 Ice
+105 Fire
+
+1 SUPPORT
+10  Quadra Magic 
+15  Steal as well
+20  Added Cut
+25  Final Attack
+30  Sneak Attack
+35  Added Effect
+40  Elemental 
+45  HP Absorb
+50  MP Absorb
+55  MP Turbo
+60  Magic Counter
+65  Counter
+70  All 
+
+2 COMMAND
+10  Master Command 
+15  W-Summon
+20  W-Magic
+25  W-Item
+30  Double Cut
+35  Slash-All
+40  Enemy Skill
+45  Mime
+50  Manipulate
+55  Deathblow
+60  Morph
+65  Throw
+70  Sense 
+75  Steal
+
+3 INDEPENDENT
+10  HP<->MP       
+15  Underwater  
+20  Cover    
+25  Counter Attack     
+30  Mega All    
+35  Long Range   
+40  Pre-Emptive  
+45  Chocobo Lure    
+50  Enemy Lure      
+55  Enemy Away     
+60  Gil Plus        
+65  EXP Plus     
+70  Luck Plus     
+75  Magic Plus    
+80  Speed Plus 
+85  HP Plus    
+90  MP Plus  
+
+4 SUMMON
+10  Master Summon
+15  Knights of the Round
+20  Bahamut Zero
+25  Typhoon
+30  Hades
+35  Neo Bahamut
+40  Phoenix
+45  Alexander
+50  Kjata
+55  Bahamut
+60  Leviathan
+65  Odin
+70  Titan
+75  Ramuh
+80  Ifrit
+85  Shiva
+90  Choco Mog

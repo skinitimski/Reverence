@@ -1,0 +1,427 @@
+<!-- ********* ITEMS ********* -->
+<items>
+    <item>
+        <name>Potion</name>
+        <desc>Restores 100 HP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.HP == Item.Target.MaxHP then return false end
+            Item.Target.HP = Item.Target.HP + 100
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].HP == state.Target[0].MaxHP then return false end
+            state.Target[0]:AcceptDamage(state.Performer, -100)
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Hi-Potion</name>
+        <desc>Restores 500 HP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.HP == Item.Target.MaxHP then return false end
+            Item.Target.HP = Item.Target.HP + 500
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].HP == state.Target[0].MaxHP then return false end
+            state.Target[0]:AcceptDamage(state.Performer, -500)
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>X-Potion</name>
+        <desc>Restores all HP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.HP == Item.Target.MaxHP then return false end
+            Item.Target.HP = Item.Target.MaxHP
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].HP == state.Target[0].MaxHP then return false end
+            state.Target[0]:AcceptDamage(state.Performer, state.Target[0].HP - state.Target[0].MaxHP)
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Ether</name>
+        <desc>Restores 100 MP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.MP == Item.Target.MaxMP then return false end
+            Item.Target.MP = Item.Target.MP + 100
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].MP == state.Target[0].MaxMP then return false end
+            state.Target[0].MP = state.Target[0].MP + 100;
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Turbo Ether</name>
+        <desc>Restores all MP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.MP == Item.Target.MaxMP then return false end
+            Item.Target.MP = Item.Target.MaxMP
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].MP == state.Target[0].MaxMP then return false end
+            state.Target[0].MP = state.Target[0].MaxMP
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Elixir</name>
+        <desc>Restores all HP/MP</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if Item.Target.HP == Item.Target.MaxHP and Item.Target.MP == Item.Target.MaxMP
+            then return false end
+            Item.Target.HP = Item.Target.MaxHP
+            Item.Target.MP = Item.Target.MaxMP
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            if state.Target[0].HP == state.Target[0].MaxHP and state.Target[0].MP == state.Target[0].MaxMP
+            then return false end
+            state.Target[0]:AcceptDamage(state.Performer, state.Target[0].HP - state.Target[0].MaxHP)
+            state.Target[0].MP = state.Target[0].MaxMP
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Megalixir</name>
+        <desc>Restores all HP/MP in party</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if
+            (Globals.Party[0] == nil or Globals.Party[0].Death or
+            (Globals.Party[0].HP == Globals.Party[0].MaxHP and Globals.Party[0].MP == Globals.Party[0].MaxMP))
+            and
+            (Globals.Party[1] == nil or Globals.Party[1].Death or
+            (Globals.Party[1].HP == Globals.Party[1].MaxHP and Globals.Party[1].MP == Globals.Party[1].MaxMP))
+            and
+            (Globals.Party[2] == nil or Globals.Party[2].Death or
+            (Globals.Party[2].HP == Globals.Party[2].MaxHP and Globals.Party[2].MP == Globals.Party[2].MaxMP))
+            then return false end
+
+            if Globals.Party[0] ~= nil and not Globals.Party[0].Death then
+            Globals.Party[0].HP = Globals.Party[0].MaxHP
+            Globals.Party[0].MP = Globals.Party[0].MaxMP
+            end
+            if Globals.Party[1] ~= nil and not Globals.Party[1].Death then
+            Globals.Party[1].HP = Globals.Party[1].MaxHP
+            Globals.Party[1].MP = Globals.Party[1].MaxMP
+            end
+            if Globals.Party[2] ~= nil and not Globals.Party[2].Death then
+            Globals.Party[2].HP = Globals.Party[2].MaxHP
+            Globals.Party[2].MP = Globals.Party[2].MaxMP
+            end
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            for i = 1,state.Target.Length do
+            if state.Target[i - 1] ~= nil then
+            if not state.Target[i - 1].Death then state.Target[i - 1].MP = state.Target[i - 1].MaxMP end
+            if not state.Target[i - 1].Death then state.Target[i - 1]:AcceptDamage(state.Performer, state.Target[i - 1].HP - state.Target[i - 1].MaxHP) end
+            end -- if not nil
+            end -- for
+            end -- function
+        </battle>
+        <target>AllTar</target>
+    </item>
+    <item>
+        <name>Pheonix Down</name>
+        <desc>Restores life</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if not Item.Target.Death then return false end
+            Item.Target:CureDeath()
+            Item.Target.HP = Item.Target.MaxHP / 10
+            return true
+            end
+        </field>
+        <battle>
+            function (state)
+            if not state.Target[0].Death then return false end
+            state.Target[0]:CureDeath()
+            state.Target[0]:AcceptDamage(state.Performer, state.Target[0].MaxHP / -10)
+            return true
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Tent</name>
+        <desc>Restores all HP/MP in party</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            if
+            (Globals.Party[0] == nil or
+            Globals.Party[0].HP == Globals.Party[0].MaxHP and
+            Globals.Party[0].MP == Globals.Party[0].MaxMP)
+            and
+            (Globals.Party[1] == nil or
+            Globals.Party[1].HP == Globals.Party[1].MaxHP and
+            Globals.Party[1].MP == Globals.Party[1].MaxMP)
+            and
+            (Globals.Party[2] == nil or
+            Globals.Party[2].HP == Globals.Party[2].MaxHP and
+            Globals.Party[2].MP == Globals.Party[2].MaxMP)
+            then return false
+            end
+
+            if Globals.Party[0] ~= nil and Globals.Party[0].Death then
+            Globals.Party[0]:CureDeath()
+            end
+            if Globals.Party[1] ~= nil and Globals.Party[1].Death then
+            Globals.Party[1]:CureDeath()
+            end
+            if Globals.Party[2] ~= nil and Globals.Party[2].Death then
+            Globals.Party[2]:CureDeath()
+            end
+
+            if Globals.Party[0] ~= nil then
+            Globals.Party[0].HP = Globals.Party[0].MaxHP
+            Globals.Party[0].MP = Globals.Party[0].MaxMP
+            end
+            if Globals.Party[1] ~= nil then
+            Globals.Party[1].HP = Globals.Party[1].MaxHP
+            Globals.Party[1].MP = Globals.Party[1].MaxMP
+            end
+            if Globals.Party[2] ~= nil then
+            Globals.Party[2].HP = Globals.Party[2].MaxHP
+            Globals.Party[2].MP = Globals.Party[2].MaxMP
+            end
+            return true
+            end
+        </field>
+        <target>AllTar</target>
+    </item>
+    <item>
+        <name>Hyper</name>
+        <desc>Cures [Sadness]</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if not Item.Target:CureSadness()
+            then return Item.Target:InflictFury()
+            else return true -- because we cured the sadness
+            end
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            return state.Target[0]:InflictFury()
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Tranquilizer</name>
+        <desc>Cures [Fury]</desc>
+        <type>Hybrid</type>
+        <field>
+            function ()
+            if Item.Target.Death then return false end
+            if not Item.Target:CureFury()
+            then return Item.Target:InflictSadness()
+            else return true -- because we cured the sadness
+            end
+            end
+        </field>
+        <battle>
+            function (state)
+            if state.Target[0].Death then return false end
+            return state.Target[0]:InflictSadness()
+            end
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Power Source</name>
+        <desc>Increases Strength</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementStrength()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Guard Source</name>
+        <desc>Increases Vitality</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementVitality()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Speed Source</name>
+        <desc>Increases Dexterity</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementDexterity()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Magic Source</name>
+        <desc>Increases Magic</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementMagic()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Mind Source</name>
+        <desc>Increases Spirit</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementSpirit()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Luck Source</name>
+        <desc>Increases Luck</desc>
+        <type>Field</type>
+        <field>
+            function ()
+            Item.Target:IncrementLuck()
+            return true
+            end
+        </field>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Loco Weed</name>
+        <desc>Inflicts [Confu]</desc>
+        <type>Battle</type>
+        <battle>
+            function (state)
+            for i = 1,state.Target.Length do
+            if state.Target[i - 1] ~= nil then
+            state.Target[i - 1]:InflictConfusion()
+            end -- if not nil
+            end -- for
+            end -- function
+        </battle>
+        <target>AllTar</target>
+    </item>
+    <item>
+        <name>Remedy</name>
+        <desc>Cures all abnormal status ailments</desc>
+        <type>Battle</type>
+        <battle>
+            function (state)
+            state.Target[0]:CureSleep()
+            state.Target[0]:CurePoison()
+            state.Target[0]:CureSadness()
+            state.Target[0]:CureFury()
+            state.Target[0]:CureConfusion()
+            state.Target[0]:CureSilence()
+            state.Target[0]:CureFrog()
+            state.Target[0]:CureSmall()
+            state.Target[0]:CureSlowNumb()
+            state.Target[0]:CurePetrify()
+            state.Target[0]:CureBerserk()
+            state.Target[0]:CureParalyzed()
+            state.Target[0]:CureDarkness()
+            end -- function
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Vagyrisk Claw</name>
+        <desc>Inflicts [Petrify]</desc>
+        <type>Battle</type>
+        <battle>
+            function (state)
+            state.Target[0]:InflictPetrify()
+            end -- function
+        </battle>
+        <target>OneTar</target>
+    </item>
+    <item>
+        <name>Soft</name>
+        <desc>Cures [Petrify]</desc>
+        <type>Battle</type>
+        <battle>
+            function (state)
+            state.Target[0]:CurePetrify()
+            end -- function
+        </battle>
+        <target>OneTar</target>
+    </item>
+</items>
