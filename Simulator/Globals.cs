@@ -55,7 +55,7 @@ namespace Atmosphere.BattleSimulator
             {
                 name = SaveGame.SelectSingleNode("//party/slot" + k.ToString()).InnerXml;
 
-                if (!String.IsNullOrEmpty(name)) Party[k] = Character.Table[name];
+                if (!String.IsNullOrEmpty(name)) Party[k - 1] = Character.Table[name];
             }
 
 
