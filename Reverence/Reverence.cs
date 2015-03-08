@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 
+using Cairo;
 using NLua;
 using Gtk;
 
@@ -25,6 +26,7 @@ namespace Atmosphere.Reverence
 
         private readonly int _width;
         private readonly int _height;
+        private int _thingy;
 
         
         private bool _isDrawing = false;
@@ -41,87 +43,53 @@ namespace Atmosphere.Reverence
 
         
         [GdkMethod()]
-        private void Draw()
+        private void OnExposed(object sender, Gtk.ExposeEventArgs e)
         {
-            _isDrawing = true;
+            using (Context context = Gdk.CairoHelper.Create(e.Event.Window))
+            {
+                int w, h;
+                e.Event.Window.GetSize(out w, out h);
 
-            Gdk.Threads.Enter();
+                Draw(context, w, h);
+            }
+        }
 
-            Gdk.GC gc = new Gdk.GC(_pixmap);
+        private void Draw(Context context, int width, int height)
+        {
+            context.Save();
 
-            _pixmap.DrawRectangle(gc, true, 0, 0, _width, _height);
-            
-            Gdk.Threads.Leave();
+            context.Color = new Cairo.Color(.8, .8, .8);
 
-            
-            #region Draw Grid
-            
-            Cairo.Context g = Gdk.CairoHelper.Create(_pixmap);
-
-            g.Color = new Cairo.Color(.8, .8, .8);
+            int ew = _width / 8;
+            int eh = _height / 7;
 
             for (int i = 1; i < 8; i++)
             {
-                g.MoveTo(i * _width / 8, 0);
-                g.LineTo(i * _width / 8, _height);
-                g.Stroke();
+                int x = i * ew + _thingy % ew;
+
+                context.MoveTo(x, 0);
+                context.LineTo(x, _height);
+                context.Stroke();
             }
             for (int j = 1; j < 7; j++)
             {
-                g.MoveTo(0, j * _height / 7);
-                g.LineTo(_width, j * _height / 7);
-                g.Stroke();
+                int y = j * eh + _thingy % eh;
+
+                context.MoveTo(0, y);
+                context.LineTo(_width, y);
+                context.Stroke();
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
-            
-            #endregion Draw Grid
 
-
-            
-            _isDrawing = false;
-
-            return;
+            context.Restore();
         }
-
         
-        private bool TimedDraw()
-        {            
-            if (!_isDrawing)
-            {
-                if (!_firstDraw)
-                {
-                    _drawThread.Join();
-                }
 
-                _drawThread = new Thread(new ThreadStart(Draw));
-                _drawThread.Start();
-            }
-
-            _window.QueueDrawArea(0, 0, _width, _height);
-            
-            _firstDraw = false;
-            
+        private bool Update()
+        {
+            _thingy++;
+            _window.QueueDraw();
             return true;
         }
-        
-        
-        [GdkMethod()]
-        private void OnExposed(object o, ExposeEventArgs args)
-        {
-//            if (_drawThread.IsAlive)
-//            {
-//                _drawThread.Join();
-//            }
-
-            Gtk.DrawingArea area = (DrawingArea)o;
-            Gdk.Window win = area.GdkWindow;
-            Gdk.GC gc = new Gdk.GC(win);
-            
-            win.DrawDrawable(gc, _pixmap, 0, 0, 0, 0, _width, _height);
-        }
-
         
         [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
@@ -267,76 +235,37 @@ namespace Atmosphere.Reverence
 
         private void Go()
         {
-            _drawThread = new Thread(new ThreadStart(Draw));
-
             Application.Init();
 
-            if (!GLib.Thread.Supported)
-            {
-                GLib.Thread.Init();
-            }
-
-            Gdk.Threads.Init();
-
-            Gdk.Threads.Enter();
-
+            
             _window = new Window(Config.Instance.WindowTitle);
             _window.Resize(_width, _height);
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
 
-            _window.AppPaintable = true;
-            _window.DoubleBuffered = false;
-
-
-
-            //Gdk.Color col = new Gdk.Color(0, 0, 0);
             
+            GLib.Timeout.Add(10, new GLib.TimeoutHandler(Update));
+                        
             DrawingArea da = new DrawingArea();
             da.ExposeEvent += OnExposed;
-            da.ModifyBg(StateType.Normal, new Gdk.Color(225, 125, 125));
-            //_window.ModifyBg(StateType.Normal, col);
 
-
-            GLib.Timeout.Add(100, new GLib.TimeoutHandler(TimedDraw));
-            
             _window.Add(da);
+
+            
+
             _window.ShowAll();
-            _pixmap = new Gdk.Pixmap(_window.GdkWindow, _width, _height);
 
-
-                        
+            
             Application.Run();
 
-            Gdk.Threads.Leave();
         }
-
         
         public void Quit()
         {
             _quit = true;
             Application.Quit();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
