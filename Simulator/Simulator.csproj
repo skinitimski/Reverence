@@ -19,56 +19,46 @@
     <OldToolsVersion>3.5</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>True</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>False</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Externalconsole>true</Externalconsole>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Externalconsole>True</Externalconsole>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <PlatformTarget>x86</PlatformTarget>
+    <additionalargs>/unsafe</additionalargs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>True</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="LuaInterface, Version=2.0.0.16708, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\dll\Lua\LuaInterface.dll</HintPath>
-    </Reference>
-    <Reference Include="Mono.Cairo, Version=2.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="LuaInterface">
+      <HintPath>..\dll\Lua\LuaInterface.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Cairo" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbilityState.cs" />
     <Compile Include="BattleScreen\EnemySkillMenu.cs" />
-    <Compile Include="Enum\ESex.cs" />
     <Compile Include="MenuScreen\HoardScreen.cs" />
     <Compile Include="MenuScreen\VictoryScreen.cs" />
     <Compile Include="States\PostBattleState.cs" />
@@ -83,15 +73,6 @@
     <Compile Include="BattleScreen\StatusBars.cs" />
     <Compile Include="BattleScreen\SummonMenu.cs" />
     <Compile Include="Structures\Character.cs" />
-    <Compile Include="Enum\EAddedAbility.cs" />
-    <Compile Include="Enum\EAttackType.cs" />
-    <Compile Include="Enum\EGrowth.cs" />
-    <Compile Include="Enum\EElement.cs" />
-    <Compile Include="Enum\EItemType.cs" />
-    <Compile Include="Enum\EMateriaType.cs" />
-    <Compile Include="Enum\EStatus.cs" />
-    <Compile Include="Enum\ETargetGroup.cs" />
-    <Compile Include="Enum\ETargetType.cs" />
     <Compile Include="Formula.cs" />
     <Compile Include="Interface\IController.cs" />
     <Compile Include="Interface\IItem.cs" />
@@ -111,12 +92,10 @@
     <Compile Include="BattleScreen\Selector.cs" />
     <Compile Include="MenuScreen\StatusScreen.cs" />
     <Compile Include="States\BattleState.cs" />
-    <Compile Include="Enum\EWeaponType.cs" />
     <Compile Include="Graphics.cs" />
     <Compile Include="Structures\Enemy.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Enum\EKey.cs" />
     <Compile Include="MenuScreen\MenuScreen.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="States\MenuState.cs" />
@@ -132,6 +111,18 @@
     <Compile Include="Timer.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Structures\Materia.cs" />
+    <Compile Include="Enum\WeaponType.cs" />
+    <Compile Include="Enum\TargetType.cs" />
+    <Compile Include="Enum\TargetGroup.cs" />
+    <Compile Include="Enum\Status.cs" />
+    <Compile Include="Enum\Sex.cs" />
+    <Compile Include="Enum\MateriaType.cs" />
+    <Compile Include="Enum\Key.cs" />
+    <Compile Include="Enum\ItemType.cs" />
+    <Compile Include="Enum\Growth.cs" />
+    <Compile Include="Enum\Element.cs" />
+    <Compile Include="Enum\AttackType.cs" />
+    <Compile Include="Enum\AddedAbility.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\armour.xml">
