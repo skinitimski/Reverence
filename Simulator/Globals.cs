@@ -51,7 +51,7 @@ namespace Atmosphere.BattleSimulator
         {
             string name;
 
-            for (int k = 1; k <= 3; i++)
+            for (int k = 1; k <= 3; k++)
             {
                 name = SaveGame.SelectSingleNode("//party/slot" + k.ToString()).InnerXml;
 
