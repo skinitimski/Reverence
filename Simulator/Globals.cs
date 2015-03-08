@@ -9,8 +9,6 @@ namespace Atmosphere.BattleSimulator
 {
     public static class Globals
     {
-        public const string SAVEGAME = @"Data\savegame.xml";
-
         public const string WINDOW_NAME = "Battle";
 
         public const int WIDTH = 800;
@@ -40,8 +38,7 @@ namespace Atmosphere.BattleSimulator
 
         static Globals()
         {
-            SaveGame = new XmlDocument();
-            SaveGame.Load(SAVEGAME);
+            SaveGame = Util.GetXmlFromResource("data.savegame.xml");
 
             Party = new Character[3];
             Reserves = new Character[3, 3];
