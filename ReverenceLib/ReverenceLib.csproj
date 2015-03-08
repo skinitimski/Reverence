@@ -50,11 +50,22 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Key.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="Time\Clock.cs" />
     <Compile Include="Time\Timer.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Resource.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\savegame.xml">
+      <LogicalName>data.savegame.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\config.xml">
+      <LogicalName>data.config.xml</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
