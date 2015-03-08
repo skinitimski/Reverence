@@ -28,6 +28,9 @@ namespace Atmosphere.Reverence
         private int _anime;
 
 
+        private bool _isDrawing = false;
+        private Thread _drawingThread;
+
 
         int _oldWidth;
         int _oldHeight;
@@ -44,19 +47,44 @@ namespace Atmosphere.Reverence
         [GdkMethod()]
         private void OnExposed(object sender, Gtk.ExposeEventArgs e)
         {
+            using (Context context = Gdk.CairoHelper.Create(e.Event.Window))
+            {
+                Gdk.CairoHelper.SetSourcePixmap(context, _pixmap, e.Event.Area.X, e.Event.Area.Y);
+                context.Rectangle(e.Event.Area.X, e.Event.Area.Y, e.Event.Area.Width, e.Event.Area.Height);
+                context.Fill();
+            }
+        }
+
+
+
+
+
+
+        private void Draw()
+        {
+            Console.WriteLine("Enter");
+
+            lock (_window)
+            {
+                _isDrawing = true;
+            }
+
             int width, height;
-            e.Event.Window.GetSize(out width, out height);
 
-            _pixmap = new Gdk.Pixmap(_window.GdkWindow, width, height);
+            Gdk.Threads.Enter();
+            _pixmap.GetSize(out width, out height);
+            Gdk.Threads.Leave();
+
+            //Gdk.GC gc = new Gdk.GC(_pixmap);
+
+            //_pixmap.DrawRectangle(gc, true, 0, 0, width, height);
+
             
-            Gdk.GC gc = new Gdk.GC(_pixmap);
-            _pixmap.DrawRectangle(gc, true, 0, 0, width, height);
-
-
+            
             using (Context context = Gdk.CairoHelper.Create(_pixmap))
             {
 #if DEBUG 
-
+                
                 context.Color = _gridColor;
                 
                 int ew = width / 8;
@@ -82,26 +110,55 @@ namespace Atmosphere.Reverence
                 
                 //_state.Draw(pixbuf, width, height);
             }
-                        
-            
-            Gtk.DrawingArea area = (DrawingArea)sender;
-            Gdk.Window win = area.GdkWindow;
-            Gdk.GC gc2 = new Gdk.GC(win);
-            
-            win.DrawDrawable(gc2, _pixmap, 0, 0, 0, 0, width, height);
+
+            lock (_window)
+            {
+                _isDrawing = false;
+            }
+
+            Console.WriteLine("Leave");
         }
+
+
+
+
         
 
         [GdkMethod()]
         private bool Update()
         {
             _anime++;
+
+            bool isDrawing;
+
+            lock (_window)
+            {
+                isDrawing = _isDrawing;
+
+            if (!isDrawing)
+            {
+                if (_drawingThread != null)
+                {
+                    _drawingThread.Join();
+                }
+
+                _drawingThread = new Thread(new ThreadStart(Draw));
+                _drawingThread.Start();
+            }
+            }
+
+
             int width, height;
             _window.GetSize(out width, out height);
             _window.QueueDrawArea(0, 0, width, height);
             return true;
         }
                 
+
+
+
+
+
         [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
@@ -287,14 +344,11 @@ namespace Atmosphere.Reverence
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
             _window.ConfigureEvent += OnWinConfigure;
+            _window.ExposeEvent += OnExposed;
 
 
             GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(Update));
                         
-            DrawingArea da = new DrawingArea();
-            da.ExposeEvent += OnExposed;
-
-            _window.Add(da);
             _window.ShowAll();
             
             _pixmap = new Gdk.Pixmap(_window.GdkWindow, Config.Instance.WindowWidth, Config.Instance.WindowHeight, -1);
