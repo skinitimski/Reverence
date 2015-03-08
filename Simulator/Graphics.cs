@@ -80,28 +80,28 @@ namespace Atmosphere.BattleSimulator
             _drawThread = new Thread(new ThreadStart(Draw));
             _pixmap = new Pixmap(Game.Window.GdkWindow, Globals.WIDTH, Globals.HEIGHT);
 
-
-            _img_cloud = new Pixbuf(@"Images\cloud.JPG");
-            _img_tifa = new Pixbuf(@"Images\tifa.JPG");
-            _img_aeris = new Pixbuf(@"Images\aeris.JPG");
-            _img_barret = new Pixbuf(@"Images\barret.JPG");
-            _img_redxiii = new Pixbuf(@"Images\redxiii.JPG");
-            _img_yuffie = new Pixbuf(@"Images\yuffie.JPG");
-            _img_caitsith = new Pixbuf(@"Images\caitsith.JPG");
-            _img_vincent = new Pixbuf(@"Images\vincent.JPG");
-            _img_cid = new Pixbuf(@"Images\cid.JPG");
-            _img_sephiroth = new Pixbuf(@"Images\sephiroth.JPG");
-
-            _img_cloud_small = new Pixbuf(@"Images\cloud_small.JPG");
-            _img_tifa_small = new Pixbuf(@"Images\tifa_small.JPG");
-            _img_aeris_small = new Pixbuf(@"Images\aeris_small.JPG");
-            _img_barret_small = new Pixbuf(@"Images\barret_small.JPG");
-            _img_redxiii_small = new Pixbuf(@"Images\redxiii_small.JPG");
-            _img_yuffie_small = new Pixbuf(@"Images\yuffie_small.JPG");
-            _img_caitsith_small = new Pixbuf(@"Images\caitsith_small.JPG");
-            _img_vincent_small = new Pixbuf(@"Images\vincent_small.JPG");
-            _img_cid_small = new Pixbuf(@"Images\cid_small.JPG");
-            _img_sephiroth_small = new Pixbuf(@"Images\sephiroth_small.JPG");
+            
+            _img_cloud = new Pixbuf(typeof(Graphics).Assembly, "charfull.cloud.jpg");
+            _img_tifa = new Pixbuf(typeof(Graphics).Assembly, "charfull.tifa.jpg");
+            _img_aeris = new Pixbuf(typeof(Graphics).Assembly, "charfull.aeris.jpg");
+            _img_barret = new Pixbuf(typeof(Graphics).Assembly, "charfull.barret.jpg");
+            _img_redxiii = new Pixbuf(typeof(Graphics).Assembly, "charfull.redxiii.jpg");
+            _img_yuffie = new Pixbuf(typeof(Graphics).Assembly, "charfull.yuffie.jpg");
+            _img_caitsith = new Pixbuf(typeof(Graphics).Assembly, "charfull.caitsith.jpg");
+            _img_vincent = new Pixbuf(typeof(Graphics).Assembly, "charfull.vincent.jpg");
+            _img_cid = new Pixbuf(typeof(Graphics).Assembly, "charfull.cid.jpg");
+            _img_sephiroth = new Pixbuf(typeof(Graphics).Assembly, "charfull.sephiroth.jpg");
+            
+            _img_cloud_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.cloud.jpg");
+            _img_tifa_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.tifa.jpg");
+            _img_aeris_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.aeris.jpg");
+            _img_barret_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.barret.jpg");
+            _img_redxiii_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.redxiii.jpg");
+            _img_yuffie_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.yuffie.jpg");
+            _img_caitsith_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.caitsith.jpg");
+            _img_vincent_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.vincent.jpg");
+            _img_cid_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.cid.jpg");
+            _img_sephiroth_small = new Pixbuf(typeof(Graphics).Assembly, "charsmall.sephiroth.jpg");
 
             _profileTable = new Dictionary<string, Pixbuf>();
             _profileTable.Add("Cloud", _img_cloud);

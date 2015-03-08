@@ -127,96 +127,6 @@
     <Compile Include="Enum\AddedAbility.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\armour.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\characters.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\enemies.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Include="Data\gradient.table">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <Content Include="Data\items.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\weapons.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\accessories.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\materia.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\spells.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Data\savegame.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\aeris.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\aeris_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\barret.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\barret_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\caitsith.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\caitsith_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\cid.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\cid_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\cloud.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\cloud_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\redxiii.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\redxiii_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\sephiroth.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\sephiroth_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\tifa.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\tifa_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\vincent.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\vincent_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\yuffie.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Images\yuffie_small.JPG">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Text\Accessories.txt" />
     <Content Include="Text\Armour.txt" />
     <Content Include="Text\Items.txt" />
@@ -239,11 +149,97 @@
     <Folder Include="Scripts\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <ItemGroup>
+    <EmbeddedResource Include="Data\armour.xml">
+      <LogicalName>data.armour.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\characters.xml">
+      <LogicalName>data.characters.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\enemies.xml">
+      <LogicalName>data.enemies.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\gradient.table">
+      <LogicalName>data.gradient.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\items.xml">
+      <LogicalName>data.items.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\weapons.xml">
+      <LogicalName>data.weapons.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\accessories.xml">
+      <LogicalName>data.accessories.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\materia.xml">
+      <LogicalName>data.materia.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.xml">
+      <LogicalName>data.spells.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\savegame.xml">
+      <LogicalName>data.savegame.xml</LogicalName>
+    </EmbeddedResource>
+
+    <EmbeddedResource Include="Images\aeris.JPG">
+      <LogicalName>charfull.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\aeris_small.JPG">
+      <LogicalName>charsmall.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barret.JPG">
+      <LogicalName>charfull.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barret_small.JPG">
+      <LogicalName>charsmall.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\caitsith.JPG">
+      <LogicalName>charfull.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\caitsith_small.JPG">
+      <LogicalName>charsmall.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\cid.JPG">
+      <LogicalName>charfull.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\cid_small.JPG">
+      <LogicalName>charsmall.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\cloud.JPG">
+      <LogicalName>charfull.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\cloud_small.JPG">
+      <LogicalName>charsmall.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\redxiii.JPG">
+      <LogicalName>charfull.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\redxiii_small.JPG">
+      <LogicalName>charsmall.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\sephiroth.JPG">
+      <LogicalName>charfull.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\sephiroth_small.JPG">
+      <LogicalName>charsmall.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\tifa.JPG">
+      <LogicalName>charfull.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\tifa_small.JPG">
+      <LogicalName>charsmall.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\vincent.JPG">
+      <LogicalName>charfull.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\vincent_small.JPG">
+      <LogicalName>charsmall.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\yuffie.JPG">
+      <LogicalName>charfull.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\yuffie_small.JPG">
+      <LogicalName>charsmall.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>
