@@ -5,6 +5,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverence", "Reverence\Reverence.csproj", "{DF68106F-B25E-4E31-8EFF-ECF119A41A98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverenceLib", "ReverenceLib\ReverenceLib.csproj", "{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,17 +19,25 @@ Global
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF91CBF2-F955-4B29-A784-545CD97640FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF91CBF2-F955-4B29-A784-545CD97640FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF91CBF2-F955-4B29-A784-545CD97640FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CF91CBF2-F955-4B29-A784-545CD97640FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Simulator\Simulator.csproj
+		StartupItem = UnitTests\UnitTests.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
-		$1.DirectoryNamespaceAssociation = None
-		$1.ResourceNamePolicy = FileFormatDefault
+		$1.DirectoryNamespaceAssociation = PrefixedFlat
+		$1.ResourceNamePolicy = FileName
 		$0.TextStylePolicy = $2
 		$2.FileWidth = 120
 		$2.inheritsSet = VisualStudio
