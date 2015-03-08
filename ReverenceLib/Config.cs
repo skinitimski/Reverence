@@ -29,6 +29,7 @@ namespace Atmosphere.Reverence
             WindowTitle = config.SelectSingleNode("/config/window/title").InnerText;
             WindowWidth = Int32.Parse(config.SelectSingleNode("/config/window/width").InnerText);
             WindowHeight = Int32.Parse(config.SelectSingleNode("/config/window/height").InnerText);
+            RefreshRate = UInt32.Parse(config.SelectSingleNode("/config/window/fps").InnerText);
 
             Grid = new Color(
                 Double.Parse(config.SelectSingleNode("/config/window/grid/r").InnerText),
@@ -41,6 +42,8 @@ namespace Atmosphere.Reverence
         public int WindowWidth { get; private set; }
         
         public int WindowHeight { get; private set; }
+
+        public uint RefreshRate { get; private set; }
         
         public Color Grid { get; private set; }
     }

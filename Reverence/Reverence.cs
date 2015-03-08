@@ -21,8 +21,6 @@ namespace Atmosphere.Reverence
 
         private GameState _state;
 
-        private readonly int _width;
-        private readonly int _height;
         private readonly Cairo.Color _gridColor;
 
 
@@ -31,8 +29,6 @@ namespace Atmosphere.Reverence
 
         private Reverence()
         {
-            _width = Config.Instance.WindowWidth;
-            _height = Config.Instance.WindowHeight;
             _gridColor = Config.Instance.Grid;
         }
 
@@ -43,40 +39,39 @@ namespace Atmosphere.Reverence
         {
             using (Context context = Gdk.CairoHelper.Create(e.Event.Window))
             {
-                int w, h;
-                e.Event.Window.GetSize(out w, out h);
+                int width, height;
+                e.Event.Window.GetSize(out width, out height);
 
-                Draw(context, w, h);
+                context.Save();
+
+#if DEBUG 
+                context.Color = _gridColor;
+                
+                int ew = width / 8;
+                int eh = height / 7;
+                
+                for (int i = 1; i < 8; i++)
+                {
+                    int x = i * ew;
+                    
+                    context.MoveTo(x, 0);
+                    context.LineTo(x, height);
+                    context.Stroke();
+                }
+                for (int j = 1; j < 7; j++)
+                {
+                    int y = j * eh;
+                    
+                    context.MoveTo(0, y);
+                    context.LineTo(width, y);
+                    context.Stroke();
+                }
+#endif
+                
+                //_state.Draw(context, width, height);
+                
+                context.Restore();
             }
-        }
-
-        private void Draw(Context context, int width, int height)
-        {
-            context.Save();
-
-            context.Color = _gridColor;
-
-            int ew = _width / 8;
-            int eh = _height / 7;
-
-            for (int i = 1; i < 8; i++)
-            {
-                int x = i * ew;
-
-                context.MoveTo(x, 0);
-                context.LineTo(x, _height);
-                context.Stroke();
-            }
-            for (int j = 1; j < 7; j++)
-            {
-                int y = j * eh;
-
-                context.MoveTo(0, y);
-                context.LineTo(_width, y);
-                context.Stroke();
-            }
-
-            context.Restore();
         }
         
 
@@ -233,19 +228,20 @@ namespace Atmosphere.Reverence
 
             
             _window = new Window(Config.Instance.WindowTitle);
-            _window.Resize(_width, _height);
+            _window.Resize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
 
 
-            GLib.Timeout.Add(1000 / 28, new GLib.TimeoutHandler(Update));
+            GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(Update));
                         
             DrawingArea da = new DrawingArea();
             da.ExposeEvent += OnExposed;
 
             _window.Add(da);
             _window.ShowAll();
+
 
             
             Application.Run();
