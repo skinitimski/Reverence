@@ -30,11 +30,16 @@ namespace Atmosphere.Reverence
             WindowWidth = Int32.Parse(config.SelectSingleNode("/config/window/width").InnerText);
             WindowHeight = Int32.Parse(config.SelectSingleNode("/config/window/height").InnerText);
             RefreshRate = UInt32.Parse(config.SelectSingleNode("/config/window/fps").InnerText);
-
+            
+            BackgroundColor = new Color(
+                Double.Parse(config.SelectSingleNode("/config/window/bgColor/@r").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/bgColor/@g").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/bgColor/@b").Value));
+            
             Grid = new Color(
-                Double.Parse(config.SelectSingleNode("/config/window/grid/r").InnerText),
-                Double.Parse(config.SelectSingleNode("/config/window/grid/g").InnerText),
-                Double.Parse(config.SelectSingleNode("/config/window/grid/b").InnerText));
+                Double.Parse(config.SelectSingleNode("/config/window/gridColor/@r").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/gridColor/@g").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/gridColor/@b").Value));
         }
 
         public string WindowTitle { get; private set; }
@@ -44,6 +49,8 @@ namespace Atmosphere.Reverence
         public int WindowHeight { get; private set; }
 
         public uint RefreshRate { get; private set; }
+        
+        public Color BackgroundColor { get; private set; }
         
         public Color Grid { get; private set; }
     }

@@ -2,13 +2,10 @@
 <config>
     <window>
         <title>Final Fantasy: Reverence</title>
-        <width>800</width>
-        <height>600</height>
+        <width>400</width>
+        <height>300</height>
         <fps>28</fps>
-        <grid>
-            <r>.8</r>
-            <g>.8</g>
-            <b>.8</b>
-        </grid>
+        <bgColor r=".1" g=".1" b=".1" />
+        <gridColor r=".1" g=".1" b=".1" />
     </window>
 </config>

@@ -1,5 +1,7 @@
 using System;
 
+using Cairo;
+
 namespace Atmosphere.Reverence.State
 {
     public abstract class State : IDisposable
@@ -21,7 +23,7 @@ namespace Atmosphere.Reverence.State
 
         public abstract void KeyReleaseHandle(Key k);
         
-        public abstract void Draw(Gdk.Drawable d);
+        public abstract void Draw(Gdk.Drawable d, int width, int height);
         
         public abstract void RunIteration();
         

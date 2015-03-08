@@ -19,9 +19,13 @@ namespace Atmosphere.Reverence
     {
         private Window _window;
 
+        private Gdk.Pixmap _pixmap;
+
         private GameState _state;
 
         private readonly Cairo.Color _gridColor;
+
+        private int _anime;
 
 
 
@@ -37,30 +41,35 @@ namespace Atmosphere.Reverence
         [GdkMethod()]
         private void OnExposed(object sender, Gtk.ExposeEventArgs e)
         {
-            using (Context context = Gdk.CairoHelper.Create(e.Event.Window))
+            int width, height;
+            e.Event.Window.GetSize(out width, out height);
+
+            _pixmap = new Gdk.Pixmap(_window.GdkWindow, width, height);
+            
+            Gdk.GC gc = new Gdk.GC(_pixmap);
+            _pixmap.DrawRectangle(gc, true, 0, 0, width, height);
+
+
+            using (Context context = Gdk.CairoHelper.Create(_pixmap))
             {
-                int width, height;
-                e.Event.Window.GetSize(out width, out height);
-
-                context.Save();
-
 #if DEBUG 
+
                 context.Color = _gridColor;
                 
                 int ew = width / 8;
                 int eh = height / 7;
                 
-                for (int i = 1; i < 8; i++)
+                for (int i = 0; i < 8; i++)
                 {
-                    int x = i * ew;
+                    int x = i * ew + _anime % ew;
                     
                     context.MoveTo(x, 0);
                     context.LineTo(x, height);
                     context.Stroke();
                 }
-                for (int j = 1; j < 7; j++)
+                for (int j = 0; j < 7; j++)
                 {
-                    int y = j * eh;
+                    int y = j * eh + _anime % eh;
                     
                     context.MoveTo(0, y);
                     context.LineTo(width, y);
@@ -68,19 +77,27 @@ namespace Atmosphere.Reverence
                 }
 #endif
                 
-                //_state.Draw(context, width, height);
-                
-                context.Restore();
+                //_state.Draw(pixbuf, width, height);
             }
+                        
+            
+            Gtk.DrawingArea area = (DrawingArea)sender;
+            Gdk.Window win = area.GdkWindow;
+            Gdk.GC gc2 = new Gdk.GC(win);
+            
+            win.DrawDrawable(gc2, _pixmap, 0, 0, 0, 0, width, height);
         }
         
 
         private bool Update()
         {
-            _window.QueueDraw();
+            _anime++;
+            int width, height;
+            _window.GetSize(out width, out height);
+            _window.QueueDrawArea(0, 0, width, height);
             return true;
         }
-        
+                
         [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
@@ -228,7 +245,7 @@ namespace Atmosphere.Reverence
 
             
             _window = new Window(Config.Instance.WindowTitle);
-            _window.Resize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
+            _window.SetDefaultSize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
@@ -241,6 +258,7 @@ namespace Atmosphere.Reverence
 
             _window.Add(da);
             _window.ShowAll();
+
 
 
             
