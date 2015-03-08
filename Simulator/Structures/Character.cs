@@ -32,10 +32,10 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-        public const string DATAFILE = @"Data\characters.xml";
-        public const string GRADIENT_TABLEFILE = @"Data\gradient.table";
-        public const string BASE_TABLEFILE = @"Data\base.table";
-        public const string DIFFS_TABLEFILE = @"Data\diffs.table";
+//        public const string DATAFILE = @"Data\characters.xml";
+//        public const string GRADIENT_TABLEFILE = @"Data\gradient.table";
+//        public const string BASE_TABLEFILE = @"Data\base.table";
+//        public const string DIFFS_TABLEFILE = @"Data\diffs.table";
 
         private int _level;
 
@@ -172,7 +172,7 @@ namespace Atmosphere.BattleSimulator
         /// </summary>
         private static void InitTables()
         {
-            using (StreamReader reader = new StreamReader(GRADIENT_TABLEFILE))
+            using (StreamReader reader = Util.GetStreamReaderFromResource("data.gradient.table"))
             {
                 InitTable(ref _L2_11_gradient, reader.ReadLine(), '\t');
                 InitTable(ref _L12_21_gradient, reader.ReadLine(), '\t');
@@ -184,7 +184,7 @@ namespace Atmosphere.BattleSimulator
                 InitTable(ref _L82_99_gradient, reader.ReadLine(), '\t');
             }
 
-            using (StreamReader reader = new StreamReader(BASE_TABLEFILE))
+            using (StreamReader reader = Util.GetStreamReaderFromResource("data.base.table"))
             {
                 InitTable(ref _L2_11_base, reader.ReadLine(), '\t');
                 InitTable(ref _L12_21_base, reader.ReadLine(), '\t');
@@ -196,7 +196,7 @@ namespace Atmosphere.BattleSimulator
                 InitTable(ref _L82_99_base, reader.ReadLine(), '\t');
             }
 
-            using (StreamReader reader = new StreamReader(DIFFS_TABLEFILE))
+            using (StreamReader reader = Util.GetStreamReaderFromResource("data.diffs.table"))
             {
                 reader.ReadLine(); // [diff_gain]
                 InitTable(ref _diff_gain, reader.ReadLine(), '\t');
@@ -244,8 +244,7 @@ namespace Atmosphere.BattleSimulator
         private static void InitCharacters()
         {
             XmlDocument savegame = Globals.SaveGame;
-            XmlDocument gamedata = new XmlDocument();
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.characters.xml");
 
             Cloud = new Character(savegame.SelectSingleNode("//Cloud").OuterXml, 
                 gamedata.SelectSingleNode("//Cloud").OuterXml);

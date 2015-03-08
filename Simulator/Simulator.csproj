@@ -138,12 +138,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Data\base.table">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\diffs.table">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Scripts\" />
@@ -180,7 +174,6 @@
     <EmbeddedResource Include="Data\savegame.xml">
       <LogicalName>data.savegame.xml</LogicalName>
     </EmbeddedResource>
-
     <EmbeddedResource Include="Images\aeris.JPG">
       <LogicalName>charfull.aeris.jpg</LogicalName>
     </EmbeddedResource>
@@ -240,6 +233,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Images\yuffie_small.JPG">
       <LogicalName>charsmall.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\base.table">
+      <LogicalName>data.base.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\diffs.table">
+      <LogicalName>data.diffs.table</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
+using System.Xml;
 
 namespace Atmosphere.BattleSimulator
 {
@@ -98,6 +101,45 @@ namespace Atmosphere.BattleSimulator
             // We've passed by all the goods, so we're done.
 
             return t;
+        }
+
+
+        public static XmlDocument GetXmlFromResource(string id)
+        {
+            XmlDocument doc = null;
+
+            using (Stream resource = Assembly.GetCallingAssembly().GetManifestResourceStream(id))
+            {
+                using (StreamReader reader = new StreamReader(resource))
+                {
+                    doc = new XmlDocument();
+                    doc.LoadXml(reader.ReadToEnd());
+                }
+            }
+
+            return doc;
+        }
+        
+        public static StreamReader GetStreamReaderFromResource(string id)
+        {       
+            Stream resource = Assembly.GetCallingAssembly().GetManifestResourceStream(id);
+
+            return new StreamReader(resource);
+        }
+        
+        public static string GetTextFromResource(string id)
+        {
+            string text = null;
+            
+            using (Stream resource = Assembly.GetCallingAssembly().GetManifestResourceStream(id))
+            {
+                using (StreamReader reader = new StreamReader(resource))
+                {
+                    text = reader.ReadToEnd();
+                }
+            }
+            
+            return text;
         }
     }
 }
