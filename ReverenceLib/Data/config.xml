@@ -4,5 +4,11 @@
         <title>Final Fantasy: Reverence</title>
         <width>800</width>
         <height>600</height>
+        <fps>28</fps>
+        <grid>
+            <r>.8</r>
+            <g>.8</g>
+            <b>.8</b>
+        </grid>
     </window>
 </config>

@@ -17,27 +17,23 @@ namespace Atmosphere.Reverence
 {
     public class Reverence
     {
-        private bool _quit = false;
-
         private Window _window;
-        private Gdk.Pixmap _pixmap;
 
         private GameState _state;
 
         private readonly int _width;
         private readonly int _height;
-        private int _thingy;
+        private readonly Cairo.Color _gridColor;
 
-        
-        private bool _isDrawing = false;
-        private bool _firstDraw = true;
-        private Thread _drawThread;
+
+
 
 
         private Reverence()
         {
             _width = Config.Instance.WindowWidth;
             _height = Config.Instance.WindowHeight;
+            _gridColor = Config.Instance.Grid;
         }
 
 
@@ -58,14 +54,14 @@ namespace Atmosphere.Reverence
         {
             context.Save();
 
-            context.Color = new Cairo.Color(.8, .8, .8);
+            context.Color = _gridColor;
 
             int ew = _width / 8;
             int eh = _height / 7;
 
             for (int i = 1; i < 8; i++)
             {
-                int x = i * ew + _thingy % ew;
+                int x = i * ew;
 
                 context.MoveTo(x, 0);
                 context.LineTo(x, _height);
@@ -73,7 +69,7 @@ namespace Atmosphere.Reverence
             }
             for (int j = 1; j < 7; j++)
             {
-                int y = j * eh + _thingy % eh;
+                int y = j * eh;
 
                 context.MoveTo(0, y);
                 context.LineTo(_width, y);
@@ -86,7 +82,6 @@ namespace Atmosphere.Reverence
 
         private bool Update()
         {
-            _thingy++;
             _window.QueueDraw();
             return true;
         }
@@ -95,7 +90,6 @@ namespace Atmosphere.Reverence
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
             Application.Quit();
-            _quit = true;
         }        
 
         [GdkMethod()]
@@ -244,16 +238,13 @@ namespace Atmosphere.Reverence
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
 
-            
-            GLib.Timeout.Add(10, new GLib.TimeoutHandler(Update));
+
+            GLib.Timeout.Add(1000 / 28, new GLib.TimeoutHandler(Update));
                         
             DrawingArea da = new DrawingArea();
             da.ExposeEvent += OnExposed;
 
             _window.Add(da);
-
-            
-
             _window.ShowAll();
 
             
@@ -263,7 +254,6 @@ namespace Atmosphere.Reverence
         
         public void Quit()
         {
-            _quit = true;
             Application.Quit();
         }
 
