@@ -28,6 +28,7 @@ namespace Atmosphere.Reverence
 
         
         private bool _isDrawing = false;
+        private bool _firstDraw = true;
         private Thread _drawThread;
 
 
@@ -40,21 +41,25 @@ namespace Atmosphere.Reverence
 
         
         [GdkMethod()]
-        private bool Draw()
+        private void Draw()
         {
-            Gdk.Threads.Enter();
-
             _isDrawing = true;
 
+            Gdk.Threads.Enter();
+
             Gdk.GC gc = new Gdk.GC(_pixmap);
+
             _pixmap.DrawRectangle(gc, true, 0, 0, _width, _height);
             
+            Gdk.Threads.Leave();
 
             
             #region Draw Grid
             
             Cairo.Context g = Gdk.CairoHelper.Create(_pixmap);
+
             g.Color = new Cairo.Color(.8, .8, .8);
+
             for (int i = 1; i < 8; i++)
             {
                 g.MoveTo(i * _width / 8, 0);
@@ -73,31 +78,31 @@ namespace Atmosphere.Reverence
             
             #endregion Draw Grid
 
-            Gdk.Threads.Leave();
 
-            return true;
+            
+            _isDrawing = false;
+
+            return;
         }
 
         
         private bool TimedDraw()
-        {
+        {            
             if (!_isDrawing)
             {
-                lock (_drawThread)
+                if (!_firstDraw)
                 {
-                    if (_drawThread != null)
-                    {
-                        _drawThread.Join();
-                    }
-
-                    _drawThread = new Thread(new ThreadStart(Draw));
-                    _drawThread.Start();
-                
+                    _drawThread.Join();
                 }
+
+                _drawThread = new Thread(new ThreadStart(Draw));
+                _drawThread.Start();
             }
-            
+
             _window.QueueDrawArea(0, 0, _width, _height);
-                        
+            
+            _firstDraw = false;
+            
             return true;
         }
         
@@ -105,11 +110,16 @@ namespace Atmosphere.Reverence
         [GdkMethod()]
         private void OnExposed(object o, ExposeEventArgs args)
         {
+//            if (_drawThread.IsAlive)
+//            {
+//                _drawThread.Join();
+//            }
+
             Gtk.DrawingArea area = (DrawingArea)o;
             Gdk.Window win = area.GdkWindow;
             Gdk.GC gc = new Gdk.GC(win);
             
-            win.DrawDrawable(gc, _pixmap, 0, 0, 0, 0, Config.Instance.WindowWidth, Config.Instance.WindowHeight);
+            win.DrawDrawable(gc, _pixmap, 0, 0, 0, 0, _width, _height);
         }
 
         
@@ -257,28 +267,45 @@ namespace Atmosphere.Reverence
 
         private void Go()
         {
+            _drawThread = new Thread(new ThreadStart(Draw));
+
             Application.Init();
 
             if (!GLib.Thread.Supported)
+            {
                 GLib.Thread.Init();
+            }
+
             Gdk.Threads.Init();
 
             Gdk.Threads.Enter();
 
             _window = new Window(Config.Instance.WindowTitle);
             _window.Resize(_width, _height);
-            _window.ExposeEvent += OnExposed;
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
 
-            _window.ShowAll();
             _window.AppPaintable = true;
             _window.DoubleBuffered = false;
 
+
+
+            //Gdk.Color col = new Gdk.Color(0, 0, 0);
+            
+            DrawingArea da = new DrawingArea();
+            da.ExposeEvent += OnExposed;
+            da.ModifyBg(StateType.Normal, new Gdk.Color(225, 125, 125));
+            //_window.ModifyBg(StateType.Normal, col);
+
+
+            GLib.Timeout.Add(100, new GLib.TimeoutHandler(TimedDraw));
+            
+            _window.Add(da);
+            _window.ShowAll();
             _pixmap = new Gdk.Pixmap(_window.GdkWindow, _width, _height);
 
-            GLib.Timeout.Add(33, new GLib.TimeoutHandler(TimedDraw));
+
                         
             Application.Run();
 
