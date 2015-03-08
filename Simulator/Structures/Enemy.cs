@@ -49,8 +49,6 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-        public const string DATAFILE = @"Data\enemies.xml";
-
         private int _level;
 
         private int _hp;
@@ -103,8 +101,7 @@ namespace Atmosphere.BattleSimulator
         {
             _table = new Dictionary<string, string>();
 
-            XmlDocument gamedata = new XmlDocument();
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.enemies.xml");
 
             foreach (XmlNode node in gamedata.SelectSingleNode("//enemies").ChildNodes)
             {

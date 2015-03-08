@@ -12,8 +12,6 @@ namespace Atmosphere.BattleSimulator
     {
         #region Member Data
 
-        public const string DATAFILE = @"Data\items.xml";
-
         string _name;
         string _desc;
         ItemType _type;
@@ -30,8 +28,7 @@ namespace Atmosphere.BattleSimulator
         {
             _table = new Dictionary<string, Item>();
 
-            XmlDocument gamedata = new XmlDocument(); 
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.items.xml");
 
             foreach (XmlNode node in gamedata.SelectSingleNode("//items").ChildNodes)
             {

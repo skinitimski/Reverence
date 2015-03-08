@@ -105,8 +105,6 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-        public const string DATAFILE = @"Data\spells.xml";
-
         private string _name;
         private string _desc;
         private int _cost;
@@ -123,8 +121,7 @@ namespace Atmosphere.BattleSimulator
         {
             _table = new Dictionary<string, Spell>();
 
-            XmlDocument gamedata = new XmlDocument();
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.spells.xml");
 
             foreach (XmlNode node in gamedata.SelectSingleNode("//spells").ChildNodes)
             {

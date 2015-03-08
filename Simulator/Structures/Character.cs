@@ -32,11 +32,6 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-//        public const string DATAFILE = @"Data\characters.xml";
-//        public const string GRADIENT_TABLEFILE = @"Data\gradient.table";
-//        public const string BASE_TABLEFILE = @"Data\base.table";
-//        public const string DIFFS_TABLEFILE = @"Data\diffs.table";
-
         private int _level;
 
         private int _strength_base;

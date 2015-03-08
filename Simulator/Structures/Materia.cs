@@ -90,8 +90,6 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-        public const string DATAFILE = @"Data\materia.xml";
-
         protected string _name;
         protected string _desc;
 
@@ -152,8 +150,7 @@ namespace Atmosphere.BattleSimulator
             _masterTable = new Dictionary<string, Materia>();
             _data = new Dictionary<string, MateriaRecord>();
 
-            XmlDocument gamedata = new XmlDocument();
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.materia.xml");
 
             foreach (XmlNode node in gamedata.SelectSingleNode("//materiadata").ChildNodes)
             {

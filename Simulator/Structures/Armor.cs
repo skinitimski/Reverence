@@ -11,8 +11,6 @@ namespace Atmosphere.BattleSimulator
     {
         #region Member Data
 
-        public const string DATAFILE = @"Data\armour.xml";
-
         private int _defense;
         private int _defensePercent;
         private int _magicDefense;
@@ -31,8 +29,7 @@ namespace Atmosphere.BattleSimulator
         {
             _table = new Dictionary<string, string>();
 
-            XmlDocument gamedata = new XmlDocument();
-            gamedata.Load(DATAFILE);
+            XmlDocument gamedata = Util.GetXmlFromResource("data.armour.xml");
 
             foreach (XmlNode node in gamedata.SelectSingleNode("//armour").ChildNodes)
             {
