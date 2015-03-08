@@ -29,6 +29,9 @@ namespace Atmosphere.Reverence
 
 
 
+        int _oldWidth;
+        int _oldHeight;
+
 
 
         private Reverence()
@@ -59,7 +62,7 @@ namespace Atmosphere.Reverence
                 int ew = width / 8;
                 int eh = height / 7;
                 
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 9; i++)
                 {
                     int x = i * ew + _anime % ew;
                     
@@ -67,7 +70,7 @@ namespace Atmosphere.Reverence
                     context.LineTo(x, height);
                     context.Stroke();
                 }
-                for (int j = 0; j < 7; j++)
+                for (int j = 0; j < 8; j++)
                 {
                     int y = j * eh + _anime % eh;
                     
@@ -89,6 +92,7 @@ namespace Atmosphere.Reverence
         }
         
 
+        [GdkMethod()]
         private bool Update()
         {
             _anime++;
@@ -102,7 +106,37 @@ namespace Atmosphere.Reverence
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
             Application.Quit();
-        }        
+        }   
+
+        [GdkMethod()]
+        [GLib.ConnectBefore()]
+        private void OnWinConfigure(object o, ConfigureEventArgs args)
+        {
+            Gdk.EventConfigure e = args.Event;
+
+            if (_oldWidth != e.Width || _oldHeight != e.Height)
+            {
+                Gdk.Pixmap tmp = new Gdk.Pixmap(_window.GdkWindow, e.Width, e.Height, -1);
+
+                int minw = e.Width < _oldWidth ? e.Width : _oldWidth;
+                int minh = e.Height < _oldHeight ? e.Height : _oldHeight;
+
+                using (Context context = Gdk.CairoHelper.Create(tmp))
+                {
+                    Gdk.CairoHelper.SetSourcePixmap(context, _pixmap, 0, 0);
+                    context.Rectangle(0, 0, minw, minh);
+                    context.Fill();
+                }
+
+                _pixmap = tmp;
+            }
+
+            _oldWidth = e.Width;
+            _oldHeight = e.Height;
+        }
+
+
+        #region Key Handling
 
         [GdkMethod()]
         [GLib.ConnectBefore()]
@@ -238,6 +272,9 @@ namespace Atmosphere.Reverence
             
         }
 
+        #endregion Key Handling
+
+
 
         private void Go()
         {
@@ -249,6 +286,7 @@ namespace Atmosphere.Reverence
             _window.DeleteEvent += OnWinDelete;
             _window.KeyPressEvent += OnKeyPress;
             _window.KeyReleaseEvent += OnKeyRelease;
+            _window.ConfigureEvent += OnWinConfigure;
 
 
             GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(Update));
@@ -258,7 +296,10 @@ namespace Atmosphere.Reverence
 
             _window.Add(da);
             _window.ShowAll();
-
+            
+            _pixmap = new Gdk.Pixmap(_window.GdkWindow, Config.Instance.WindowWidth, Config.Instance.WindowHeight, -1);
+            _window.AppPaintable = true;
+            _window.DoubleBuffered = false;
 
 
             

@@ -6,6 +6,6 @@
         <height>300</height>
         <fps>28</fps>
         <bgColor r=".1" g=".1" b=".1" />
-        <gridColor r=".1" g=".1" b=".1" />
+        <gridColor r=".9" g=".9" b=".9" />
     </window>
 </config>
