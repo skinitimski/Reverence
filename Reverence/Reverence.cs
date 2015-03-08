@@ -18,31 +18,20 @@ namespace Atmosphere.Reverence
     public class Reverence
     {
         private Window _window;
-
         private Gdk.Pixmap _pixmap;
-
         private GameState _state;
-
         private readonly Cairo.Color _gridColor;
-
         private int _anime;
-
-
-        private bool _isDrawing = false;
+        private bool _isDrawing;
         private Thread _drawingThread;
-
-
-        int _oldWidth;
-        int _oldHeight;
-
-
+        private int _oldWidth;
+        private int _oldHeight;
+        private bool _quit;
 
         private Reverence()
         {
             _gridColor = Config.Instance.Grid;
         }
-
-
         
         [GdkMethod()]
         private void OnExposed(object sender, Gtk.ExposeEventArgs e)
@@ -115,8 +104,6 @@ namespace Atmosphere.Reverence
                 {
                     _isDrawing = false;
                 }
-
-                lock (_window) _isDrawing = false;
             }
 
 
@@ -125,17 +112,12 @@ namespace Atmosphere.Reverence
             _window.QueueDrawArea(0, 0, width, height);
             return true;
         }
-                
-
-
-
-
 
         [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
             Application.Quit();
-        }   
+        }
 
         [GdkMethod()]
         [GLib.ConnectBefore()]
@@ -329,20 +311,55 @@ namespace Atmosphere.Reverence
 
 
             
-            Application.Run();
+            //Application.Run();
+            
+            while (!_quit)
+            {
+                try
+                {
+                    _state.RunIteration();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+                }
+                
+                Gdk.Threads.Enter();
+
+                if (Application.EventsPending())
+                {
+                    try
+                    {
+                        Application.RunIteration();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+                    }
+                    finally
+                    {
+                        Gdk.Threads.Leave();
+                    }
+                }
+            }
+
+            Gdk.Threads.Enter();
+
+            try
+            {
+                Application.Quit();
+            }
+            finally
+            {
+                Gdk.Threads.Leave();
+            }
 
         }
         
         public void Quit()
         {
-            Application.Quit();
+            _quit = true;
         }
-
-
-
-
-
-
 
         public static void Main(string[] args)
         {

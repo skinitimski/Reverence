@@ -4,7 +4,7 @@
         <title>Final Fantasy: Reverence</title>
         <width>400</width>
         <height>300</height>
-        <fps>4</fps>
+        <fps>30</fps>
         <bgColor r=".1" g=".1" b=".1" />
         <gridColor r=".9" g=".9" b=".9" />
     </window>
