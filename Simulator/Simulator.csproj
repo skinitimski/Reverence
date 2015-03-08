@@ -10,7 +10,6 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Atmosphere.BattleSimulator</RootNamespace>
     <AssemblyName>Simulator</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -51,10 +50,13 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="LuaInterface">
-      <HintPath>..\dll\Lua\LuaInterface.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Cairo" />
+    <Reference Include="KopiLua">
+      <HintPath>..\dll\Lua\KopiLua.dll</HintPath>
+    </Reference>
+    <Reference Include="NLua">
+      <HintPath>..\dll\Lua\NLua.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbilityState.cs" />

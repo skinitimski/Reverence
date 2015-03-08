@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
-using LuaInterface;
+using NLua;
 using Gtk;
 
 namespace Atmosphere.BattleSimulator

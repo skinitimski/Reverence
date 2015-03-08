@@ -12,43 +12,54 @@ namespace Atmosphere.BattleSimulator
 
         // to convert from 100-ns (os time) to ms (parameter time)
         protected const int CONVERSION_FACTOR = 10000;
-        protected const int TICKS_PER_MS = 10000;
+        public const int TICKS_PER_MS = 10000;
 
         #endregion Constants
 
 
         #region Member Data
 
+        /// <summary>
+        /// Clock starting epoch (in ticks).
+        /// </summary>
         protected long _startTime;
-        protected long _elapsed_hold;
-        protected long _timeout;
-        protected bool _isPaused;
 
-        protected Mutex _mutex;
+        /// <summary>
+        /// How much time has elapsed (in ticks).
+        /// </summary>
+        protected long _elapsed_hold;
+
+        /// <summary>
+        /// Value indicating whether or not this clock is paused.
+        /// </summary>
+        protected bool _isPaused;
+        private object _sync = new Object();
 
         #endregion Member Data
 
 
-        /**<summary>Returns a running clock</summary>
-         */
+        /// <summary>
+        /// Creates a running clock.
+        /// </summary>
         public Clock()
         {
             _startTime = GetCurrentTime();
-            _mutex = new Mutex();
             _isPaused = false;
 
             _elapsed_hold = 0;
         }
-        /**<summary>Returns a running clock with specified elapsed time (in ms)</summary>
-         */
-        public Clock(long elapsed)
-        {
-            _startTime = GetCurrentTime();
-            _mutex = new Mutex();
-            _isPaused = false;
 
+        /// <summary>
+        /// Creates a running clock with specified <paramref name="elapsed" /> time (in ms)
+        /// </summary>
+        public Clock(long elapsed)
+            : this()
+        {
             _elapsed_hold = elapsed * CONVERSION_FACTOR;
         }
+
+
+
 
         #region Methods
 
@@ -57,57 +68,74 @@ namespace Atmosphere.BattleSimulator
             return DateTime.Now.Ticks;
         }
 
-        /**<summary>Sums up the elapsed time in 100-ns.</summary>
-         */
+        /// <summary>
+        /// Sums up the elapsed time in ticks.
+        /// </summary>
         protected virtual long CalculateElapsed()
         {
             if (_isPaused)
+            {
                 return _elapsed_hold;
+            }
             else
+            {
                 return (_elapsed_hold + (GetCurrentTime() - _startTime));
+            }
         }
 
-        /**<summary>Pauses this timer (if it is not paused). Returns true upon success.</summary>
-         */
+        /// <summary>
+        /// Pauses this timer (if it is not paused). Returns true upon success.
+        /// </summary>
         public bool Pause()
         {
-            _mutex.WaitOne();
-
             bool ret = true;
 
-            if (_isPaused) ret = false;
-            else
-            {
-                _isPaused = true;
-                _elapsed_hold = _elapsed_hold + (GetCurrentTime() - _startTime);
-            }
+            long current = GetCurrentTime();
 
-            _mutex.ReleaseMutex();
+            lock (_sync)
+            {
+                if (_isPaused)
+                {
+                    ret = false;
+                }
+                else
+                {
+                    _isPaused = true;
+                    _elapsed_hold = _elapsed_hold + (current - _startTime);
+                }
+            }
 
             return ret;
         }
-        /**<summary>Unpauses this timer (if it is paused). Returns true upon success.</summary>
-         */
+
+        /// <summary>
+        /// Unpauses this timer (if it is paused). Returns true upon success.
+        /// </summary>
         public bool Unpause()
         {
-            _mutex.WaitOne();
-
             bool ret = true;
-
-            if (!_isPaused) ret = false;
-            else
+            
+            long current = GetCurrentTime();
+            
+            lock (_sync)
             {
-                _startTime = GetCurrentTime();
-                _isPaused = false;
+                if (!_isPaused)
+                {
+                    ret = false;
+                }
+                else
+                {
+                    _startTime = current;
+                    _isPaused = false;
+                }
             }
-
-            _mutex.ReleaseMutex();
 
             return ret;
         }
 
-        /**<summary>Returns the elapsed time in ms.</summary>
-         */
+        /// <summary>
+        /// Returns the elapsed time in ms.
+        /// </summary>
         public long Elapsed
         {
             get { return CalculateElapsed() / CONVERSION_FACTOR; }
@@ -119,14 +147,17 @@ namespace Atmosphere.BattleSimulator
 
         #region Properties
 
-        /**<summary>Returns true if this Timer is currently paused; returns false otherwise</summary>
-         */
+        /// <summary>
+        /// Returns true if this <see cref="Clock" /> is currently paused; returns false otherwise
+        /// </summary>
         public bool IsPaused
         {
             get { return _isPaused; }
         }
-        /**<summary>Returns the number of seconds (less the minutes and hours) that have elapsed</summary>
-         */
+
+        /// <summary>
+        /// Returns the number of seconds (less the minutes and hours) that have elapsed
+        /// </summary>
         public long Seconds
         {
             get
@@ -138,8 +169,10 @@ namespace Atmosphere.BattleSimulator
                 return s;
             }
         }
-        /**<summary>Returns the number of minutes (less the hours) that have elapsed</summary>
-         */
+
+        /// <summary>
+        /// Returns the number of minutes (less the hours) that have elapsed
+        /// </summary>
         public long Minutes
         {
             get
@@ -150,8 +183,10 @@ namespace Atmosphere.BattleSimulator
                 return m;
             }
         }
-        /**<summary>Returns the number of hours that have elapsed</summary>
-         */
+
+        /// <summary>
+        /// Returns the number of hours that have elapsed
+        /// </summary>
         public long Hours
         {
             get
@@ -175,11 +210,11 @@ namespace Atmosphere.BattleSimulator
         #endregion Member Data
 
 
-        /**<summary>Constructs a new ScaledClock object</summary>
-         * <param name="ticksPerUnitTime">Number of ticks per unit time. The more ticks/time, the 
-         * slower the clock progresses. A value equal to TICKS_PER_MS will cause the clock
-         * to run in realtime.</param>
-         */
+        /// <summary>Constructs a new ScaledClock object</summary>
+        /// <param name="ticksPerUnitTime">Number of ticks per unit time. The more ticks/time, the 
+        /// lower the clock progresses. A value equal to TICKS_PER_MS will cause the clock
+        /// to run in realtime.
+        /// </param>
         public ScaledClock(int ticksPerUnitTime)
         {
             _ticksPerUnit = ticksPerUnitTime;
@@ -196,6 +231,7 @@ namespace Atmosphere.BattleSimulator
             _ticksPerUnit = _ticksPerUnit / 2;
             Unpause();
         }
+
         public void HalveSpeed()
         {
             Pause();
@@ -215,46 +251,72 @@ namespace Atmosphere.BattleSimulator
 
         #region Member Data
 
-        protected bool _started;
+        protected long _timeout;
 
         #endregion Member Data
 
 
 
-        /**<summary>Returns a running timer with specified timeout (in ms)</summary>
-         */
-        public Timer(int timeout)
-        {
-            _timeout = (long)timeout * CONVERSION_FACTOR;
+        #region Constructors
 
-            Unpause();
+        /// <summary>
+        /// Returns a running timer with specified timeout (in ms)
+        /// </summary>
+        public Timer(int timeout)
+            : this(timeout, 0, true)
+        {
         }
 
-        /**<summary>Returns a timer with specified timeout (in ms) and elapsed time (in ms).</summary>
-         */
-        public Timer(int timeout, int elapsed, bool start)
+        public Timer(int timeout, bool start)
+            : this(timeout, 0, start)
         {
-            _mutex = new Mutex();
+        }
+        
+        public Timer(int timeout, int elapsed) 
+            : this(timeout, elapsed, true)
+        {
+        }
+
+        /// <summary>
+        /// Returns an optionally running timer with specified timeout (in ms) and elapsed time (in ms).
+        /// </summary>
+        public Timer(int timeout, int elapsed, bool start)
+            : base(elapsed)
+        {
             _isPaused = true;
 
             _elapsed_hold = (long)elapsed * CONVERSION_FACTOR;
             _timeout = (long)timeout * CONVERSION_FACTOR;
 
             if (start)
+            {
                 Unpause();
+            }
         }
-        public Timer(int timeout, int elapsed) : this(timeout, elapsed, true) { }
+
+        #endregion Constructors
+
 
 
         #region Methods
-
-        /**<summary>Resets this timer and restarts it.</summary>
-         */
+        
+        /// <summary>
+        /// Resets this timer and restarts it.
+        /// </summary>
         public bool Reset()
+        {
+            return Reset(true);
+        }
+        
+        /// <summary>
+        /// Resets this timer and optionally restarts it.
+        /// </summary>
+        public bool Reset(bool restart)
         {
             Pause();
             _elapsed_hold = 0;
-            return Unpause();
+
+            return restart ? Unpause() : restart;
         }
 
         #endregion Methods
@@ -264,12 +326,13 @@ namespace Atmosphere.BattleSimulator
 
         #region Properties
 
-        public long Timeout
+        public int Timeout
         {
-            get { return _timeout / CONVERSION_FACTOR; }
+            get { return (int)(_timeout / CONVERSION_FACTOR); }
         }
-        /**<summary>Returns true if this Timer is over its timeout limit; returns false otherwise</summary>
-         */
+        /// <summary>
+        /// Returns true if this Timer is over its timeout limit; returns false otherwise;
+        /// </summary>
         public bool IsUp
         {
             get { return CalculateElapsed() > _timeout; }
@@ -289,31 +352,45 @@ namespace Atmosphere.BattleSimulator
 
 
 
-        /**<summary>Constructs a new ScaledTimer object</summary>
-         * <param name="ticksPerUnitTime">Number of ticks per unit time. The more ticks/time, the 
-         * slower the clock progresses. A value equal to TICKS_PER_MS will cause the timer
-         * to run in realtime.</param>
-         */
+
+
+        #region Constructors
+        
+        /// <summary>
+        /// Constructs a new ScaledTimer object
+        /// </summary>
+        /// <param name="ticksPerUnitTime">
+        /// Number of ticks per unit time. The more ticks/time, the lower the clock progresses. A value equal 
+        /// to TICKS_PER_MS will cause the timer to run in realtime.
+        /// </param>
         public ScaledTimer(int timeout, int ticksPerUnitTime)
-            : base(timeout)
+            : this(timeout, 0, ticksPerUnitTime)
         {
-            _ticksPerUnit = ticksPerUnitTime;
         }
+
+        public ScaledTimer(int timeout, int ticksPerUnitTime, bool start)
+            : this(timeout, 0, ticksPerUnitTime, start)
+        {
+        }
+        
         public ScaledTimer(int timeout, int elapsed, int ticksPerUnitTime)
-            : base(timeout, elapsed)
+            : this(timeout, elapsed, ticksPerUnitTime, true)
+        {
+        }
+        
+        public ScaledTimer(int timeout, int elapsed, int ticksPerUnitTime, bool start)
+            : base(timeout, elapsed, start)
         {
             _ticksPerUnit = ticksPerUnitTime;
         }
 
+        #endregion Constructors
+
         protected override long CalculateElapsed()
         {
-            if (_isPaused)
-                return (_elapsed_hold * TICKS_PER_MS) / _ticksPerUnit;
-            else
-            {
-                long tempElapsed = _elapsed_hold + (GetCurrentTime() - _startTime);
-                return (tempElapsed * TICKS_PER_MS) / _ticksPerUnit;
-            }
+            long tempElapsed = base.CalculateElapsed();
+
+            return (tempElapsed * TICKS_PER_MS) / _ticksPerUnit;
         }
 
         public void DoubleSpeed()
@@ -322,13 +399,13 @@ namespace Atmosphere.BattleSimulator
             _ticksPerUnit = _ticksPerUnit / 2;
             Unpause();
         }
+
         public void HalveSpeed()
         {
             Pause();
             _ticksPerUnit = _ticksPerUnit * 2;
             Unpause();
         }
-
 
         public int TicksPer
         {

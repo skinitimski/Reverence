@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.IO;
-using LuaInterface;
+using NLua;
 
 namespace Atmosphere.BattleSimulator
 {
