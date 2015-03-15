@@ -27,8 +27,8 @@ namespace Atmosphere.Reverence
             XmlDocument config = Resource.GetXmlFromResource(id);
             
             WindowTitle = config.SelectSingleNode("/config/window/title").InnerText;
-            WindowWidth = Int32.Parse(config.SelectSingleNode("/config/window/width").InnerText);
-            WindowHeight = Int32.Parse(config.SelectSingleNode("/config/window/height").InnerText);
+            Config.Instance.WindowWidth = Int32.Parse(config.SelectSingleNode("/config/window/width").InnerText);
+            Config.Instance.WindowHeight = Int32.Parse(config.SelectSingleNode("/config/window/height").InnerText);
             RefreshRate = UInt32.Parse(config.SelectSingleNode("/config/window/fps").InnerText);
             
             BackgroundColor = new Color(

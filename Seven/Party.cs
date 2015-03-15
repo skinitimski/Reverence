@@ -1,0 +1,127 @@
+using System;
+using System.Collections.Generic;
+using System.Xml;
+
+namespace Atmosphere.Reverence.Seven
+{
+    internal class Party
+    {
+        private Character[] _party = new Character[3];
+
+        
+        private static Dictionary<string, Character> _characters;
+
+        private int _selectionIndex;
+
+
+
+
+
+
+
+        
+        
+        
+        public Party()
+        {
+            XmlDocument gamedata = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
+            
+            Cloud = new Character(gamedata.SelectSingleNode("//Cloud").OuterXml);
+            Tifa = new Character(gamedata.SelectSingleNode("//Tifa").OuterXml);
+            Aeris = new Character(gamedata.SelectSingleNode("//Aeris").OuterXml);
+            Barret = new Character(gamedata.SelectSingleNode("//Barret").OuterXml);
+            RedXIII = new Character(gamedata.SelectSingleNode("//RedXIII").OuterXml);
+            Yuffie = new Character(gamedata.SelectSingleNode("//Yuffie").OuterXml);
+            CaitSith = new Character(gamedata.SelectSingleNode("//CaitSith").OuterXml);
+            Vincent = new Character(gamedata.SelectSingleNode("//Vincent").OuterXml);
+            Cid = new Character(gamedata.SelectSingleNode("//Cid").OuterXml);
+            Sephiroth = new Character(gamedata.SelectSingleNode("//Sephiroth").OuterXml);
+
+            AddCharacters();
+        }
+            
+
+
+        public Party(XmlDocument savegame)
+        {
+            XmlDocument gamedata = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
+            
+            Cloud = new Character(savegame.SelectSingleNode("//Cloud").OuterXml, 
+                                  gamedata.SelectSingleNode("//Cloud").OuterXml);
+            Tifa = new Character(savegame.SelectSingleNode("//Tifa").OuterXml, 
+                                 gamedata.SelectSingleNode("//Tifa").OuterXml);
+            Aeris = new Character(savegame.SelectSingleNode("//Aeris").OuterXml,
+                                  gamedata.SelectSingleNode("//Aeris").OuterXml);
+            Barret = new Character(savegame.SelectSingleNode("//Barret").OuterXml,
+                                   gamedata.SelectSingleNode("//Barret").OuterXml);
+            RedXIII = new Character(savegame.SelectSingleNode("//RedXIII").OuterXml, 
+                                    gamedata.SelectSingleNode("//RedXIII").OuterXml);
+            Yuffie = new Character(savegame.SelectSingleNode("//Yuffie").OuterXml, 
+                                   gamedata.SelectSingleNode("//Yuffie").OuterXml);
+            CaitSith = new Character(savegame.SelectSingleNode("//CaitSith").OuterXml, 
+                                     gamedata.SelectSingleNode("//CaitSith").OuterXml);
+            Vincent = new Character(savegame.SelectSingleNode("//Vincent").OuterXml, 
+                                    gamedata.SelectSingleNode("//Vincent").OuterXml);
+            Cid = new Character(savegame.SelectSingleNode("//Cid").OuterXml, 
+                                gamedata.SelectSingleNode("//Cid").OuterXml);
+            Sephiroth = new Character(savegame.SelectSingleNode("//Sephiroth").OuterXml, 
+                                      gamedata.SelectSingleNode("//Sephiroth").OuterXml);
+
+
+            AddCharacters();
+        }
+
+        private void AddCharacters()
+        {
+            _characters = new Dictionary<string, Character>();
+            _characters.Add(Cloud.Name, Cloud);
+            _characters.Add(Tifa.Name, Tifa);
+            _characters.Add(Aeris.Name, Aeris);
+            _characters.Add(Barret.Name, Barret);
+            _characters.Add(RedXIII.Name, RedXIII);
+            _characters.Add(Yuffie.Name, Yuffie);
+            _characters.Add(CaitSith.Name, CaitSith);
+            _characters.Add(Vincent.Name, Vincent);
+            _characters.Add(Cid.Name, Cid);
+            _characters.Add(Sephiroth.Name, Sephiroth);
+        }
+
+
+
+
+
+
+
+
+
+        public void SetSelection(int index)
+        {
+            _selectionIndex = index;
+        }
+
+        public Character this[int index] 
+        {
+            get { return _party[index]; }
+            set {  _party[index] = value; }
+        }
+
+        public Character Selected
+        {
+            get { return this[_selectionIndex]; } 
+        }
+
+        public Character Cloud { get; private set; }
+        public Character Aeris { get; private set; }
+        public Character Tifa { get; private set; }
+        public Character Barret { get; private set; }
+        public Character RedXIII { get; private set; }
+        public Character Yuffie { get; private set; }
+        public Character CaitSith { get; private set; }
+        public Character Vincent { get; private set; }
+        public Character Cid { get; private set; }
+        public Character Sephiroth { get; private set; }
+
+        public int Gil { get; set; }
+    }
+}
+

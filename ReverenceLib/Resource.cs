@@ -7,11 +7,11 @@ namespace Atmosphere.Reverence
 {
     public static class Resource
     {        
-        public static XmlDocument GetXmlFromResource(string id)
+        public static XmlDocument GetXmlFromResource(string id, Assembly assembly)
         {
             XmlDocument doc = null;
             
-            using (Stream resource = typeof(Resource).Assembly.GetManifestResourceStream(id))
+            using (Stream resource = assembly.GetManifestResourceStream(id))
             {
                 using (StreamReader reader = new StreamReader(resource))
                 {
@@ -21,11 +21,30 @@ namespace Atmosphere.Reverence
             }
             
             return doc;
+        }     
+
+        public static XmlDocument GetXmlFromResource(string id)
+        {
+            return GetXmlFromResource(id, typeof(Resource).Assembly);
         }
+
+
+
+
+
+
+
+
+
         
         public static StreamReader GetStreamReaderFromResource(string id)
         {       
-            Stream resource = typeof(Resource).Assembly.GetManifestResourceStream(id);
+            return GetStreamReaderFromResource(id, typeof(Resource).Assembly);
+        }
+
+        public static StreamReader GetStreamReaderFromResource(string id, Assembly assembly)
+        {       
+            Stream resource = assembly.GetManifestResourceStream(id);
             
             return new StreamReader(resource);
         }

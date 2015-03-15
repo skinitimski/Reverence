@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <additionalargs>/unsafe</additionalargs>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -27,6 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <additionalargs>/unsafe</additionalargs>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -51,15 +53,28 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Data\" />
+    <Folder Include="Graphics\" />
+    <Folder Include="Menu\" />
+    <Folder Include="Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Key.cs" />
-    <Compile Include="State\State.cs" />
     <Compile Include="Time\Clock.cs" />
     <Compile Include="Time\Timer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="GdkMethodAttribute.cs" />
+    <Compile Include="State.cs" />
+    <Compile Include="Graphics\ColoredPoint.cs" />
+    <Compile Include="Menu\Menu.cs" />
+    <Compile Include="Menu\ControlMenu.cs" />
+    <Compile Include="Menu\IController.cs" />
+    <Compile Include="Exceptions\ImplementationException.cs" />
+    <Compile Include="Graphics\Text.cs" />
+    <Compile Include="Graphics\Shapes.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Sex.cs" />
+    <Compile Include="Exceptions\SaveStateException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\savegame.xml">

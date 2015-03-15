@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{164FDDDF-F2F8-4888-9347-8DB9C49F941C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Atmosphere.Reverence.Seven</RootNamespace>
+    <AssemblyName>Seven</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Mono.Cairo" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="NLua">
+      <HintPath>..\dll\Lua\NLua.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+    <Folder Include="State\" />
+    <Folder Include="Item\" />
+    <Folder Include="Screen\MenuState\" />
+    <Folder Include="Screen\MenuState\Main\" />
+    <Folder Include="Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="State\MenuState.cs" />
+    <Compile Include="Screen\MenuState\MenuScreen.cs" />
+    <Compile Include="Item\ItemType.cs" />
+    <Compile Include="Screen\MenuState\Main\Location.cs" />
+    <Compile Include="Screen\MenuState\Main\Options.cs" />
+    <Compile Include="Screen\MenuState\Main\Status.cs" />
+    <Compile Include="Screen\MenuState\Main\Time.cs" />
+    <Compile Include="Seven.cs" />
+    <Compile Include="Party.cs" />
+    <Compile Include="Character.cs" />
+    <Compile Include="State\InitialState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
+      <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
+      <Name>ReverenceLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Images\aeris.JPG">
+      <LogicalName>charfull.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\aeris_small.JPG">
+      <LogicalName>charsmall.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret.JPG">
+      <LogicalName>charfull.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret_small.JPG">
+      <LogicalName>charsmall.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith.JPG">
+      <LogicalName>charfull.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith_small.JPG">
+      <LogicalName>charsmall.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid.JPG">
+      <LogicalName>charfull.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid_small.JPG">
+      <LogicalName>charsmall.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud.JPG">
+      <LogicalName>charfull.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud_small.JPG">
+      <LogicalName>charsmall.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii.JPG">
+      <LogicalName>charfull.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii_small.JPG">
+      <LogicalName>charsmall.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth.JPG">
+      <LogicalName>charfull.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth_small.JPG">
+      <LogicalName>charsmall.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa.JPG">
+      <LogicalName>charfull.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa_small.JPG">
+      <LogicalName>charsmall.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent.JPG">
+      <LogicalName>charfull.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent_small.JPG">
+      <LogicalName>charsmall.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie.JPG">
+      <LogicalName>charfull.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie_small.JPG">
+      <LogicalName>charsmall.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\savegame.xml">
+      <LogicalName>data.savegame.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\characters.xml">
+      <LogicalName>data.characters.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\base.table">
+      <LogicalName>data.base.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\diffs.table">
+      <LogicalName>data.diffs.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\gradient.table">
+      <LogicalName>data.gradient.table</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

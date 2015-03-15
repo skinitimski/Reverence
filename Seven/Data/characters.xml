@@ -1,0 +1,350 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<characters>
+    <Cloud>
+        <!-- Starting Stats -->
+        <stats>
+            <str>20</str>
+            <dex>6</dex>
+            <vit>16</vit>
+            <mag>19</mag>
+            <spi>17</spi>
+            <lck>14</lck>
+            <lvl>6</lvl>
+        </stats>
+        <hp>314</hp>
+        <mp>54</mp>
+        <exp>610</exp>
+        <qvals>     68,   71,   73,   74,   74,   74,   75,   77</qvals>
+        <lbvals>    15,   16,   16,   17,   17,   17,   18,   19</lbvals>
+        <lgvals>    20,   10,   10,    8,    8,    8,    7,    6</lgvals>
+        <hpbvals>  200,  -40, -640,-1440,-2280,-3080,-2040, -200</hpbvals>
+        <hpgvals>   19,   42,   72,  100,  121,  137,  120,   98</hpgvals>
+        <mpbvals>   12,    0,  -26,  -58, -102, -102,   -4,  180</mpbvals>
+        <mpgvals>   64,   78,   90,  101,  112,  112,   96,   73</mpgvals>
+        <ranks>1,6,3,4,26</ranks>
+        <sex>Male</sex>
+        <weapon>
+            <name>bustersword</name>
+            <materia>
+                <orb id="fire" type="Magic" ap="0" slot="0" />
+                <orb id="ice" type="Magic" ap="0" slot="1" />
+            </materia>
+        </weapon>
+        <armor>
+            <name>bronzebangle</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Cloud>
+    <Tifa>
+        <!-- Starting Stats -->
+        <stats>
+            <str>11</str>
+            <dex>7</dex>
+            <vit>11</vit>
+            <mag>11</mag>
+            <spi>10</spi>
+            <lck>14</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>219</hp>
+        <mp>16</mp>
+        <exp>8</exp>
+        <qvals>   68,   71,   73,   74,   75,   75,   75,   76</qvals>
+        <lbvals>  14,   15,   15,   16,   17,   17,   17,   20</lbvals>
+        <lgvals>  20,   10,   10,    9,    9,   10,   10,    6</lgvals>
+        <hpbvals>200,    0, -520,-1520,-2520,-3000,-2160,  -80</hpbvals>
+        <hpgvals> 19,   38,   64,   96,  121,  131,  117,   92</hpgvals>
+        <mpbvals> 10,    0,  -28,  -58,  -98,  -98,  -26,  136</mpbvals>
+        <mpgvals> 60,   70,   84,   94,  104,  104,   92,   72</mpgvals>
+        <ranks>6,18,16,9,25</ranks>
+        <sex>Female</sex>
+        <weapon>
+            <name>leatherglove</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>bronzebangle</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Tifa>
+    <Barret>
+        <!-- Starting Stats -->
+        <stats>
+            <str>15</str>
+            <dex>5</dex>
+            <vit>13</vit>
+            <mag>11</mag>
+            <spi>9</spi>
+            <lck>13</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>222</hp>
+        <mp>15</mp>
+        <exp>10</exp>
+        <qvals>70,73,75,76,77,77,77,77</qvals>
+        <lbvals>14,15,15,15,16,17,18,20</lbvals>
+        <lgvals>15,8,8,7,6,5,4,3</lgvals>
+        <hpbvals>200,0,-760,-1840,-2840,-2840,-1160,600</hpbvals>
+        <hpgvals>22,45,82,118,143,143,115,95</hpgvals>
+        <mpbvals>10,0,-20,-60,-108,-96,0,170</mpbvals>
+        <mpgvals>57,67,77, 90,102,100, 84,63</mpgvals>
+        <ranks>5,2,18,14,29</ranks>
+        <sex>Male</sex>
+        <weapon>
+            <name>gatlinggun</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>bronzebangle</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Barret>
+    <Aeris>
+        <!-- Starting Stats -->
+        <stats>
+            <str>10</str>
+            <dex>5</dex>
+            <vit>11</vit>
+            <mag>13</mag>
+            <spi>14</spi>
+            <lck>14</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>177</hp>
+        <mp>23</mp>
+        <exp>0</exp>
+        <qvals>67,70,72,74,74,75,76,78</qvals>
+        <lbvals>14,15,15,16,16,18,17,17</lbvals>
+        <lgvals>18,8,8,8,8,5,7,7</lgvals>
+        <hpbvals>160,0,-560,-1400,-2240,-2880,-2080,-400</hpbvals>
+        <hpgvals>17,36,65,93,114,126,113,93</hpgvals>
+        <mpbvals>16,0,-30,-68,-116,-96,-6,188</mpbvals>
+        <mpgvals>70,84,99,112,124,120,105,82</mpgvals>
+        <ranks>23,20,0,1,28</ranks>
+        <sex>Female</sex>
+        <weapon>
+            <name>guardstick</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>bronzebangle</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Aeris>
+    <RedXIII>
+        <!-- Starting Stats -->
+        <stats>
+            <str>10</str>
+            <dex>10</dex>
+            <vit>12</vit>
+            <mag>11</mag>
+            <spi>10</spi>
+            <lck>14</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>221</hp>
+        <mp>17</mp>
+        <exp>12</exp>
+        <qvals>68,71,74,75,75,75,76,76</qvals>
+        <lbvals>14,15,15,16,16,18,17,17</lbvals>
+        <lgvals>18,8,8,8,8,5,7,7</lgvals>
+        <hpbvals>200,-40,-640,-1520,-2360,-2760,-1840,-80</hpbvals>
+        <hpgvals>21,45,75,105,126,134,119,97</hpgvals>
+        <mpbvals>12,-6,-28,-60,-104,-126,-16,210</mpbvals>
+        <mpgvals>58,75,86, 97,108,112, 94,66</mpgvals>
+        <ranks>12,11,13,9,23</ranks>
+        <sex>Male</sex>
+        <weapon>
+            <name>mythrilclip</name>
+            <materia>
+                <orb id="fire" type="Magic" ap="500" slot="0" />
+                <orb id="all" type="Support" ap="0" slot="1" /> 
+            </materia>
+        </weapon>
+        <armor>
+            <name>mythrilarmlet</name>
+            <materia>
+                <orb id="sense" type="Command" ap="0" slot="0" />
+            </materia>
+        </armor>
+        <accessory></accessory>
+    </RedXIII>
+    <Yuffie>
+        <!-- Starting Stats -->
+        <stats>
+            <str>1</str>
+            <dex>1</dex>
+            <vit>1</vit>
+            <mag>1</mag>
+            <spi>1</spi>
+            <lck>1</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>100</hp>
+        <mp>5</mp>
+        <exp>0</exp>
+        <qvals>69,72,75,75,76,76,77,77</qvals>
+        <lbvals>16,17,17,17,18,18,18,19</lbvals>
+        <lgvals>20,10,10,10,8,10,10,9</lgvals>
+        <hpbvals>200,0,-560,-1320,-2160,-2960,-2560,-520</hpbvals>
+        <hpgvals>18,37,64,89,111,127,120,96</hpgvals>
+        <mpbvals>10,-2,-20,-58,-110,-130,20,126</mpbvals>
+        <mpgvals>58,72,80, 93,106,110, 85,72</mpgvals>
+        <ranks>16,19,11,10,24</ranks>
+        <sex>Female</sex>
+        <weapon>4pointshuriken</weapon>
+        <weapon>
+            <name>masamune</name>
+            <materia>
+                <orb id="throw" type="Command" ap="0" slot="0" />
+            </materia>
+        </weapon>
+        <armor>
+            <name>carbonbangle</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Yuffie>
+    <CaitSith>
+        <!-- Starting Stats -->
+        <stats>
+            <str>10</str>
+            <dex>5</dex>
+            <vit>11</vit>
+            <mag>13</mag>
+            <spi>11</spi>
+            <lck>15</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>224</hp>
+        <mp>18</mp>
+        <exp>14</exp>
+        <qvals>69,72,75,75,75,76,76,76</qvals>
+        <lbvals>14,15,15,16,17,17,17,20</lbvals>
+        <lgvals>20,10,10,9,9,10,10,6</lgvals>
+        <hpbvals>200,-80,-640,-1560,-2760,-2600,-240,2000</hpbvals>
+        <hpgvals>24,51,80,111,141,138,99,72</hpgvals>
+        <mpbvals>12,-2,-20,-60,-104,-104,-20,178</mpbvals>
+        <mpgvals>60,75,83, 97,108,108, 94,70</mpgvals>
+        <ranks>19,22,6,4,28</ranks>
+        <sex>Male</sex>
+        <weapon>yellowmphone</weapon>
+        <weapon>
+            <name>masamune</name>
+            <materia>
+                <orb id="transform" type="Magic" ap="0" slot="0" />
+                <!--<orb id="manipulate" type="Command" ap="0" slot="1" />-->
+            </materia>
+        </weapon>
+        <armor>
+            <name>silverarmlet</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </CaitSith>
+    <Vincent>
+        <!-- Starting Stats -->
+        <stats>
+            <str>9</str>
+            <dex>5</dex>
+            <vit>10</vit>
+            <mag>11</mag>
+            <spi>11</spi>
+            <lck>14</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>178</hp>
+        <mp>18</mp>
+        <exp>16</exp>
+        <qvals>70,72,75,76,76,76,76,76</qvals>
+        <lbvals>14,15,15,16,17,17,17,20</lbvals>
+        <lgvals>20,10,10,9,9,10,10,6</lgvals>
+        <hpbvals>160,-80,-600,-1160,-2120,-2800,-2640,-400</hpbvals>
+        <hpgvals>18,41,67,86,110,123,120,92</hpgvals>
+        <mpbvals>12,-6,-26,-44,-60,-86,38,74</mpbvals>
+        <mpgvals>63,80,90, 96,100,105, 97,84</mpgvals>
+        <ranks>21,22,6,4,28</ranks>
+        <sex>Male</sex>
+        <weapon>quicksilver</weapon>
+        <weapon>
+            <name>masamune</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>goldarmlet</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Vincent>
+    <Cid>
+        <!-- Starting Stats -->
+        <stats>
+            <str>12</str>
+            <dex>6</dex>
+            <vit>12</vit>
+            <mag>11</mag>
+            <spi>10</spi>
+            <lck>14</lck>
+            <lvl>1</lvl>
+        </stats>
+        <hp>223</hp>
+        <mp>15</mp>
+        <exp>18</exp>
+        <qvals>69,72,75,75,76,76,77,77</qvals>
+        <lbvals>14,15,15,15,16,17,18,20</lbvals>
+        <lgvals>15,8,8,7,6,5,4,3</lgvals>
+        <hpbvals>200,-40,-640,-1640,-2360,-2560,-1720,0</hpbvals>
+        <hpgvals>23,44,73,107,125,129,115,93</hpgvals>
+        <mpbvals>10,-12,-26,-38,-66,-116,-24,140</mpbvals>
+        <mpgvals>54,75,83, 87, 94,104, 89,69</mpgvals>
+        <ranks>11,7,17,15,27</ranks>
+        <sex>Male</sex>
+        <weapon>spear</weapon>
+        <weapon>
+            <name>masamune</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>goldarmlet</name>
+            <materia/>
+        </armor>
+        <accessory></accessory>
+    </Cid>
+    <Sephiroth>
+        <!-- Starting Stats -->
+        <stats>
+            <str>85</str>
+            <vit>72</vit>
+            <dex>65</dex>
+            <mag>68</mag>
+            <spi>70</spi>
+            <lck>46</lck>
+            <lvl>50</lvl>
+        </stats>
+        <hp></hp>
+        <mp></mp>
+        <exp></exp>
+        <qvals>68,71,73,74,74,74,75,77</qvals>
+        <lbvals>15,16,16,17,17,17,18,19</lbvals>
+        <lgvals>20,10,10,8,8,8,7,6</lgvals>
+        <hpbvals>200,-40,-640,-1440,-2280,-3080,-2040,-200</hpbvals>
+        <hpgvals>19,42,72,100,121,137,120,98</hpgvals>
+        <mpbvals>12,0,-26,-58,-102,-102,-4,180</mpbvals>
+        <mpgvals>64,78,90,101,112,112, 96,73</mpgvals>
+        <ranks>0,5,1,2,23</ranks>
+        <sex>Male</sex>
+        <weapon>
+            <name>masamune</name>
+            <materia/>
+        </weapon>
+        <armor>
+            <name>goldarmlet</name>
+            <materia/>
+        </armor>
+        <accessory>touphring</accessory>
+    </Sephiroth>
+</characters>

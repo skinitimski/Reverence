@@ -2,7 +2,7 @@ using System;
 
 using Cairo;
 
-namespace Atmosphere.Reverence.State
+namespace Atmosphere.Reverence
 {
     public abstract class State : IDisposable
     {
