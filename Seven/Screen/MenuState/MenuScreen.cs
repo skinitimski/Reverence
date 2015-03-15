@@ -32,23 +32,26 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
                 
         public void Draw(Gdk.Drawable d)
         {
-            foreach (GameMenu m in _menus) m.Draw(d);
+            foreach (GameMenu m in _menus)
+            {
+                m.Draw(d);
+            }
         }
         
         public void ChangeControl(IController to)
         {
             GameMenu toMenu = to as GameMenu;
 
-            if (toMenu != null && !_menus.Contains<GameMenu>(toMenu))
-            {
-                throw new ImplementationException("Tried to switch control to a Menu not in this screen.");
-            }
-            else
-            {
+//            if (toMenu != null && !_menus.Any(x => x.Equals(toMenu)))
+//            {
+//                throw new ImplementationException("Tried to switch control to a Menu not in this screen.");
+//            }
+//            else
+//            {
                 _control.SetNotControl();
                 _control = to;
                 _control.SetAsControl();
-            }
+//            }
         }
         public void ChangeToDefaultControl()
         {

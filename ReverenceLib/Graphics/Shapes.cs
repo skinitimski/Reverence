@@ -5,10 +5,28 @@ using Gdk;
 namespace Atmosphere.Reverence.Graphics
 {
     public static class Shapes
-    {     
+    {    
+        private static bool _cursorBlinkOn;
+
+
+        public static void RenderBlinkingCursor(Cairo.Context g, double x, double y)
+        {
+            RenderBlinkingCursor(g, new Cairo.Color(1, 1, 1), x, y);
+        }
+        public static void RenderBlinkingCursor(Cairo.Context g, Cairo.Color c, double x, double y)
+        {
+            _cursorBlinkOn = !_cursorBlinkOn;
+
+            if (_cursorBlinkOn)
+            {
+                RenderCircle(g, c, 5, x, y);
+            }
+        }
+
+
         public static void RenderCursor(Cairo.Context g, double x, double y)
         {
-            RenderCircle(g, new Cairo.Color(1, 1, 1), 5, x, y);
+            RenderCursor(g, new Cairo.Color(1, 1, 1), x, y);
         }
         public static void RenderCursor(Cairo.Context g, Cairo.Color c, double x, double y)
         {

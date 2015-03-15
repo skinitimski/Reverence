@@ -57,6 +57,7 @@
     <Folder Include="Screen\MenuState\" />
     <Folder Include="Screen\MenuState\Main\" />
     <Folder Include="Data\" />
+    <Folder Include="Screen\MenuState\Phs\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -70,6 +71,11 @@
     <Compile Include="Party.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="State\InitialState.cs" />
+    <Compile Include="Screen\MenuState\Phs\Info.cs" />
+    <Compile Include="Screen\MenuState\Phs\Label.cs" />
+    <Compile Include="Screen\MenuState\Phs\List.cs" />
+    <Compile Include="Screen\MenuState\Phs\Stats.cs" />
+    <Compile Include="Screen\MenuState\Phs\Top.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

@@ -8,6 +8,7 @@ namespace Atmosphere.Reverence.Seven
     {
         private Character[] _party = new Character[3];
 
+
         
         private static Dictionary<string, Character> _characters;
 
@@ -38,6 +39,8 @@ namespace Atmosphere.Reverence.Seven
             Sephiroth = new Character(gamedata.SelectSingleNode("//Sephiroth").OuterXml);
 
             AddCharacters();
+
+            Reserves = new Character[3,3];
         }
             
 
@@ -69,6 +72,36 @@ namespace Atmosphere.Reverence.Seven
 
 
             AddCharacters();
+
+            
+            string name;
+
+            for (int k = 1; k <= 3; k++)
+            {
+                name = savegame.SelectSingleNode("//party/slot" + k.ToString()).InnerXml;
+                
+                if (!String.IsNullOrEmpty(name)) _party[k - 1] = _characters[name];
+            }
+
+            Reserves = new Character[3,3];
+            
+            int i = 0;
+            int j = 0;
+            
+            foreach (XmlNode node in savegame.SelectNodes("//party//reserve"))
+            {
+                if (node.NodeType == XmlNodeType.Comment) continue;
+                
+                Reserves[j, i] = _characters[node.InnerXml];
+                i++;
+                if (i % 3 == 0)
+                {
+                    j++;
+                    i = 0;
+                }
+            }
+            
+            Gil = Int32.Parse(savegame.SelectSingleNode("//gil").InnerXml);
         }
 
         private void AddCharacters()
@@ -104,6 +137,8 @@ namespace Atmosphere.Reverence.Seven
             get { return _party[index]; }
             set {  _party[index] = value; }
         }
+
+        public Character[,] Reserves { get; private set; }
 
         public Character Selected
         {

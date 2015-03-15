@@ -7,6 +7,7 @@ namespace Atmosphere.Reverence
     public abstract class State : IDisposable
     {
         private bool _initialized = false;
+
         
         public void Init()
         {

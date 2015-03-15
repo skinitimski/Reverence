@@ -17,7 +17,7 @@ using Atmosphere.Reverence.Seven.Screen.MenuState.Main;
 //using Atmosphere.Reverence.Seven.Screen.MenuState.Item;
 //using Atmosphere.Reverence.Seven.Screen.MenuState.Main;
 //using Atmosphere.Reverence.Seven.Screen.MenuState.Materia;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Phs;
+using Atmosphere.Reverence.Seven.Screen.MenuState.Phs;
 //using Atmosphere.Reverence.Seven.Screen.MenuState.Status;
 //using Atmosphere.Reverence.Seven.Screen.MenuState.Victory;
 
@@ -38,7 +38,12 @@ namespace Atmosphere.Reverence.Seven.State
         private MenuScreen _equipScreen;
         private MenuScreen _materiaScreen;
         private MenuScreen _statusScreen;
+
         private MenuScreen _phsScreen;
+        private Screens.Phs.List _phsList;
+        private Screens.Phs.Stats _phsStats;
+
+
         private MenuScreen _victoryScreen;
         private MenuScreen _hoardScreen;
 
@@ -54,22 +59,53 @@ namespace Atmosphere.Reverence.Seven.State
 
         public Screens.Main.Status MainStatus { get { return _mainStatus; } }
         public Screens.Main.Options MainOptions { get { return _mainOptions; } }
+        public Screens.Phs.List PhsList { get { return _phsList; } }
+        public Screens.Phs.Stats PhsStats { get { return _phsStats; } }
 
 
 
         public MenuState()
         {
+        }
+
+        
+
+        protected override void InternalInit()
+        {
+            //
+            // MAIN MENU
+            // 
+            
             _mainStatus = new Screens.Main.Status();
             _mainOptions = new Screens.Main.Options();
-
+            
             GameMenu[] mainMenus = new GameMenu[4];
             mainMenus[0] = _mainStatus;
             mainMenus[1] = _mainOptions;
             mainMenus[2] = new Screens.Main.Time();
             mainMenus[3] = new Screens.Main.Location();
             
-            
             _mainScreen = new MenuScreen(mainMenus, 1);
+            
+            
+            //
+            // PHS
+            //
+            
+            _phsList = new Screens.Phs.List();
+            _phsStats = new Screens.Phs.Stats();
+            
+            GameMenu[] phsMenus = new GameMenu[5];
+            phsMenus[0] = new Screens.Phs.Top();
+            phsMenus[1] = _phsStats;
+            phsMenus[2] = _phsList;
+            phsMenus[3] = new Screens.Phs.Info();
+            phsMenus[4] = new Screens.Phs.Label();
+            
+            _phsScreen = new MenuScreen(phsMenus, 1);
+            
+            
+            
             
             //            ItemScreen = new MenuScreen(5, Item.List.Instance);
             //            ItemScreen._menus[0] = Item.Top.Instance;
@@ -101,12 +137,6 @@ namespace Atmosphere.Reverence.Seven.State
             //            StatusScreen._menus[2] = Status.Three.Instance;
             //            StatusScreen._menus[3] = Status.Label.Instance;
             //            
-            //            PhsScreen = new MenuScreen(5, Phs.Stats.Instance);
-            //            PhsScreen._menus[0] = Phs.Top.Instance;
-            //            PhsScreen._menus[1] = Phs.Stats.Instance;
-            //            PhsScreen._menus[2] = Phs.List.Instance;
-            //            PhsScreen._menus[3] = Phs.Info.Instance;
-            //            PhsScreen._menus[4] = Phs.Label.Instance;
             //
             //            VictoryScreen = new MenuScreen(6, Victory.Label.Instance);
             //            VictoryScreen._menus[0] = Victory.Label.Instance;
@@ -124,12 +154,7 @@ namespace Atmosphere.Reverence.Seven.State
             //            HoardScreen._menus[4] = Hoard.ItemRight.Instance;
             
             //Menu.SetSelection();
-        }
-
-        
-
-        protected override void InternalInit()
-        {
+            
             _layer = MainScreen;
             _layer.Control.SetAsControl();
         }

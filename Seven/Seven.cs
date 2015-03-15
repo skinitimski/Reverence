@@ -48,9 +48,10 @@ namespace Atmosphere.Reverence.Seven
             _party = new Party(_saveGame);
 
             int time = Int32.Parse(_saveGame.SelectSingleNode("//time").InnerText);
-            _clock = new Clock(time); // depends on Globals ctor
+            _clock = new Clock(Clock.TICKS_PER_MS, time, true);
 
             _menuState = new MenuState();
+            _menuState.Init();
 
             SetState(_menuState);
         }

@@ -17,6 +17,8 @@ namespace Atmosphere.Reverence.Seven
     {
         public const int PROFILE_WIDTH = 120;
         public const int PROFILE_HEIGHT = 136;
+        public const int PROFILE_WIDTH_SMALL = 89;
+        public const int PROFILE_HEIGHT_SMALL = 101;
 
         #region Member Data
         

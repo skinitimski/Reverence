@@ -344,10 +344,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             {
                 if (option_hold != -1)
                 {
-                    Shapes.RenderCursor(g, new Color(.8, .8, .8), X + cx, Y + cy_h);
+                    Shapes.RenderBlinkingCursor(g, new Color(.8, .8, .8), X + cx, Y + cy_h);
                 }
 
-                Shapes.RenderCursor(g, X + cx, Y + cy);
+                if (option != option_hold)
+                {
+                    Shapes.RenderCursor(g, X + cx, Y + cy);
+                }
             }
             
             ((IDisposable)g.Target).Dispose();
