@@ -75,6 +75,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Sex.cs" />
     <Compile Include="Exceptions\SaveStateException.cs" />
+    <Compile Include="Exceptions\GameDataException.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\savegame.xml">

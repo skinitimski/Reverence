@@ -16,7 +16,6 @@ namespace Atmosphere.Reverence
     {
         private Window _window;
         private Gdk.Pixmap _pixmap;
-        private State _state;
         private readonly Cairo.Color _gridColor;
         private int _anime;
         private bool _isDrawing;
@@ -31,7 +30,7 @@ namespace Atmosphere.Reverence
         protected Game()
         {
             _gridColor = Config.Instance.Grid;
-            _state = GetInitialState();
+            State = GetInitialState();
         }
 
 
@@ -102,7 +101,7 @@ namespace Atmosphere.Reverence
                     }
 #endif
                     
-                    _state.Draw(_pixmap, w, h);
+                    State.Draw(_pixmap, w, h);
                 }
                 
                 lock (_window)
@@ -170,49 +169,49 @@ namespace Atmosphere.Reverence
                     break;
                 case Gdk.Key.s:
                 case Gdk.Key.S:
-                    _state.KeyPressHandle(Key.Square);
+                    State.KeyPressHandle(Key.Square);
                     break;
                 case Gdk.Key.x:
                 case Gdk.Key.X:
-                    _state.KeyPressHandle(Key.X);
+                    State.KeyPressHandle(Key.X);
                     break;
                 case Gdk.Key.t:
                 case Gdk.Key.T:
-                    _state.KeyPressHandle(Key.Triangle);
+                    State.KeyPressHandle(Key.Triangle);
                     break;
                 case Gdk.Key.c:
                 case Gdk.Key.C:
-                    _state.KeyPressHandle(Key.Circle);
+                    State.KeyPressHandle(Key.Circle);
                     break;
                 case Gdk.Key.Up:
-                    _state.KeyPressHandle(Key.Up);
+                    State.KeyPressHandle(Key.Up);
                     break;
                 case Gdk.Key.Down:
-                    _state.KeyPressHandle(Key.Down);
+                    State.KeyPressHandle(Key.Down);
                     break;
                 case Gdk.Key.Right:
-                    _state.KeyPressHandle(Key.Right);
+                    State.KeyPressHandle(Key.Right);
                     break;
                 case Gdk.Key.Left:
-                    _state.KeyPressHandle(Key.Left);
+                    State.KeyPressHandle(Key.Left);
                     break;
                 case Gdk.Key.Key_1:
-                    _state.KeyPressHandle(Key.L1);
+                    State.KeyPressHandle(Key.L1);
                     break;
                 case Gdk.Key.Key_2:
-                    _state.KeyPressHandle(Key.L2);
+                    State.KeyPressHandle(Key.L2);
                     break;
                 case Gdk.Key.Key_3:
-                    _state.KeyPressHandle(Key.R1);
+                    State.KeyPressHandle(Key.R1);
                     break;
                 case Gdk.Key.Key_4:
-                    _state.KeyPressHandle(Key.R2);
+                    State.KeyPressHandle(Key.R2);
                     break;
                 case Gdk.Key.comma:
-                    _state.KeyPressHandle(Key.Select);
+                    State.KeyPressHandle(Key.Select);
                     break;
                 case Gdk.Key.period:
-                    _state.KeyPressHandle(Key.Start);
+                    State.KeyPressHandle(Key.Start);
                     break;
                 default:
                     break;
@@ -237,49 +236,49 @@ namespace Atmosphere.Reverence
                     break;
                 case Gdk.Key.s:
                 case Gdk.Key.S:
-                    _state.KeyReleaseHandle(Key.Square);
+                    State.KeyReleaseHandle(Key.Square);
                     break;
                 case Gdk.Key.x:
                 case Gdk.Key.X:
-                    _state.KeyReleaseHandle(Key.X);
+                    State.KeyReleaseHandle(Key.X);
                     break;
                 case Gdk.Key.t:
                 case Gdk.Key.T:
-                    _state.KeyReleaseHandle(Key.Triangle);
+                    State.KeyReleaseHandle(Key.Triangle);
                     break;
                 case Gdk.Key.c:
                 case Gdk.Key.C:
-                    _state.KeyReleaseHandle(Key.Circle);
+                    State.KeyReleaseHandle(Key.Circle);
                     break;
                 case Gdk.Key.Up:
-                    _state.KeyReleaseHandle(Key.Up);
+                    State.KeyReleaseHandle(Key.Up);
                     break;
                 case Gdk.Key.Down:
-                    _state.KeyReleaseHandle(Key.Down);
+                    State.KeyReleaseHandle(Key.Down);
                     break;
                 case Gdk.Key.Right:
-                    _state.KeyReleaseHandle(Key.Right);
+                    State.KeyReleaseHandle(Key.Right);
                     break;
                 case Gdk.Key.Left:
-                    _state.KeyReleaseHandle(Key.Left);
+                    State.KeyReleaseHandle(Key.Left);
                     break;
                 case Gdk.Key.Key_1:
-                    _state.KeyReleaseHandle(Key.L1);
+                    State.KeyReleaseHandle(Key.L1);
                     break;
                 case Gdk.Key.Key_2:
-                    _state.KeyReleaseHandle(Key.L2);
+                    State.KeyReleaseHandle(Key.L2);
                     break;
                 case Gdk.Key.Key_3:
-                    _state.KeyReleaseHandle(Key.R1);
+                    State.KeyReleaseHandle(Key.R1);
                     break;
                 case Gdk.Key.Key_4:
-                    _state.KeyReleaseHandle(Key.R2);
+                    State.KeyReleaseHandle(Key.R2);
                     break;
                 case Gdk.Key.comma:
-                    _state.KeyReleaseHandle(Key.Select);
+                    State.KeyReleaseHandle(Key.Select);
                     break;
                 case Gdk.Key.period:
-                    _state.KeyReleaseHandle(Key.Start);
+                    State.KeyReleaseHandle(Key.Start);
                     break;
                 default:
                     break;
@@ -309,8 +308,8 @@ namespace Atmosphere.Reverence
         /// </param>
         protected State SetState(State newState)
         {
-            State previous = _state;
-            _state = newState;
+            State previous = State;
+            State = newState;
             return previous;
         }
 
@@ -343,7 +342,7 @@ namespace Atmosphere.Reverence
             {
                 try
                 {
-                    _state.RunIteration();
+                    State.RunIteration();
                 }
                 catch (Exception e)
                 {
@@ -394,5 +393,8 @@ namespace Atmosphere.Reverence
         {
             game.Go();
         }
+
+        
+        protected State State { get; private set; }
     }
 }

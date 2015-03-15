@@ -3,6 +3,9 @@ using System.Xml;
 
 using Atmosphere.Reverence;
 using Atmosphere.Reverence.Time;
+using GameState = Atmosphere.Reverence.State;
+using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven
@@ -12,14 +15,8 @@ namespace Atmosphere.Reverence.Seven
         private Party _party;
         private MenuState _menuState;
         private Clock _clock;
-
         private XmlDocument _saveGame;
-        
         public static readonly Seven Instance;
-
-
-
-
 
         static Seven()
         {
@@ -30,11 +27,14 @@ namespace Atmosphere.Reverence.Seven
             : base()
         {
 
+            Weapon.LoadWeapons();
+            Armor.LoadArmor();
+            Accessory.LoadAccessories();
+            Item.LoadItems();
+            MateriaBase.LoadMateria();
+            Spell.LoadSpells();
 
         }
-
-
-
 
         protected override Atmosphere.Reverence.State GetInitialState()
         {
@@ -56,7 +56,7 @@ namespace Atmosphere.Reverence.Seven
             SetState(_menuState);
         }
 
-
+        internal static GameState CurrentState { get { return Instance.State; } }
 
         internal static MenuState MenuState { get { return Instance._menuState; } }
 

@@ -7,7 +7,7 @@ using GameMenu = Atmosphere.Reverence.Menu.Menu;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState
 {
-    public class MenuScreen
+    public sealed class MenuScreen
     {
         private GameMenu[] _menus;
         private IController _defaultControl;

@@ -1,0 +1,2087 @@
+<!-- ********* WEAPONS ********* -->
+<weapons>
+    <!-- Cloud's Weapons -->
+    <weapon>
+        <name>Buster Sword</name>
+        <desc>Initial equipping</desc>
+        <atk>18</atk>
+        <atkp>96</atkp>
+        <mag>2</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Mythril Saber</name>
+        <desc></desc>
+        <atk>23</atk>
+        <atkp>98</atkp>
+        <mag>4</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Hardedge</name>
+        <desc></desc>
+        <atk>32</atk>
+        <atkp>98</atkp>
+        <mag>6</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Butterfly Edge</name>
+        <desc></desc>
+        <atk>39</atk>
+        <atkp>100</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Enhance Sword</name>
+        <desc></desc>
+        <atk>43</atk>
+        <atkp>107</atkp>
+        <mag>16</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Organics</name>
+        <desc></desc>
+        <atk>62</atk>
+        <atkp>103</atkp>
+        <mag>15</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Crystal Sword</name>
+        <desc></desc>
+        <atk>76</atk>
+        <atkp>105</atkp>
+        <mag>19</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Force Stealer</name>
+        <desc></desc>
+        <atk>36</atk>
+        <atkp>100</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Rune Blade</name>
+        <desc></desc>
+        <atk>40</atk>
+        <atkp>109</atkp>
+        <mag>9</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Murasame</name>
+        <desc></desc>
+        <atk>51</atk>
+        <atkp>100</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Nail Bat</name>
+        <desc></desc>
+        <atk>70</atk>
+        <atkp>100</atkp>
+        <mag>0</mag>
+        <critp>4</critp>
+        <element>Cut</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Yoshiyuki</name>
+        <desc></desc>
+        <atk>56</atk>
+        <atkp>100</atkp>
+        <mag>9</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>2</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Apocalypse</name>
+        <desc>Spirit +16</desc>
+        <atk>88</atk>
+        <atkp>110</atkp>
+        <mag>43</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Triple</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 16 end</attach>
+        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 16 end</detach>
+    </weapon>
+    <weapon>
+        <name>Heaven's Cloud</name>
+        <desc></desc>
+        <atk>93</atk>
+        <atkp>100</atkp>
+        <mag>31</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Ragnarok</name>
+        <desc>Spirit +35</desc>
+        <atk>97</atk>
+        <atkp>105</atkp>
+        <mag>43</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 35 end</attach>
+        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 35 end</detach>
+    </weapon>
+    <weapon>
+        <name>Ultima Weapon</name>
+        <desc>Spirit +24</desc>
+        <atk>100</atk>
+        <atkp>110</atkp>
+        <mag>51</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Cloud</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 24 end</attach>
+        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 24 end</detach>
+    </weapon>
+
+    
+    
+    <!-- Tifa's Weapons -->
+    <weapon>
+        <name>Leather Glove</name>
+        <desc>Initial equipping</desc>
+        <atk>13</atk>
+        <atkp>99</atkp>
+        <mag>0</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>1</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Metal Knuckle</name>
+        <desc></desc>
+        <atk>18</atk>
+        <atkp>102</atkp>
+        <mag>1</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Mythril Claw</name>
+        <desc></desc>
+        <atk>24</atk>
+        <atkp>106</atkp>
+        <mag>3</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Grand Glove</name>
+        <desc></desc>
+        <atk>31</atk>
+        <atkp>110</atkp>
+        <mag>6</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Tiger Fang</name>
+        <desc></desc>
+        <atk>38</atk>
+        <atkp>110</atkp>
+        <mag>8</mag>
+        <critp>2</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Diamond Knuckle</name>
+        <desc></desc>
+        <atk>51</atk>
+        <atkp>112</atkp>
+        <mag>10</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Dragon Claw</name>
+        <desc></desc>
+        <atk>62</atk>
+        <atkp>114</atkp>
+        <mag>13</mag>
+        <critp>2</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Crystal Glove</name>
+        <desc></desc>
+        <atk>75</atk>
+        <atkp>115</atkp>
+        <mag>16</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Motor Drive</name>
+        <desc></desc>
+        <atk>27</atk>
+        <atkp>106</atkp>
+        <mag>6</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Platinum Fist</name>
+        <desc></desc>
+        <atk>30</atk>
+        <atkp>108</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Kaiser Knuckle</name>
+        <desc></desc>
+        <atk>44</atk>
+        <atkp>110</atkp>
+        <mag>13</mag>
+        <critp>1</critp>
+        <element>Hit</element>
+        <slots>7</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Work Glove</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>114</atkp>
+        <mag>0</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Powersoul</name>
+        <desc></desc>
+        <atk>28</atk>
+        <atkp>106</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Master Fist</name>
+        <desc></desc>
+        <atk>38</atk>
+        <atkp>108</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>6</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>God's Hand</name>
+        <desc></desc>
+        <atk>86</atk>
+        <atkp>255</atkp>
+        <mag>34</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Premium Heart</name>
+        <desc></desc>
+        <atk>99</atk>
+        <atkp>112</atkp>
+        <mag>32</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Tifa</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+
+
+
+    <!-- Barret's Weapons -->
+    <weapon>
+        <name>Gatling Gun</name>
+        <desc>Initial equipping</desc>
+        <atk>14</atk>
+        <atkp>97</atkp>
+        <mag>0</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>1</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Assault Gun</name>
+        <desc></desc>
+        <atk>17</atk>
+        <atkp>98</atkp>
+        <mag>1</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Cannon Ball</name>
+        <desc></desc>
+        <atk>23</atk>
+        <atkp>98</atkp>
+        <mag>2</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Atomic Scissors</name>
+        <desc></desc>
+        <atk>32</atk>
+        <atkp>99</atkp>
+        <mag>4</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Heavy Vulcan</name>
+        <desc></desc>
+        <atk>39</atk>
+        <atkp>100</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Chainsaw</name>
+        <desc></desc>
+        <atk>52</atk>
+        <atkp>100</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Microlaser</name>
+        <desc></desc>
+        <atk>63</atk>
+        <atkp>101</atkp>
+        <mag>13</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>A*M Cannon</name>
+        <desc></desc>
+        <atk>77</atk>
+        <atkp>103</atkp>
+        <mag>16</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>W Machine Gun</name>
+        <desc></desc>
+        <atk>30</atk>
+        <atkp>100</atkp>
+        <mag>3</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Drill Arm</name>
+        <desc></desc>
+        <atk>37</atk>
+        <atkp>97</atkp>
+        <mag>0</mag>
+        <critp>3</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Solid Bazooka</name>
+        <desc></desc>
+        <atk>61</atk>
+        <atkp>100</atkp>
+        <mag>15</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Rocket Punch</name>
+        <desc></desc>
+        <atk>62</atk>
+        <atkp>100</atkp>
+        <mag>0</mag>
+        <critp>4</critp>
+        <element>Hit</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Enemy Launcher</name>
+        <desc></desc>
+        <atk>35</atk>
+        <atkp>100</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>5</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Pile Banger</name>
+        <desc></desc>
+        <atk>90</atk>
+        <atkp>80</atkp>
+        <mag>0</mag>
+        <critp>3</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Max Ray</name>
+        <desc></desc>
+        <atk>97</atk>
+        <atkp>98</atkp>
+        <mag>30</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Missing Score</name>
+        <desc></desc>
+        <atk>98</atk>
+        <atkp>108</atkp>
+        <mag>49</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Barret</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    
+    
+    
+    <!-- Aeris's Weapons -->
+    <weapon>
+        <name>Guard Stick</name>
+        <desc>Initial equipping</desc>
+        <atk>12</atk>
+        <atkp>99</atkp>
+        <mag>2</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>1</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Mythril Rod</name>
+        <desc></desc>
+        <atk>16</atk>
+        <atkp>100</atkp>
+        <mag>3</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Full Metal Staff</name>
+        <desc></desc>
+        <atk>22</atk>
+        <atkp>100</atkp>
+        <mag>4</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Striking Staff</name>
+        <desc></desc>
+        <atk>32</atk>
+        <atkp>100</atkp>
+        <mag>7</mag>
+        <critp>2</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Prism Staff</name>
+        <desc></desc>
+        <atk>40</atk>
+        <atkp>105</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Aurora Rod</name>
+        <desc></desc>
+        <atk>51</atk>
+        <atkp>110</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Wizard Staff</name>
+        <desc></desc>
+        <atk>28</atk>
+        <atkp>100</atkp>
+        <mag>6</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Wizer Staff</name>
+        <desc></desc>
+        <atk>33</atk>
+        <atkp>100</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Fairy Tale</name>
+        <desc></desc>
+        <atk>37</atk>
+        <atkp>103</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>7</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Umbrella</name>
+        <desc>Vitality +20</desc>
+        <atk>58</atk>
+        <atkp>118</atkp>
+        <mag>10</mag>
+        <critp>5</critp>
+        <element>Hit</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 20 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 20 end</detach>
+    </weapon>
+    <weapon>
+        <name>Princess Guard</name>
+        <desc>Vitality +12, Spirit +20</desc>
+        <atk>52</atk>
+        <atkp>111</atkp>
+        <mag>22</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>7</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Aeris</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 12; c.SpiritBonus = c.SpiritBonus + 20 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 12; c.SpiritBonus = c.SpiritBonus - 20 end</detach>
+    </weapon>
+
+    
+
+    <!-- Red XIII's Weapons-->
+    <weapon>
+        <name>Mythril Clip</name>
+        <desc></desc>
+        <atk>24</atk>
+        <atkp>100</atkp>
+        <mag>6</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Diamond Pin</name>
+        <desc></desc>
+        <atk>33</atk>
+        <atkp>102</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Silver Barrette</name>
+        <desc></desc>
+        <atk>40</atk>
+        <atkp>110</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Gold Barrette</name>
+        <desc></desc>
+        <atk>50</atk>
+        <atkp>104</atkp>
+        <mag>13</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Adaman Clip</name>
+        <desc></desc>
+        <atk>60</atk>
+        <atkp>106</atkp>
+        <mag>15</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Crystal Comb</name>
+        <desc></desc>
+        <atk>76</atk>
+        <atkp>108</atkp>
+        <mag>20</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Magic Comb</name>
+        <desc></desc>
+        <atk>37</atk>
+        <atkp>100</atkp>
+        <mag>4</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Plus Barrette</name>
+        <desc></desc>
+        <atk>39</atk>
+        <atkp>104</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Centclip</name>
+        <desc></desc>
+        <atk>58</atk>
+        <atkp>108</atkp>
+        <mag>22</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>8</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Hairpin</name>
+        <desc></desc>
+        <atk>57</atk>
+        <atkp>120</atkp>
+        <mag>15</mag>
+        <critp>5</critp>
+        <element>Shoot</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>RedXIII</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Seraph Comb</name>
+        <desc>Momento from Seto</desc>
+        <atk>68</atk>
+        <atkp>110</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Behemoth Horn</name>
+        <desc>Vitality +35, Spirit +18</desc>
+        <atk>91</atk>
+        <atkp>75</atkp>
+        <mag>26</mag>
+        <critp>0</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 35; c.SpiritBonus = c.SpiritBonus + 18 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 35; c.SpiritBonus = c.SpiritBonus - 18 end</detach>
+    </weapon>
+    <weapon>
+        <name>Spring Gun Clip</name>
+        <desc></desc>
+        <atk>87</atk>
+        <atkp>100</atkp>
+        <mag>55</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Limited Moon</name>
+        <desc></desc>
+        <atk>93</atk>
+        <atkp>114</atkp>
+        <mag>31</mag>
+        <critp>0</critp>
+        <element>Hit</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>RedXIII</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    
+    
+    
+    <!-- Yuffie's Weapons-->
+    <weapon>
+        <name>4-Point Shuriken</name>
+        <desc></desc>
+        <atk>23</atk>
+        <atkp>100</atkp>
+        <mag>6</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Boomerang</name>
+        <desc></desc>
+        <atk>30</atk>
+        <atkp>101</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Pinwheel</name>
+        <desc></desc>
+        <atk>37</atk>
+        <atkp>104</atkp>
+        <mag>9</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Razor Ring</name>
+        <desc></desc>
+        <atk>49</atk>
+        <atkp>105</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Hawkeye</name>
+        <desc></desc>
+        <atk>61</atk>
+        <atkp>107</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Crystal Cross</name>
+        <desc></desc>
+        <atk>74</atk>
+        <atkp>110</atkp>
+        <mag>18</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Wind Slash</name>
+        <desc></desc>
+        <atk>30</atk>
+        <atkp>103</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Twin Viper</name>
+        <desc></desc>
+        <atk>36</atk>
+        <atkp>108</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Spiral Shuriken</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>110</atkp>
+        <mag>18</mag>
+        <critp>2</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Superball</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>120</atkp>
+        <mag>10</mag>
+        <critp>4</critp>
+        <element>Shoot</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Magic Shuriken</name>
+        <desc>Dexterity +10</desc>
+        <atk>64</atk>
+        <atkp>113</atkp>
+        <mag>0</mag>
+        <critp>2</critp>
+        <element>Shoot</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) c.DexterityBonus = c.DexterityBonus + 10 end</attach>
+        <detach>function (c) c.DexterityBonus = c.DexterityBonus - 10 end</detach>
+    </weapon>
+    <weapon>
+        <name>Rising Sun</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>108</atkp>
+        <mag>16</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Double</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Oritsuru</name>
+        <desc></desc>
+        <atk>90</atk>
+        <atkp>116</atkp>
+        <mag>38</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Conformer</name>
+        <desc></desc>
+        <atk>96</atk>
+        <atkp>112</atkp>
+        <mag>42</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Yuffie</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    
+  
+    
+    <!-- Cait Sith's Weapons -->
+    <weapon>
+        <name>Yellow M-Phone</name>
+        <desc></desc>
+        <atk>36</atk>
+        <atkp>100</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Green M-Phone</name>
+        <desc></desc>
+        <atk>41</atk>
+        <atkp>100</atkp>
+        <mag>9</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Blue M-Phone</name>
+        <desc></desc>
+        <atk>48</atk>
+        <atkp>100</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Red M-Phone</name>
+        <desc></desc>
+        <atk>60</atk>
+        <atkp>100</atkp>
+        <mag>15</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Crystal M-Phone</name>
+        <desc></desc>
+        <atk>74</atk>
+        <atkp>100</atkp>
+        <mag>20</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>White M-Phone</name>
+        <desc></desc>
+        <atk>35</atk>
+        <atkp>102</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>3</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Black M-Phone</name>
+        <desc></desc>
+        <atk>34</atk>
+        <atkp>104</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Silver M-Phone</name>
+        <desc></desc>
+        <atk>28</atk>
+        <atkp>106</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>8</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Trumpet Shell</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>118</atkp>
+        <mag>2</mag>
+        <critp>4</critp>
+        <element>Shout</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Gold M-Phone</name>
+        <desc></desc>
+        <atk>58</atk>
+        <atkp>103</atkp>
+        <mag>28</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Battle Trumpet</name>
+        <desc></desc>
+        <atk>95</atk>
+        <atkp>95</atkp>
+        <mag>0</mag>
+        <critp>2</critp>
+        <element>Shout</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Nothing</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Starlight Phone</name>
+        <desc>Vitality +30</desc>
+        <atk>88</atk>
+        <atkp>102</atkp>
+        <mag>31</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 30 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 30 end</detach>
+    </weapon>
+    <weapon>
+        <name>HP Shout</name>
+        <desc></desc>
+        <atk>95</atk>
+        <atkp>110</atkp>
+        <mag>44</mag>
+        <critp>0</critp>
+        <element>Shout</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>CaitSith</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    
+    
+    
+    <!-- Vincent's Weapons -->
+    <weapon>
+        <name>Quicksilver</name>
+        <desc></desc>
+        <atk>38</atk>
+        <atkp>110</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Shotgun</name>
+        <desc></desc>
+        <atk>48</atk>
+        <atkp>112</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Shortbarrel</name>
+        <desc></desc>
+        <atk>51</atk>
+        <atkp>118</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Lariat</name>
+        <desc></desc>
+        <atk>64</atk>
+        <atkp>120</atkp>
+        <mag>16</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Winchester</name>
+        <desc></desc>
+        <atk>73</atk>
+        <atkp>120</atkp>
+        <mag>18</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Peacemaker</name>
+        <desc></desc>
+        <atk>38</atk>
+        <atkp>118</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Double</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Buntline</name>
+        <desc></desc>
+        <atk>48</atk>
+        <atkp>124</atkp>
+        <mag>18</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Double</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Long Barrel R</name>
+        <desc></desc>
+        <atk>66</atk>
+        <atkp>255</atkp>
+        <mag>14</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Silver Rifle</name>
+        <desc></desc>
+        <atk>62</atk>
+        <atkp>120</atkp>
+        <mag>0</mag>
+        <critp>4</critp>
+        <element>Shoot</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Sniper CR</name>
+        <desc></desc>
+        <atk>42</atk>
+        <atkp>255</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Supershot ST</name>
+        <desc></desc>
+        <atk>97</atk>
+        <atkp>120</atkp>
+        <mag>52</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Nothing</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Outsider</name>
+        <desc></desc>
+        <atk>80</atk>
+        <atkp>120</atkp>
+        <mag>48</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Death Penalty</name>
+        <desc></desc>
+        <atk>99</atk>
+        <atkp>115</atkp>
+        <mag>34</mag>
+        <critp>0</critp>
+        <element>Shoot</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Vincent</type>
+        <longrange>true</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    
+    
+    
+    <!-- Cid's Weapons -->
+    <weapon>
+        <name>Spear</name>
+        <desc></desc>
+        <atk>44</atk>
+        <atkp>97</atkp>
+        <mag>8</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Slash Lance</name>
+        <desc></desc>
+        <atk>56</atk>
+        <atkp>98</atkp>
+        <mag>10</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Trident</name>
+        <desc></desc>
+        <atk>60</atk>
+        <atkp>105</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Mast Ax</name>
+        <desc></desc>
+        <atk>64</atk>
+        <atkp>99</atkp>
+        <mag>15</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Partisan</name>
+        <desc></desc>
+        <atk>78</atk>
+        <atkp>100</atkp>
+        <mag>17</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Viper Halberd</name>
+        <desc></desc>
+        <atk>58</atk>
+        <atkp>102</atkp>
+        <mag>13</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Javelin</name>
+        <desc></desc>
+        <atk>62</atk>
+        <atkp>104</atkp>
+        <mag>12</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Double</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Grow Lance</name>
+        <desc></desc>
+        <atk>78</atk>
+        <atkp>102</atkp>
+        <mag>31</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Mop</name>
+        <desc></desc>
+        <atk>68</atk>
+        <atkp>118</atkp>
+        <mag>3</mag>
+        <critp>5</critp>
+        <element>Punch</element>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Dragoon Lance</name>
+        <desc></desc>
+        <atk>66</atk>
+        <atkp>100</atkp>
+        <mag>7</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>8</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Scimitar</name>
+        <desc></desc>
+        <atk>86</atk>
+        <atkp>102</atkp>
+        <mag>20</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Triple</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Flayer</name>
+        <desc></desc>
+        <atk>100</atk>
+        <atkp>100</atkp>
+        <mag>20</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>6</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+    <weapon>
+        <name>Spirit Lance</name>
+        <desc>Spirit +20</desc>
+        <atk>92</atk>
+        <atkp>112</atkp>
+        <mag>43</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 20 end</attach>
+        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 20 end</detach>
+    </weapon>
+    <weapon>
+        <name>Venus Gospel</name>
+        <desc></desc>
+        <atk>97</atk>
+        <atkp>103</atkp>
+        <mag>42</mag>
+        <critp>0</critp>
+        <element>Punch</element>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Nothing</growth>
+        <type>Cid</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+
+
+    <weapon>
+        <name>Masamune</name>
+        <desc>Can only be used by Sephiroth</desc>
+        <atk>99</atk>
+        <atkp>255</atkp>
+        <mag>0</mag>
+        <critp>255</critp>
+        <element>Cut</element>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Nothing</growth>
+        <type>Sephiroth</type>
+        <longrange>false</longrange>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </weapon>
+
+</weapons>

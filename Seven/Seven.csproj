@@ -53,16 +53,18 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="State\" />
-    <Folder Include="Item\" />
     <Folder Include="Screen\MenuState\" />
     <Folder Include="Screen\MenuState\Main\" />
     <Folder Include="Data\" />
     <Folder Include="Screen\MenuState\Phs\" />
+    <Folder Include="Screen\MenuState\Status\" />
+    <Folder Include="Battle\" />
+    <Folder Include="Asset\" />
+    <Folder Include="Asset\Materia\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
     <Compile Include="Screen\MenuState\MenuScreen.cs" />
-    <Compile Include="Item\ItemType.cs" />
     <Compile Include="Screen\MenuState\Main\Location.cs" />
     <Compile Include="Screen\MenuState\Main\Options.cs" />
     <Compile Include="Screen\MenuState\Main\Status.cs" />
@@ -76,6 +78,33 @@
     <Compile Include="Screen\MenuState\Phs\List.cs" />
     <Compile Include="Screen\MenuState\Phs\Stats.cs" />
     <Compile Include="Screen\MenuState\Phs\Top.cs" />
+    <Compile Include="Screen\MenuState\Status\Label.cs" />
+    <Compile Include="Screen\MenuState\Status\One.cs" />
+    <Compile Include="Screen\MenuState\Status\Three.cs" />
+    <Compile Include="Screen\MenuState\Status\Two.cs" />
+    <Compile Include="Battle\Ally.cs" />
+    <Compile Include="Asset\Weapon.cs" />
+    <Compile Include="Asset\Armor.cs" />
+    <Compile Include="Asset\Accessory.cs" />
+    <Compile Include="Asset\WeaponType.cs" />
+    <Compile Include="Asset\Element.cs" />
+    <Compile Include="Asset\IItem.cs" />
+    <Compile Include="Asset\ItemType.cs" />
+    <Compile Include="Asset\Growth.cs" />
+    <Compile Include="Asset\Materia\MateriaBase.cs" />
+    <Compile Include="Asset\Materia\MateriaType.cs" />
+    <Compile Include="Materiatory.cs" />
+    <Compile Include="Inventory.cs" />
+    <Compile Include="Asset\ISlotHolder.cs" />
+    <Compile Include="Asset\Materia\CommandMateria.cs" />
+    <Compile Include="Asset\Materia\IndependentMateria.cs" />
+    <Compile Include="Asset\Materia\MagicMateria.cs" />
+    <Compile Include="Asset\Materia\SummonMateria.cs" />
+    <Compile Include="Asset\Materia\SupportMateria.cs" />
+    <Compile Include="Asset\Materia\EnemySkillMateria.cs" />
+    <Compile Include="Asset\Spell.cs" />
+    <Compile Include="Asset\Item.cs" />
+    <Compile Include="Asset\ItemTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
@@ -158,6 +187,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\gradient.table">
       <LogicalName>data.gradient.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\accessories.xml">
+      <LogicalName>data.accessories.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\armour.xml">
+      <LogicalName>data.armour.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\items.xml">
+      <LogicalName>data.items.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\materia.xml">
+      <LogicalName>data.materia.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.xml">
+      <LogicalName>data.spells.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\weapons.xml">
+      <LogicalName>data.weapons.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

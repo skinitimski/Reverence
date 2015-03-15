@@ -1,0 +1,107 @@
+<!-- ********* ACCESSORIES ********* -->
+<accessories>
+    <accessory>
+        <name>Power Wrist</name>
+        <desc>Strength +10</desc>
+        <attach>function (c) c.StrengthBonus = c.StrengthBonus + 10 end</attach>
+        <detach>function (c) c.StrengthBonus = c.StrengthBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Protect Vest</name>
+        <desc>Vitality +10</desc>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 10 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Choco Feather</name>
+        <desc>Dexterity +10</desc>
+        <attach>function (c) c.DexterityBonus = c.DexterityBonus + 10 end</attach>
+        <detach>function (c) c.DexterityBonus = c.DexterityBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Earring</name>
+        <desc>Magic +10</desc>
+        <attach>function (c) c.MagicBonus = c.MagicBonus + 10 end</attach>
+        <detach>function (c) c.MagicBonus = c.MagicBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Talisman</name>
+        <desc>Spirit +10</desc>
+        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 10 end</attach>
+        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Amulet</name>
+        <desc>Luck +10</desc>
+        <attach>function (c) c.LuckBonus = c.LuckBonus + 10 end</attach>
+        <detach>function (c) c.LuckBonus = c.LuckBonus - 10 end</detach>
+    </accessory>
+    <accessory>
+        <name>Championship Belt</name>
+        <desc>Strength&amp;Vitality +30</desc>
+        <attach>function (c) c.StrengthBonus = c.StrengthBonus + 30; c.VitalityBonus = c.VitalityBonus + 30 end</attach>
+        <detach>function (c) c.StrengthBonus = c.StrengthBonus - 30; c.VitalityBonus = c.VitalityBonus - 30 end</detach>
+    </accessory>
+    <accessory>
+        <name>Circlet</name>
+        <desc>Magic&amp;Spirit +30</desc>
+        <attach>function (c) c.MagicBonus = c.MagicBonus + 30; c.SpiritBonus = c.SpiritBonus + 30 end</attach>
+        <detach>function (c) c.MagicBonus = c.MagicBonus - 30; c.SpiritBonus = c.SpiritBonus - 30 end</detach>
+    </accessory>
+    <accessory>
+        <name>Touph Ring</name>
+        <desc>Vitality&amp;Spirit +50</desc>
+        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 50; c.SpiritBonus = c.SpiritBonus + 50 end</attach>
+        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 50; c.SpiritBonus = c.SpiritBonus - 50 end</detach>
+    </accessory>
+    <accessory>
+        <name>Fire Ring</name>
+        <desc>Nullifies [Fire] attacks</desc>
+        <attach>function (c) c:AddVoid(Element.Fire) end</attach>
+        <detach>function (c) c:RemoveVoid(Element.Fire) end</detach>
+    </accessory>
+    <accessory>
+        <name>Ice Ring</name>
+        <desc>Nullifies [Ice] attacks</desc>
+        <attach>function (c) c:AddVoid(Element.Ice) end</attach>
+        <detach>function (c) c:RemoveVoid(Element.Ice) end</detach>
+    </accessory>
+    <accessory>
+        <name>Bolt Ring</name>
+        <desc>Nullifies [Lightning] attacks</desc>
+        <attach>function (c) c:AddVoid(Element.Lightning) end</attach>
+        <detach>function (c) c:RemoveVoid(Element.Lightning) end</detach>
+    </accessory>
+    <accessory>
+        <name>Tetra Elemental</name>
+        <desc>Absorbs [Fire/Ice/Earth/Lightning] attacks</desc>
+        <attach>
+            function (c)
+            c:AddAbsorb(Element.Fire)
+            c:AddAbsorb(Element.Ice)
+            c:AddAbsorb(Element.Earth)
+            c:AddAbsorb(Element.Lightning)
+            end
+        </attach>
+        <detach>
+            function (c)
+            c:RemoveAbsorb(Element.Fire)
+            c:RemoveAbsorb(Element.Ice)
+            c:RemoveAbsorb(Element.Earth)
+            c:RemoveAbsorb(Element.Lightning)
+            end
+        </detach>
+    </accessory>
+    <accessory>
+        <name>Poison Ring</name>
+        <desc>Absorbs [Poison] attacks</desc>
+        <attach>function (c) c:AddAbsorb(Element.Poison) end</attach>
+        <detach>function (c) c:RemoveAbsorb(Element.Poison) end</detach>
+    </accessory>
+    <accessory>
+        <name>Water Ring</name>
+        <desc>Absorbs [Water] attacks</desc>
+        <attach>function (c) c:AddAbsorb(Element.Water) end</attach>
+        <detach>function (c) c:RemoveAbsorb(Element.Water) end</detach>
+    </accessory>
+</accessories>

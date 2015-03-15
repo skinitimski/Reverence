@@ -12,15 +12,6 @@ using Screens = Atmosphere.Reverence.Seven.Screen.MenuState;
 
 using Atmosphere.Reverence.Seven.Screen.MenuState.Main;
 
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Equip;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Hoard;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Item;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Main;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Materia;
-using Atmosphere.Reverence.Seven.Screen.MenuState.Phs;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Status;
-//using Atmosphere.Reverence.Seven.Screen.MenuState.Victory;
-
 namespace Atmosphere.Reverence.Seven.State
 {
     internal class MenuState : GameState
@@ -37,7 +28,12 @@ namespace Atmosphere.Reverence.Seven.State
         private MenuScreen _itemScreen;
         private MenuScreen _equipScreen;
         private MenuScreen _materiaScreen;
+
         private MenuScreen _statusScreen;
+        private Screens.Status.One _statusOne;
+        private Screens.Status.Two _statusTwo;
+        private Screens.Status.Three _statusThree;
+        private Screens.Status.Label _statusLabel;
 
         private MenuScreen _phsScreen;
         private Screens.Phs.List _phsList;
@@ -46,21 +42,6 @@ namespace Atmosphere.Reverence.Seven.State
 
         private MenuScreen _victoryScreen;
         private MenuScreen _hoardScreen;
-
-        
-        public MenuScreen MainScreen { get { return _mainScreen; } }
-        public MenuScreen ItemScreen { get { return _itemScreen; } }
-        public MenuScreen EquipScreen { get { return _equipScreen; } }
-        public MenuScreen MateriaScreen { get { return _materiaScreen; } }
-        public MenuScreen StatusScreen { get { return _statusScreen; } }
-        public MenuScreen PhsScreen { get { return _phsScreen; } }
-        public MenuScreen VictoryScreen { get { return _victoryScreen; } }
-        public MenuScreen HoardScreen { get { return _hoardScreen; } }
-
-        public Screens.Main.Status MainStatus { get { return _mainStatus; } }
-        public Screens.Main.Options MainOptions { get { return _mainOptions; } }
-        public Screens.Phs.List PhsList { get { return _phsList; } }
-        public Screens.Phs.Stats PhsStats { get { return _phsStats; } }
 
 
 
@@ -86,7 +67,31 @@ namespace Atmosphere.Reverence.Seven.State
             mainMenus[3] = new Screens.Main.Location();
             
             _mainScreen = new MenuScreen(mainMenus, 1);
-            
+
+            //
+            // STATUS
+            //
+
+            _statusOne = new Screens.Status.One();
+            _statusTwo = new Screens.Status.Two();
+            _statusThree = new Screens.Status.Three();
+            _statusLabel = new Screens.Status.Label();
+
+            GameMenu[] statusMenus = new GameMenu[4];
+            statusMenus[0] = _statusOne;
+            statusMenus[1] = _statusTwo;
+            statusMenus[2] = _statusThree;
+            statusMenus[3] = _statusLabel;
+
+            _statusScreen = new MenuScreen(statusMenus, 3);
+
+                        
+            //            StatusScreen = new MenuScreen(4, Status.Label.Instance);
+            //            StatusScreen._menus[0] = Status.One.Instance;
+            //            StatusScreen._menus[1] = Status.Two.Instance;
+            //            StatusScreen._menus[2] = Status.Three.Instance;
+            //            StatusScreen._menus[3] = Status.Label.Instance;
+
             
             //
             // PHS
@@ -173,21 +178,26 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 case Key.L1:
                 case Key.L2:
-//                    if (Equip.Top.Instance.IsControl || 
-//                        Materia.Top.Instance.IsControl ||
-//                        Status.Label.Instance.IsControl)
-//                        Menu.IncrementSelection();
+                    if (//_equipTop.IsControl || 
+                        //Materia.Top.Instance.IsControl ||
+                        _statusLabel.IsControl)
+                    {
+                        Seven.Party.IncrementSelection();
+                    }
                     break;
                 case Key.R1:
                 case Key.R2:
-//                    if (Equip.Top.Instance.IsControl ||
-//                        Materia.Top.Instance.IsControl ||
-//                        Status.Label.Instance.IsControl)
-//                        Menu.DecrementSelection();
+                    if (//_equipTop.IsControl || 
+                        //Materia.Top.Instance.IsControl ||
+                        _statusLabel.IsControl)
+                    {
+                        Seven.Party.DecrementSelection();
+                    }
                     break;
                 default:
                     break;
             }
+
             _layer.Control.ControlHandle(k);
         }
         [GLib.ConnectBefore()]
@@ -217,6 +227,31 @@ namespace Atmosphere.Reverence.Seven.State
         protected override void InternalDispose() { }
 
 
-        public MenuScreen Layer { get { return _layer; } }
+
+
+
+        
+        
+        
+        public MenuScreen MainScreen { get { return _mainScreen; } }
+        public MenuScreen ItemScreen { get { return _itemScreen; } }
+        public MenuScreen EquipScreen { get { return _equipScreen; } }
+        public MenuScreen MateriaScreen { get { return _materiaScreen; } }
+        public MenuScreen StatusScreen { get { return _statusScreen; } }
+        public MenuScreen PhsScreen { get { return _phsScreen; } }
+        public MenuScreen VictoryScreen { get { return _victoryScreen; } }
+        public MenuScreen HoardScreen { get { return _hoardScreen; } }
+        
+        
+        
+        public Screens.Main.Status MainStatus { get { return _mainStatus; } }
+        public Screens.Main.Options MainOptions { get { return _mainOptions; } }
+        
+        public Screens.Status.One StatusOne { get { return _statusOne; } }
+        public Screens.Status.Two StatusTwo { get { return _statusTwo; } }
+        public Screens.Status.Three StatusThree { get { return _statusThree; } }
+        
+        public Screens.Phs.List PhsList { get { return _phsList; } }
+        public Screens.Phs.Stats PhsStats { get { return _phsStats; } }
     }
 }

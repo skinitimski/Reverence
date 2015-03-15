@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 
 namespace Atmosphere.Reverence
@@ -62,6 +63,24 @@ namespace Atmosphere.Reverence
             }
             
             return text;
+        }
+        
+        public static string CleanString(string s)
+        {
+            foreach (string replacement in new string[] { " ", "-", "'", "/", "!", ":", "*" }) s = s.Replace(replacement, "");
+            
+            return s;            
+        }
+        
+        public static string CreateID(string name)
+        {
+            string temp = CleanString(name);
+            
+            StringBuilder id = new StringBuilder();
+            
+            for (int i = 0; i < temp.Length; i++) id.Append(Char.ToLower(temp[i]));
+            
+            return id.ToString();
         }
     }
 }

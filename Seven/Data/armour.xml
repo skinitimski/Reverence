@@ -1,0 +1,501 @@
+<!-- ********* ARMOR ********* -->
+<armour>
+    <armor>
+        <name>Bronze Bangle</name>
+        <desc></desc>
+        <def>8</def>
+        <defp>0</defp>
+        <mdf>0</mdf>
+        <mdfp>0</mdfp>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Iron Bangle</name>
+        <desc></desc>
+        <def>10</def>
+        <defp>0</defp>
+        <mdf>2</mdf>
+        <mdfp>0</mdfp>
+        <slots>1</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Titan Bangle</name>
+        <desc></desc>
+        <def>14</def>
+        <defp>2</defp>
+        <mdf>4</mdf>
+        <mdfp>0</mdfp>
+        <slots>2</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Mythril Armlet</name>
+        <desc></desc>
+        <def>18</def>
+        <defp>3</defp>
+        <mdf>8</mdf>
+        <mdfp>0</mdfp>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Carbon Bangle</name>
+        <desc></desc>
+        <def>27</def>
+        <defp>3</defp>
+        <mdf>14</mdf>
+        <mdfp>0</mdfp>
+        <slots>3</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Silver Armlet</name>
+        <desc></desc>
+        <def>34</def>
+        <defp>4</defp>
+        <mdf>22</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Gold Armlet</name>
+        <desc></desc>
+        <def>46</def>
+        <defp>4</defp>
+        <mdf>28</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Diamond Bangle</name>
+        <desc></desc>
+        <def>57</def>
+        <defp>6</defp>
+        <mdf>37</mdf>
+        <mdfp>0</mdfp>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Crystal Bangle</name>
+        <desc></desc>
+        <def>70</def>
+        <defp>8</defp>
+        <mdf>45</mdf>
+        <mdfp>1</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Platinum Bangle</name>
+        <desc></desc>
+        <def>20</def>
+        <defp>0</defp>
+        <mdf>12</mdf>
+        <mdfp>0</mdfp>
+        <slots>2</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Rune Armlet</name>
+        <desc></desc>
+        <def>43</def>
+        <defp>5</defp>
+        <mdf>24</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Double</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Edincoat</name>
+        <desc>Magic +5</desc>
+        <def>50</def>
+        <defp>0</defp>
+        <mdf>33</mdf>
+        <mdfp>0</mdfp>
+        <slots>7</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) c.MagicBonus = c.MagicBonus + 5 end</attach>
+        <detach>function (c) c.MagicBonus = c.MagicBonus - 5 end</detach>
+    </armor>
+    <armor>
+        <name>Wizard Bracelet</name>
+        <desc>Magic +20</desc>
+        <def>6</def>
+        <defp>3</defp>
+        <mdf>85</mdf>
+        <mdfp>3</mdfp>
+        <slots>8</slots>
+        <links>4</links>
+        <growth>Normal</growth>
+        <attach>function (c) c.MagicBonus = c.MagicBonus + 20 end</attach>
+        <detach>function (c) c.MagicBonus = c.MagicBonus - 20 end</detach>
+    </armor>
+    <armor>
+        <name>Adaman Bangle</name>
+        <desc></desc>
+        <def>93</def>
+        <defp>0</defp>
+        <mdf>23</mdf>
+        <mdfp>0</mdfp>
+        <slots>2</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Gigas Armlet</name>
+        <desc>Strength +30</desc>
+        <def>59</def>
+        <defp>0</defp>
+        <mdf>0</mdf>
+        <mdfp>0</mdfp>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Nothing</growth>
+        <attach>function (c) c.StrengthBonus = c.StrengthBonus + 30 end</attach>
+        <detach>function (c) c.StrengthBonus = c.StrengthBonus - 30 end</detach>
+    </armor>
+    <armor>
+        <name>Imperial Guard</name>
+        <desc></desc>
+        <def>82</def>
+        <defp>0</defp>
+        <mdf>74</mdf>
+        <mdfp>0</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Aegis Armlet</name>
+        <desc></desc>
+        <def>55</def>
+        <defp>15</defp>
+        <mdf>86</mdf>
+        <mdfp>50</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Fourth Bracelet</name>
+        <desc>Magic +20</desc>
+        <def>74</def>
+        <defp>3</defp>
+        <mdf>100</mdf>
+        <mdfp>3</mdfp>
+        <slots>5</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) c.MagicBonus = c.MagicBonus + 20 end</attach>
+        <detach>function (c) c.MagicBonus = c.MagicBonus - 20 end</detach>
+    </armor>
+    <armor>
+        <name>Warrior Bangle</name>
+        <desc>Strength +20</desc>
+        <def>96</def>
+        <defp>0</defp>
+        <mdf>21</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Nothing</growth>
+        <attach>function (c) c.StrengthBonus = c.StrengthBonus + 20 end</attach>
+        <detach>function (c) c.StrengthBonus = c.StrengthBonus - 20 end</detach>
+    </armor>
+    <armor>
+        <name>Shinra Beta</name>
+        <desc></desc>
+        <def>30</def>
+        <defp>0</defp>
+        <mdf>0</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>1</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Shinra Alpha</name>
+        <desc></desc>
+        <def>77</def>
+        <defp>0</defp>
+        <mdf>34</mdf>
+        <mdfp>0</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Four Slots</name>
+        <desc></desc>
+        <def>12</def>
+        <defp>0</defp>
+        <mdf>10</mdf>
+        <mdfp>0</mdfp>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Fire Armlet</name>
+        <desc>Absorbs [Fire] attacks</desc>
+        <def>72</def>
+        <defp>8</defp>
+        <mdf>52</mdf>
+        <mdfp>3</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) c:AddAbsorb(Element.Fire) end</attach>
+        <detach>function (c) c:RemoveAbsorb(Element.Fire) end</detach>
+    </armor>
+    <armor>
+        <name>Aurora Armlet</name>
+        <desc>Absorbs [Ice] attacks</desc>
+        <def>76</def>
+        <defp>8</defp>
+        <mdf>54</mdf>
+        <mdfp>3</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) c:AddAbsorb(Element.Ice) end</attach>
+        <detach>function (c) c:RemoveAbsorb(Element.Ice) end</detach>
+    </armor>
+    <armor>
+        <name>Bolt Armlet</name>
+        <desc>Absorbs [Lightning] attacks</desc>
+        <def>74</def>
+        <defp>8</defp>
+        <mdf>55</mdf>
+        <mdfp>3</mdfp>
+        <slots>4</slots>
+        <links>2</links>
+        <growth>Normal</growth>
+        <attach>function (c) c:AddAbsorb(Element.Lightning) end</attach>
+        <detach>function (c) c:RemoveAbsorb(Element.Lightning) end</detach>
+    </armor>
+    <armor>
+        <name>Dragon Armlet</name>
+        <desc>Halves [Fire/Ice/Lightning] attacks</desc>
+        <def>58</def>
+        <defp>3</defp>
+        <mdf>47</mdf>
+        <mdfp>2</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>
+            function (c)
+            c:AddHalve(Element.Fire)
+            c:AddHalve(Element.Ice)
+            c:AddHalve(Element.Lightning)
+            end
+        </attach>
+        <detach>
+            function (c)
+            c:RemoveHalve(Element.Fire)
+            c:RemoveHalve(Element.Ice)
+            c:RemoveHalve(Element.Lightning)
+            end
+        </detach>
+    </armor>
+    <armor>
+        <name>Escort Guard</name>
+        <desc>Man's armlet nullifies [Lightning/Earth/Water/Poison]</desc>
+        <def>62</def>
+        <defp>2</defp>
+        <mdf>55</mdf>
+        <mdfp>0</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>
+            function (c)
+            c:AddVoid(Element.Lightning)
+            c:AddVoid(Element.Earth)
+            c:AddVoid(Element.Water)
+            c:AddVoid(Element.Poison)
+            end
+        </attach>
+        <detach>
+            function (c)
+            c:RemoveVoid(Element.Lightning)
+            c:RemoveVoid(Element.Earth)
+            c:RemoveVoid(Element.Water)
+            c:RemoveVoid(Element.Poison)
+            end
+        </detach>
+    </armor>
+    <armor>
+        <name>Minerva Band</name>
+        <desc>Woman's armlet nullifies [Fire/Ice/Gravity/Holy]</desc>
+        <def>60</def>
+        <defp>8</defp>
+        <mdf>57</mdf>
+        <mdfp>0</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>
+            function (c)
+            c:AddVoid(Element.Fire)
+            c:AddVoid(Element.Ice)
+            c:AddVoid(Element.Gravity)
+            c:AddVoid(Element.Holy)
+            end
+        </attach>
+        <detach>
+            function (c)
+            c:RemoveVoid(Element.Fire)
+            c:RemoveVoid(Element.Ice)
+            c:RemoveVoid(Element.Gravity)
+            c:RemoveVoid(Element.Holy)
+            end
+        </detach>
+    </armor>
+    <armor>
+        <name>Mystile</name>
+        <desc></desc>
+        <def>65</def>
+        <defp>50</defp>
+        <mdf>72</mdf>
+        <mdfp>60</mdfp>
+        <slots>6</slots>
+        <links>3</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Ziedrich</name>
+        <desc>Strength&amp;Magic +20; all elements reduced by 1/2</desc>
+        <def>100</def>
+        <defp>15</defp>
+        <mdf>98</mdf>
+        <mdfp>18</mdfp>
+        <slots>0</slots>
+        <links>0</links>
+        <growth>Nothing</growth>
+        <attach>
+            function (c)
+            c.StrengthBonus = c.StrengthBonus + 20
+            c.MagicBonus = c.MagicBonus + 20
+            c:AddHalve(Element.Fire)
+            c:AddHalve(Element.Ice)
+            c:AddHalve(Element.Lightning)
+            c:AddHalve(Element.Earth)
+            c:AddHalve(Element.Poison)
+            c:AddHalve(Element.Gravity)
+            c:AddHalve(Element.Water)
+            c:AddHalve(Element.Wind)
+            c:AddHalve(Element.Holy)
+            c:AddHalve(Element.Restorative)
+            c:AddHalve(Element.Cut)
+            c:AddHalve(Element.Hit)
+            c:AddHalve(Element.Punch)
+            c:AddHalve(Element.Shoot)
+            c:AddHalve(Element.Shout)
+            c:AddHalve(Element.Hidden)
+            end
+        </attach>
+        <detach>
+            function (c)
+            c.StrengthBonus = c.StrengthBonus - 20
+            c.MagicBonus = c.MagicBonus - 20
+            c:RemoveHalve(Element.Fire)
+            c:RemoveHalve(Element.Ice)
+            c:RemoveHalve(Element.Lightning)
+            c:RemoveHalve(Element.Earth)
+            c:RemoveHalve(Element.Poison)
+            c:RemoveHalve(Element.Gravity)
+            c:RemoveHalve(Element.Water)
+            c:RemoveHalve(Element.Wind)
+            c:RemoveHalve(Element.Holy)
+            c:RemoveHalve(Element.Restorative)
+            c:RemoveHalve(Element.Cut)
+            c:RemoveHalve(Element.Hit)
+            c:RemoveHalve(Element.Punch)
+            c:RemoveHalve(Element.Shoot)
+            c:RemoveHalve(Element.Shout)
+            c:RemoveHalve(Element.Hidden)
+            end
+        </detach>
+    </armor>
+    <armor>
+        <name>Precious Watch</name>
+        <desc>A gorgeous watch</desc>
+        <def>0</def>
+        <defp>0</defp>
+        <mdf>0</mdf>
+        <mdfp>0</mdfp>
+        <slots>8</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) end</attach>
+        <detach>function (c) end</detach>
+    </armor>
+    <armor>
+        <name>Chocobracelet</name>
+        <desc>Dexterity +30, Luck +20</desc>
+        <def>35</def>
+        <defp>10</defp>
+        <mdf>38</mdf>
+        <mdfp>10</mdfp>
+        <slots>4</slots>
+        <links>0</links>
+        <growth>Normal</growth>
+        <attach>function (c) c.DexterityBonus = c.DexterityBonus + 30; c.LuckBonus = c.LuckBonus + 20 end</attach>
+        <detach>function (c) c.DexterityBonus = c.DexterityBonus - 30; c.LuckBonus = c.LuckBonus - 20 end</detach>
+    </armor>
+</armour>
