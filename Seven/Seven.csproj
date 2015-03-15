@@ -61,6 +61,7 @@
     <Folder Include="Battle\" />
     <Folder Include="Asset\" />
     <Folder Include="Asset\Materia\" />
+    <Folder Include="Screen\MenuState\Equip\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -105,6 +106,12 @@
     <Compile Include="Asset\Spell.cs" />
     <Compile Include="Asset\Item.cs" />
     <Compile Include="Asset\ItemTarget.cs" />
+    <Compile Include="Screen\MenuState\Equip\Info.cs" />
+    <Compile Include="Screen\MenuState\Equip\Label.cs" />
+    <Compile Include="Screen\MenuState\Equip\List.cs" />
+    <Compile Include="Screen\MenuState\Equip\Selected.cs" />
+    <Compile Include="Screen\MenuState\Equip\Stats.cs" />
+    <Compile Include="Screen\MenuState\Equip\Top.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

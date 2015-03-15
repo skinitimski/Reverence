@@ -68,6 +68,24 @@ namespace Atmosphere.Reverence.Seven.State
             
             _mainScreen = new MenuScreen(mainMenus, 1);
 
+
+            //
+            // EQUIP
+            //
+
+            GameMenu[] equipMenus = new GameMenu[6];
+
+            _equipScreen = new MenuScreen(equipMenus, 0);
+            
+            //            EquipScreen = new MenuScreen(6, Equip.Top.Instance);
+            //            EquipScreen._menus[0] = Equip.Top.Instance;
+            //            EquipScreen._menus[1] = Equip.List.Instance;
+            //            EquipScreen._menus[2] = Equip.Stats.Instance;
+            //            EquipScreen._menus[3] = Equip.Selected.Instance;
+            //            EquipScreen._menus[4] = Equip.Info.Instance;
+            //            EquipScreen._menus[5] = Equip.Label.Instance;
+
+
             //
             // STATUS
             //
@@ -84,13 +102,6 @@ namespace Atmosphere.Reverence.Seven.State
             statusMenus[3] = _statusLabel;
 
             _statusScreen = new MenuScreen(statusMenus, 3);
-
-                        
-            //            StatusScreen = new MenuScreen(4, Status.Label.Instance);
-            //            StatusScreen._menus[0] = Status.One.Instance;
-            //            StatusScreen._menus[1] = Status.Two.Instance;
-            //            StatusScreen._menus[2] = Status.Three.Instance;
-            //            StatusScreen._menus[3] = Status.Label.Instance;
 
             
             //
@@ -119,13 +130,6 @@ namespace Atmosphere.Reverence.Seven.State
             //            ItemScreen._menus[3] = Item.Info.Instance;
             //            ItemScreen._menus[4] = Item.Label.Instance;
             //            
-            //            EquipScreen = new MenuScreen(6, Equip.Top.Instance);
-            //            EquipScreen._menus[0] = Equip.Top.Instance;
-            //            EquipScreen._menus[1] = Equip.List.Instance;
-            //            EquipScreen._menus[2] = Equip.Stats.Instance;
-            //            EquipScreen._menus[3] = Equip.Selected.Instance;
-            //            EquipScreen._menus[4] = Equip.Info.Instance;
-            //            EquipScreen._menus[5] = Equip.Label.Instance;
             //            
             //            MateriaScreen = new MenuScreen(7, Materia.Top.Instance);
             //            MateriaScreen._menus[0] = Materia.Top.Instance;
@@ -136,11 +140,6 @@ namespace Atmosphere.Reverence.Seven.State
             //            MateriaScreen._menus[5] = Materia.Arrange.Instance;
             //            MateriaScreen._menus[6] = Materia.Prompt.Instance;
             //            
-            //            StatusScreen = new MenuScreen(4, Status.Label.Instance);
-            //            StatusScreen._menus[0] = Status.One.Instance;
-            //            StatusScreen._menus[1] = Status.Two.Instance;
-            //            StatusScreen._menus[2] = Status.Three.Instance;
-            //            StatusScreen._menus[3] = Status.Label.Instance;
             //            
             //
             //            VictoryScreen = new MenuScreen(6, Victory.Label.Instance);

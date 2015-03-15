@@ -174,71 +174,71 @@
     <EmbeddedResource Include="Data\savegame.xml">
       <LogicalName>data.savegame.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Images\aeris.JPG">
-      <LogicalName>charfull.aeris.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\aeris_small.JPG">
-      <LogicalName>charsmall.aeris.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\barret.JPG">
-      <LogicalName>charfull.barret.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\barret_small.JPG">
-      <LogicalName>charsmall.barret.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\caitsith.JPG">
-      <LogicalName>charfull.caitsith.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\caitsith_small.JPG">
-      <LogicalName>charsmall.caitsith.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\cid.JPG">
-      <LogicalName>charfull.cid.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\cid_small.JPG">
-      <LogicalName>charsmall.cid.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\cloud.JPG">
-      <LogicalName>charfull.cloud.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\cloud_small.JPG">
-      <LogicalName>charsmall.cloud.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\redxiii.JPG">
-      <LogicalName>charfull.redxiii.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\redxiii_small.JPG">
-      <LogicalName>charsmall.redxiii.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\sephiroth.JPG">
-      <LogicalName>charfull.sephiroth.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\sephiroth_small.JPG">
-      <LogicalName>charsmall.sephiroth.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\tifa.JPG">
-      <LogicalName>charfull.tifa.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\tifa_small.JPG">
-      <LogicalName>charsmall.tifa.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\vincent.JPG">
-      <LogicalName>charfull.vincent.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\vincent_small.JPG">
-      <LogicalName>charsmall.vincent.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\yuffie.JPG">
-      <LogicalName>charfull.yuffie.jpg</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Images\yuffie_small.JPG">
-      <LogicalName>charsmall.yuffie.jpg</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Data\base.table">
       <LogicalName>data.base.table</LogicalName>
     </EmbeddedResource>
     <EmbeddedResource Include="Data\diffs.table">
       <LogicalName>data.diffs.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\aeris.JPG">
+      <LogicalName>charfull.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\aeris_small.JPG">
+      <LogicalName>charsmall.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret.JPG">
+      <LogicalName>charfull.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret_small.JPG">
+      <LogicalName>charsmall.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith.JPG">
+      <LogicalName>charfull.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith_small.JPG">
+      <LogicalName>charsmall.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid.JPG">
+      <LogicalName>charfull.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid_small.JPG">
+      <LogicalName>charsmall.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud.JPG">
+      <LogicalName>charfull.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud_small.JPG">
+      <LogicalName>charsmall.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii.JPG">
+      <LogicalName>charfull.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii_small.JPG">
+      <LogicalName>charsmall.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth.JPG">
+      <LogicalName>charfull.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth_small.JPG">
+      <LogicalName>charsmall.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa.JPG">
+      <LogicalName>charfull.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa_small.JPG">
+      <LogicalName>charsmall.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent.JPG">
+      <LogicalName>charfull.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent_small.JPG">
+      <LogicalName>charsmall.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie.JPG">
+      <LogicalName>charfull.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie_small.JPG">
+      <LogicalName>charsmall.yuffie.jpg</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>
