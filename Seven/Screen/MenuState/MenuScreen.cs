@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Atmosphere.Reverence.Exceptions;
@@ -9,7 +10,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
 {
     public sealed class MenuScreen
     {
-        private GameMenu[] _menus;
+        private IEnumerable<GameMenu> _menus;
         private IController _defaultControl;
         private IController _control;
         
@@ -17,16 +18,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
         
         
 
-        public MenuScreen(GameMenu[] menus, int controllerIndex)
+        public MenuScreen(IEnumerable<GameMenu> menus, IController defaultControl)
         {
-            if (!(menus [controllerIndex] is IController))
-            {
-                throw new ImplementationException("Given controlling menu is not an {0}: {1}", typeof(IController).Name, menus[controllerIndex]);
-            }
-
             _menus = menus;
-            _defaultControl = (IController)menus[controllerIndex];
-            _control = (IController)menus[controllerIndex];
+            _defaultControl = defaultControl;
+            _control = defaultControl;
             _control.SetAsControl();
         }
                 
@@ -40,7 +36,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
         
         public void ChangeControl(IController to)
         {
-            GameMenu toMenu = to as GameMenu;
+            //GameMenu toMenu = to as GameMenu;
 
 //            if (toMenu != null && !_menus.Any(x => x.Equals(toMenu)))
 //            {
@@ -60,7 +56,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
         
         
         public IController Control { get { return _control; } }
-        public GameMenu[] Menus { get { return _menus; } }
     }
 }
 

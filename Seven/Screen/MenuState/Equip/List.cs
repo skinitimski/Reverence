@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         int _option = 0;
         int _topRow = 0;
         
-        private List<InventoryRecord> _equipment;
+        private List<Inventory.Record> _equipment;
 
         public List()
             : base(
@@ -32,7 +32,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 Config.Instance.WindowWidth * 3 / 8 - 8,
                 Config.Instance.WindowHeight * 8 / 15)
         {
-            _equipment = new List<InventoryRecord>();
+            _equipment = new List<Inventory.Record>();
         }
         
         public override void ControlHandle(Key k)
@@ -49,30 +49,29 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                     break;
                 case Key.Circle:
                     int slot = _equipment[_option].Slot;
-                    EquipTop.Instance.Changed = true;
-                    switch (EquipTop.Instance.Option)
+                    Seven.MenuState.EquipTop.Changed = true;
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
                         case 0:
                             Weapon.SwapMateria(Seven.Party.Selected.Weapon, (Weapon)_equipment[_option].Item, Seven.Party.Selected);
-                            Seven.Party.Selected.Weapon = (Weapon)Inventory.SwapOut(Seven.Party.Selected.Weapon, slot);
+                            Seven.Party.Selected.Weapon = (Weapon)Seven.Party.Inventory.SwapOut(Seven.Party.Selected.Weapon, slot);
                             break;
                         case 1:
                             Armor.SwapMateria(Seven.Party.Selected.Armor, (Armor)_equipment[_option].Item, Seven.Party.Selected);
-                            Inventory.AddToInventory(Seven.Party.Selected.Armor);
-                            Inventory.DecreaseCount(slot);
+                            Seven.Party.Inventory.AddToInventory(Seven.Party.Selected.Armor);
                             Seven.Party.Selected.Armor = (Armor)_equipment[_option].Item;
+                            Seven.Party.Inventory.DecreaseCount(slot);
                             break;
                         case 2:
-                            if (Seven.Party.Selected.Accessory.Name != null)
-                                Inventory.AddToInventory(Seven.Party.Selected.Accessory);
-                            Inventory.DecreaseCount(slot);
+                            Seven.Party.Inventory.AddToInventory(Seven.Party.Selected.Accessory);
                             Seven.Party.Selected.Accessory = (Accessory)_equipment[_option].Item;
+                            Seven.Party.Inventory.DecreaseCount(slot);
                             break;
                     }
-                    MenuScreen.EquipScreen.ChangeToDefaultControl();
+                    Seven.MenuState.EquipScreen.ChangeToDefaultControl();
                     break;
                 case Key.X:
-                    MenuScreen.EquipScreen.ChangeToDefaultControl();
+                    Seven.MenuState.EquipScreen.ChangeToDefaultControl();
                     break;
                 default:
                     break;
@@ -90,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             for (int i = _topRow; i < j; i++)
             {
-                Shapes.ShadowedText(g, _equipment [i].Item.Name, 
+                Text.ShadowedText(g, _equipment [i].Item.Name, 
                                     X + x, Y + (i - _topRow + 1) * y);
             }
             
@@ -107,7 +106,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         public override void SetAsControl()
         {
             base.SetAsControl();
-            switch (EquipTop.Instance.Option)
+            switch (Seven.MenuState.EquipTop.Option)
             {
                 case 0:
                     Update(ItemType.Weapon);
@@ -120,7 +119,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                     break;
             }
             if (_equipment.Count == 0)
-                MenuScreen.EquipScreen.ChangeToDefaultControl();
+            {
+                Seven.MenuState.EquipScreen.ChangeToDefaultControl();
+            }
         }
 
         public override void SetNotControl()
@@ -136,13 +137,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             switch (it)
             {
                 case ItemType.Weapon:
-                    _equipment = Inventory.GetWeaponsOfType(Seven.Party.Selected.Weapon.Wielder);
+                    _equipment = Seven.Party.Inventory.GetWeaponsOfType(Seven.Party.Selected.Weapon.Wielder);
                     break;
                 case ItemType.Armor:
-                    _equipment = Inventory.GetArmor(Seven.Party.Selected.Sex);
+                    _equipment = Seven.Party.Inventory.GetArmor(Seven.Party.Selected.Sex);
                     break;
                 case ItemType.Accessory:
-                    _equipment = Inventory.GetAccessories();
+                    _equipment = Seven.Party.Inventory.GetAccessories();
                     break;
                 default: break;
             }
@@ -150,8 +151,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         
         public IItem Selection { get { return _equipment[_option].Item; } }
         
-        public override string Info
-        { get { return Selection.Description; } }
+        public override string Info { get { return Selection.Description; } }
     }
 }
 

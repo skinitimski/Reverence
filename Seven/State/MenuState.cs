@@ -26,8 +26,14 @@ namespace Atmosphere.Reverence.Seven.State
         private Screens.Main.Options _mainOptions;
 
         private MenuScreen _itemScreen;
-        private MenuScreen _equipScreen;
+        
+        private MenuScreen _magicScreen;
         private MenuScreen _materiaScreen;
+
+        private MenuScreen _equipScreen;
+        private Screens.Equip.Top _equipTop;
+        private Screens.Equip.List _equipList;
+
 
         private MenuScreen _statusScreen;
         private Screens.Status.One _statusOne;
@@ -60,22 +66,31 @@ namespace Atmosphere.Reverence.Seven.State
             _mainStatus = new Screens.Main.Status();
             _mainOptions = new Screens.Main.Options();
             
-            GameMenu[] mainMenus = new GameMenu[4];
-            mainMenus[0] = _mainStatus;
-            mainMenus[1] = _mainOptions;
-            mainMenus[2] = new Screens.Main.Time();
-            mainMenus[3] = new Screens.Main.Location();
+            List<GameMenu> mainMenus = new List<GameMenu>();
+            mainMenus.Add(_mainStatus);
+            mainMenus.Add(_mainOptions);
+            mainMenus.Add(new Screens.Main.Time());
+            mainMenus.Add(new Screens.Main.Location());
             
-            _mainScreen = new MenuScreen(mainMenus, 1);
+            _mainScreen = new MenuScreen(mainMenus, _mainOptions);
 
 
             //
             // EQUIP
             //
 
-            GameMenu[] equipMenus = new GameMenu[6];
+            _equipTop = new Screens.Equip.Top();
+            _equipList = new Screens.Equip.List();
 
-            _equipScreen = new MenuScreen(equipMenus, 0);
+            List<GameMenu> equipMenus =  new List<GameMenu>();
+            equipMenus.Add(_equipTop);
+            equipMenus.Add(_equipList);
+            equipMenus.Add(new Screens.Equip.Stats());
+            equipMenus.Add(new Screens.Equip.Selected());
+            equipMenus.Add(new Screens.Equip.Info());
+            equipMenus.Add(new Screens.Equip.Label());
+
+            _equipScreen = new MenuScreen(equipMenus, _equipTop);
             
             //            EquipScreen = new MenuScreen(6, Equip.Top.Instance);
             //            EquipScreen._menus[0] = Equip.Top.Instance;
@@ -95,13 +110,13 @@ namespace Atmosphere.Reverence.Seven.State
             _statusThree = new Screens.Status.Three();
             _statusLabel = new Screens.Status.Label();
 
-            GameMenu[] statusMenus = new GameMenu[4];
-            statusMenus[0] = _statusOne;
-            statusMenus[1] = _statusTwo;
-            statusMenus[2] = _statusThree;
-            statusMenus[3] = _statusLabel;
+            List<GameMenu>  statusMenus =  new List<GameMenu>();
+            statusMenus.Add(_statusOne);
+            statusMenus.Add(_statusTwo);
+            statusMenus.Add(_statusThree);
+            statusMenus.Add(_statusLabel);
 
-            _statusScreen = new MenuScreen(statusMenus, 3);
+            _statusScreen = new MenuScreen(statusMenus, _statusLabel);
 
             
             //
@@ -111,14 +126,14 @@ namespace Atmosphere.Reverence.Seven.State
             _phsList = new Screens.Phs.List();
             _phsStats = new Screens.Phs.Stats();
             
-            GameMenu[] phsMenus = new GameMenu[5];
-            phsMenus[0] = new Screens.Phs.Top();
-            phsMenus[1] = _phsStats;
-            phsMenus[2] = _phsList;
-            phsMenus[3] = new Screens.Phs.Info();
-            phsMenus[4] = new Screens.Phs.Label();
+            List<GameMenu> phsMenus = new List<GameMenu>();
+            phsMenus.Add(new Screens.Phs.Top());
+            phsMenus.Add(_phsStats);
+            phsMenus.Add(_phsList);
+            phsMenus.Add(new Screens.Phs.Info());
+            phsMenus.Add(new Screens.Phs.Label());
             
-            _phsScreen = new MenuScreen(phsMenus, 1);
+            _phsScreen = new MenuScreen(phsMenus, _phsStats);
             
             
             
@@ -234,8 +249,9 @@ namespace Atmosphere.Reverence.Seven.State
         
         public MenuScreen MainScreen { get { return _mainScreen; } }
         public MenuScreen ItemScreen { get { return _itemScreen; } }
-        public MenuScreen EquipScreen { get { return _equipScreen; } }
+        public MenuScreen MagicScreen { get { return _magicScreen; } }
         public MenuScreen MateriaScreen { get { return _materiaScreen; } }
+        public MenuScreen EquipScreen { get { return _equipScreen; } }
         public MenuScreen StatusScreen { get { return _statusScreen; } }
         public MenuScreen PhsScreen { get { return _phsScreen; } }
         public MenuScreen VictoryScreen { get { return _victoryScreen; } }
@@ -245,6 +261,9 @@ namespace Atmosphere.Reverence.Seven.State
         
         public Screens.Main.Status MainStatus { get { return _mainStatus; } }
         public Screens.Main.Options MainOptions { get { return _mainOptions; } }
+
+        public Screens.Equip.Top EquipTop { get { return _equipTop; } }
+        public Screens.Equip.List EquipList { get { return _equipList; } }
         
         public Screens.Status.One StatusOne { get { return _statusOne; } }
         public Screens.Status.Two StatusTwo { get { return _statusTwo; } }

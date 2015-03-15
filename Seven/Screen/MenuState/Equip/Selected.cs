@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
@@ -103,46 +104,55 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         {
             get
             {
-                if (EquipTop.Instance.IsControl)
+                string growth = String.Empty;
+
+                if (Seven.MenuState.EquipTop.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return Selected.Weapon.Growth.ToString();
-                        case 1: return Selected.Armor.Growth.ToString();
-                        default: return "";
+                        case 0:
+                            growth = Seven.Party.Selected.Weapon.Growth.ToString();
+                            break;
+                        case 1:
+                            growth = Seven.Party.Selected.Armor.Growth.ToString();
+                            break;
                     }
                 }
-                else if (List.Instance.IsControl)
+                else if (Seven.MenuState.EquipList.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return ((Weapon)List.Instance.Selection).Growth.ToString();
-                        case 1: return ((Armor)List.Instance.Selection).Growth.ToString();
-                        default: return "";
+                        case 0:
+                            growth = ((Weapon)Seven.MenuState.EquipList.Selection).Growth.ToString();
+                            break;
+                        case 1:
+                            growth = ((Armor)Seven.MenuState.EquipList.Selection).Growth.ToString();
+                            break;
                     }
                 }
-                else return "";
+
+                return growth;
             }
         }
         private MateriaBase[] Slots
         {
             get
             {
-                if (EquipTop.Instance.IsControl)
+                if (Seven.MenuState.EquipTop.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return Selected.Weapon.Slots;
-                        case 1: return Selected.Armor.Slots;
+                        case 0: return Seven.Party.Selected.Weapon.Slots;
+                        case 1: return Seven.Party.Selected.Armor.Slots;
                         default: return null;
                     }
                 }
-                else if (List.Instance.IsControl)
+                else if (Seven.MenuState.EquipList.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return ((Weapon)List.Instance.Selection).Slots;
-                        case 1: return ((Armor)List.Instance.Selection).Slots;
+                        case 0: return ((Weapon)Seven.MenuState.EquipList.Selection).Slots;
+                        case 1: return ((Armor)Seven.MenuState.EquipList.Selection).Slots;
                         default: return null;
                     }
                 }
@@ -153,21 +163,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         {
             get
             {
-                if (EquipTop.Instance.IsControl)
+                if (Seven.MenuState.EquipTop.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return Selected.Weapon.Links;
-                        case 1: return Selected.Armor.Links;
+                        case 0: return Seven.Party.Selected.Weapon.Links;
+                        case 1: return Seven.Party.Selected.Armor.Links;
                         default: return 0;
                     }
                 }
-                else if (List.Instance.IsControl)
+                else if (Seven.MenuState.EquipList.IsControl)
                 {
-                    switch (EquipTop.Instance.Option)
+                    switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0: return ((Weapon)List.Instance.Selection).Links;
-                        case 1: return ((Armor)List.Instance.Selection).Links;
+                        case 0: return ((Weapon)Seven.MenuState.EquipList.Selection).Links;
+                        case 1: return ((Armor)Seven.MenuState.EquipList.Selection).Links;
                         default: return 0;
                     }
                 }

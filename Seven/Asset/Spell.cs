@@ -9,8 +9,7 @@ using Atmosphere.Reverence.Exceptions;
 namespace Atmosphere.Reverence.Seven.Asset
 {
     public class Spell
-    {
-        
+    {        
         #region Member Data
         
         private string _name;
@@ -20,10 +19,13 @@ namespace Atmosphere.Reverence.Seven.Asset
         private int _order;
         private Element[] _element;
         
-        private static Dictionary<string, Spell> _table;
-        
         #endregion Member Data
+
+
         
+        private static Dictionary<string, Spell> _table;
+
+
         
         public static void LoadSpells()
         {
@@ -41,12 +43,12 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 string name = xml.SelectSingleNode("//name").InnerText;
                 string id = Resource.CreateID(name);
-                string dispatch = xml.SelectSingleNode("//dispatch").InnerText;
-                string action = xml.SelectSingleNode("//action").InnerText;
-                if (dispatch == "")
-                    dispatch = "function () end";
-                if (action == "")
-                    action = "function (state) end";
+//                string dispatch = xml.SelectSingleNode("//dispatch").InnerText;
+//                string action = xml.SelectSingleNode("//action").InnerText;
+//                if (dispatch == "")
+//                    dispatch = "function () end";
+//                if (action == "")
+//                    action = "function (state) end";
                 
 //                if (id == "????")
 //                {

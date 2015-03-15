@@ -13,10 +13,15 @@ namespace Atmosphere.Reverence.Seven.Asset
         string _name;
         string _desc;
         
-        private static Dictionary<string, Accessory> _table;
-        
         #endregion Member Data
         
+
+
+        private static Dictionary<string, Accessory> _table;
+
+        public static Accessory EMPTY { get; private set; }
+
+
         
         public static void LoadAccessories()
         {
@@ -33,8 +38,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 string name = node.SelectSingleNode("name").InnerText;
                 string desc = node.SelectSingleNode("desc").InnerText;
-                string attach = node.SelectSingleNode("attach").InnerText;
-                string detach = node.SelectSingleNode("detach").InnerText;
+//                string attach = node.SelectSingleNode("attach").InnerText;
+//                string detach = node.SelectSingleNode("detach").InnerText;
                 
                 string id = Resource.CreateID(name);
                 
@@ -45,6 +50,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 _table.Add(id, a);
             }
+
+            EMPTY = new Accessory("", "");
         }
         
         public Accessory(string name, string desc)

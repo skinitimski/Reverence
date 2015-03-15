@@ -278,11 +278,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             
             Text.ShadowedText(g, Seven.Party.Selected.Weapon.Name, X + x8, Y + yh);
             Text.ShadowedText(g, Seven.Party.Selected.Armor.Name, X + x8, Y + yj);
-
-            if (Seven.Party.Selected.Accessory != null)
-            {
-                Text.ShadowedText(g, Seven.Party.Selected.Accessory.Name, X + x8, Y + yl);
-            }
+            Text.ShadowedText(g, Seven.Party.Selected.Accessory.Name, X + x8, Y + yl);
 
             #endregion Right
             

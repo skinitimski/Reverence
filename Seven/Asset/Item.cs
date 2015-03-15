@@ -9,7 +9,7 @@ using Atmosphere.Reverence.Exceptions;
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Item : IItem
-    {
+    {       
         #region Member Data
         
         string _name;
@@ -17,12 +17,15 @@ namespace Atmosphere.Reverence.Seven.Asset
         ItemType _type;
         ItemTarget _targetType;
         
-        private static Dictionary<string, Item> _table;
-        
-        private static Character _target;
-        
         #endregion Member Data
-        
+
+
+
+        private static Dictionary<string, Item> _table;
+
+        public static Item EMPTY { get; private set; }
+
+
         
         public static void LoadItems()
         {
@@ -70,6 +73,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 _table.Add(id, i);
             }
+
+            EMPTY = new Item("", "", ItemType.Nonfunctional, ItemTarget.None);
         }
         
         public Item(string name, string desc, ItemType type, ItemTarget targetType)
@@ -137,11 +142,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         public string ID { get { return Resource.CreateID(_name); } }
         public string Description { get { return _desc; } }
         public static Dictionary<string, Item> ItemTable { get { return _table; } }
-        public static Character Target
-        {
-            get { return _target; }
-            set { _target = value; }
-        }
     }
 }
 

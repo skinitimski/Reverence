@@ -4,6 +4,8 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal enum ItemTarget
     {
+        None,
+
         World,
 
         // Item-only

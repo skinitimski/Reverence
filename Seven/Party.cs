@@ -47,8 +47,8 @@ namespace Atmosphere.Reverence.Seven
                     _party [k - 1] = _characters [name];
             }
             
-            Materiatory = new Materiatory();
-            Inventory = new Inventory();
+            Materiatory = new Materiatory(savegame);
+            Inventory = new Inventory(savegame);
             Reserves = new Character[3, 3];
             
             int i = 0;

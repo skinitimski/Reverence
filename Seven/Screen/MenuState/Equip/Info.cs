@@ -24,7 +24,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
-            Text.ShadowedText(g, MenuScreen.EquipScreen.Control.Info, X + 20, Y + 27);
+            Text.ShadowedText(g, Seven.MenuState.EquipScreen.Control.Info, X + 20, Y + 27);
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();

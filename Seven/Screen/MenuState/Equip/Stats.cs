@@ -86,25 +86,25 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             te = g.TextExtents(mdfp.ToString());
             Text.ShadowedText(g, mdfp.ToString(), X + x1 - te.Width, Y + yr + (line * 6));
             
-            if (List.Instance.IsControl)
+            if (Seven.MenuState.EquipList.IsControl)
             {
                 int t_atk, t_atkp, t_def, t_defp, t_mat, t_mdf, t_mdfp;
                 
                 IItem temp;
                 
-                switch (EquipTop.Instance.Option)
+                switch (Seven.MenuState.EquipTop.Option)
                 {
                     case 0:
                         temp = Seven.Party.Selected.Weapon;
-                        Seven.Party.Selected.Weapon = (Weapon)List.Instance.Selection;
+                        Seven.Party.Selected.Weapon = (Weapon)Seven.MenuState.EquipList.Selection;
                         break;
                     case 1:
                         temp = Seven.Party.Selected.Armor;
-                        Seven.Party.Selected.Armor = (Armor)List.Instance.Selection;
+                        Seven.Party.Selected.Armor = (Armor)Seven.MenuState.EquipList.Selection;
                         break;
                     case 2:
                         temp = Seven.Party.Selected.Accessory;
-                        Seven.Party.Selected.Accessory = (Accessory)List.Instance.Selection;
+                        Seven.Party.Selected.Accessory = (Accessory)Seven.MenuState.EquipList.Selection;
                         break;
                     default:
                         temp = Seven.Party.Selected.Weapon;
@@ -119,7 +119,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 t_mdf = Ally.MagicDefense(Seven.Party.Selected);
                 t_mdfp = Ally.MagicDefensePercent(Seven.Party.Selected);
                 
-                switch (EquipTop.Instance.Option)
+                switch (Seven.MenuState.EquipTop.Option)
                 {
                     case 0:
                         Seven.Party.Selected.Weapon = (Weapon)temp;

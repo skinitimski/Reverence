@@ -301,7 +301,7 @@ namespace Atmosphere.Reverence.Seven
 //            }
             
             string acc = dataxml.SelectSingleNode("//accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? null : Accessory.AccessoryTable [acc];
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable [acc];
             
             // Q-Values
             InitTable(ref _qvals, dataxml.SelectSingleNode("//qvals").InnerText, ',');
@@ -412,7 +412,7 @@ namespace Atmosphere.Reverence.Seven
 //            }
             
             string acc = savexml.SelectSingleNode("//accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? null: Accessory.AccessoryTable [acc];
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY: Accessory.AccessoryTable [acc];
             
             
             // Q-Values
