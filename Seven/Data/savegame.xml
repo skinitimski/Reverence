@@ -299,7 +299,7 @@
         <reserve>Cid</reserve>
         <reserve>Sephiroth</reserve>
     </party>
-    <inventory>
+    <Seven.Party.Inventory>
         <item id="potion" count="25"        slot="1" />
         <item id="hipotion" count="32"      slot="2" />
         <item id="xpotion" count="15"       slot="3" />
@@ -496,7 +496,7 @@
         <accessory id="poisonring" count="1" slot="414" />
         <accessory id="tetraelemental" count="1" slot="415" />
         <accessory id="waterring" count="1" slot="416" />
-    </inventory>
+    </Seven.Party.Inventory>
     <materiatory>
         <orb id="fire" type="Magic" ap="1400" slot="0" />
         <orb id="fire" type="Magic" ap="10000" slot="1" />

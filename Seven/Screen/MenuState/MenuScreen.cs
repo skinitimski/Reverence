@@ -17,7 +17,16 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
 
         
         
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Atmosphere.Reverence.Seven.Screen.MenuState.MenuScreen"/> class.
+        /// </summary>
+        /// <param name='menus'>
+        /// The menus in the screen. The order given dictates the order in which 
+        /// they are draw on the screen, from first to last.
+        /// </param>
+        /// <param name='defaultControl'>
+        /// Default control.
+        /// </param>
         public MenuScreen(IEnumerable<GameMenu> menus, IController defaultControl)
         {
             _menus = menus;

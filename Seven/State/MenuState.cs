@@ -20,35 +20,6 @@ namespace Atmosphere.Reverence.Seven.State
 
         private MenuScreen _layer;
 
-        
-        private MenuScreen _mainScreen;
-        private Screens.Main.Status _mainStatus;
-        private Screens.Main.Options _mainOptions;
-
-        private MenuScreen _itemScreen;
-        
-        private MenuScreen _magicScreen;
-        private MenuScreen _materiaScreen;
-
-        private MenuScreen _equipScreen;
-        private Screens.Equip.Top _equipTop;
-        private Screens.Equip.List _equipList;
-
-
-        private MenuScreen _statusScreen;
-        private Screens.Status.One _statusOne;
-        private Screens.Status.Two _statusTwo;
-        private Screens.Status.Three _statusThree;
-        private Screens.Status.Label _statusLabel;
-
-        private MenuScreen _phsScreen;
-        private Screens.Phs.List _phsList;
-        private Screens.Phs.Stats _phsStats;
-
-
-        private MenuScreen _victoryScreen;
-        private MenuScreen _hoardScreen;
-
 
 
         public MenuState()
@@ -63,105 +34,120 @@ namespace Atmosphere.Reverence.Seven.State
             // MAIN MENU
             // 
             
-            _mainStatus = new Screens.Main.Status();
-            _mainOptions = new Screens.Main.Options();
+            MainStatus = new Screens.Main.Status();
+            MainOptions = new Screens.Main.Options();
             
             List<GameMenu> mainMenus = new List<GameMenu>();
-            mainMenus.Add(_mainStatus);
-            mainMenus.Add(_mainOptions);
+            mainMenus.Add(MainStatus);
+            mainMenus.Add(MainOptions);
             mainMenus.Add(new Screens.Main.Time());
             mainMenus.Add(new Screens.Main.Location());
             
-            _mainScreen = new MenuScreen(mainMenus, _mainOptions);
+            MainScreen = new MenuScreen(mainMenus, MainOptions);
+
+
+
+            // 
+            // ITEM
+            //
+
+            
+            ItemTop = new Screens.Item.Top();
+            ItemStats = new Screens.Item.Stats();
+            ItemList = new Screens.Item.List();
+
+            List<GameMenu> itemMenus = new List<GameMenu>();
+            itemMenus.Add(ItemTop);
+            itemMenus.Add(ItemStats);
+            itemMenus.Add(ItemList);
+            itemMenus.Add(new Screens.Item.Info());
+            itemMenus.Add(new Screens.Item.Label());
+
+            ItemScreen = new MenuScreen(itemMenus, ItemTop);
+
+
+            //
+            // MATERIA
+            //
+
+            MateriaTop = new Screens.Materia.Top();
+            MateriaList = new Screens.Materia.List();
+            MateriaArrange = new Screens.Materia.Arrange();
+            MateriaPrompt = new Screens.Materia.Prompt();
+
+            List<GameMenu> materiaMenus  = new List<GameMenu>();
+            materiaMenus.Add(MateriaTop);
+            materiaMenus.Add(MateriaList);
+            materiaMenus.Add(new Screens.Materia.Stats());
+            materiaMenus.Add(new Screens.Materia.Info());
+            materiaMenus.Add(new Screens.Materia.Label());
+            materiaMenus.Add(MateriaArrange);
+            materiaMenus.Add(MateriaPrompt);
+
+            MateriaScreen = new MenuScreen(materiaMenus, MateriaTop);
 
 
             //
             // EQUIP
             //
 
-            _equipTop = new Screens.Equip.Top();
-            _equipList = new Screens.Equip.List();
+            EquipTop = new Screens.Equip.Top();
+            EquipList = new Screens.Equip.List();
 
             List<GameMenu> equipMenus =  new List<GameMenu>();
-            equipMenus.Add(_equipTop);
-            equipMenus.Add(_equipList);
+            equipMenus.Add(EquipTop);
+            equipMenus.Add(EquipList);
             equipMenus.Add(new Screens.Equip.Stats());
             equipMenus.Add(new Screens.Equip.Selected());
             equipMenus.Add(new Screens.Equip.Info());
             equipMenus.Add(new Screens.Equip.Label());
 
-            _equipScreen = new MenuScreen(equipMenus, _equipTop);
-            
-            //            EquipScreen = new MenuScreen(6, Equip.Top.Instance);
-            //            EquipScreen._menus[0] = Equip.Top.Instance;
-            //            EquipScreen._menus[1] = Equip.List.Instance;
-            //            EquipScreen._menus[2] = Equip.Stats.Instance;
-            //            EquipScreen._menus[3] = Equip.Selected.Instance;
-            //            EquipScreen._menus[4] = Equip.Info.Instance;
-            //            EquipScreen._menus[5] = Equip.Label.Instance;
+            EquipScreen = new MenuScreen(equipMenus, EquipTop);
 
 
             //
             // STATUS
             //
 
-            _statusOne = new Screens.Status.One();
-            _statusTwo = new Screens.Status.Two();
-            _statusThree = new Screens.Status.Three();
-            _statusLabel = new Screens.Status.Label();
+            StatusOne = new Screens.Status.One();
+            StatusTwo = new Screens.Status.Two();
+            StatusThree = new Screens.Status.Three();
+            StatusLabel = new Screens.Status.Label();
 
             List<GameMenu>  statusMenus =  new List<GameMenu>();
-            statusMenus.Add(_statusOne);
-            statusMenus.Add(_statusTwo);
-            statusMenus.Add(_statusThree);
-            statusMenus.Add(_statusLabel);
+            statusMenus.Add(StatusOne);
+            statusMenus.Add(StatusTwo);
+            statusMenus.Add(StatusThree);
+            statusMenus.Add(StatusLabel);
 
-            _statusScreen = new MenuScreen(statusMenus, _statusLabel);
+            StatusScreen = new MenuScreen(statusMenus, StatusLabel);
 
             
             //
             // PHS
             //
             
-            _phsList = new Screens.Phs.List();
-            _phsStats = new Screens.Phs.Stats();
+            PhsList = new Screens.Phs.List();
+            PhsStats = new Screens.Phs.Stats();
             
             List<GameMenu> phsMenus = new List<GameMenu>();
             phsMenus.Add(new Screens.Phs.Top());
-            phsMenus.Add(_phsStats);
-            phsMenus.Add(_phsList);
+            phsMenus.Add(PhsStats);
+            phsMenus.Add(PhsList);
             phsMenus.Add(new Screens.Phs.Info());
             phsMenus.Add(new Screens.Phs.Label());
             
-            _phsScreen = new MenuScreen(phsMenus, _phsStats);
+            PhsScreen = new MenuScreen(phsMenus, PhsStats);
             
             
             
-            
-            //            ItemScreen = new MenuScreen(5, Item.List.Instance);
-            //            ItemScreen._menus[0] = Item.Top.Instance;
-            //            ItemScreen._menus[1] = Item.Stats.Instance;
-            //            ItemScreen._menus[2] = Item.List.Instance;
-            //            ItemScreen._menus[3] = Item.Info.Instance;
-            //            ItemScreen._menus[4] = Item.Label.Instance;
-            //            
-            //            
-            //            MateriaScreen = new MenuScreen(7, Materia.Top.Instance);
-            //            MateriaScreen._menus[0] = Materia.Top.Instance;
-            //            MateriaScreen._menus[1] = Materia.Stats.Instance;
-            //            MateriaScreen._menus[2] = Materia.List.Instance;
-            //            MateriaScreen._menus[3] = Materia.Info.Instance;
-            //            MateriaScreen._menus[4] = Materia.Label.Instance;
-            //            MateriaScreen._menus[5] = Materia.Arrange.Instance;
-            //            MateriaScreen._menus[6] = Materia.Prompt.Instance;
-            //            
-            //            
-            //
+
+            //                      
             //            VictoryScreen = new MenuScreen(6, Victory.Label.Instance);
             //            VictoryScreen._menus[0] = Victory.Label.Instance;
             //            VictoryScreen._menus[1] = Victory.Exp.Instance;
             //            VictoryScreen._menus[2] = Victory.AP.Instance;
-            //            VictoryScreen._menus[3] = Victory.Top.Instance;
+            //            VictoryScreen._menus[3] = Victory.Seven.MenuState.MateriaTop;
             //            VictoryScreen._menus[4] = Victory.Middle.Instance;
             //            VictoryScreen._menus[5] = Victory.Bottom.Instance;
             //
@@ -192,18 +178,18 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 case Key.L1:
                 case Key.L2:
-                    if (//_equipTop.IsControl || 
-                        //Materia.Top.Instance.IsControl ||
-                        _statusLabel.IsControl)
+                    if (EquipTop.IsControl || 
+                        MateriaTop.IsControl ||
+                        StatusLabel.IsControl)
                     {
                         Seven.Party.IncrementSelection();
                     }
                     break;
                 case Key.R1:
                 case Key.R2:
-                    if (//_equipTop.IsControl || 
-                        //Materia.Top.Instance.IsControl ||
-                        _statusLabel.IsControl)
+                    if (EquipTop.IsControl || 
+                        MateriaTop.IsControl ||
+                        StatusLabel.IsControl)
                     {
                         Seven.Party.DecrementSelection();
                     }
@@ -247,29 +233,39 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         
-        public MenuScreen MainScreen { get { return _mainScreen; } }
-        public MenuScreen ItemScreen { get { return _itemScreen; } }
-        public MenuScreen MagicScreen { get { return _magicScreen; } }
-        public MenuScreen MateriaScreen { get { return _materiaScreen; } }
-        public MenuScreen EquipScreen { get { return _equipScreen; } }
-        public MenuScreen StatusScreen { get { return _statusScreen; } }
-        public MenuScreen PhsScreen { get { return _phsScreen; } }
-        public MenuScreen VictoryScreen { get { return _victoryScreen; } }
-        public MenuScreen HoardScreen { get { return _hoardScreen; } }
+        public MenuScreen MainScreen { get; private set; }
+        public MenuScreen ItemScreen { get; private set; }
+        public MenuScreen MagicScreen { get; private set; }
+        public MenuScreen MateriaScreen { get; private set; }
+        public MenuScreen EquipScreen { get; private set; }
+        public MenuScreen StatusScreen { get; private set; }
+        public MenuScreen PhsScreen { get; private set; }
+        public MenuScreen VictoryScreen { get; private set; }
+        public MenuScreen HoardScreen { get; private set; }
         
         
         
-        public Screens.Main.Status MainStatus { get { return _mainStatus; } }
-        public Screens.Main.Options MainOptions { get { return _mainOptions; } }
-
-        public Screens.Equip.Top EquipTop { get { return _equipTop; } }
-        public Screens.Equip.List EquipList { get { return _equipList; } }
+        public Screens.Main.Options MainOptions { get; private set; }
+        public Screens.Main.Status MainStatus { get; private set; }
         
-        public Screens.Status.One StatusOne { get { return _statusOne; } }
-        public Screens.Status.Two StatusTwo { get { return _statusTwo; } }
-        public Screens.Status.Three StatusThree { get { return _statusThree; } }
+        public Screens.Item.Top ItemTop { get; private set; }
+        public Screens.Item.List ItemList { get; private set; }
+        public Screens.Item.Stats ItemStats { get; private set; }
         
-        public Screens.Phs.List PhsList { get { return _phsList; } }
-        public Screens.Phs.Stats PhsStats { get { return _phsStats; } }
+        public Screens.Materia.Top MateriaTop { get; private set; }
+        public Screens.Materia.List MateriaList { get; private set; }
+        public Screens.Materia.Arrange MateriaArrange { get; private set; }
+        public Screens.Materia.Prompt MateriaPrompt { get; private set; }
+        
+        public Screens.Equip.Top EquipTop { get; private set; }
+        public Screens.Equip.List EquipList { get; private set; }
+        
+        public Screens.Status.One StatusOne { get; private set; }
+        public Screens.Status.Two StatusTwo { get; private set; }
+        public Screens.Status.Three StatusThree { get; private set; }
+        public Screens.Status.Label StatusLabel { get; private set; }
+        
+        public Screens.Phs.List PhsList { get; private set; }
+        public Screens.Phs.Stats PhsStats { get; private set; }
     }
 }

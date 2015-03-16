@@ -24,8 +24,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         private static Dictionary<string, Item> _table;
 
         public static Item EMPTY { get; private set; }
-
-
         
         public static void LoadItems()
         {
@@ -110,14 +108,13 @@ namespace Atmosphere.Reverence.Seven.Asset
 //                catch (Exception e)
 //                {
 //                }
-                  return true;
+                return true;
             }
             else
             {
                 throw new ImplementationException("Used a non-battle item while outside the field.");
             }
         }
-        
         
         public static IItem GetItem(string id, string type)
         {
@@ -137,10 +134,15 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
         
         public ItemType Type { get { return _type; } }
+
         public ItemTarget TargetType { get { return _targetType; } }
+
         public string Name { get { return _name; } }
+
         public string ID { get { return Resource.CreateID(_name); } }
+
         public string Description { get { return _desc; } }
+
         public static Dictionary<string, Item> ItemTable { get { return _table; } }
     }
 }

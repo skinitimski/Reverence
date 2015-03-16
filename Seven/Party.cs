@@ -44,7 +44,9 @@ namespace Atmosphere.Reverence.Seven
                 string name = savegame.SelectSingleNode("//party/slot" + k.ToString()).InnerXml;
                 
                 if (!String.IsNullOrEmpty(name))
+                {
                     _party [k - 1] = _characters [name];
+                }
             }
             
             Materiatory = new Materiatory(savegame);

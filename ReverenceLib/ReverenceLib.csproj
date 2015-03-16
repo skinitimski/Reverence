@@ -78,9 +78,6 @@
     <Compile Include="Exceptions\GameDataException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Data\savegame.xml">
-      <LogicalName>data.savegame.xml</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Data\config.xml">
       <LogicalName>data.config.xml</LogicalName>
     </EmbeddedResource>

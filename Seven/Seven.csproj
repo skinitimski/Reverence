@@ -62,6 +62,8 @@
     <Folder Include="Asset\" />
     <Folder Include="Asset\Materia\" />
     <Folder Include="Screen\MenuState\Equip\" />
+    <Folder Include="Screen\MenuState\Materia\" />
+    <Folder Include="Screen\MenuState\Item\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -112,6 +114,18 @@
     <Compile Include="Screen\MenuState\Equip\Selected.cs" />
     <Compile Include="Screen\MenuState\Equip\Stats.cs" />
     <Compile Include="Screen\MenuState\Equip\Top.cs" />
+    <Compile Include="Screen\MenuState\Materia\Arrange.cs" />
+    <Compile Include="Screen\MenuState\Materia\Info.cs" />
+    <Compile Include="Screen\MenuState\Materia\Label.cs" />
+    <Compile Include="Screen\MenuState\Materia\List.cs" />
+    <Compile Include="Screen\MenuState\Materia\Prompt.cs" />
+    <Compile Include="Screen\MenuState\Materia\Stats.cs" />
+    <Compile Include="Screen\MenuState\Materia\Top.cs" />
+    <Compile Include="Screen\MenuState\Item\Info.cs" />
+    <Compile Include="Screen\MenuState\Item\Label.cs" />
+    <Compile Include="Screen\MenuState\Item\List.cs" />
+    <Compile Include="Screen\MenuState\Item\Stats.cs" />
+    <Compile Include="Screen\MenuState\Item\Top.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

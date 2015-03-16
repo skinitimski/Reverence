@@ -13,6 +13,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
     {
 
         #region Nested
+
         public struct MateriaRecord
         {
             private string _name;
@@ -80,6 +81,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             public string Description { get { return _desc; } }
 
         }
+
         #endregion
 
 
@@ -112,6 +114,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         #endregion Member Data
 
+
+        public static MateriaBase EMPTY;
 
         
         public MateriaBase(string name, int ap)
@@ -222,39 +226,58 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public static int CompareByType(MateriaBase left, MateriaBase right)
         {
+            // Why aren't we seeing nulls?
+
+            int comparison;
+
             if (left == null && right == null)
-                return 0;
-            else if (left == null) return 1;
-            else if (right == null) return -1;
-            else return left.TypeOrder.CompareTo(right.TypeOrder);
+            {
+                comparison = 0;
+            }
+            else if (left == null)
+            {
+                comparison =  1;
+            }
+            else if (right == null)
+            {
+                comparison =  -1;
+            }
+            else
+            {
+                comparison = left.TypeOrder.CompareTo(right.TypeOrder);
+            }
+
+            return comparison;
         }
 
         public static int CompareByOrder(MateriaBase left, MateriaBase right)
         {
-            if (left == null && right == null)
+            int comparison = 0;
+
+            if (left == null)
             {
-                return 0;
-            }
-            else if (left == null)
-            {
-                return 1;
-            }
-            else if (right == null)
-            {
-                return -1;
+                if (right != null)
+                {
+                    comparison = 1;
+                }
+                // else, still 0
             }
             else
             {
-                int comp = left._order.CompareTo(right._order);
-                if (comp == 0)
+                if (right == null)
                 {
-                    return 0 - left.AP.CompareTo(right.AP);
+                    comparison = -1;
                 }
-                else
+
+                comparison = left._order.CompareTo(right._order);
+
+                if (comparison == 0)
                 {
-                    return comp;
+                    comparison =  right.AP.CompareTo(left.AP);
                 }
             }
+
+            return comparison;
         }
                 
         public virtual void AddAP(int delta)

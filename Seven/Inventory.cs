@@ -100,14 +100,14 @@ namespace Atmosphere.Reverence.Seven
             // fill all slots
             for (int i = 0; i < INVENTORY_SIZE; i++)
             {
-                _inventory [i] = new Record(i);
+                _inventory[i] = new Record(i);
             }
         }
         
         public Inventory(XmlDocument savegame)
             : this()
         {
-            foreach (XmlNode node in savegame.SelectNodes("//inventory/*"))
+            foreach (XmlNode node in savegame.SelectNodes("//Seven.Party.Inventory/*"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {
@@ -115,13 +115,13 @@ namespace Atmosphere.Reverence.Seven
                 }
                                
                 string type = node.Name;
-                string id = node.Attributes ["id"].Value;
-                int count = Int32.Parse(node.Attributes ["count"].Value);
-                int slot = Int32.Parse(node.Attributes ["slot"].Value);
+                string id = node.Attributes["id"].Value;
+                int count = Int32.Parse(node.Attributes["count"].Value);
+                int slot = Int32.Parse(node.Attributes["slot"].Value);
                 
-                _inventory [slot] = new Record(slot);
-                _inventory [slot].Count = count;
-                _inventory [slot].Item = Item.GetItem(id, type);
+                _inventory[slot] = new Record(slot);
+                _inventory[slot].Count = count;
+                _inventory[slot].Item = Item.GetItem(id, type);
             }
         }
         
@@ -200,26 +200,26 @@ namespace Atmosphere.Reverence.Seven
         
         public IItem SwapOut(IItem newItem, int slot)
         {
-            if (_inventory [slot].Count != 1)
+            if (_inventory[slot].Count != 1)
             {
                 throw new ImplementationException("Can't swap out an item unless it has a count of 1.");
             }
 
-            IItem temp = _inventory [slot].Item;
+            IItem temp = _inventory[slot].Item;
             
-            _inventory [slot].Item = newItem;
+            _inventory[slot].Item = newItem;
             
             return temp;
         }
 
         public void IncreaseCount(int slot)
         {
-            _inventory [slot].Count++;
+            _inventory[slot].Count++;
         }
 
         public void DecreaseCount(int slot)
         {
-            _inventory [slot].Count--;
+            _inventory[slot].Count--;
         }
 
         public void AddToInventory(IItem item)
@@ -239,8 +239,8 @@ namespace Atmosphere.Reverence.Seven
                     j++;
                 }
 
-                _inventory [j].Item = item;
-                _inventory [j].Count = 1;
+                _inventory[j].Item = item;
+                _inventory[j].Count = 1;
             }
         }
         
@@ -261,12 +261,12 @@ namespace Atmosphere.Reverence.Seven
 
         public IItem GetItem(int slot)
         {
-            return _inventory [slot].Item;
+            return _inventory[slot].Item;
         }
 
         public int GetCount(int slot)
         {
-            return _inventory [slot].Count;
+            return _inventory[slot].Count;
         }
 
         public void Sort()
@@ -276,7 +276,7 @@ namespace Atmosphere.Reverence.Seven
 
         public bool UseItem(int slot)
         {
-            if (((Item)_inventory [slot].Item).Use())
+            if (((Item)_inventory[slot].Item).Use())
             {
                 DecreaseCount(slot);
                 return true;

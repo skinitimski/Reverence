@@ -320,6 +320,10 @@ namespace Atmosphere.Reverence.Seven
             
             // Stat ranks
             InitTable(ref _stat_ranks, dataxml.SelectSingleNode("//ranks").InnerText, ',');
+            
+            
+            Profile = new Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
+            ProfileSmall = new Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
         }
         
         /// <summary>
@@ -434,8 +438,8 @@ namespace Atmosphere.Reverence.Seven
             InitTable(ref _stat_ranks, dataxml.SelectSingleNode("//ranks").InnerText, ',');
 
 
-            Profile = new Pixbuf(typeof(Character).Assembly, "charfull." + _name.ToLower() + ".jpg");
-            ProfileSmall = new Pixbuf(typeof(Character).Assembly, "charsmall." + _name.ToLower() + ".jpg");
+            Profile = new Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
+            ProfileSmall = new Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
         }
         
         

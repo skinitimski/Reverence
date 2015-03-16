@@ -151,7 +151,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             {
                 string desc = _desc;
 
-//                if (Game.MainMenu.Layer == MenuScreen.ItemScreen)
+//                if (Seven.MenuState.Layer == Seven.MenuState.ItemScreen)
 //                    return String.Format("A weapon for {0}", Wielder.ToString());
 
                 if (LongRange) 
