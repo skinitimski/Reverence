@@ -4,6 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading;
+using NLua;
 
 using Cairo;
 using Gtk;
@@ -30,7 +31,9 @@ namespace Atmosphere.Reverence
         protected Game()
         {
             _gridColor = Config.Instance.Grid;
+
             State = GetInitialState();
+            LuaEnvironment = new Lua();
         }
 
 
@@ -297,6 +300,9 @@ namespace Atmosphere.Reverence
 
         protected abstract State GetInitialState();
 
+        protected abstract void Init();
+
+
         /// <summary>
         /// Sets the game state to the given <paramref name="newState" />,
         /// </summary>
@@ -316,7 +322,10 @@ namespace Atmosphere.Reverence
 
         private void Go()
         {
+            Init();
+
             Application.Init();
+
             
             
             _window = new Window(Config.Instance.WindowTitle);
@@ -396,5 +405,7 @@ namespace Atmosphere.Reverence
 
         
         protected State State { get; private set; }
+        protected Lua LuaEnvironment { get; private set; }
+
     }
 }

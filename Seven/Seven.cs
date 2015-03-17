@@ -1,6 +1,8 @@
 using System;
 using System.Xml;
 
+using NLua;
+
 using Atmosphere.Reverence;
 using Atmosphere.Reverence.Time;
 using GameState = Atmosphere.Reverence.State;
@@ -16,7 +18,12 @@ namespace Atmosphere.Reverence.Seven
         private MenuState _menuState;
         private Clock _clock;
         private XmlDocument _saveGame;
+
+
+
         public static readonly Seven Instance;
+
+
 
         static Seven()
         {
@@ -27,13 +34,17 @@ namespace Atmosphere.Reverence.Seven
             : base()
         {
 
+
+        }
+
+        protected override void Init()
+        {
             Weapon.LoadWeapons();
             Armor.LoadArmor();
             Accessory.LoadAccessories();
             Item.LoadItems();
             MateriaBase.LoadMateria();
             Spell.LoadSpells();
-
         }
 
         protected override Atmosphere.Reverence.State GetInitialState()
@@ -57,6 +68,8 @@ namespace Atmosphere.Reverence.Seven
         }
 
         internal static GameState CurrentState { get { return Instance.State; } }
+        
+        internal static Lua Lua { get { return Instance.LuaEnvironment; } }
 
         internal static MenuState MenuState { get { return Instance._menuState; } }
 
