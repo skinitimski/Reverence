@@ -64,17 +64,17 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                     t++;
                 }
 
-                order = Int32.Parse(node.SelectSingleNode("//order").InnerText);
+                order = Int32.Parse(node.SelectSingleNode("order").InnerText);
 
-                abilities = node.SelectSingleNode("//abilities").InnerText.Split(
+                abilities = node.SelectSingleNode("abilities").InnerText.Split(
                     new char[] { ',' }, StringSplitOptions.None);
 
-                XmlNode attachNode = node.SelectSingleNode("//attach");
+                XmlNode attachNode = node.SelectSingleNode("attach");
                 if (attachNode != null)
                 {
                     Seven.Lua.DoString("attach" + ID + " = " + attachNode.InnerText);
                 }
-                XmlNode detachNode = node.SelectSingleNode("//detach");
+                XmlNode detachNode = node.SelectSingleNode("detach");
                 if (detachNode != null)
                 {
                     Seven.Lua.DoString("detach" + ID + " = " + detachNode.InnerText);

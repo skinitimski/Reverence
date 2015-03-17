@@ -209,110 +209,9 @@ namespace Atmosphere.Reverence.Seven
         /// Creates a character from scratch with initial stats/equipment.
         /// </summary>
         /// <param name="dataxmlstring"></param>
-        public Character(string dataxmlstring)
+        public Character(XmlNode dataxml)
+            : this(dataxml, dataxml)
         {
-            _halve = new List<Element>();
-            _void = new List<Element>();
-            _absorb = new List<Element>();
-            _immune = new List<Status>();
-            
-            
-            XmlDocument dataxml = new XmlDocument();
-            dataxml.Load(new MemoryStream(Encoding.UTF8.GetBytes(dataxmlstring)));
-            
-            _name = dataxml.FirstChild.Name;
-            
-            // Old Way : xml.SelectSingleNode("/" + _name + "/stats/lvl").InnerText
-            
-            // Stats
-            _strength_base = Int32.Parse(dataxml.SelectSingleNode("//str").InnerText);
-            _dexterity_base = Int32.Parse(dataxml.SelectSingleNode("//dex").InnerText);
-            _vitality_base = Int32.Parse(dataxml.SelectSingleNode("//vit").InnerText);
-            _magic_base = Int32.Parse(dataxml.SelectSingleNode("//mag").InnerText);
-            _spirit_base = Int32.Parse(dataxml.SelectSingleNode("//spi").InnerText);
-            _luck_base = Int32.Parse(dataxml.SelectSingleNode("//lck").InnerText);
-            
-            // Experience and Level
-            _exp = Int32.Parse(dataxml.SelectSingleNode("//exp").InnerText);
-            _level = Int32.Parse(dataxml.SelectSingleNode("//lvl").InnerText);
-            _limitlvl = 1;
-            
-            // HP
-            _hp = Int32.Parse(dataxml.SelectSingleNode("//hp").InnerText);
-            _maxhp = Int32.Parse(dataxml.SelectSingleNode("//hp").InnerText);
-            if (_hp > _maxhp)
-            {
-                throw new SaveStateException("HP > MAXHP for " + _name);
-            }
-            
-            // MP
-            _mp = Int32.Parse(dataxml.SelectSingleNode("//mp").InnerText);
-            _maxmp = Int32.Parse(dataxml.SelectSingleNode("//mp").InnerText);
-            if (_mp > _maxmp)
-            {
-                throw new SaveStateException("MP > MAXMP for " + _name);
-            }
-            
-            _sadness = false;
-            _fury = false;
-            _death = false;
-            
-            _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("//sex").InnerText);
-            
-            // Equipment
-            _weaponType = (WeaponType)Enum.Parse(typeof(WeaponType), _name.Replace(" ", ""));
-            _weapon = new Weapon(dataxml.SelectSingleNode("//weapon/name").InnerText);
-
-//            foreach (XmlNode orb in dataxml.SelectNodes("//weapon/materia/orb"))
-//            {
-//                string id = orb.Attributes["id"].Value;
-//                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
-//                int ap = Int32.Parse(orb.Attributes["ap"].Value);
-//                int slot = Int32.Parse(orb.Attributes["slot"].Value);
-//                if (slot >= _weapon.Slots.Length)
-//                    throw new SavegameException("Materia orb assigned to slot that doesnt exist on weapon.");
-//                
-//                _weapon.Slots[slot] = Atmosphere.BattleSimulator.MateriaBase.Create(id, ap, type);
-//            }
-            
-            _armor = new Armor(dataxml.SelectSingleNode("//armor/name").InnerText);
-
-//            foreach (XmlNode orb in dataxml.SelectNodes("//armor/materia/orb"))
-//            {
-//                string id = orb.Attributes["id"].Value;
-//                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
-//                int ap = Int32.Parse(orb.Attributes["ap"].Value);
-//                int slot = Int32.Parse(orb.Attributes["slot"].Value);
-//                if (slot >= _weapon.Slots.Length)
-//                    throw new SavegameException("Materia orb assigned to slot that doesnt exist on armor.");
-//                
-//                _armor.Slots[slot] = Atmosphere.BattleSimulator.MateriaBase.Create(id, ap, type);
-//            }
-            
-            string acc = dataxml.SelectSingleNode("//accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable[acc];
-            
-            // Q-Values
-            InitTable(ref _qvals, dataxml.SelectSingleNode("//qvals").InnerText, ',');
-            
-            // Luck base/gradient tables
-            InitTable(ref _lck_base, dataxml.SelectSingleNode("//lbvals").InnerText, ',');
-            InitTable(ref _lck_gradient, dataxml.SelectSingleNode("//lgvals").InnerText, ',');
-            
-            // HP base/gradient tables
-            InitTable(ref _hp_base, dataxml.SelectSingleNode("//hpbvals").InnerText, ',');
-            InitTable(ref _hp_gradient, dataxml.SelectSingleNode("//hpgvals").InnerText, ',');
-            
-            // MP base/gradient tables
-            InitTable(ref _mp_base, dataxml.SelectSingleNode("//mpbvals").InnerText, ',');
-            InitTable(ref _mp_gradient, dataxml.SelectSingleNode("//mpgvals").InnerText, ',');
-            
-            // Stat ranks
-            InitTable(ref _stat_ranks, dataxml.SelectSingleNode("//ranks").InnerText, ',');
-            
-            
-            Profile = new Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
-            ProfileSmall = new Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
         }
         
         /// <summary>
@@ -320,40 +219,33 @@ namespace Atmosphere.Reverence.Seven
         /// </summary>
         /// <param name="savexmlstring"></param>
         /// <param name="dataxmlstring"></param>
-        public Character(string savexmlstring, string dataxmlstring)
+        public Character(XmlNode savexml, XmlNode dataxml)
         {
             _halve = new List<Element>();
             _void = new List<Element>();
             _absorb = new List<Element>();
             _immune = new List<Status>();
 
+                       
+            _name = savexml.Name;
 
             
-            XmlDocument savexml = new XmlDocument();
-            XmlDocument dataxml = new XmlDocument();
-            savexml.Load(new MemoryStream(Encoding.UTF8.GetBytes(savexmlstring)));
-            dataxml.Load(new MemoryStream(Encoding.UTF8.GetBytes(dataxmlstring)));
-            
-            _name = savexml.FirstChild.Name;
-            
-            // Old Way : xml.SelectSingleNode("/" + _name + "/stats/lvl").InnerText
-            
             // Stats
-            _strength_base = Int32.Parse(savexml.SelectSingleNode("//str").InnerText);
-            _dexterity_base = Int32.Parse(savexml.SelectSingleNode("//dex").InnerText);
-            _vitality_base = Int32.Parse(savexml.SelectSingleNode("//vit").InnerText);
-            _magic_base = Int32.Parse(savexml.SelectSingleNode("//mag").InnerText);
-            _spirit_base = Int32.Parse(savexml.SelectSingleNode("//spi").InnerText);
-            _luck_base = Int32.Parse(savexml.SelectSingleNode("//lck").InnerText);
+            _strength_base = Int32.Parse(savexml.SelectSingleNode("./stats/str").InnerText);
+            _dexterity_base = Int32.Parse(savexml.SelectSingleNode("./stats/dex").InnerText);
+            _vitality_base = Int32.Parse(savexml.SelectSingleNode("./stats/vit").InnerText);
+            _magic_base = Int32.Parse(savexml.SelectSingleNode("./stats/mag").InnerText);
+            _spirit_base = Int32.Parse(savexml.SelectSingleNode("./stats/spi").InnerText);
+            _luck_base = Int32.Parse(savexml.SelectSingleNode("./stats/lck").InnerText);
+            _level = Int32.Parse(savexml.SelectSingleNode("./stats/lvl").InnerText);
             
             // Experience and Level
-            _exp = Int32.Parse(savexml.SelectSingleNode("//exp").InnerText);
-            _level = Int32.Parse(savexml.SelectSingleNode("//lvl").InnerText);
-            _limitlvl = Int32.Parse(savexml.SelectSingleNode("//limitlvl").InnerText);
+            _exp = Int32.Parse(savexml.SelectSingleNode("./exp").InnerText);
+            _limitlvl = Int32.Parse(savexml.SelectSingleNode("./limitlvl").InnerText);
             
             // HP
-            _hp = Int32.Parse(savexml.SelectSingleNode("//hp").InnerText);
-            _maxhp = Int32.Parse(savexml.SelectSingleNode("//maxhp").InnerText);
+            _hp = Int32.Parse(savexml.SelectSingleNode("./hp").InnerText);
+            _maxhp = Int32.Parse(savexml.SelectSingleNode("./maxhp").InnerText);
             if (_hp > _maxhp)
             {
                 throw new SaveStateException("HP > MAXHP for " + _name);
@@ -361,76 +253,80 @@ namespace Atmosphere.Reverence.Seven
             _death = (_hp == 0);
             
             // MP
-            _mp = Int32.Parse(savexml.SelectSingleNode("//mp").InnerText);
-            _maxmp = Int32.Parse(savexml.SelectSingleNode("//maxmp").InnerText);
+            _mp = Int32.Parse(savexml.SelectSingleNode("./mp").InnerText);
+            _maxmp = Int32.Parse(savexml.SelectSingleNode("./maxmp").InnerText);
             if (_mp > _maxmp)
             {
                 throw new SaveStateException("MP > MAXMP for " + _name);
             }
             
             // Fury/Sadness
-            _sadness = Boolean.Parse(savexml.SelectSingleNode("//sadness").InnerText);
-            _fury = Boolean.Parse(savexml.SelectSingleNode("//fury").InnerText);
+            _sadness = Boolean.Parse(savexml.SelectSingleNode("./sadness").InnerText);
+            _fury = Boolean.Parse(savexml.SelectSingleNode("./fury").InnerText);
             if (_sadness && _fury)
             {
                 throw new SaveStateException("Can't be both sad and furious");
             }
             
             // Sex
-            _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("//sex").InnerText);
+            _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("./sex").InnerText);
             
             // Equipment
             _weaponType = (WeaponType)Enum.Parse(typeof(WeaponType), _name.Replace(" ", ""));
             
-            _weapon = new Weapon(savexml.SelectSingleNode("//weapon/name").InnerText);
+            _weapon = new Weapon(savexml.SelectSingleNode("./weapon/name").InnerText);
 
-//            foreach (XmlNode orb in savexml.SelectNodes("//weapon/materia/orb"))
-//            {
-//                string id = orb.Attributes["id"].Value;
-//                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
-//                int ap = Int32.Parse(orb.Attributes["ap"].Value);
-//                int slot = Int32.Parse(orb.Attributes["slot"].Value);
-//                if (slot >= _weapon.Slots.Length)
-//                    throw new SavegameException("Materia orb assigned to slot that doesnt exist on weapon.");
-//                
-//                _weapon.Slots[slot] = Atmosphere.BattleSimulator.MateriaBase.Create(id, ap, type);
-//            }
-//            
-            _armor = new Armor(savexml.SelectSingleNode("//armor/name").InnerText);
-
-//            foreach (XmlNode orb in savexml.SelectNodes("//armor/materia/orb"))
-//            {
-//                string id = orb.Attributes["id"].Value;
-//                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
-//                int ap = Int32.Parse(orb.Attributes["ap"].Value);
-//                int slot = Int32.Parse(orb.Attributes["slot"].Value);
-//                if (slot >= _weapon.Slots.Length)
-//                    throw new SavegameException("Materia orb assigned to slot that doesnt exist on armor.");
-//                
-//                _armor.Slots[slot] = Atmosphere.BattleSimulator.MateriaBase.Create(id, ap, type);
-//            }
+            foreach (XmlNode orb in savexml.SelectNodes("./weapon/materia/orb"))
+            {
+                string id = orb.Attributes["id"].Value;
+                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
+                int ap = Int32.Parse(orb.Attributes["ap"].Value);
+                int slot = Int32.Parse(orb.Attributes["slot"].Value);
+                if (slot >= _weapon.Slots.Length)
+                {
+                    throw new SaveStateException("Materia orb assigned to slot that doesnt exist on weapon.");
+                }
+                
+                _weapon.Slots[slot] = MateriaBase.Create(id, ap, type);
+            }
             
-            string acc = savexml.SelectSingleNode("//accessory").InnerText;
+            _armor = new Armor(savexml.SelectSingleNode("./armor/name").InnerText);
+
+            foreach (XmlNode orb in savexml.SelectNodes("//armor/materia/orb"))
+            {
+                string id = orb.Attributes["id"].Value;
+                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
+                int ap = Int32.Parse(orb.Attributes["ap"].Value);
+                int slot = Int32.Parse(orb.Attributes["slot"].Value);
+                if (slot >= _weapon.Slots.Length)
+                {
+                    throw new SaveStateException("Materia orb assigned to slot that doesnt exist on armor.");
+                }
+                
+                _armor.Slots[slot] = MateriaBase.Create(id, ap, type);
+            }
+            
+            string acc = savexml.SelectSingleNode("./accessory").InnerText;
             _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable[acc];
             
             
             // Q-Values
-            InitTable(ref _qvals, dataxml.SelectSingleNode("//qvals").InnerText, ',');
+            InitTable(ref _qvals, dataxml.SelectSingleNode("./qvals").InnerText, ',');
             
             // Luck base/gradient tables
-            InitTable(ref _lck_base, dataxml.SelectSingleNode("//lbvals").InnerText, ',');
-            InitTable(ref _lck_gradient, dataxml.SelectSingleNode("//lgvals").InnerText, ',');
+            InitTable(ref _lck_base, dataxml.SelectSingleNode("./lbvals").InnerText, ',');
+            InitTable(ref _lck_gradient, dataxml.SelectSingleNode("./lgvals").InnerText, ',');
             
             // HP base/gradient tables
-            InitTable(ref _hp_base, dataxml.SelectSingleNode("//hpbvals").InnerText, ',');
-            InitTable(ref _hp_gradient, dataxml.SelectSingleNode("//hpgvals").InnerText, ',');
+            InitTable(ref _hp_base, dataxml.SelectSingleNode("./hpbvals").InnerText, ',');
+            InitTable(ref _hp_gradient, dataxml.SelectSingleNode("./hpgvals").InnerText, ',');
             
             // MP base/gradient tables
-            InitTable(ref _mp_base, dataxml.SelectSingleNode("//mpbvals").InnerText, ',');
-            InitTable(ref _mp_gradient, dataxml.SelectSingleNode("//mpgvals").InnerText, ',');
+            InitTable(ref _mp_base, dataxml.SelectSingleNode("./mpbvals").InnerText, ',');
+            InitTable(ref _mp_gradient, dataxml.SelectSingleNode("./mpgvals").InnerText, ',');
             
             // Stat ranks
-            InitTable(ref _stat_ranks, dataxml.SelectSingleNode("//ranks").InnerText, ',');
+            InitTable(ref _stat_ranks, dataxml.SelectSingleNode("./ranks").InnerText, ',');
 
 
             Profile = new Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
