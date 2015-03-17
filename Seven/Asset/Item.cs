@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
+using NLua;
+
 using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset
@@ -47,25 +49,25 @@ namespace Atmosphere.Reverence.Seven.Asset
                 ItemType type = (ItemType)Enum.Parse(typeof(ItemType), node.SelectSingleNode("type").InnerText);
                 ItemTarget target = (ItemTarget)Enum.Parse(typeof(ItemTarget), node.SelectSingleNode("target").InnerText);
                 
-//                string field, battle;
-//                
-//                switch (type)
-//                {
-//                    case ItemType.Field:
-//                        field = node.SelectSingleNode("field").InnerText;
-//                        Game.Lua.DoString("usefield" + id + " = " + field);
-//                        break;
-//                    case ItemType.Battle:
-//                        battle = xml.SelectSingleNode("battle").InnerText;
-//                        Game.Lua.DoString("usebattle" + id + " = " + battle);
-//                        break;
-//                    case ItemType.Hybrid:
-//                        field = xml.SelectSingleNode("field").InnerText;
-//                        battle = xml.SelectSingleNode("battle").InnerText;
-//                        Game.Lua.DoString("usefield" + id + " = " + field);
-//                        Game.Lua.DoString("usebattle" + id + " = " + battle);
-//                        break;
-//                }
+                string field, battle;
+                
+                switch (type)
+                {
+                    case ItemType.Field:
+                        field = node.SelectSingleNode("field").InnerText;
+                        Seven.Lua.DoString("usefield" + id + " = " + field);
+                        break;
+                    case ItemType.Battle:
+                        battle = node.SelectSingleNode("battle").InnerText;
+                        Seven.Lua.DoString("usebattle" + id + " = " + battle);
+                        break;
+                    case ItemType.Hybrid:
+                        field = node.SelectSingleNode("field").InnerText;
+                        battle = node.SelectSingleNode("battle").InnerText;
+                        Seven.Lua.DoString("usefield" + id + " = " + field);
+                        Seven.Lua.DoString("usebattle" + id + " = " + battle);
+                        break;
+                }
                 
                 Item i = new Item(name, desc, type, target);
                 
@@ -87,27 +89,27 @@ namespace Atmosphere.Reverence.Seven.Asset
         {            
             if (Seven.CurrentState.Equals(Seven.MenuState))
             {
-//                LuaFunction l = Game.Lua.GetFunction("usefield" + ID);
+                LuaFunction l = Seven.Lua.GetFunction("usefield" + ID);
                 bool success = false;
-//                try
-//                {
-//                    success = (bool)l.Call() [0];
-//                }
-//                catch (Exception e)
-//                {
-//                }
+                try
+                {
+                    success = (bool)l.Call() [0];
+                }
+                catch (Exception e)
+                {
+                }
                 return success;
             }
             else if (Type == ItemType.Battle || Type == ItemType.Hybrid)
             {
-//                LuaFunction l = Game.Lua.GetFunction("usebattle" + ID);
-//                try
-//                {
-//                    l.Call(Game.Battle.ActiveAbility);
-//                }
-//                catch (Exception e)
-//                {
-//                }
+                LuaFunction l = Seven.Lua.GetFunction("usebattle" + ID);
+                try
+                {
+                    //l.Call(Game.Battle.ActiveAbility);
+                }
+                catch (Exception e)
+                {
+                }
                 return true;
             }
             else
@@ -121,9 +123,9 @@ namespace Atmosphere.Reverence.Seven.Asset
             switch (type)
             {
                 case "weapon":
-                    return new Weapon(id);
+                    return Weapon.Get(id);
                 case "armor":
-                    return new Armor(id);
+                    return Armor.Get(id);
                 case "item":
                     return ItemTable[id];
                 case "accessory":

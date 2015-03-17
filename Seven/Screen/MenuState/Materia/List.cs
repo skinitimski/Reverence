@@ -17,11 +17,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         const int cx = 16;
         const int cy = 22;
         const int rows = 10;
+
+        #endregion
         
-#endregion
-        
-        private int option = 65;
-        private int topRow = 56;
+        private int option = 0;
+        private int topRow = 0;
         private bool trashing = false;
         
         public List()

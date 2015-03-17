@@ -17,7 +17,6 @@ namespace Atmosphere.Reverence.Seven
         private Party _party;
         private MenuState _menuState;
         private Clock _clock;
-        private XmlDocument _saveGame;
 
 
 
@@ -54,11 +53,12 @@ namespace Atmosphere.Reverence.Seven
 
         public void LoadSavedGame()
         {
-            _saveGame = Resource.GetXmlFromResource("data.savegame.xml", typeof(Seven).Assembly);
+            XmlNode saveGame = Resource.GetXmlFromResource("data.savegame.xml", typeof(Seven).Assembly);
+            saveGame = saveGame.SelectSingleNode("*");
 
-            _party = new Party(_saveGame);
+            _party = new Party(saveGame);
 
-            int time = Int32.Parse(_saveGame.SelectSingleNode("//time").InnerText);
+            int time = Int32.Parse(saveGame.SelectSingleNode("./time").InnerText);
             _clock = new Clock(Clock.TICKS_PER_MS, time, true);
 
             _menuState = new MenuState();
@@ -76,8 +76,6 @@ namespace Atmosphere.Reverence.Seven
         internal static Party Party { get { return Instance._party; } }
 
         internal static Clock Clock { get { return Instance._clock; } }
-        
-        internal static XmlDocument SaveGame { get { return Instance._saveGame; } }
     }
 }
 

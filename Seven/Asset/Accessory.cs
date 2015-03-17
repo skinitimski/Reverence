@@ -54,7 +54,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             EMPTY = new Accessory("", "");
         }
         
-        public Accessory(string name, string desc)
+        private Accessory(string name, string desc)
         {
             _name = name;
             _desc = desc;

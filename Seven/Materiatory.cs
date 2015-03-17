@@ -16,10 +16,10 @@ namespace Atmosphere.Reverence.Seven
             _materiatory = new MateriaBase[MATERIATORY_SIZE];
         }
         
-        public Materiatory(XmlDocument savegame)
+        public Materiatory(XmlNode savegame)
             : this()
         {            
-            foreach (XmlNode node in savegame.SelectNodes("//materiatory/orb"))
+            foreach (XmlNode node in savegame.SelectNodes("./materiatory/orb"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {

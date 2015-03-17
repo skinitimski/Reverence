@@ -50,6 +50,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             TextExtents te;
             
             MateriaBase orb = Seven.MenuState.MateriaTop.Selection;
+
             if (orb == null)
             {
                 orb = Seven.MenuState.MateriaList.Selection;

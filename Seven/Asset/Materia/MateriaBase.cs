@@ -49,7 +49,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 spr = Int32.Parse(node.SelectSingleNode("spr").InnerText);
                 lck = Int32.Parse(node.SelectSingleNode("lck").InnerText);
 
-                XmlNodeList tlist = node.SelectSingleNode("//tiers").ChildNodes;
+                XmlNodeList tlist = node.SelectSingleNode("tiers").ChildNodes;
                 tiers = new int[tlist.Count];
                 int t = 0;
 
@@ -123,7 +123,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         public static MateriaBase EMPTY;
 
         
-        public MateriaBase(string name, int ap)
+        protected MateriaBase(string name, int ap)
         {
             MateriaRecord rec = _data[name];
             _name = rec.Name;

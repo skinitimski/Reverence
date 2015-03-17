@@ -273,8 +273,9 @@ namespace Atmosphere.Reverence.Seven
             
             // Equipment
             _weaponType = (WeaponType)Enum.Parse(typeof(WeaponType), _name.Replace(" ", ""));
+            XmlNode no = savexml.SelectSingleNode("./weapon/name");
             
-            _weapon = new Weapon(savexml.SelectSingleNode("./weapon/name").InnerText);
+            _weapon = Weapon.Get(savexml.SelectSingleNode("./weapon/name").InnerText);
 
             foreach (XmlNode orb in savexml.SelectNodes("./weapon/materia/orb"))
             {
@@ -290,7 +291,7 @@ namespace Atmosphere.Reverence.Seven
                 _weapon.Slots[slot] = MateriaBase.Create(id, ap, type);
             }
             
-            _armor = new Armor(savexml.SelectSingleNode("./armor/name").InnerText);
+            _armor = Armor.Get(savexml.SelectSingleNode("./armor/name").InnerText);
 
             foreach (XmlNode orb in savexml.SelectNodes("//armor/materia/orb"))
             {

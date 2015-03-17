@@ -104,10 +104,10 @@ namespace Atmosphere.Reverence.Seven
             }
         }
         
-        public Inventory(XmlDocument savegame)
+        public Inventory(XmlNode savegame)
             : this()
         {
-            foreach (XmlNode node in savegame.SelectNodes("//Seven.Party.Inventory/*"))
+            foreach (XmlNode node in savegame.SelectNodes("./inventory/*"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {

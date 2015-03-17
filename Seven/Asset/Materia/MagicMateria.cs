@@ -12,7 +12,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public MagicMateria(string name, int ap) : base(Resource.CreateID(name), ap) { }
 
-        public override Cairo.Color Color { get { return ORB_COLOR; } }
+        public override Color Color { get { return ORB_COLOR; } }
 
         public List<Spell> GetSpells
         {

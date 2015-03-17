@@ -22,16 +22,15 @@ namespace Atmosphere.Reverence.Seven.Asset
         private MateriaBase[] _slots;
         private int _links;
         private Growth _growth;
-        
-        private static Dictionary<string, string> _table;
+        private static Dictionary<string, Armor> _table;
         
         #endregion Member Data
         
         public static void LoadArmor()
         {
-            _table = new Dictionary<string, string>();
+            _table = new Dictionary<string, Armor>();
             
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.armour.xml",typeof(Seven).Assembly);
+            XmlDocument gamedata = Resource.GetXmlFromResource("data.armour.xml", typeof(Seven).Assembly);
             
             foreach (XmlNode node in gamedata.SelectNodes("//armour/armor"))
             {
@@ -47,33 +46,51 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 Seven.Lua.DoString("attach" + id + " = " + attach);
                 Seven.Lua.DoString("detach" + id + " = " + detach);
-                
-                _table.Add(id, node.OuterXml);
+
+                Armor armor = new Armor(node);
+
+                _table.Add(id, armor);
             }
         }
         
-        public Armor(string id)
+        private Armor(XmlNode node)
         {
-            XmlDocument xml = new XmlDocument();
-            xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(_table [id])));
+            _name = node.SelectSingleNode("name").InnerText;
+            _desc = node.SelectSingleNode("desc").InnerText;
+            _defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
+            _defensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
+            _magicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
+            _magicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
             
-            _name = xml.SelectSingleNode("//name").InnerText;
-            _desc = xml.SelectSingleNode("//desc").InnerText;
-            _defense = Int32.Parse(xml.SelectSingleNode("//def").InnerText);
-            _defensePercent = Int32.Parse(xml.SelectSingleNode("//defp").InnerText);
-            _magicDefense = Int32.Parse(xml.SelectSingleNode("//mdf").InnerText);
-            _magicDefensePercent = Int32.Parse(xml.SelectSingleNode("//mdfp").InnerText);
-            
-            _slots = new MateriaBase[Int32.Parse(xml.SelectSingleNode("//slots").InnerText)];
+            _slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
 
-            _links = Int32.Parse(xml.SelectSingleNode("//links").InnerText);
+            _links = Int32.Parse(node.SelectSingleNode("links").InnerText);
+
             if (_links > _slots.Length / 2)
             {
                 throw new GameDataException("Materia pairs greater than number of slots");
             }
 
-            _growth = (Growth)Enum.Parse(typeof(Growth), xml.SelectSingleNode("//growth").InnerText);
+            _growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
+
+        
+        public static Armor Get(string id)
+        {
+            return _table[id];
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         
         public void AttachMateria(MateriaBase orb, int slot)
         {
@@ -89,6 +106,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             Seven.Lua.GetFunction("attach" + ID).Call(c);
         }
+
         public void Detach(Character c)
         {
             Seven.Lua.GetFunction("detach" + ID).Call(c);
@@ -99,30 +117,44 @@ namespace Atmosphere.Reverence.Seven.Asset
             for (int i = 0; i < before.Slots.Length; i++)
             {
                 MateriaBase m = before.Slots[i];
+
                 if (m != null)
+                {
                     if (i > after.Slots.Length)
-                {
-                    m.Detach(c);
-                    Seven.Party.Materiatory.Put(m);
+                    {
+                        m.Detach(c);
+                        Seven.Party.Materiatory.Put(m);
+                    }
+                    else
+                    {
+                        after.Slots[i] = m;
+                    }
                 }
-                else
-                {
-                    after.Slots[i] = m;
-                }
+
                 before.Slots[i] = null;
             }
         }
         
         public int Defense { get { return _defense; } }
+
         public int DefensePercent { get { return _defensePercent; } }
+
         public int MagicDefense { get { return _magicDefense; } }
+
         public int MagicDefensePercent { get { return _magicDefensePercent; } }
+
         public string Name { get { return _name; } }
+
         public string ID { get { return Resource.CreateID(_name); } }
+
         public string Description { get { return _desc; } }
+
         public ItemType Type { get { return ItemType.Armor; } }
+
         public Growth Growth { get { return _growth; } }
+
         public MateriaBase[] Slots { get { return _slots; } }
+
         public int Links { get { return _links; } }
     }
 }

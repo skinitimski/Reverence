@@ -25,18 +25,18 @@ namespace Atmosphere.Reverence.Seven.Asset
         private MateriaBase[] _slots;
         private int _links;
         private Growth _growth;
-        private static Dictionary<string, string> _table;
+        private static Dictionary<string, Weapon> _table;
         
         #endregion Member Data
-        
+
         
         public static void LoadWeapons()
         {
-            _table = new Dictionary<string, string>();
+            _table = new Dictionary<string, Weapon>();
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.weapons.xml", typeof(Seven).Assembly);
             
-            foreach (XmlNode node in gamedata.SelectNodes("//weapons/weapon"))
+            foreach (XmlNode node in gamedata.SelectNodes("./weapons/weapon"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {
@@ -50,37 +50,47 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 Seven.Lua.DoString("attach" + id + " = " + attach);
                 Seven.Lua.DoString("detach" + id + " = " + detach);
+
+                Weapon weapon = new Weapon(node);
                 
-                _table.Add(id, node.OuterXml);
+                _table.Add(id, weapon);
             }
         }
 
-        public Weapon(string id)
-        {
-            XmlDocument xml = new XmlDocument();
-            xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(_table[id])));
+        private Weapon(XmlNode node)
+        {            
+            _name = node.SelectSingleNode("name").InnerText;
+            _desc = node.SelectSingleNode("desc").InnerText;
             
-            _name = xml.SelectSingleNode("//name").InnerText;
-            _desc = xml.SelectSingleNode("//desc").InnerText;
+            _attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
+            _attackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
+            _magic = Int32.Parse(node.SelectSingleNode("mag").InnerText);
+            _criticalPercent = Int32.Parse(node.SelectSingleNode("critp").InnerText);
+            _longRange = Boolean.Parse(node.SelectSingleNode("longrange").InnerText);
             
-            _attack = Int32.Parse(xml.SelectSingleNode("//atk").InnerText);
-            _attackPercent = Int32.Parse(xml.SelectSingleNode("//atkp").InnerText);
-            _magic = Int32.Parse(xml.SelectSingleNode("//mag").InnerText);
-            _criticalPercent = Int32.Parse(xml.SelectSingleNode("//critp").InnerText);
-            _longRange = Boolean.Parse(xml.SelectSingleNode("//longrange").InnerText);
+            _element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
+            _type = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
             
-            _element = (Element)Enum.Parse(typeof(Element), xml.SelectSingleNode("//element").InnerText);
-            _type = (WeaponType)Enum.Parse(typeof(WeaponType), xml.SelectSingleNode("//type").InnerText);
-            
-            _slots = new MateriaBase[Int32.Parse(xml.SelectSingleNode("//slots").InnerText)];
-            _links = Int32.Parse(xml.SelectSingleNode("//links").InnerText);
+            _slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
+            _links = Int32.Parse(node.SelectSingleNode("links").InnerText);
 
             if (_links > _slots.Length / 2)
             {
                 throw new GameDataException("Materia pairs greater than number of slots");
             }
-            _growth = (Growth)Enum.Parse(typeof(Growth), xml.SelectSingleNode("//growth").InnerText);
+
+            _growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
+
+
+
+        public static Weapon Get(string id)
+        {
+            return _table[id];
+        }
+
+
+
         
         
         #region Methods

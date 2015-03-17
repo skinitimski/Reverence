@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven
             Gil = 100;
         }
 
-        public Party(XmlDocument savegame)
+        public Party(XmlNode savegame)
         {
             XmlDocument gamedata = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
 
@@ -41,7 +41,7 @@ namespace Atmosphere.Reverence.Seven
 
             for (int k = 1; k <= 3; k++)
             {
-                string name = savegame.SelectSingleNode("//party/slot" + k.ToString()).InnerXml;
+                string name = savegame.SelectSingleNode("./party/slot" + k.ToString()).InnerXml;
                 
                 if (!String.IsNullOrEmpty(name))
                 {
@@ -56,7 +56,7 @@ namespace Atmosphere.Reverence.Seven
             int i = 0;
             int j = 0;
             
-            foreach (XmlNode node in savegame.SelectNodes("//party//reserve"))
+            foreach (XmlNode node in savegame.SelectNodes("./party/reserve"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                     continue;
@@ -70,45 +70,45 @@ namespace Atmosphere.Reverence.Seven
                 }
             }
             
-            Gil = Int32.Parse(savegame.SelectSingleNode("//gil").InnerXml);
+            Gil = Int32.Parse(savegame.SelectSingleNode("./gil").InnerXml);
         }
 
-        private void InitCharacters(XmlDocument savegame, XmlDocument gamedata)
+        private void InitCharacters(XmlNode savegame, XmlNode gamedata)
         {
-            Cloud = new Character(savegame.SelectSingleNode("//Cloud"), 
-                                  gamedata.SelectSingleNode("//Cloud"));
-            Tifa = new Character(savegame.SelectSingleNode("//Tifa"), 
-                                 gamedata.SelectSingleNode("//Tifa"));
-            Aeris = new Character(savegame.SelectSingleNode("//Aeris"),
-                                  gamedata.SelectSingleNode("//Aeris"));
-            Barret = new Character(savegame.SelectSingleNode("//Barret"),
-                                   gamedata.SelectSingleNode("//Barret"));
-            RedXIII = new Character(savegame.SelectSingleNode("//RedXIII"), 
-                                    gamedata.SelectSingleNode("//RedXIII"));
-            Yuffie = new Character(savegame.SelectSingleNode("//Yuffie"), 
-                                   gamedata.SelectSingleNode("//Yuffie"));
-            CaitSith = new Character(savegame.SelectSingleNode("//CaitSith"), 
-                                     gamedata.SelectSingleNode("//CaitSith"));
-            Vincent = new Character(savegame.SelectSingleNode("//Vincent"), 
-                                    gamedata.SelectSingleNode("//Vincent"));
-            Cid = new Character(savegame.SelectSingleNode("//Cid"), 
-                                gamedata.SelectSingleNode("//Cid"));
-            Sephiroth = new Character(savegame.SelectSingleNode("//Sephiroth"), 
-                                      gamedata.SelectSingleNode("//Sephiroth"));
+            Cloud = new Character(savegame.SelectSingleNode("./characters/Cloud"), 
+                                  gamedata.SelectSingleNode("./characters/Cloud"));
+            Tifa = new Character(savegame.SelectSingleNode("./characters/Tifa"), 
+                                 gamedata.SelectSingleNode("./characters/Tifa"));
+            Aeris = new Character(savegame.SelectSingleNode("./characters/Aeris"),
+                                  gamedata.SelectSingleNode("./characters/Aeris"));
+            Barret = new Character(savegame.SelectSingleNode("./characters/Barret"),
+                                   gamedata.SelectSingleNode("./characters/Barret"));
+            RedXIII = new Character(savegame.SelectSingleNode("./characters/RedXIII"), 
+                                    gamedata.SelectSingleNode("./characters/RedXIII"));
+            Yuffie = new Character(savegame.SelectSingleNode("./characters/Yuffie"), 
+                                   gamedata.SelectSingleNode("./characters/Yuffie"));
+            CaitSith = new Character(savegame.SelectSingleNode("./characters/CaitSith"), 
+                                     gamedata.SelectSingleNode("./characters/CaitSith"));
+            Vincent = new Character(savegame.SelectSingleNode("./characters/Vincent"), 
+                                    gamedata.SelectSingleNode("./characters/Vincent"));
+            Cid = new Character(savegame.SelectSingleNode("./characters/Cid"), 
+                                gamedata.SelectSingleNode("./characters/Cid"));
+            Sephiroth = new Character(savegame.SelectSingleNode("./characters/Sephiroth"), 
+                                      gamedata.SelectSingleNode("./characters/Sephiroth"));
         }
         
-        private void InitCharacters(XmlDocument gamedata)
+        private void InitCharacters(XmlNode gamedata)
         {
-            Cloud = new Character(gamedata.SelectSingleNode("//Cloud"));
-            Tifa = new Character(gamedata.SelectSingleNode("//Tifa"));
-            Aeris = new Character(gamedata.SelectSingleNode("//Aeris"));
-            Barret = new Character(gamedata.SelectSingleNode("//Barret"));
-            RedXIII = new Character(gamedata.SelectSingleNode("//RedXIII"));
-            Yuffie = new Character(gamedata.SelectSingleNode("//Yuffie"));
-            CaitSith = new Character(gamedata.SelectSingleNode("//CaitSith"));
-            Vincent = new Character(gamedata.SelectSingleNode("//Vincent"));
-            Cid = new Character(gamedata.SelectSingleNode("//Cid"));
-            Sephiroth = new Character(gamedata.SelectSingleNode("//Sephiroth"));
+            Cloud = new Character(gamedata.SelectSingleNode("./Cloud"));
+            Tifa = new Character(gamedata.SelectSingleNode("./Tifa"));
+            Aeris = new Character(gamedata.SelectSingleNode("./Aeris"));
+            Barret = new Character(gamedata.SelectSingleNode("./Barret"));
+            RedXIII = new Character(gamedata.SelectSingleNode("./RedXIII"));
+            Yuffie = new Character(gamedata.SelectSingleNode("./Yuffie"));
+            CaitSith = new Character(gamedata.SelectSingleNode("./CaitSith"));
+            Vincent = new Character(gamedata.SelectSingleNode("./Vincent"));
+            Cid = new Character(gamedata.SelectSingleNode("./Cid"));
+            Sephiroth = new Character(gamedata.SelectSingleNode("./Sephiroth"));
         }
 
         private void AddCharacters()

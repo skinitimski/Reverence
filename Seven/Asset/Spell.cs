@@ -33,54 +33,54 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.spells.xml", typeof(Seven).Assembly);
             
-            foreach (XmlNode node in gamedata.SelectSingleNode("//spells").ChildNodes)
+            foreach (XmlNode node in gamedata.SelectNodes("/spells/spell"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
+                {
                     continue;
+                }
                 
-                XmlDocument xml = new XmlDocument();
-                xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(node.OuterXml)));
-                
-                string name = xml.SelectSingleNode("//name").InnerText;
+                string name = node.SelectSingleNode("name").InnerText;
                 string id = Resource.CreateID(name);
-//                string dispatch = xml.SelectSingleNode("//dispatch").InnerText;
-//                string action = xml.SelectSingleNode("//action").InnerText;
-//                if (dispatch == "")
-//                    dispatch = "function () end";
-//                if (action == "")
-//                    action = "function (state) end";
+                string dispatch = node.SelectSingleNode("dispatch").InnerText;
+                string action = node.SelectSingleNode("action").InnerText;
+                if (dispatch == "")
+                {
+                    dispatch = "function () end";
+                }
+                if (action == "")
+                {
+                    action = "function (state) end";
+                }
                 
-//                if (id == "????")
-//                {
-//                    Game.Lua.DoString("dispatchqqqq" + " = " + dispatch);
-//                    Game.Lua.DoString("actionqqqq" + " = " + action);
-//                }
-//                else
-//                {
-//                    Game.Lua.DoString("dispatch" + id + " = " + dispatch);
-//                    Game.Lua.DoString("action" + id + " = " + action);
-//                }
+                if (id == "????")
+                {
+                    Seven.Lua.DoString("dispatchqqqq" + " = " + dispatch);
+                    Seven.Lua.DoString("actionqqqq" + " = " + action);
+                }
+                else
+                {
+                    Seven.Lua.DoString("dispatch" + id + " = " + dispatch);
+                    Seven.Lua.DoString("action" + id + " = " + action);
+                }
                 
-                _table.Add(id, new Spell(node.OuterXml));
+                _table.Add(id, new Spell(node));
             }
             
         }
         
-        public Spell(string xmlstring)
+        public Spell(XmlNode xml)
         {
-            XmlDocument xml = new XmlDocument();
-            xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(xmlstring)));
+            _name = xml.SelectSingleNode("name").InnerText;
+            _desc = xml.SelectSingleNode("desc").InnerText;
+            _cost = Int32.Parse(xml.SelectSingleNode("cost").InnerText);
+            _matp = Int32.Parse(xml.SelectSingleNode("matp").InnerText);
+            _order = Int32.Parse(xml.SelectSingleNode("order").InnerText);
             
-            _name = xml.SelectSingleNode("//name").InnerText;
-            _desc = xml.SelectSingleNode("//desc").InnerText;
-            _cost = Int32.Parse(xml.SelectSingleNode("//cost").InnerText);
-            _matp = Int32.Parse(xml.SelectSingleNode("//matp").InnerText);
-            _order = Int32.Parse(xml.SelectSingleNode("//order").InnerText);
-            
-            XmlNodeList nodes = xml.SelectSingleNode("//elements").ChildNodes;
+            XmlNodeList nodes = xml.SelectSingleNode("elements").ChildNodes;
             _element = new Element[nodes.Count];
             
-            for(int i = 0;i < _element.Length;i++)
+            for (int i = 0;i < _element.Length;i++)
             {
                 if (nodes[i].NodeType == XmlNodeType.Comment)
                 {
@@ -93,28 +93,28 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
         
         
-//        public void Dispatch()
-//        {
-//            if (ID == "????")
-//            {
-//                Game.Lua.GetFunction("dispatch" + "qqqq").Call();
-//            }
-//            else
-//            {
-//                Game.Lua.GetFunction("dispatch" + ID).Call();
-//            }
-//        }
-//        public void Action()
-//        {
-//            if (ID == "????")
-//            {
-//                Game.Lua.GetFunction("action" + "qqqq").Call(Game.Battle.ActiveAbility);
-//            }
-//            else
-//            {
-//                Game.Lua.GetFunction("action" + ID).Call(Game.Battle.ActiveAbility);
-//            }
-//        }
+        public void Dispatch()
+        {
+            if (ID == "????")
+            {
+                Seven.Lua.GetFunction("dispatch" + "qqqq").Call();
+            }
+            else
+            {
+                Seven.Lua.GetFunction("dispatch" + ID).Call();
+            }
+        }
+        public void Action()
+        {
+            if (ID == "????")
+            {
+                //Seven.Lua.GetFunction("action" + "qqqq").Call(Game.Battle.ActiveAbility);
+            }
+            else
+            {
+                //Seven.Lua.GetFunction("action" + ID).Call(Game.Battle.ActiveAbility);
+            }
+        }
         
         public static int Compare(Spell left, Spell right)
         {
