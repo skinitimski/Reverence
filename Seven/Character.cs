@@ -11,6 +11,7 @@ using Gdk;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven
 {
@@ -30,20 +31,6 @@ namespace Atmosphere.Reverence.Seven
         private int _magic_base;
         private int _spirit_base;
         private int _luck_base;
-        private int _strength_bonus;
-        private int _dexterity_bonus;
-        private int _vitality_bonus;
-        private int _magic_bonus;
-        private int _spirit_bonus;
-        private int _luck_bonus;
-        private int _strength_p_bonus;
-        private int _dexterity_p_bonus;
-        private int _vitality_p_bonus;
-        private int _magic_p_bonus;
-        private int _spirit_p_bonus;
-        private int _luck_p_bonus;
-        private int _hp_p_bonus;
-        private int _mp_p_bonus;
         private WeaponType _weaponType;
         private Weapon _weapon;
         private Armor _armor;
@@ -56,12 +43,10 @@ namespace Atmosphere.Reverence.Seven
         private bool _fury = false;
         private bool _sadness = false;
         private bool _death = false;
-        
         private List<Element> _halve;
         private List<Element> _void;
         private List<Element> _absorb;
         private List<Status> _immune;
-        
         private string _name;
         private Sex _sex;
         private int _exp;
@@ -216,7 +201,7 @@ namespace Atmosphere.Reverence.Seven
 
             for (int i = 0; i < table.Length; i++)
             {
-                table [i] = Int32.Parse(parts [i]);
+                table[i] = Int32.Parse(parts[i]);
             }
         }
 
@@ -256,13 +241,17 @@ namespace Atmosphere.Reverence.Seven
             _hp = Int32.Parse(dataxml.SelectSingleNode("//hp").InnerText);
             _maxhp = Int32.Parse(dataxml.SelectSingleNode("//hp").InnerText);
             if (_hp > _maxhp)
+            {
                 throw new SaveStateException("HP > MAXHP for " + _name);
+            }
             
             // MP
             _mp = Int32.Parse(dataxml.SelectSingleNode("//mp").InnerText);
             _maxmp = Int32.Parse(dataxml.SelectSingleNode("//mp").InnerText);
             if (_mp > _maxmp)
+            {
                 throw new SaveStateException("MP > MAXMP for " + _name);
+            }
             
             _sadness = false;
             _fury = false;
@@ -301,7 +290,7 @@ namespace Atmosphere.Reverence.Seven
 //            }
             
             string acc = dataxml.SelectSingleNode("//accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable [acc];
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable[acc];
             
             // Q-Values
             InitTable(ref _qvals, dataxml.SelectSingleNode("//qvals").InnerText, ',');
@@ -366,20 +355,26 @@ namespace Atmosphere.Reverence.Seven
             _hp = Int32.Parse(savexml.SelectSingleNode("//hp").InnerText);
             _maxhp = Int32.Parse(savexml.SelectSingleNode("//maxhp").InnerText);
             if (_hp > _maxhp)
+            {
                 throw new SaveStateException("HP > MAXHP for " + _name);
+            }
             _death = (_hp == 0);
             
             // MP
             _mp = Int32.Parse(savexml.SelectSingleNode("//mp").InnerText);
             _maxmp = Int32.Parse(savexml.SelectSingleNode("//maxmp").InnerText);
             if (_mp > _maxmp)
+            {
                 throw new SaveStateException("MP > MAXMP for " + _name);
+            }
             
             // Fury/Sadness
             _sadness = Boolean.Parse(savexml.SelectSingleNode("//sadness").InnerText);
             _fury = Boolean.Parse(savexml.SelectSingleNode("//fury").InnerText);
             if (_sadness && _fury)
+            {
                 throw new SaveStateException("Can't be both sad and furious");
+            }
             
             // Sex
             _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("//sex").InnerText);
@@ -416,7 +411,7 @@ namespace Atmosphere.Reverence.Seven
 //            }
             
             string acc = savexml.SelectSingleNode("//accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY: Accessory.AccessoryTable [acc];
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable[acc];
             
             
             // Q-Values
@@ -474,25 +469,45 @@ namespace Atmosphere.Reverence.Seven
         private static int LevelBracket(int level)
         {
             if (level < 1)
+            {
                 throw new ImplementationException("Level cannot be less than 1 - not in any bracket.");
+            }
             if (level < 12)
+            {
                 return 0;
+            }
             else if (level < 22)
+            {
                 return 1;
+            }
             else if (level < 32)
+            {
                 return 2;
+            }
             else if (level < 42)
+            {
                 return 3;
+            }
             else if (level < 52)
+            {
                 return 4;
+            }
             else if (level < 62)
+            {
                 return 5;
+            }
             else if (level < 82)
+            {
                 return 6;
+            }
             else if (level < 100)
+            {
                 return 7;
+            }
             else
+            {
                 throw new ImplementationException("Level cannot be greater than 99 - not in any bracket.");
+            }
         }
         
         /// <summary>
@@ -503,7 +518,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The quadratic modifier for this character at the given level.</returns>
         private int Q(int level)
         {
-            return _qvals [LevelBracket(level)];
+            return _qvals[LevelBracket(level)];
         }
         
         /// <summary>
@@ -515,7 +530,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "base" modifier for a given rank and level.</returns>
         private static int StatBase(int level, int rank)
         {
-            return _stat_base [LevelBracket(level)] [rank];
+            return _stat_base[LevelBracket(level)][rank];
         }
         
         /// <summary>
@@ -527,7 +542,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "gradient" modifier for a given rank and level.</returns>
         private static int StatGradient(int level, int rank)
         {
-            return _stat_gradient [LevelBracket(level)] [rank];
+            return _stat_gradient[LevelBracket(level)][rank];
         }
         
         /// <summary>
@@ -538,7 +553,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "base" modifier for a given level.</returns>
         private int LuckBase(int level)
         {
-            return _lck_base [LevelBracket(level)];
+            return _lck_base[LevelBracket(level)];
         }
         
         /// <summary>
@@ -549,7 +564,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "gradient" modifier for a given level.</returns>
         private int LuckGradient(int level)
         {
-            return _lck_gradient [LevelBracket(level)];
+            return _lck_gradient[LevelBracket(level)];
         }
         
         /// <summary>
@@ -559,7 +574,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "base" modifier for a given level.</returns>
         private int HPBase(int level)
         {
-            return _hp_base [LevelBracket(level)];
+            return _hp_base[LevelBracket(level)];
         }
         
         /// <summary>
@@ -569,7 +584,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "gradient" modifier for a given level.</returns>
         private int HPGradient(int level)
         {
-            return _hp_gradient [LevelBracket(level)];
+            return _hp_gradient[LevelBracket(level)];
         }
         
         /// <summary>
@@ -579,7 +594,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "base" modifier for a given level.</returns>
         private int MPBase(int level)
         {
-            return _mp_base [LevelBracket(level)];
+            return _mp_base[LevelBracket(level)];
         }
         
         /// <summary>
@@ -589,7 +604,7 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The "gradient" modifier for a given level.</returns>
         private int MPGradient(int level)
         {
-            return _mp_gradient [LevelBracket(level)];
+            return _mp_gradient[LevelBracket(level)];
         }
         
         #endregion Table Lookups
@@ -603,8 +618,8 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The baseline for given stat and current level.</returns>
         private int Baseline(int statrank)
         {
-            int b = StatBase(_level, _stat_ranks [statrank]);
-            int g = StatGradient(_level, _stat_ranks [statrank]);
+            int b = StatBase(_level, _stat_ranks[statrank]);
+            int g = StatGradient(_level, _stat_ranks[statrank]);
             return b + (g * _level / 100);
         }
         
@@ -616,7 +631,9 @@ namespace Atmosphere.Reverence.Seven
         public void GainExperience(int gain)
         {
             while (_exp + gain >= NextLevel)
+            {
                 LevelUp();
+            }
             _exp += gain;
         }
         
@@ -638,42 +655,62 @@ namespace Atmosphere.Reverence.Seven
             
             int diff_str = _random.Next(1, 9) + Baseline(0) - _strength_base;
             if (diff_str < 0)
+            {
                 diff_str = 0;
+            }
             if (diff_str > 11)
+            {
                 diff_str = 11;
-            _strength_base += _diff_gain [diff_str];
+            }
+            _strength_base += _diff_gain[diff_str];
             
             
             int diff_vit = _random.Next(1, 9) + Baseline(1) - _vitality_base;
             if (diff_vit < 0)
+            {
                 diff_vit = 0;
+            }
             if (diff_vit > 11)
+            {
                 diff_vit = 11;
-            _vitality_base += _diff_gain [diff_vit];
+            }
+            _vitality_base += _diff_gain[diff_vit];
             
             
             int diff_mag = _random.Next(1, 9) + Baseline(2) - _magic_base;
             if (diff_mag < 0)
+            {
                 diff_mag = 0;
+            }
             if (diff_mag > 11)
+            {
                 diff_mag = 11;
-            _magic_base += _diff_gain [diff_mag];
+            }
+            _magic_base += _diff_gain[diff_mag];
             
             
             int diff_spi = _random.Next(1, 9) + Baseline(3) - _spirit_base;
             if (diff_spi < 0)
+            {
                 diff_spi = 0;
+            }
             if (diff_spi > 11)
+            {
                 diff_spi = 11;
-            _spirit_base += _diff_gain [diff_spi];
+            }
+            _spirit_base += _diff_gain[diff_spi];
             
             
             int diff_dex = _random.Next(1, 9) + Baseline(4) - _dexterity_base;
             if (diff_dex < 0)
+            {
                 diff_dex = 0;
+            }
             if (diff_dex > 11)
+            {
                 diff_dex = 11;
-            _dexterity_base += _diff_gain [diff_dex];
+            }
+            _dexterity_base += _diff_gain[diff_dex];
             
 #endregion
             
@@ -683,10 +720,14 @@ namespace Atmosphere.Reverence.Seven
             int luck_baseline = lb + (lg * _level / 100);
             int diff_lck = _random.Next(1, 9) + luck_baseline - _luck_base;
             if (diff_lck < 0)
+            {
                 diff_lck = 0;
+            }
             if (diff_lck > 11)
+            {
                 diff_lck = 11;
-            _luck_base += _diff_gain [diff_lck];
+            }
+            _luck_base += _diff_gain[diff_lck];
             
             
             int hpb = HPBase(_level);
@@ -694,11 +735,15 @@ namespace Atmosphere.Reverence.Seven
             int hp_baseline = hpb + (_level - 1) * hpg;
             int diff_hp = _random.Next(1, 9) + (100 * hp_baseline / _maxhp) - 100;
             if (diff_hp < 0)
+            {
                 diff_hp = 0;
+            }
             if (diff_hp > 11)
+            {
                 diff_hp = 11;
+            }
             int base_hp_gain = HPGradient(_level);
-            _maxhp += _diff_gain_hp [diff_hp] * base_hp_gain / 100;
+            _maxhp += _diff_gain_hp[diff_hp] * base_hp_gain / 100;
             
             
             int mpb = MPBase(_level);
@@ -706,11 +751,15 @@ namespace Atmosphere.Reverence.Seven
             int mp_baseline = mpb + ((_level - 1) * mpg / 10);
             int diff_mp = _random.Next(1, 9) + (100 * mp_baseline / _maxmp) - 100;
             if (diff_mp < 0)
+            {
                 diff_mp = 0;
+            }
             if (diff_mp > 11)
+            {
                 diff_mp = 11;
+            }
             int base_mp_gain = (_level * mpg / 10) - ((_level - 1) * mpg / 10);
-            _maxmp += _diff_gain_mp [diff_mp] * base_mp_gain / 100;
+            _maxmp += _diff_gain_mp[diff_mp] * base_mp_gain / 100;
             
         }
         
@@ -722,7 +771,9 @@ namespace Atmosphere.Reverence.Seven
         public bool InflictFury()
         {
             if (_fury)
+            {
                 return false;
+            }
             _sadness = false;
             _fury = true;
             return true;
@@ -731,7 +782,9 @@ namespace Atmosphere.Reverence.Seven
         public bool InflictSadness()
         {
             if (_sadness)
+            {
                 return false;
+            }
             _fury = false;
             _sadness = true;
             return true;
@@ -740,7 +793,9 @@ namespace Atmosphere.Reverence.Seven
         public bool InflictDeath()
         {
             if (_death)
+            {
                 return false;
+            }
             _death = true;
             _hp = 0;
             return true;
@@ -749,7 +804,9 @@ namespace Atmosphere.Reverence.Seven
         public bool CureFury()
         {
             if (!_fury)
+            {
                 return false;
+            }
             _fury = false;
             return true;
         }
@@ -757,7 +814,9 @@ namespace Atmosphere.Reverence.Seven
         public bool CureSadness()
         {
             if (!_sadness)
+            {
                 return false;
+            }
             _sadness = false;
             return true;
         }
@@ -765,7 +824,9 @@ namespace Atmosphere.Reverence.Seven
         public bool CureDeath()
         {
             if (!_death)
+            {
                 return false;
+            }
             _death = false;
             return true;
         }
@@ -780,28 +841,38 @@ namespace Atmosphere.Reverence.Seven
             foreach (Element i in e)
                 _halve.Add(i);
         }
+
         public void AddHalve(Element e)
         {
             _halve.Add(e);
         }
+
         public void AddVoid(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _void.Add(i);
+            }
         }
+
         public void AddVoid(Element e)
         {
             _void.Add(e);
         }
+
         public void AddAbsorb(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _absorb.Add(i);
+            }
         }
+
         public void AddAbsorb(Element e)
         {
             _absorb.Add(e);
         }
+
         public void AddImmunity(Status s)
         {
             _immune.Add(s);
@@ -812,28 +883,34 @@ namespace Atmosphere.Reverence.Seven
             foreach (Element i in e)
                 _halve.Remove(i);
         }
+
         public void RemoveHalve(Element e)
         {
             _halve.Remove(e);
         }
+
         public void RemoveVoid(params Element[] e)
         {
             foreach (Element i in e)
                 _void.Remove(i);
         }
+
         public void RemoveVoid(Element e)
         {
             _void.Remove(e);
         }
+
         public void RemoveAbsorb(params Element[] e)
         {
             foreach (Element i in e)
                 _absorb.Remove(i);
         }
+
         public void RemoveAbsorb(Element e)
         {
             _absorb.Remove(e);
         }
+
         public void RemoveImmunity(Status s)
         {
             _immune.Remove(s);
@@ -843,35 +920,47 @@ namespace Atmosphere.Reverence.Seven
         {
             return _halve.Contains(e);
         }
+
         public bool Halves(params Element[] e)
         {
             foreach (Element d in e)
                 if (_halve.Contains(d))
+                {
                     return true;
+                }
             return false;
         }
+
         public bool Voids(Element e)
         {
             return _void.Contains(e);
         }
+
         public bool Voids(params Element[] e)
         {
             foreach (Element d in e)
                 if (_void.Contains(d))
+                {
                     return true;
+                }
             return false;
         }
+
         public bool Absorbs(Element e)
         {
             return _absorb.Contains(e);
         }
+
         public bool Absorbs(params Element[] e)
         {
             foreach (Element d in e)
                 if (_absorb.Contains(d))
+                {
                     return true;
+                }
             return false;
         }
+
         public bool Immune(Status s)
         {
             return _immune.Contains(s);
@@ -883,32 +972,32 @@ namespace Atmosphere.Reverence.Seven
         
         public void IncrementStrength()
         {
-            _strength_bonus++;
+            StrengthBonus++;
         }
 
         public void IncrementDexterity()
         {
-            _dexterity_bonus++;
+            DexterityBonus++;
         }
 
         public void IncrementVitality()
         {
-            _vitality_bonus++;
+            VitalityBonus++;
         }
 
         public void IncrementMagic()
         {
-            _magic_bonus++;
+            MagicBonus++;
         }
 
         public void IncrementSpirit()
         {
-            _spirit_bonus++;
+            SpiritBonus++;
         }
 
         public void IncrementLuck()
         {
-            _luck_bonus++;
+            LuckBonus++;
         }
         
         #endregion Methods
@@ -916,114 +1005,61 @@ namespace Atmosphere.Reverence.Seven
         
         #region Properties
         
-        public int Strength
-        { get { return _strength_base + (_strength_p_bonus * _strength_base / 100) + _strength_bonus; } }
+        public int Strength 
+        { get { return _strength_base + (StrengthPercentBonus * _strength_base / 100) + StrengthBonus; } }
 
         public int Dexterity
-        { get { return _dexterity_base + (_dexterity_p_bonus * _dexterity_base / 100) + _dexterity_bonus; } }
+        { get { return _dexterity_base + (DexterityPercentBonus * _dexterity_base / 100) + DexterityBonus; } }
 
         public int Vitality
-        { get { return _vitality_base + (_vitality_p_bonus * _vitality_base / 100) + _vitality_bonus; } }
+        { get { return _vitality_base + (VitalityPercentBonus * _vitality_base / 100) + VitalityBonus; } }
 
         public int Magic
-        { get { return _magic_base + (_magic_p_bonus * _magic_base / 100) + _magic_bonus; } }
+        { get { return _magic_base + (MagicPercentBonus * _magic_base / 100) + MagicBonus; } }
 
         public int Spirit
-        { get { return _spirit_base + (_spirit_p_bonus * _spirit_base / 100) + _spirit_bonus; } }
+        { get { return _spirit_base + (SpiritPercentBonus * _spirit_base / 100) + SpiritBonus; } }
 
         public int Luck
-        { get { return _luck_base + (_luck_p_bonus * _luck_base / 100) + _luck_bonus; } }
+        { get { return _luck_base + (LuckPercentBonus * _luck_base / 100) + LuckBonus; } }
         
-        public int StrengthBonus
-        {
-            get { return _strength_bonus; }
-            set { _strength_bonus = value; }
-        }
+        public int StrengthBonus { get; set; }
 
-        public int DexterityBonus
-        {
-            get { return _dexterity_bonus; }
-            set { _dexterity_bonus = value; }
-        }
+        public int DexterityBonus { get; set; }
 
-        public int VitalityBonus
-        {
-            get { return _vitality_bonus; }
-            set { _vitality_bonus = value; }
-        }
+        public int VitalityBonus { get; set; }
 
-        public int MagicBonus
-        {
-            get { return _magic_bonus; }
-            set { _magic_bonus = value; }
-        }
+        public int MagicBonus { get; set; }
 
-        public int SpiritBonus
-        {
-            get { return _spirit_bonus; }
-            set { _spirit_bonus = value; }
-        }
+        public int SpiritBonus { get; set; }
 
-        public int LuckBonus
-        {
-            get { return _luck_bonus; }
-            set { _luck_bonus = value; }
-        }
-        
-        public int StrengthPercentBonus
-        {
-            get { return _strength_p_bonus; }
-            set { _strength_p_bonus = value; }
-        }
+        public int LuckBonus { get; set; }
 
-        public int DexterityPercentBonus
-        {
-            get { return _dexterity_p_bonus; }
-            set { _dexterity_p_bonus = value; }
-        }
+        public int StrengthPercentBonus { get; set; }
 
-        public int VitalityPercentBonus
-        {
-            get { return _vitality_p_bonus; }
-            set { _vitality_p_bonus = value; }
-        }
+        public int DexterityPercentBonus { get; set; }
 
-        public int MagicPercentBonus
-        {
-            get { return _magic_p_bonus; }
-            set { _magic_p_bonus = value; }
-        }
+        public int VitalityPercentBonus { get; set; }
 
-        public int SpiritPercentBonus
-        {
-            get { return _spirit_p_bonus; }
-            set { _spirit_p_bonus = value; }
-        }
+        public int MagicPercentBonus { get; set; }
 
-        public int LuckPercentBonus
-        {
-            get { return _luck_p_bonus; }
-            set { _luck_p_bonus = value; }
-        }
+        public int SpiritPercentBonus { get; set; }
 
-        public int HPPercentBonus
-        {
-            get { return _hp_p_bonus; }
-            set { _hp_p_bonus = value; }
-        }
+        public int LuckPercentBonus { get; set; }
 
-        public int MPPercentBonus
-        {
-            get { return _mp_p_bonus; }
-            set { _mp_p_bonus = value; }
-        }
+        public int HPPercentBonus { get; set; }
+
+        public int MPPercentBonus { get; set; }
         
         public int Level { get { return _level; } }
 
         public int LimitLevel { get { return _limitlvl; } }
 
         public int Exp { get { return _exp; } }
-        /// <summary>Returns the TOTAL experience required to get to the next level</summary>
+
+        /// <summary>
+        /// Returns the TOTAL experience required to get to the next level
+        /// </summary>
         public int NextLevel
         {
             get
@@ -1031,29 +1067,40 @@ namespace Atmosphere.Reverence.Seven
                 int mod = Q(_level + 1);
                 int xp = 0;
                 for (int i = 1; i <= _level; i++)
+                {
                     xp = xp + (mod * i * i / 10);
+                }
                 return xp;
             }
         }
-        /// <summary>Returns the REMAINING experience required to get to the next level</summary>
-        public int ToNextLevel
-        { get { return NextLevel - _exp; } }
+        /// <summary>
+        /// Returns the REMAINING experience required to get to the next level
+        /// </summary>
+        public int ToNextLevel { get { return NextLevel - _exp; } }
         
         public int HP
         {
             get
             {
                 if (_hp > MaxHP)
+                {
                     _hp = MaxHP;
+                }
+
                 return _hp; 
             }
             set
             {
                 _hp = value;
+
                 if (_hp > MaxHP)
+                {
                     _hp = MaxHP;
+                }
                 if (_hp < 0)
+                {
                     _hp = 0;
+                }
             }
         }
 
@@ -1062,16 +1109,25 @@ namespace Atmosphere.Reverence.Seven
             get
             {
                 if (_mp > MaxMP)
+                {
                     _mp = MaxMP;
+                }
+
                 return _mp; 
             }
             set
             {
                 _mp = value;
+
                 if (_mp > MaxMP)
+                {
                     _mp = MaxMP;
+                }
+
                 if (_mp < 0)
+                {
                     _mp = 0;
+                }
             }
         }
 
@@ -1080,13 +1136,21 @@ namespace Atmosphere.Reverence.Seven
             get
             {
                 int temp = _maxhp;
-//                foreach (Materia m in Weapon.Slots)
-//                    if (m != null)
-//                        temp += temp * m.HPMod / 100;
-//                foreach (Materia m in Armor.Slots)
-//                    if (m != null)
-//                        temp += temp * m.HPMod / 100;
-                temp += temp * _hp_p_bonus / 100;
+                foreach (MateriaBase m in Weapon.Slots)
+                {
+                    if (m != null)
+                    {
+                        temp += temp * m.HPMod / 100;
+                    }
+                }
+                foreach (MateriaBase m in Armor.Slots)
+                {
+                    if (m != null)
+                    {
+                        temp += temp * m.HPMod / 100;
+                    }
+                }
+                temp += temp * HPPercentBonus / 100;
                 return temp;
             }
         }
@@ -1096,13 +1160,21 @@ namespace Atmosphere.Reverence.Seven
             get
             {
                 int temp = _maxmp;
-//                foreach (Materia m in Weapon.Slots)
-//                    if (m != null)
-//                        temp += temp * m.MPMod / 100;
-//                foreach (Materia m in Armor.Slots)
-//                    if (m != null)
-//                        temp += temp * m.MPMod / 100;
-                temp += temp * _mp_p_bonus / 100;
+                foreach (MateriaBase m in Weapon.Slots)
+                {
+                    if (m != null)
+                    {
+                        temp += temp * m.MPMod / 100;
+                    }
+                }
+                foreach (MateriaBase m in Armor.Slots)
+                {
+                    if (m != null)
+                    {
+                        temp += temp * m.MPMod / 100;
+                    }
+                }
+                temp += temp * MPPercentBonus / 100;
                 return temp;
             }
         }
@@ -1124,9 +1196,9 @@ namespace Atmosphere.Reverence.Seven
                 {
                     throw new ImplementationException("Cannot remove weapon. Must replace with new weapon.");
                 }
-                //_weapon.Detach(this);
+                _weapon.Detach(this);
                 _weapon = value;
-                //_weapon.Attach(this);
+                _weapon.Attach(this);
             }
         }
 
@@ -1139,9 +1211,9 @@ namespace Atmosphere.Reverence.Seven
                 {
                     throw new ImplementationException("Cannot remove armor. Must replace with new armor.");
                 }
-                //_armor.Detach(this);
+                _armor.Detach(this);
                 _armor = value;
-                //_armor.Attach(this);
+                _armor.Attach(this);
             }
         }
 
@@ -1150,14 +1222,18 @@ namespace Atmosphere.Reverence.Seven
             get { return _accessory; }
             set
             {
-//                if (_accessory  != null)
-//                    _accessory.Detach(this);
+                if (value == null)
+                {
+                    throw new ImplementationException("Cannot remove accessory. Must replace with new accessory (or empty accessory).");
+                }
+
+                _accessory.Detach(this);
                 _accessory = value;
-//                if (_accessory  != null)
-//                    _accessory.Attach(this);
+                _accessory.Attach(this);
             }
         }
-        //public IEnumerable<Materia> Materia { get { return Weapon.Slots.Union(Armor.Slots); } }
+
+        public IEnumerable<MateriaBase> Materia { get { return Weapon.Slots.Union(Armor.Slots); } }
         
         public string Name { get { return _name; } }
 

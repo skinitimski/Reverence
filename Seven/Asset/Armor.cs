@@ -42,11 +42,11 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 string name = node.SelectSingleNode("name").InnerText;
                 string id = Resource.CreateID(name);
-//                string attach = node.SelectSingleNode("attach").InnerText;
-//                string detach = node.SelectSingleNode("detach").InnerText;
+                string attach = node.SelectSingleNode("attach").InnerText;
+                string detach = node.SelectSingleNode("detach").InnerText;
                 
-//                Game.Lua.DoString("attach" + id + " = " + attach);
-//                Game.Lua.DoString("detach" + id + " = " + detach);
+                Seven.Lua.DoString("attach" + id + " = " + attach);
+                Seven.Lua.DoString("detach" + id + " = " + detach);
                 
                 _table.Add(id, node.OuterXml);
             }
@@ -85,14 +85,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             _slots[slot] = orb;
         }
         
-//        public void Attach(Character c)
-//        {
-//            Game.Lua.GetFunction("attach" + ID).Call(c);
-//        }
-//        public void Detach(Character c)
-//        {
-//            Game.Lua.GetFunction("detach" + ID).Call(c);
-//        }
+        public void Attach(Character c)
+        {
+            Seven.Lua.GetFunction("attach" + ID).Call(c);
+        }
+        public void Detach(Character c)
+        {
+            Seven.Lua.GetFunction("detach" + ID).Call(c);
+        }
         
         public static void SwapMateria(Armor before, Armor after, Character c)
         {
@@ -102,7 +102,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 if (m != null)
                     if (i > after.Slots.Length)
                 {
-                    //m.Detach(c);
+                    m.Detach(c);
                     Seven.Party.Materiatory.Put(m);
                 }
                 else

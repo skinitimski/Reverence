@@ -111,8 +111,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         }
                     break;
                 case Key.Triangle:
-                    if (optionX == -1)
-                        break;
+                    if (optionX == -1){
+                        break;}
                     MateriaBase orb;
                     switch (optionY)
                     {
@@ -121,7 +121,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                             if (orb != null)
                             {
                                 Seven.Party.Selected.Weapon.Slots [optionX] = null;
-                                //orb.Detach(Selected);
+                                orb.Detach(Seven.Party.Selected);
                                 Seven.Party.Materiatory.Put(orb);
                             }
                             break;
@@ -130,7 +130,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                             if (orb != null)
                             {
                                 Seven.Party.Selected.Armor.Slots [optionX] = null;
-                                //orb.Detach(Selected);
+                                orb.Detach(Seven.Party.Selected);
                                 Seven.Party.Materiatory.Put(orb);
                             }
                             break;

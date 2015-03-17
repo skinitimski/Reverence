@@ -6,14 +6,13 @@ using Cairo;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-    public class IndependentMateria : MateriaBase
+    internal class IndependentMateria : MateriaBase
     {
+        private static readonly Color ORB_COLOR = new Color(.8, .0, .8);
+
         public IndependentMateria(string name, int ap) : base(name, ap) { }
 
-        public override Color Color
-        {
-            get { return new Color(.8, .0, .8); }
-        }
+        public override Color Color { get { return ORB_COLOR; } }
 
         public override List<string> Abilities
         {

@@ -20,8 +20,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
 #endregion
         
-        private int option = 0;
-        private int topRow = 0;
+        private int option = 65;
+        private int topRow = 56;
         private bool trashing = false;
         
         public List()
@@ -46,9 +46,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     break;
                 case Key.X:
                     if (trashing)
+                    {
                         Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaArrange);
+                    }
                     else
+                    {
                         Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
+                    }
                     trashing = false;
                     break;
                 case Key.Circle:
@@ -63,21 +67,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     {
                         case 0:
                             oldorb = Seven.Party.Selected.Weapon.Slots[Seven.MenuState.MateriaTop.OptionX];
-//                            if (oldorb != null)
-//                                oldorb.Detach(Selected);
+                            if (oldorb != null)
+                                oldorb.Detach(Seven.Party.Selected);
                             Seven.Party.Materiatory.Put(oldorb, option);
-//                            if (neworb != null)
-//                                neworb.Attach(Selected);
+                            if (neworb != null)
+                                neworb.Attach(Seven.Party.Selected);
                             Seven.Party.Selected.Weapon.AttachMateria(neworb, Seven.MenuState.MateriaTop.OptionX);
                             Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
                             break;
                         case 1:
                             oldorb = Seven.Party.Selected.Armor.Slots[Seven.MenuState.MateriaTop.OptionX];
-//                            if (oldorb != null)
-//                                oldorb.Detach(Selected);
+                            if (oldorb != null)
+                                oldorb.Detach(Seven.Party.Selected);
                             Seven.Party.Materiatory.Put(oldorb, option);
-//                            if (neworb != null)
-//                                neworb.Attach(Selected);
+                            if (neworb != null)
+                                neworb.Attach(Seven.Party.Selected);
                             Seven.Party.Selected.Armor.AttachMateria(neworb, Seven.MenuState.MateriaTop.OptionX);
                             Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
                             break;

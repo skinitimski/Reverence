@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Cairo;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-    public class SupportMateria : MateriaBase
+    internal class SupportMateria : MateriaBase
     {
+        private static readonly Color ORB_COLOR = new Color(.2, .6, .1);
+
         public SupportMateria(string name, int ap) : base(name, ap) { }
 
-        public override Cairo.Color Color
-        {
-            get { return new Cairo.Color(.2, .6, 1); }
-        }
+        public override Color Color { get { return ORB_COLOR; } }
 
         public override List<string> Abilities
         {

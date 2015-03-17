@@ -37,7 +37,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 Config.Instance.WindowHeight * 5 / 12,
                 Config.Instance.WindowWidth * 5 / 8,
                 Config.Instance.WindowHeight * 8 / 15)
-        { }
+        {
+        }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
@@ -49,7 +51,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             MateriaBase orb = Seven.MenuState.MateriaTop.Selection;
             if (orb == null)
+            {
                 orb = Seven.MenuState.MateriaList.Selection;
+            }
             
             
             if (orb != null)
@@ -71,7 +75,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     
                     string mask = "";
                     for (int i = 0; i < EnemySkillMateria.TOTAL_ENEMY_SKILLS; i++)
+                    {
                         mask += ((esm.AP >> i) & 1) > 0 ? "1" : "0";
+                    }
                     Text.ShadowedText(g, mask, X + x1, Y + y3);
                 }
                 else
@@ -90,8 +96,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     
                     string ap;
                     if (orb.AP < orb.Tiers[orb.Tiers.Length - 1])
+                    {
                         ap = orb.AP.ToString();
-                    else ap = "MASTER";
+                    }
+                    else
+                    {
+                        ap = "MASTER";
+                    }
                     te = g.TextExtents(ap);
                     Text.ShadowedText(g, ap, X + x7 - te.Width, Y + y1);
                     te = g.TextExtents("AP");
@@ -100,9 +111,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     
                     string nxt;
                     if (orb.Master)
+                    {
                         nxt = "0";
+                    }
                     else
+                    {
                         nxt = (orb.Tiers[orb.Level + 1] - orb.AP).ToString();
+                    }
                     te = g.TextExtents(nxt);
                     Text.ShadowedText(g, nxt, X + x7 - te.Width, Y + y2);
                     te = g.TextExtents("To next level");
@@ -113,13 +128,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     
                     int k = 0;
                     foreach (string s in orb.AllAbilities)
-                        if (!String.IsNullOrEmpty(s))
                     {
-                        if (orb.Abilities.Contains(s))
-                            Text.ShadowedText(g, s, X + x1, Y + y4 + (ys * k));
-                        else
-                            Text.ShadowedText(g, gray, s, X + x1, Y + y4 + (ys * k));
-                        k++;
+                        if (!String.IsNullOrEmpty(s))
+                        {
+                            if (orb.Abilities.Contains(s))
+                            {
+                                Text.ShadowedText(g, s, X + x1, Y + y4 + (ys * k));
+                            }
+                            else
+                            {
+                                Text.ShadowedText(g, gray, s, X + x1, Y + y4 + (ys * k));
+                            }
+                            k++;
+                        }
                     }
                     
                     Text.ShadowedText(g, greenish, "Equip Effect", X + x4, Y + y3);
@@ -139,7 +160,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Str", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.StrengthMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.StrengthMod < 0)
@@ -161,7 +185,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Vit", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.VitalityMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.VitalityMod < 0)
@@ -183,7 +210,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Dex", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.DexterityMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.DexterityMod < 0)
@@ -205,7 +235,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Mag", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.MagicMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.MagicMod < 0)
@@ -227,7 +260,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Spr", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.SpiritMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.SpiritMod < 0)
@@ -249,7 +285,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "Lck", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.LuckMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         
                         te = g.TextExtents(stat);
                         if (orb.LuckMod < 0)
@@ -271,7 +310,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "MaxHP", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.HPMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         stat = stat + "%";
                         te = g.TextExtents(stat);
                         if (orb.HPMod < 0)
@@ -293,7 +335,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Text.ShadowedText(g, "MaxMP", X + x5, Y + y4 + (ys * i));
                         
                         stat = Math.Abs(orb.MPMod).ToString();
-                        if (stat.Length < 2) stat = "0" + stat;
+                        if (stat.Length < 2)
+                        {
+                            stat = "0" + stat;
+                        }
                         stat = stat + "%";
                         te = g.TextExtents(stat);
                         if (orb.MPMod < 0)

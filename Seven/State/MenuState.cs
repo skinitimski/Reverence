@@ -16,12 +16,6 @@ namespace Atmosphere.Reverence.Seven.State
 {
     internal class MenuState : GameState
     {
-        // Singleton
-
-        private MenuScreen _layer;
-
-
-
         public MenuState()
         {
         }
@@ -157,18 +151,17 @@ namespace Atmosphere.Reverence.Seven.State
             //            HoardScreen._menus[2] = Hoard.GilRight.Instance;
             //            HoardScreen._menus[3] = Hoard.ItemLeft.Instance;
             //            HoardScreen._menus[4] = Hoard.ItemRight.Instance;
+
             
-            //Menu.SetSelection();
-            
-            _layer = MainScreen;
-            _layer.Control.SetAsControl();
+            ActiveLayer = MainScreen;
+            ActiveLayer.Control.SetAsControl();
         }
 
 
 
         public override void Draw(Gdk.Drawable d, int width, int height)
         {
-            _layer.Draw(d);
+            ActiveLayer.Draw(d);
         }
 
         [GLib.ConnectBefore()]
@@ -198,7 +191,7 @@ namespace Atmosphere.Reverence.Seven.State
                     break;
             }
 
-            _layer.Control.ControlHandle(k);
+            ActiveLayer.Control.ControlHandle(k);
         }
         [GLib.ConnectBefore()]
         public override void KeyReleaseHandle(Key k)
@@ -216,8 +209,8 @@ namespace Atmosphere.Reverence.Seven.State
 
         public void ChangeScreen(MenuScreen el)
         {
-            _layer.Control.SetNotControl();
-            _layer = el;
+            ActiveLayer.Control.SetNotControl();
+            ActiveLayer = el;
             el.ChangeToDefaultControl();
         }
 
@@ -228,6 +221,10 @@ namespace Atmosphere.Reverence.Seven.State
 
 
 
+
+
+
+        public MenuScreen ActiveLayer { get; private set; }
 
 
         

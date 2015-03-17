@@ -4,12 +4,13 @@ using System.Xml;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using NLua;
 
 using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-	public abstract class MateriaBase
+	internal abstract class MateriaBase
     {
 
         #region Nested
@@ -68,12 +69,16 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 abilities = node.SelectSingleNode("//abilities").InnerText.Split(
                     new char[] { ',' }, StringSplitOptions.None);
 
-//                XmlNode attachNode = xml.SelectSingleNode("//attach");
-//                if (attachNode != null)
-//                    Game.Lua.DoString("attach" + ID + " = " + attachNode.InnerText);
-//                XmlNode detachNode = xml.SelectSingleNode("//detach");
-//                if (detachNode != null)
-//                    Game.Lua.DoString("detach" + ID + " = " + detachNode.InnerText);
+                XmlNode attachNode = node.SelectSingleNode("//attach");
+                if (attachNode != null)
+                {
+                    Seven.Lua.DoString("attach" + ID + " = " + attachNode.InnerText);
+                }
+                XmlNode detachNode = node.SelectSingleNode("//detach");
+                if (detachNode != null)
+                {
+                    Seven.Lua.DoString("detach" + ID + " = " + detachNode.InnerText);
+                }
             }
 
             public string Name { get { return _name; } }
@@ -189,7 +194,9 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         public static MateriaBase Create(string id, int ap, MateriaType type)
         {
             if (id == "enemyskill")
+            {
                 return new EnemySkillMateria(ap);
+            }
 
             switch (type)
             {
@@ -305,32 +312,32 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             _level++;
         }
 
-//        public virtual void Attach(Character c)
-//        {
-//            c.StrengthBonus += _str;
-//            c.VitalityBonus += _vit;
-//            c.DexterityBonus += _dex;
-//            c.MagicBonus += _mag;
-//            c.SpiritBonus += _spr;
-//            c.LuckBonus += _lck;
-//
-//            LuaFunction f = Game.Lua.GetFunction("attach" + ID);
-//
-//            if (f != null) f.Call(c, Level + 1);
-//        }
-//        public virtual void Detach(Character c)
-//        {
-//            c.StrengthBonus -= _str;
-//            c.VitalityBonus -= _vit;
-//            c.DexterityBonus -= _dex;
-//            c.MagicBonus -= _mag;
-//            c.SpiritBonus -= _spr;
-//            c.LuckBonus -= _lck;
-//
-//            LuaFunction f = Game.Lua.GetFunction("detach" + ID);
-//
-//            if (f != null) f.Call(c, Level + 1);
-//        }
+        public virtual void Attach(Character c)
+        {
+            c.StrengthBonus += _str;
+            c.VitalityBonus += _vit;
+            c.DexterityBonus += _dex;
+            c.MagicBonus += _mag;
+            c.SpiritBonus += _spr;
+            c.LuckBonus += _lck;
+
+            LuaFunction f = Seven.Lua.GetFunction("attach" + ID);
+
+            if (f != null) f.Call(c, Level + 1);
+        }
+        public virtual void Detach(Character c)
+        {
+            c.StrengthBonus -= _str;
+            c.VitalityBonus -= _vit;
+            c.DexterityBonus -= _dex;
+            c.MagicBonus -= _mag;
+            c.SpiritBonus -= _spr;
+            c.LuckBonus -= _lck;
+
+            LuaFunction f = Seven.Lua.GetFunction("detach" + ID);
+
+            if (f != null) f.Call(c, Level + 1);
+        }
 
 
         public abstract Cairo.Color Color { get; }

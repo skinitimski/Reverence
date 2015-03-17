@@ -54,7 +54,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                                 if (orb != null)
                                 {
                                     Seven.Party.Selected.Weapon.Slots[i] = null;
-                                    //orb.Detach(Selected);
+                                    orb.Detach(Seven.Party.Selected);
                                     Seven.Party.Materiatory.Put(orb);
                                 }
                             }
@@ -64,7 +64,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                                 if (orb != null)
                                 {
                                     Seven.Party.Selected.Armor.Slots[j] = null;
-                                    //orb.Detach(Selected);
+                                    orb.Detach(Seven.Party.Selected);
                                     Seven.Party.Materiatory.Put(orb);
                                 }
                             }

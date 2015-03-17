@@ -25,7 +25,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         private MateriaBase[] _slots;
         private int _links;
         private Growth _growth;
-        
         private static Dictionary<string, string> _table;
         
         #endregion Member Data
@@ -46,11 +45,11 @@ namespace Atmosphere.Reverence.Seven.Asset
                                 
                 string name = node.SelectSingleNode("name").InnerText;
                 string id = Resource.CreateID(name);
-                //string attach = node.SelectSingleNode("attach").InnerText;
-                //string detach = node.SelectSingleNode("detach").InnerText;
+                string attach = node.SelectSingleNode("attach").InnerText;
+                string detach = node.SelectSingleNode("detach").InnerText;
                 
-                //Game.Lua.DoString("attach" + id + " = " + attach);
-                //Game.Lua.DoString("detach" + id + " = " + detach);
+                Seven.Lua.DoString("attach" + id + " = " + attach);
+                Seven.Lua.DoString("detach" + id + " = " + detach);
                 
                 _table.Add(id, node.OuterXml);
             }
@@ -59,7 +58,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         public Weapon(string id)
         {
             XmlDocument xml = new XmlDocument();
-            xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(_table [id])));
+            xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(_table[id])));
             
             _name = xml.SelectSingleNode("//name").InnerText;
             _desc = xml.SelectSingleNode("//desc").InnerText;
@@ -97,15 +96,16 @@ namespace Atmosphere.Reverence.Seven.Asset
             return b.ToString();
         }
         
-        public void Attach(Character c) 
+        public void Attach(Character c)
         {
             c.MagicBonus += _magic;
-            //Game.Lua.GetFunction("attach" + ID).Call(c);
+            Seven.Lua.GetFunction("attach" + ID).Call(c);
         }
+
         public void Detach(Character c)
         {
             c.MagicBonus -= _magic;
-            //Game.Lua.GetFunction("detach" + ID).Call(c);
+            Seven.Lua.GetFunction("detach" + ID).Call(c);
         }
         
         public void AttachMateria(MateriaBase orb, int slot)
@@ -118,22 +118,25 @@ namespace Atmosphere.Reverence.Seven.Asset
             _slots[slot] = orb;
         }
         
-        
         public static void SwapMateria(Weapon before, Weapon after, Character c)
         {
             for (int i = 0; i < before.Slots.Length; i++)
             {
                 MateriaBase m = before.Slots[i];
+
                 if (m != null)
+                {
                     if (i > after.Slots.Length)
-                {
-                    //m.Detach(c);
-                    Seven.Party.Materiatory.Put(m);
+                    {
+                        m.Detach(c);
+                        Seven.Party.Materiatory.Put(m);
+                    }
+                    else
+                    {
+                        after.Slots[i] = m;
+                    }
                 }
-                else
-                {
-                    after.Slots[i] = m;
-                }
+
                 before.Slots[i] = null;
             }
         }
@@ -144,17 +147,21 @@ namespace Atmosphere.Reverence.Seven.Asset
         #region Properties
         
         public string ID { get { return Resource.CreateID(_name); } }
+
         public string Name { get { return _name; } }
+
         public string Description
         {
             get
             {
                 string desc = _desc;
 
-//                if (Seven.MenuState.Layer == Seven.MenuState.ItemScreen)
-//                    return String.Format("A weapon for {0}", Wielder.ToString());
+                if (Seven.MenuState.ActiveLayer == Seven.MenuState.ItemScreen)
+                {
+                    return String.Format("A weapon for {0}", Wielder.ToString());
+                }
 
-                if (LongRange) 
+                if (LongRange)
                 {
                     desc += (_desc == "" ? "" : "; ") + "Long range weapon";
                 }
@@ -162,16 +169,27 @@ namespace Atmosphere.Reverence.Seven.Asset
                 return desc;
             }
         }
+
         public int Attack { get { return _attack; } }
+
         public int AttackPercent { get { return _attackPercent; } }
+
         public int Magic { get { return _magic; } }
+
         public int CriticalPercent { get { return _criticalPercent; } }
+
         public bool LongRange { get { return _longRange; } }
+
         public WeaponType Wielder { get { return _type; } }
+
         public ItemType Type { get { return ItemType.Weapon; } }
+
         public Element Element { get { return _element; } }
+
         public Growth Growth { get { return _growth; } }
+
         public MateriaBase[] Slots { get { return _slots; } }
+
         public int Links { get { return _links; } }
         
         #endregion Properties

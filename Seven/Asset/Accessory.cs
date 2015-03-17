@@ -38,13 +38,13 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 string name = node.SelectSingleNode("name").InnerText;
                 string desc = node.SelectSingleNode("desc").InnerText;
-//                string attach = node.SelectSingleNode("attach").InnerText;
-//                string detach = node.SelectSingleNode("detach").InnerText;
+                string attach = node.SelectSingleNode("attach").InnerText;
+                string detach = node.SelectSingleNode("detach").InnerText;
                 
                 string id = Resource.CreateID(name);
-                
-//                Game.Lua.DoString("attach" + id + " = " + attach);
-//                Game.Lua.DoString("detach" + id + " = " + detach);
+
+                Seven.Lua.DoString("attach" + id + " = " + attach);
+                Seven.Lua.DoString("detach" + id + " = " + detach);
                 
                 Accessory a = new Accessory(name, desc);
                 
@@ -65,14 +65,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             _table.Add(Resource.CreateID(a.Name), a);
         }
         
-//        public void Attach(Character c)
-//        {
-//            Game.Lua.GetFunction("attach" + ID).Call(c);
-//        }
-//        public void Detach(Character c)
-//        {
-//            Game.Lua.GetFunction("detach" + ID).Call(c);
-//        }
+        public void Attach(Character c)
+        {
+            Seven.Lua.GetFunction("attach" + ID).Call(c);
+        }
+        public void Detach(Character c)
+        {
+            Seven.Lua.GetFunction("detach" + ID).Call(c);
+        }
         
         public ItemType Type { get { return ItemType.Accessory; } }
         public string Name { get { return _name; } }
