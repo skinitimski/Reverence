@@ -93,8 +93,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             
             
             int j = Math.Min(rows + topRow, Inventory.INVENTORY_SIZE);
-            
-            Color gray = new Color(.4, .4, .4);
+
             
             for (int i = topRow; i < j; i++)
             {
@@ -113,9 +112,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     }
                     else
                     {
-                        Text.ShadowedText(g, gray, item.Name,
+                        Text.ShadowedText(g, Colors.GRAY_4, item.Name,
                                               X + x1, Y + (i - topRow + 1) * y);
-                        Text.ShadowedText(g, gray, count.ToString(),
+                        Text.ShadowedText(g, Colors.GRAY_4, count.ToString(),
                                               X + x2 - te.Width, Y + (i - topRow + 1) * y);
                     }
                 }
