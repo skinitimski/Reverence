@@ -64,8 +64,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 Text.ShadowedText(g, orb.Name, X + x2, Y + y0);
                 
                 Cairo.Color greenish = COLOR_TEXT_TEAL;
-                Cairo.Color yellow = new Color(.8, .8, 0);
-                Cairo.Color red = new Color(0.8, 0, 0);
+                Cairo.Color yellow = COLOR_TEXT_YELLOW;
+                Cairo.Color red = COLOR_TEXT_RED;
                 Cairo.Color gray = new Color(.4, .4, .4);
                 Cairo.Color white = Colors.WHITE;
                 

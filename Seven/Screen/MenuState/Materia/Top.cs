@@ -180,13 +180,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             g.Fill();
             g.Rectangle(x9, yk, 8 * xs, yl - yk);
             g.Fill();
-            
-            Cairo.Color gray1 = new Color(.2, .2, .2);
-            Cairo.Color gray2 = new Color(.7, .7, .8);
 
             
-            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
-            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
+            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
+            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
             
             #endregion
             
@@ -270,7 +267,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             {
                 if (optionX == -1)
                 {
-                    return "";
+                    return String.Empty;
                 }
                 switch (optionY)
                 {
@@ -278,14 +275,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         if (optionX < Seven.Party.Selected.Weapon.Slots.Length)
                         if (Seven.Party.Selected.Weapon.Slots [optionX] != null)
                             return Seven.Party.Selected.Weapon.Slots [optionX].Description;
-                        return "";
+                        return String.Empty;
                     case 1:
                         if (optionX < Seven.Party.Selected.Armor.Slots.Length)
                         if (Seven.Party.Selected.Armor.Slots [optionX] != null)
                             return Seven.Party.Selected.Armor.Slots [optionX].Description;
-                        return "";
+                        return String.Empty;
                     default:
-                        return "";
+                        return String.Empty;
                 }
             }
         }
@@ -297,7 +294,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 if (IsControl)
                 {
                     if (optionX == -1)
+                    {
                         return null;
+                    }
+
                     switch (optionY)
                     {
                         case 0:

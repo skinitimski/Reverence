@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Graphics;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 {
@@ -121,10 +122,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             #region Character Status
             
-            d.DrawPixbuf(gc, Seven.Party.Selected.Profile, 0, 0,
-                         X + xpic, Y + ypic,
-                         Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
-                         Gdk.RgbDither.None, 0, 0);
+            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
             
             g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + y + ya);

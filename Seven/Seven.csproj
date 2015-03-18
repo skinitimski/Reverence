@@ -98,7 +98,6 @@
     <Compile Include="Asset\Materia\MateriaType.cs" />
     <Compile Include="Materiatory.cs" />
     <Compile Include="Inventory.cs" />
-    <Compile Include="Asset\ISlotHolder.cs" />
     <Compile Include="Asset\Materia\CommandMateria.cs" />
     <Compile Include="Asset\Materia\IndependentMateria.cs" />
     <Compile Include="Asset\Materia\MagicMateria.cs" />
@@ -130,6 +129,7 @@
     <Compile Include="Asset\Equipment.cs" />
     <Compile Include="Graphics\Images.cs" />
     <Compile Include="Graphics\MateriaSlots.cs" />
+    <Compile Include="Asset\SlotHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

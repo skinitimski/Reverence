@@ -194,7 +194,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             {
                 if (option_hold != -1)
                 {
-                    Shapes.RenderBlinkingCursor(g, new Color(.8, .8, .8), X + cx, Y + cy_h);
+                    Shapes.RenderBlinkingCursor(g, Colors.GRAY_8, X + cx, Y + cy_h);
                 }
 
                 if (option != option_hold)
@@ -224,18 +224,18 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             {
                 Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Fury]", X + x7, Y + y);
             }
-            else if (Seven.Party[0].Sadness)
+            else if (c.Sadness)
             {
                 Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Sadness]", X + x7, Y + y);
             }
                 
             Color namec = Colors.WHITE;
 
-            if (Seven.Party[0].Death)
+            if (c.Death)
             {
                 namec = COLOR_TEXT_RED;
             }
-            else if (Seven.Party[0].NearDeath)
+            else if (c.NearDeath)
             {
                 namec = COLOR_TEXT_YELLOW;
             }

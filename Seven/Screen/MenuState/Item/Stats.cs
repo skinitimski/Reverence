@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Graphics;
 using GameItem = Atmosphere.Reverence.Seven.Asset.Item;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
@@ -132,196 +133,22 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             string lvl, hp, hpm, mp, mpm;
             
             
-            #region Character 1
             
             if (Seven.Party[0] != null)
             {
-                d.DrawPixbuf(gc, Seven.Party[0].Profile, 0, 0,
-                             X + x1, Y + yp,
-                             Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
-                
-                g.Color = COLOR_TEXT_TEAL;
-                g.MoveTo(X + x3, Y + y0 + ya);
-                g.ShowText("LV");
-                g.MoveTo(X + x3, Y + y0 + yb);
-                g.ShowText("HP");
-                g.MoveTo(X + x3, Y + y0 + yc);
-                g.ShowText("MP");
-                g.Color = Colors.WHITE;
-                
-                if (Seven.Party[0].Fury)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Fury]", X + x7, Y + y0);
-                }
-                else if (Seven.Party[0].Sadness)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y0);
-                }
-                
-                Color namec = Colors.WHITE;
-                if (Seven.Party[0].Death)
-                {
-                    namec = new Color(0.8, 0, 0);
-                }
-                else if (Seven.Party[0].NearDeath)
-                {
-                    namec = new Color(.8, .8, 0);
-                }
-                
-                Text.ShadowedText(g, namec, Seven.Party[0].Name,
-                                      X + x3,
-                                      Y + y0);
-                
-                lvl = Seven.Party[0].Level.ToString();
-                hp = Seven.Party[0].HP.ToString() + "/";
-                hpm = Seven.Party[0].MaxHP.ToString();
-                mp = Seven.Party[0].MP.ToString() + "/";
-                mpm = Seven.Party[0].MaxMP.ToString();
-                
-                te = g.TextExtents(lvl);
-                Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y0 + ya);
-                
-                te = g.TextExtents(hp);
-                Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y0 + yb);
-                
-                te = g.TextExtents(hpm);
-                Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y0 + yb);
-                
-                te = g.TextExtents(mp);
-                Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y0 + yc);
-                
-                te = g.TextExtents(mpm);
-                Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y0 + yc);
+                DrawCharacterStatus(d, gc, g, Seven.Party[0], y0);
             }
-            #endregion Character 1
-            
-            
-            #region Character 2
             
             if (Seven.Party[1] != null)
             {
-                d.DrawPixbuf(gc, Seven.Party[1].Profile, 0, 0,
-                             X + x1, Y + yp + (y1 - y0),
-                             Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
-                
-                g.Color = COLOR_TEXT_TEAL;
-                g.MoveTo(X + x3, Y + y1 + ya);
-                g.ShowText("LV");
-                g.MoveTo(X + x3, Y + y1 + yb);
-                g.ShowText("HP");
-                g.MoveTo(X + x3, Y + y1 + yc);
-                g.ShowText("MP");
-                g.Color = Colors.WHITE;
-                
-                if (Seven.Party[1].Fury)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Fury]", X + x7, Y + y1);
-                }
-                else if (Seven.Party[1].Sadness)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y1);
-                }
-                
-                Color namec = Colors.WHITE;
-                if (Seven.Party[1].Death)
-                {
-                    namec = new Color(0.8, 0, 0);
-                }
-                else if (Seven.Party[1].NearDeath)
-                {
-                    namec = new Color(.8, .8, 0);
-                }
-                
-                Text.ShadowedText(g, namec, Seven.Party[1].Name,
-                                      X + x3,
-                                      Y + y1);
-                
-                lvl = Seven.Party[1].Level.ToString();
-                hp = Seven.Party[1].HP.ToString() + "/";
-                hpm = Seven.Party[1].MaxHP.ToString();
-                mp = Seven.Party[1].MP.ToString() + "/";
-                mpm = Seven.Party[1].MaxMP.ToString();
-                
-                te = g.TextExtents(lvl);
-                Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y1 + ya);
-                
-                te = g.TextExtents(hp);
-                Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y1 + yb);
-                
-                te = g.TextExtents(hpm);
-                Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y1 + yb);
-                
-                te = g.TextExtents(mp);
-                Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y1 + yc);
-                
-                te = g.TextExtents(mpm);
-                Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y1 + yc);
+                DrawCharacterStatus(d, gc, g, Seven.Party[1], y1);
             }
-            
-            #endregion Character 2
-            
-            
-            #region Character 3
             
             if (Seven.Party[2] != null)
             {
-                d.DrawPixbuf(gc, Seven.Party[2].Profile, 0, 0,
-                             X + x1, Y + yp + (y2 - y0),
-                             Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
-                
-                g.Color = COLOR_TEXT_TEAL;
-                g.MoveTo(X + x3, Y + y2 + ya);
-                g.ShowText("LV");
-                g.MoveTo(X + x3, Y + y2 + yb);
-                g.ShowText("HP");
-                g.MoveTo(X + x3, Y + y2 + yc);
-                g.ShowText("MP");
-                g.Color = Colors.WHITE;
-                
-                if (Seven.Party[2].Fury)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Fury]", X + x7, Y + y2);
-                }
-                else if (Seven.Party[2].Sadness)
-                {
-                    Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y2);
-                }
-                
-                Color namec = Colors.WHITE;
-                if (Seven.Party[2].Death)
-                {
-                    namec = new Color(0.8, 0, 0);
-                }
-                else if (Seven.Party[2].NearDeath)
-                {
-                    namec = new Color(.8, .8, 0);
-                }
-                
-                Text.ShadowedText(g, namec, Seven.Party[2].Name, X + x3, Y + y2);
-                
-                lvl = Seven.Party[2].Level.ToString();
-                hp = Seven.Party[2].HP.ToString() + "/";
-                hpm = Seven.Party[2].MaxHP.ToString();
-                mp = Seven.Party[2].MP.ToString() + "/";
-                mpm = Seven.Party[2].MaxMP.ToString();
-                
-                te = g.TextExtents(lvl);
-                Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y2 + ya);
-                
-                te = g.TextExtents(hp);
-                Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y2 + yb);
-                
-                te = g.TextExtents(hpm);
-                Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y2 + yb);
-                
-                te = g.TextExtents(mp);
-                Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y2 + yc);
-                
-                te = g.TextExtents(mpm);
-                Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y2 + yc);
+                DrawCharacterStatus(d, gc, g, Seven.Party[2], y2);
             }
-            
-            #endregion Character 3
+
             
             
             if (IsControl)
@@ -341,6 +168,66 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
+        }
+        
+        private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
+        {       
+            Images.RenderProfile(d, gc, X + x1, Y + yp + y - y0, c);
+            
+            TextExtents te;
+            
+            string lvl, hp, hpm, mp, mpm;
+
+            g.Color = COLOR_TEXT_TEAL;
+            g.MoveTo(X + x3, Y + y + ya);
+            g.ShowText("LV");
+            g.MoveTo(X + x3, Y + y + yb);
+            g.ShowText("HP");
+            g.MoveTo(X + x3, Y + y + yc);
+            g.ShowText("MP");
+            g.Color = Colors.WHITE;
+
+            if (c.Fury)
+            {
+                Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Fury]", X + x7, Y + y);
+            }
+            else if (c.Sadness)
+            {
+                Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Sadness]", X + x7, Y + y);
+            }
+            
+            Color namec = Colors.WHITE;
+            if (c.Death)
+            {
+                namec = COLOR_TEXT_RED;
+            }
+            else if (c.NearDeath)
+            {
+                namec = COLOR_TEXT_YELLOW;
+            }
+            
+            Text.ShadowedText(g, namec, c.Name, X + x3, Y + y);
+            
+            lvl = c.Level.ToString();
+            hp = c.HP.ToString() + "/";
+            hpm = c.MaxHP.ToString();
+            mp = c.MP.ToString() + "/";
+            mpm = c.MaxMP.ToString();
+            
+            te = g.TextExtents(lvl);
+            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y + ya);
+            
+            te = g.TextExtents(hp);
+            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y + yb);
+            
+            te = g.TextExtents(hpm);
+            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y + yb);
+            
+            te = g.TextExtents(mp);
+            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y + yc);
+            
+            te = g.TextExtents(mpm);
+            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y + yc);
         }
 
 

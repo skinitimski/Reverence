@@ -9,7 +9,7 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Weapon : Equipment, ISlotHolder
+    internal class Weapon : SlotHolder
     {
         private static Dictionary<string, Weapon> _table;
 
@@ -50,16 +50,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
             Wielder = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
-            
-            Slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
-            Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
-
-            if (Links > Slots.Length / 2)
-            {
-                throw new GameDataException("Materia pairs greater than number of slots");
-            }
-
-            Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
 
 
@@ -171,12 +161,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         public ItemType Type { get { return ItemType.Weapon; } }
 
         public Element Element { get; private set; }
-
-        public Growth Growth { get; private set; }
-
-        public MateriaBase[] Slots  { get; private set; }
-
-        public int Links  { get; private set; }
         
         #endregion Properties
     }

@@ -15,8 +15,13 @@ namespace Atmosphere.Reverence.Seven.Graphics
         private const int xs = 37;
         private const int ys = 13;
         const int zs = 5;
+        
+        public static void Render(Cairo.Context g, SlotHolder equipment, int x, int y)
+        {
+            Render(g, equipment, x, y, true);
+        }
 
-        public static void RenderMateriaSlots(Cairo.Context g, ISlotHolder equipment, int x, int y)
+        public static void Render(Cairo.Context g, SlotHolder equipment, int x, int y, bool renderOrbs)
         {
             for (int j = 0; j < equipment.Links; j++)
             {
@@ -35,7 +40,7 @@ namespace Atmosphere.Reverence.Seven.Graphics
             {
                 Shapes.RenderCircle(g, gray2, 14, x + (i * xs) + (xs / 2), y - ys);
                 
-                if (equipment.Slots [i] == null)
+                if (equipment.Slots [i] == null || !renderOrbs)
                 {
                     Shapes.RenderCircle(g, gray1, 10, x + (i * xs) + (xs / 2), y - ys);
                 }

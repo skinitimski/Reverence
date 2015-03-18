@@ -69,11 +69,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             
 
             #region Top Row
-            
-            d.DrawPixbuf(gc, Seven.Party.Selected.Profile, 0, 0,
-                         X + xpic, Y + ypic,
-                         Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
-                         Gdk.RgbDither.None, 0, 0);
+
+            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
             
             g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + ya);
@@ -200,13 +197,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             g.Fill();
             g.Rectangle(x9, yk, 8 * xs, yl - yk);
             g.Fill();
-            
-            Cairo.Color gray1 = new Color(.2, .2, .2);
-            Cairo.Color gray2 = new Color(.7, .7, .8);
 
 
-            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
-            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
+
+            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
+            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
 
             
             

@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Seven.Graphics;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 {
@@ -52,45 +53,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             TextExtents te;
             
-            if (Growth != "")
+            if (SelectedEquipment != null)
             {
                 g.Color = new Color(.1, .1, .2);
                 g.Rectangle(X + x1, Y + ya - (yj - yi) + ysa, 8 * xs, yj - yi);
                 g.Fill();
-                
-                Cairo.Color gray1 = new Color(.2, .2, .2);
-                Cairo.Color gray2 = new Color(.7, .7, .8);
-                
-                int links, slots;
-                
-                slots = Slots.Length;
-                links = Links;
-                
-                
-                for (int j = 0; j < links; j++)
-                {
-                    Shapes.RenderLine(g, gray2, 3,
-                                        X + x1 + (xs / 2) + (j * 2 * xs), Y + ya - ysb - zs,
-                                        X + x1 + (xs / 2) + ((j * 2 + 1) * xs), Y + ya - ysb - zs);
-                    Shapes.RenderLine(g, gray2, 3,
-                                        X + x1 + (xs / 2) + (j * 2 * xs), Y + ya - ysb,
-                                        X + x1 + (xs / 2) + ((j * 2 + 1) * xs), Y + ya - ysb);
-                    Shapes.RenderLine(g, gray2, 3,
-                                        X + x1 + (xs / 2) + (j * 2 * xs), Y + ya - ysb + zs,
-                                        X + x1 + (xs / 2) + ((j * 2 + 1) * xs), Y + ya - ysb + zs);
-                }
-                for (int i = 0; i < slots; i++)
-                {
-                    Shapes.RenderCircle(g, gray2, 14,
-                                          X + x1 + (i * xs) + (xs / 2), Y + yi - ysb);
-                    Shapes.RenderCircle(g, gray1, 10,
-                                          X + x1 + (i * xs) + (xs / 2), Y + yi - ysb);
-                }
-                
+
+                                
+                MateriaSlots.Render(g, SelectedEquipment, X + x1, Y + ya, false);
+
                 Text.ShadowedText(g, COLOR_TEXT_TEAL, "Slot", X + x0, Y + ya);
                 Text.ShadowedText(g, COLOR_TEXT_TEAL, "Growth", X + x0, Y + yb);
                 
-                string growth = Growth;
+                string growth = SelectedEquipment.Growth.ToString();
                 
                 te = g.TextExtents(growth);
                 Text.ShadowedText(g, growth, X + x2 - (te.Width / 2), Y + yb);
@@ -99,22 +74,23 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
-        
-        private string Growth
+
+        private SlotHolder SelectedEquipment
         {
             get
             {
-                string growth = String.Empty;
+                SlotHolder equipment = null;
 
                 if (Seven.MenuState.EquipTop.IsControl)
                 {
                     switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0:
-                            growth = Seven.Party.Selected.Weapon.Growth.ToString();
+                        // case 2 is accessory
+                        case 0: 
+                            equipment = Seven.Party.Selected.Weapon;
                             break;
                         case 1:
-                            growth = Seven.Party.Selected.Armor.Growth.ToString();
+                            equipment = Seven.Party.Selected.Armor;
                             break;
                     }
                 }
@@ -122,69 +98,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 {
                     switch (Seven.MenuState.EquipTop.Option)
                     {
-                        case 0:
-                            growth = ((Weapon)Seven.MenuState.EquipList.Selection).Growth.ToString();
-                            break;
-                        case 1:
-                            growth = ((Armor)Seven.MenuState.EquipList.Selection).Growth.ToString();
+                        // case 2 is accessory
+                        case 0: 
+                        case 1: 
+                            equipment = (SlotHolder)Seven.MenuState.EquipList.Selection;
                             break;
                     }
                 }
 
-                return growth;
+                return equipment;
             }
-        }
-        private MateriaBase[] Slots
-        {
-            get
-            {
-                if (Seven.MenuState.EquipTop.IsControl)
-                {
-                    switch (Seven.MenuState.EquipTop.Option)
-                    {
-                        case 0: return Seven.Party.Selected.Weapon.Slots;
-                        case 1: return Seven.Party.Selected.Armor.Slots;
-                        default: return null;
-                    }
-                }
-                else if (Seven.MenuState.EquipList.IsControl)
-                {
-                    switch (Seven.MenuState.EquipTop.Option)
-                    {
-                        case 0: return ((Weapon)Seven.MenuState.EquipList.Selection).Slots;
-                        case 1: return ((Armor)Seven.MenuState.EquipList.Selection).Slots;
-                        default: return null;
-                    }
-                }
-                else return null;
-            }
-        }
-        private int Links
-        {
-            get
-            {
-                if (Seven.MenuState.EquipTop.IsControl)
-                {
-                    switch (Seven.MenuState.EquipTop.Option)
-                    {
-                        case 0: return Seven.Party.Selected.Weapon.Links;
-                        case 1: return Seven.Party.Selected.Armor.Links;
-                        default: return 0;
-                    }
-                }
-                else if (Seven.MenuState.EquipList.IsControl)
-                {
-                    switch (Seven.MenuState.EquipTop.Option)
-                    {
-                        case 0: return ((Weapon)Seven.MenuState.EquipList.Selection).Links;
-                        case 1: return ((Armor)Seven.MenuState.EquipList.Selection).Links;
-                        default: return 0;
-                    }
-                }
-                else return 0;
-            }
-        }
-        
+        }               
         
     }
 }

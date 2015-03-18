@@ -130,16 +130,16 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                 
             Color namec = Colors.WHITE;
 
-            if (Seven.Party[0].Death)
+            if (c.Death)
             {
                 namec = COLOR_TEXT_RED;
             }
-            else if (Seven.Party[0].NearDeath)
+            else if (c.NearDeath)
             {
                 namec = COLOR_TEXT_YELLOW;
             }
                 
-            Text.ShadowedText(g, namec, Seven.Party[0].Name, X + x3, Y + y);
+            Text.ShadowedText(g, namec, c.Name, X + x3, Y + y);
                 
             lvl = c.Level.ToString();
             hp = c.HP.ToString() + "/";

@@ -12,7 +12,7 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Armor : Equipment, ISlotHolder
+    internal class Armor : SlotHolder
     {
         private static Dictionary<string, Armor> _table;
         
@@ -47,17 +47,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             DefensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
             MagicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
             MagicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
-            
-            Slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
-
-            Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
-
-            if (Links > Slots.Length / 2)
-            {
-                throw new GameDataException("Materia pairs greater than number of slots");
-            }
-
-            Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
 
         
@@ -120,12 +109,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         public int MagicDefensePercent { get; private set; }
 
         public ItemType Type { get { return ItemType.Armor; } }
-
-        public Growth Growth { get; private set; }
-
-        public MateriaBase[] Slots { get; private set; }
-
-        public int Links { get; private set; }
     }
 }
 
