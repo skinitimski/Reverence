@@ -55,9 +55,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             TextExtents te;
             
             
-            Cairo.Color greenish = new Color(.3, .8, .8);
+            Cairo.Color greenish = COLOR_TEXT_TEAL;
             Cairo.Color gray = new Color(.4, .4, .4);
-            Cairo.Color white = new Color(1, 1, 1);
+            Cairo.Color white = Colors.WHITE;
             
             string lvl, hp, hpm, mp, mpm, s;
             
@@ -69,14 +69,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                          Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
                          Gdk.RgbDither.None, 0, 0);
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + yb);
             g.ShowText("HP");
             g.MoveTo(X + x3, Y + yc);
             g.ShowText("MP");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
             

@@ -111,7 +111,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     MateriaBase orb = Seven.Party.Materiatory.Get(i);
                     if (orb != null)
                     {
-                        Shapes.RenderCircle(g, new Color(1, 1, 1), 9, X + x1, Y + cy + (i - topRow) * y);
+                        Shapes.RenderCircle(g, Colors.WHITE, 9, X + x1, Y + cy + (i - topRow) * y);
                         Shapes.RenderCircle(g, orb.Color, 7, X + x1, Y + cy + (i - topRow) * y);
                         
                         Text.ShadowedText(g, orb.Name, X + x2, Y + (i - topRow + 1) * y);

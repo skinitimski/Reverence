@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Seven.Graphics;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 {      
@@ -54,20 +55,25 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                              Character.PROFILE_WIDTH_SMALL, Character.PROFILE_HEIGHT_SMALL,
                              Gdk.RgbDither.None, 0, 0);
                 
-                g.Color = new Color(.3, .8, .8);
+                g.Color = COLOR_TEXT_TEAL;
                 g.MoveTo(X + x3, Y + y0 + ya);
                 g.ShowText("LV");
                 g.MoveTo(X + x3, Y + y0 + yb);
                 g.ShowText("HP");
                 g.MoveTo(X + x3, Y + y0 + yc);
                 g.ShowText("MP");
-                g.Color = new Color(1, 1, 1);
+                g.Color = Colors.WHITE;
                 
-                Color namec = new Color(1, 1, 1);
+                Color namec = Colors.WHITE;
+
                 if (c.Death)
-                    namec = new Color(0.8, 0, 0);
+                {
+                    namec = COLOR_TEXT_RED;
+                }
                 else if (c.NearDeath)
-                    namec = new Color(.8, .8, 0);
+                {
+                    namec = COLOR_TEXT_YELLOW;
+                }
                 
                 Text.ShadowedText(g, namec, c.Name, X + x3, Y + y0);
                 

@@ -126,14 +126,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                          Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
                          Gdk.RgbDither.None, 0, 0);
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + y + yb);
             g.ShowText("HP");
             g.MoveTo(X + x3, Y + y + yc);
             g.ShowText("MP");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
             
@@ -162,14 +162,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             #region Equipment
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x7, Y + yi);
             g.ShowText("Wpn.");
             g.MoveTo(X + x7, Y + yj);
             g.ShowText("Arm.");
             g.MoveTo(X + x7, Y + yk);
             g.ShowText("Acc.");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             weapon = Seven.Party.Selected.Weapon.Name;
             armor = Seven.Party.Selected.Armor.Name;

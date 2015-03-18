@@ -55,14 +55,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                          Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
                          Gdk.RgbDither.None, 0, 0);
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + yb);
             g.ShowText("HP");
             g.MoveTo(X + x3, Y + yc);
             g.ShowText("MP");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
             

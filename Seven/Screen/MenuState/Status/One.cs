@@ -3,8 +3,8 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
-
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Graphics;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
@@ -75,14 +75,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                          Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
                          Gdk.RgbDither.None, 0, 0);
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + yb);
             g.ShowText("HP");
             g.MoveTo(X + x3, Y + yc);
             g.ShowText("MP");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
             
@@ -144,7 +144,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             mdf = Ally.MagicDefense(Seven.Party.Selected).ToString();
             mdfp = Ally.MagicDefensePercent(Seven.Party.Selected).ToString();
             
-            Cairo.Color greenish = new Color(.3, .8, .8);
+            Cairo.Color greenish = COLOR_TEXT_TEAL;
             
             Text.ShadowedText(g, greenish, "Strength", X + x0, Y + yq + (line * 0));
             Text.ShadowedText(g, greenish, "Vitality", X + x0, Y + yq + (line * 1));
@@ -203,78 +203,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             
             Cairo.Color gray1 = new Color(.2, .2, .2);
             Cairo.Color gray2 = new Color(.7, .7, .8);
-            
-            int links, slots;
-            
-            slots = Seven.Party.Selected.Weapon.Slots.Length;
-            links = Seven.Party.Selected.Weapon.Links;
-            
-            
-            for (int j = 0; j < links; j++)
-            {
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys - zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys - zs);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys + zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys + zs);
-            }
-            for (int i = 0; i < slots; i++)
-            {
-                Shapes.RenderCircle(g, gray2, 14,
-                                      X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-                if (Seven.Party.Selected.Weapon.Slots [i] == null)
-                    Shapes.RenderCircle(g, gray1, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-                else
-                    Shapes.RenderCircle(g, Seven.Party.Selected.Weapon.Slots [i].Color, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-            }
-            
-            slots = Seven.Party.Selected.Armor.Slots.Length;
-            links = Seven.Party.Selected.Armor.Links;
-            
-            for (int j = 0; j < links; j++)
-            {
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys - zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys - zs);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys + zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys + zs);
-            }
-            for (int i = 0; i < slots; i++)
-            {
-                Shapes.RenderCircle(g, gray2, 14,
-                                      X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-                
-                if (Seven.Party.Selected.Armor.Slots [i] == null)
-                {
-                    Shapes.RenderCircle(g, gray1, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-                }
-                else
-                {
-                    Shapes.RenderCircle(g, Seven.Party.Selected.Armor.Slots [i].Color, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-                }
-            }
+
+
+            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
+            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
+
             
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x7, Y + yh);
             g.ShowText("Wpn.");
             g.MoveTo(X + x7, Y + yj);
             g.ShowText("Arm.");
             g.MoveTo(X + x7, Y + yl);
             g.ShowText("Acc.");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Weapon.Name, X + x8, Y + yh);
             Text.ShadowedText(g, Seven.Party.Selected.Armor.Name, X + x8, Y + yj);

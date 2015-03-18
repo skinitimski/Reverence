@@ -59,15 +59,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             if (orb != null)
             {
-                Shapes.RenderCircle(g, new Color(1, 1, 1), 9, X + x1, Y + yp);
+                Shapes.RenderCircle(g, Colors.WHITE, 9, X + x1, Y + yp);
                 Shapes.RenderCircle(g, orb.Color, 7, X + x1, Y + yp);
                 Text.ShadowedText(g, orb.Name, X + x2, Y + y0);
                 
-                Cairo.Color greenish = new Color(.3, .8, .8);
+                Cairo.Color greenish = COLOR_TEXT_TEAL;
                 Cairo.Color yellow = new Color(.8, .8, 0);
                 Cairo.Color red = new Color(0.8, 0, 0);
                 Cairo.Color gray = new Color(.4, .4, .4);
-                Cairo.Color white = new Color(1, 1, 1);
+                Cairo.Color white = Colors.WHITE;
                 
                 
                 if (orb.ID == "enemyskill")

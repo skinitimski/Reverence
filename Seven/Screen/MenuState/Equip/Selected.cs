@@ -87,8 +87,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                                           X + x1 + (i * xs) + (xs / 2), Y + yi - ysb);
                 }
                 
-                Text.ShadowedText(g, new Color(.3, .8, .8), "Slot", X + x0, Y + ya);
-                Text.ShadowedText(g, new Color(.3, .8, .8), "Growth", X + x0, Y + yb);
+                Text.ShadowedText(g, COLOR_TEXT_TEAL, "Slot", X + x0, Y + ya);
+                Text.ShadowedText(g, COLOR_TEXT_TEAL, "Growth", X + x0, Y + yb);
                 
                 string growth = Growth;
                 

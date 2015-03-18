@@ -81,6 +81,7 @@
     <Compile Include="Exceptions\GameDataException.cs" />
     <Compile Include="Attributes\GdkMethodAttribute.cs" />
     <Compile Include="Attributes\LuaFunctionCaller.cs" />
+    <Compile Include="Graphics\Colors.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\config.xml">

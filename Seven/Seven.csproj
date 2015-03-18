@@ -64,6 +64,7 @@
     <Folder Include="Screen\MenuState\Equip\" />
     <Folder Include="Screen\MenuState\Materia\" />
     <Folder Include="Screen\MenuState\Item\" />
+    <Folder Include="Graphics\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -127,6 +128,8 @@
     <Compile Include="Asset\IInventoryItem.cs" />
     <Compile Include="Asset\FieldTarget.cs" />
     <Compile Include="Asset\Equipment.cs" />
+    <Compile Include="Graphics\Images.cs" />
+    <Compile Include="Graphics\MateriaSlots.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

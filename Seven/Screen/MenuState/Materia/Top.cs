@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
@@ -182,66 +183,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             Cairo.Color gray1 = new Color(.2, .2, .2);
             Cairo.Color gray2 = new Color(.7, .7, .8);
+
             
-            int links, slots;
+            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
+            MateriaSlots.RenderMateriaSlots(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
             
-            slots = Seven.Party.Selected.Weapon.Slots.Length;
-            links = Seven.Party.Selected.Weapon.Links;
-            
-            
-            for (int j = 0; j < links; j++)
-            {
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys - zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys - zs);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yi - ys + zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yi - ys + zs);
-            }
-            for (int i = 0; i < slots; i++)
-            {
-                Shapes.RenderCircle(g, gray2, 14,
-                                      X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-                if (Seven.Party.Selected.Weapon.Slots [i] == null)
-                    Shapes.RenderCircle(g, gray1, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-                else
-                    Shapes.RenderCircle(g, Seven.Party.Selected.Weapon.Slots [i].Color, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yi - ys);
-            }
-            
-            slots = Seven.Party.Selected.Armor.Slots.Length;
-            links = Seven.Party.Selected.Armor.Links;
-            
-            for (int j = 0; j < links; j++)
-            {
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys - zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys - zs);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys);
-                Shapes.RenderLine(g, gray2, 3,
-                                    X + x9 + (xs / 2) + (j * 2 * xs), Y + yk - ys + zs,
-                                    X + x9 + (xs / 2) + ((j * 2 + 1) * xs), Y + yk - ys + zs);
-            }
-            for (int i = 0; i < slots; i++)
-            {
-                Shapes.RenderCircle(g, gray2, 14,
-                                      X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-                
-                if (Seven.Party.Selected.Armor.Slots [i] == null)
-                    Shapes.RenderCircle(g, gray1, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-                else
-                    Shapes.RenderCircle(g, Seven.Party.Selected.Armor.Slots [i].Color, 10,
-                                          X + x9 + (i * xs) + (xs / 2), Y + yk - ys);
-            }
-            
-#endregion
+            #endregion
             
             #region Character Status
             
@@ -250,14 +197,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                          Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
                          Gdk.RgbDither.None, 0, 0);
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x3, Y + y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + y + yb);
             g.ShowText("HP");
             g.MoveTo(X + x3, Y + y + yc);
             g.ShowText("MP");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
             
@@ -282,12 +229,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             #region Equipment
             
-            g.Color = new Color(.3, .8, .8);
+            g.Color = COLOR_TEXT_TEAL;
             g.MoveTo(X + x7, Y + yh);
             g.ShowText("Wpn.");
             g.MoveTo(X + x7, Y + yj);
             g.ShowText("Arm.");
-            g.Color = new Color(1, 1, 1);
+            g.Color = Colors.WHITE;
             
             Text.ShadowedText(g, "Check", x7a, yja);
             Text.ShadowedText(g, "Arr.", x7a, yla);

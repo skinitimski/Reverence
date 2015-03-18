@@ -10,6 +10,14 @@ namespace Atmosphere.Reverence.Menu
 {
     public abstract class Menu
     {
+        protected Color border = new Color(0.8, 0.8, 0.8, 1);
+        protected Color borderTransparent = new Color(0.8, 0.8, 0.8, 0.6);
+
+        protected Color COLOR_TEXT_TEAL = new Color(.3, .8, .8);
+        protected Color COLOR_TEXT_RED = new Color(0.8, 0, 0);
+        protected Color COLOR_TEXT_YELLOW = new Color(.8, .8, 0);
+        protected Color COLOR_TEXT_MAGENTA = new Color(.7, 0, .7);
+
         #region Menu Colors
 
         // top left
@@ -81,12 +89,15 @@ namespace Atmosphere.Reverence.Menu
 
         protected Menu(int x, int y, int w, int h, bool opaque)
         {
+
             _x = x;
             _y = y;
             _w = w;
             _h = h;
             _opaque = opaque;
             Visible = true;
+
+            BorderColor = opaque ? border : borderTransparent;
 
             UpdateBackground();
         }
@@ -102,7 +113,9 @@ namespace Atmosphere.Reverence.Menu
         public void Draw(Gdk.Drawable d)
         {
             if (!Visible)
+            {
                 return;
+            }
 
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
@@ -123,7 +136,7 @@ namespace Atmosphere.Reverence.Menu
             g.LineTo(x0 + 3, y0);
             g.ClosePath();
             g.LineWidth = 6;
-            g.Color = new Color(0.8, 0.8, 0.8, _opaque ? 1 : 0.6);
+            g.Color = BorderColor;
             g.Stroke();
 
             ((IDisposable)g.Target).Dispose();
@@ -147,6 +160,8 @@ namespace Atmosphere.Reverence.Menu
         private ColoredPoint CP2 { get { return new ColoredPoint(_w, _h, R2, G2, B2, _opaque ? 1 : .6f); } }
 
         private ColoredPoint CP3 { get { return new ColoredPoint(0, _h, R3, G3, B3, _opaque ? 1 : .6f); } }
+
+        private Color BorderColor { get; set; }
 
         #endregion Hidden
 

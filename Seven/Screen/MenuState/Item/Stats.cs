@@ -140,14 +140,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                              X + x1, Y + yp,
                              Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
                 
-                g.Color = new Color(.3, .8, .8);
+                g.Color = COLOR_TEXT_TEAL;
                 g.MoveTo(X + x3, Y + y0 + ya);
                 g.ShowText("LV");
                 g.MoveTo(X + x3, Y + y0 + yb);
                 g.ShowText("HP");
                 g.MoveTo(X + x3, Y + y0 + yc);
                 g.ShowText("MP");
-                g.Color = new Color(1, 1, 1);
+                g.Color = Colors.WHITE;
                 
                 if (Seven.Party[0].Fury)
                 {
@@ -158,7 +158,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y0);
                 }
                 
-                Color namec = new Color(1, 1, 1);
+                Color namec = Colors.WHITE;
                 if (Seven.Party[0].Death)
                 {
                     namec = new Color(0.8, 0, 0);
@@ -204,14 +204,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                              X + x1, Y + yp + (y1 - y0),
                              Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
                 
-                g.Color = new Color(.3, .8, .8);
+                g.Color = COLOR_TEXT_TEAL;
                 g.MoveTo(X + x3, Y + y1 + ya);
                 g.ShowText("LV");
                 g.MoveTo(X + x3, Y + y1 + yb);
                 g.ShowText("HP");
                 g.MoveTo(X + x3, Y + y1 + yc);
                 g.ShowText("MP");
-                g.Color = new Color(1, 1, 1);
+                g.Color = Colors.WHITE;
                 
                 if (Seven.Party[1].Fury)
                 {
@@ -222,7 +222,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y1);
                 }
                 
-                Color namec = new Color(1, 1, 1);
+                Color namec = Colors.WHITE;
                 if (Seven.Party[1].Death)
                 {
                     namec = new Color(0.8, 0, 0);
@@ -269,14 +269,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                              X + x1, Y + yp + (y2 - y0),
                              Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT, Gdk.RgbDither.None, 0, 0);
                 
-                g.Color = new Color(.3, .8, .8);
+                g.Color = COLOR_TEXT_TEAL;
                 g.MoveTo(X + x3, Y + y2 + ya);
                 g.ShowText("LV");
                 g.MoveTo(X + x3, Y + y2 + yb);
                 g.ShowText("HP");
                 g.MoveTo(X + x3, Y + y2 + yc);
                 g.ShowText("MP");
-                g.Color = new Color(1, 1, 1);
+                g.Color = Colors.WHITE;
                 
                 if (Seven.Party[2].Fury)
                 {
@@ -287,7 +287,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     Text.ShadowedText(g, new Color(.7, 0, .7), "[Sadness]", X + x7, Y + y2);
                 }
                 
-                Color namec = new Color(1, 1, 1);
+                Color namec = Colors.WHITE;
                 if (Seven.Party[2].Death)
                 {
                     namec = new Color(0.8, 0, 0);

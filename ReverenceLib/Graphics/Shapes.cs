@@ -11,7 +11,7 @@ namespace Atmosphere.Reverence.Graphics
 
         public static void RenderBlinkingCursor(Cairo.Context g, double x, double y)
         {
-            RenderBlinkingCursor(g, new Cairo.Color(1, 1, 1), x, y);
+            RenderBlinkingCursor(g, Colors.WHITE, x, y);
         }
         public static void RenderBlinkingCursor(Cairo.Context g, Cairo.Color c, double x, double y)
         {
@@ -26,7 +26,7 @@ namespace Atmosphere.Reverence.Graphics
 
         public static void RenderCursor(Cairo.Context g, double x, double y)
         {
-            RenderCursor(g, new Cairo.Color(1, 1, 1), x, y);
+            RenderCursor(g, Colors.WHITE, x, y);
         }
         public static void RenderCursor(Cairo.Context g, Cairo.Color c, double x, double y)
         {
