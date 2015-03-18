@@ -1,6 +1,6 @@
 using System;
 
-namespace Atmosphere.Reverence
+namespace Atmosphere.Reverence.Attributes
 {
     public class GdkMethod : Attribute
     {

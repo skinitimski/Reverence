@@ -49,12 +49,19 @@ namespace Atmosphere.Reverence
             
             return new StreamReader(resource);
         }
-        
+
+
+
         public static string GetTextFromResource(string id)
         {
+            return GetTextFromResource(id, typeof(Resource).Assembly);
+        }
+        
+        public static string GetTextFromResource(string id, Assembly assembly)
+        {
             string text = null;
-
-            using (Stream resource = typeof(Resource).Assembly.GetManifestResourceStream(id))
+            
+            using (Stream resource = assembly.GetManifestResourceStream(id))
             {
                 using (StreamReader reader = new StreamReader(resource))
                 {
@@ -64,7 +71,11 @@ namespace Atmosphere.Reverence
             
             return text;
         }
-        
+
+
+
+
+
         public static string CleanString(string s)
         {
             foreach (string replacement in new string[] { " ", "-", "'", "/", "!", ":", "*" }) s = s.Replace(replacement, "");

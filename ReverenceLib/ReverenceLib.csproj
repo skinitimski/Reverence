@@ -59,6 +59,7 @@
     <Folder Include="Graphics\" />
     <Folder Include="Menu\" />
     <Folder Include="Exceptions\" />
+    <Folder Include="Attributes\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Key.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Time\Timer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Resource.cs" />
-    <Compile Include="GdkMethodAttribute.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Graphics\ColoredPoint.cs" />
     <Compile Include="Menu\Menu.cs" />
@@ -79,6 +79,8 @@
     <Compile Include="Sex.cs" />
     <Compile Include="Exceptions\SaveStateException.cs" />
     <Compile Include="Exceptions\GameDataException.cs" />
+    <Compile Include="Attributes\GdkMethodAttribute.cs" />
+    <Compile Include="Attributes\LuaFunctionCaller.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\config.xml">

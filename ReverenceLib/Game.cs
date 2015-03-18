@@ -9,6 +9,7 @@ using NLua;
 using Cairo;
 using Gtk;
 
+using Atmosphere.Reverence.Attributes;
 using Atmosphere.Reverence.Time;
 
 namespace Atmosphere.Reverence
@@ -34,6 +35,12 @@ namespace Atmosphere.Reverence
 
             State = GetInitialState();
             LuaEnvironment = new Lua();
+            LuaEnvironment.LoadCLRPackage();
+            
+            LuaEnvironment.DoString(@" import ('Systen') ");
+            LuaEnvironment.DoString(@" import ('Systen.IO') ");
+            LuaEnvironment.DoString(@" import ('Systen.Text') ");
+            LuaEnvironment.DoString(@" import ('Systen.Text.RegularExpressions') ");
         }
 
 
@@ -388,6 +395,8 @@ namespace Atmosphere.Reverence
                 Gdk.Threads.Leave();
             }            
         }
+
+
 
 
 
