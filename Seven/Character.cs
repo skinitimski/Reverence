@@ -42,7 +42,7 @@ namespace Atmosphere.Reverence.Seven
         private int _limitlvl;
         private bool _fury = false;
         private bool _sadness = false;
-        private bool _death = false;
+        //private bool _death = false;
         private List<Element> _halve;
         private List<Element> _void;
         private List<Element> _absorb;
@@ -250,7 +250,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 throw new SaveStateException("HP > MAXHP for " + _name);
             }
-            _death = (_hp == 0);
+            //_death = (_hp == 0);
             
             // MP
             _mp = Int32.Parse(savexml.SelectSingleNode("./mp").InnerText);
@@ -664,6 +664,14 @@ namespace Atmosphere.Reverence.Seven
         
         
         #region Status
+
+        public void Kill()
+        {
+            _hp = 0;
+
+            _fury = false;
+            _sadness = false;
+        }
         
         public bool InflictFury()
         {
@@ -687,16 +695,16 @@ namespace Atmosphere.Reverence.Seven
             return true;
         }
 
-        public bool InflictDeath()
-        {
-            if (_death)
-            {
-                return false;
-            }
-            _death = true;
-            _hp = 0;
-            return true;
-        }
+//        public bool InflictDeath()
+//        {
+//            if (_death)
+//            {
+//                return false;
+//            }
+//            _death = true;
+//            _hp = 0;
+//            return true;
+//        }
 
         public bool CureFury()
         {
@@ -718,15 +726,15 @@ namespace Atmosphere.Reverence.Seven
             return true;
         }
 
-        public bool CureDeath()
-        {
-            if (!_death)
-            {
-                return false;
-            }
-            _death = false;
-            return true;
-        }
+//        public bool CureDeath()
+//        {
+//            if (!_death)
+//            {
+//                return false;
+//            }
+//            _death = false;
+//            return true;
+//        }
         
         #endregion Status
         
@@ -974,6 +982,10 @@ namespace Atmosphere.Reverence.Seven
         /// Returns the REMAINING experience required to get to the next level
         /// </summary>
         public int ToNextLevel { get { return NextLevel - _exp; } }
+
+        public bool HPFull { get { return HP == MaxHP; } }
+        
+        public bool MPFull { get { return MP == MaxMP; } }
         
         public int HP
         {
@@ -994,9 +1006,13 @@ namespace Atmosphere.Reverence.Seven
                 {
                     _hp = MaxHP;
                 }
-                if (_hp < 0)
+                else if (_hp < 0)
                 {
                     _hp = 0;
+                }
+                else if (_hp == 0)
+                {
+                    Kill();
                 }
             }
         }
@@ -1082,7 +1098,7 @@ namespace Atmosphere.Reverence.Seven
 
         public bool NearDeath { get { return HP <= (MaxHP / 4); } }
 
-        public bool Death { get { return _death; } }
+        public bool Death { get { return HP == 0; } }
         
         public Weapon Weapon
         {

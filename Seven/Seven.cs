@@ -32,12 +32,14 @@ namespace Atmosphere.Reverence.Seven
         private Seven()
             : base()
         {
-
+            LuaEnvironment.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
+            LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
 
         }
 
         protected override void Init()
         {
+            LuaEnvironment["Seven"] = this;
             Weapon.LoadWeapons();
             Armor.LoadArmor();
             Accessory.LoadAccessories();

@@ -90,7 +90,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             {
                 int t_atk, t_atkp, t_def, t_defp, t_mat, t_mdf, t_mdfp;
                 
-                IItem temp;
+                IInventoryItem temp;
                 
                 switch (Seven.MenuState.EquipTop.Option)
                 {

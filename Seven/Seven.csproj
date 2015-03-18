@@ -91,7 +91,6 @@
     <Compile Include="Asset\Accessory.cs" />
     <Compile Include="Asset\WeaponType.cs" />
     <Compile Include="Asset\Element.cs" />
-    <Compile Include="Asset\IItem.cs" />
     <Compile Include="Asset\ItemType.cs" />
     <Compile Include="Asset\Growth.cs" />
     <Compile Include="Asset\Materia\MateriaBase.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Asset\Materia\EnemySkillMateria.cs" />
     <Compile Include="Asset\Spell.cs" />
     <Compile Include="Asset\Item.cs" />
-    <Compile Include="Asset\ItemTarget.cs" />
     <Compile Include="Screen\MenuState\Equip\Info.cs" />
     <Compile Include="Screen\MenuState\Equip\Label.cs" />
     <Compile Include="Screen\MenuState\Equip\List.cs" />
@@ -126,6 +124,8 @@
     <Compile Include="Screen\MenuState\Item\List.cs" />
     <Compile Include="Screen\MenuState\Item\Stats.cs" />
     <Compile Include="Screen\MenuState\Item\Top.cs" />
+    <Compile Include="Asset\IInventoryItem.cs" />
+    <Compile Include="Asset\FieldTarget.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
@@ -226,6 +226,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\weapons.xml">
       <LogicalName>data.weapons.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\scripts.lua">
+      <LogicalName>lua.scripts</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

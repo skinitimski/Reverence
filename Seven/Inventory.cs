@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven
         
         public class Record : IComparable<Record>
         {
-            private IItem _item = GameItem.EMPTY;
+            private IInventoryItem _item = GameItem.EMPTY;
             private int _count;
 
             public Record(int slot)
@@ -51,7 +51,7 @@ namespace Atmosphere.Reverence.Seven
                 }
             }
 
-            public IItem Item
+            public IInventoryItem Item
             {
                 get { return _item; }
                 set
@@ -67,21 +67,22 @@ namespace Atmosphere.Reverence.Seven
             
             public int CompareTo(Record that)
             {
-                if (this.IsEmpty && that.IsEmpty)
+                int comparison = 0;
+
+                if (that.IsEmpty)
                 {
-                    return 0;
-                }
-                
-                int typeCompare = this.Item.Type.CompareTo(that.Item.Type);
-                
-                if (typeCompare != 0)
-                {
-                    return typeCompare;
+                    if (!this.IsEmpty)
+                    {
+                        return 1;
+                    }
+                    // else == 0
                 }
                 else
                 {
-                    return this.ID.CompareTo(that.ID);
+                    comparison = this.ID.CompareTo(that.ID);
                 }
+
+                return comparison;
             }
         }
 
@@ -133,9 +134,11 @@ namespace Atmosphere.Reverence.Seven
             {
                 if (!ir.IsEmpty)
                 {
-                    if (ir.Item.Type == ItemType.Weapon)
+                    Weapon weapon = ir.Item as Weapon;
+
+                    if (weapon != null)
                     {
-                        if (((Weapon)ir.Item).Wielder == t)
+                        if (weapon.Wielder == t)
                         {
                             list.Add(ir);
                         }
@@ -154,7 +157,9 @@ namespace Atmosphere.Reverence.Seven
             {
                 if (!ir.IsEmpty)
                 {
-                    if (ir.Item.Type == ItemType.Armor)
+                    Armor armor = ir.Item as Armor;
+                    
+                    if (armor != null)
                     {
                         if (ir.ID == "minervaband")
                         {
@@ -182,30 +187,33 @@ namespace Atmosphere.Reverence.Seven
 
         public List<Record> GetAccessories()
         {
-            List<Record> list = new List<Record>();
+//            List<Record> list = new List<Record>();
+            List<Record> list = _inventory.Where(x => !x.IsEmpty && x.Item is Accessory).ToList();
 
-            foreach (Record ir in _inventory)
-            {
-                if (!ir.IsEmpty)
-                {
-                    if (ir.Item.Type == ItemType.Accessory)
-                    {
-                        list.Add(ir);
-                    }
-                }
-            }
+//            foreach (Record ir in _inventory)
+//            {
+//                if (!ir.IsEmpty)
+//                {
+//                    Accessory accessory = ir.Item as Accessory;
+//
+//                    if (Accessory != null)
+//                    {
+//                        list.Add(ir);
+//                    }
+//                }
+//            }
 
             return list;
         }
         
-        public IItem SwapOut(IItem newItem, int slot)
+        public IInventoryItem SwapOut(IInventoryItem newItem, int slot)
         {
             if (_inventory[slot].Count != 1)
             {
                 throw new ImplementationException("Can't swap out an item unless it has a count of 1.");
             }
 
-            IItem temp = _inventory[slot].Item;
+            IInventoryItem temp = _inventory[slot].Item;
             
             _inventory[slot].Item = newItem;
             
@@ -222,7 +230,7 @@ namespace Atmosphere.Reverence.Seven
             _inventory[slot].Count--;
         }
 
-        public void AddToInventory(IItem item)
+        public void AddToInventory(IInventoryItem item)
         {
             int i = IndexOf(item);
 
@@ -244,7 +252,7 @@ namespace Atmosphere.Reverence.Seven
             }
         }
         
-        public int IndexOf(IItem item)
+        public int IndexOf(IInventoryItem item)
         {
             int index = -1;
 
@@ -259,7 +267,7 @@ namespace Atmosphere.Reverence.Seven
             return index;
         }
 
-        public IItem GetItem(int slot)
+        public IInventoryItem GetItem(int slot)
         {
             return _inventory[slot].Item;
         }
@@ -274,15 +282,23 @@ namespace Atmosphere.Reverence.Seven
             Array.Sort<Record>(_inventory);
         }
 
-        public bool UseItem(int slot)
+        public bool UseItemInField(int slot)
         {
-            if (((Item)_inventory[slot].Item).Use())
+            IInventoryItem item = _inventory[slot].Item;
+
+            if (!item.CanUseInField)
+            {
+                throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
+            }
+                        
+            bool used = ((Item)item).UseItemInField();
+
+            if (used)
             {
                 DecreaseCount(slot);
-                return true;
             }
 
-            return false;
+            return used;
         }
     }
 }

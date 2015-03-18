@@ -48,9 +48,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             {
                 case Key.Up: 
                     if (option > 0) option--; 
+                    Seven.Party.DecrementSelection();
                     break;
                 case Key.Down: 
                     if (option < 2) option++;
+                    Seven.Party.IncrementSelection();
                     break;
                 case Key.X:
                     Seven.MenuState.MainScreen.ChangeControl(Seven.MenuState.MainOptions);
@@ -123,8 +125,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                 case 2: cy_h = y2; break;
                 default: break;
             } 
-
-            Seven.Party.SetSelection(option); 
         }
         protected override void DrawContents(Gdk.Drawable d)
         {

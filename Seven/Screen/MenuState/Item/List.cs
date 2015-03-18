@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using GameItem = Atmosphere.Reverence.Seven.Asset.Item;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 {
@@ -29,28 +31,51 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                 Config.Instance.WindowHeight * 11 / 60,
                 Config.Instance.WindowWidth / 2 - 9,
                 Config.Instance.WindowHeight * 23 / 30)
-        { }
+        {
+        }
         
         public override void ControlHandle(Key k)
         {
             switch (k)
             {
                 case Key.Up:
-                    if (option > 0) option--;
-                    if (topRow > option) topRow--;
+                    if (option > 0)
+                    {
+                        option--;
+                    }
+                    if (topRow > option)
+                    {
+                        topRow--;
+                    }
                     break;
                 case Key.Down:
-                    if (option < Inventory.INVENTORY_SIZE - 1) option++;
-                    if (topRow < option - rows + 1) topRow++;
+                    if (option < Inventory.INVENTORY_SIZE - 1)
+                    {
+                        option++;
+                    }
+                    if (topRow < option - rows + 1)
+                    {
+                        topRow++;
+                    }
                     break;
                 case Key.X:
                     Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemTop);
                     break;
                 case Key.Circle:
-                    if (Seven.Party.Inventory.GetItem(option) != null)
-                        if (Seven.Party.Inventory.GetItem(option).Type == ItemType.Field ||
-                            Seven.Party.Inventory.GetItem(option).Type == ItemType.Hybrid)
-                            Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemStats);
+
+                    if (SelectedItem.CanUseInField)
+                    {                  
+                        GameItem fieldItem = (GameItem)SelectedItem;
+
+                        switch (fieldItem.FieldTarget)
+                        {
+                            case FieldTarget.Character:
+                            case FieldTarget.Party:
+                                Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemStats);
+                                break;
+                        }
+                    }
+
                     break;
                 default:
                     break;
@@ -73,12 +98,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             
             for (int i = topRow; i < j; i++)
             {
-                IItem item = Seven.Party.Inventory.GetItem(i);
+                IInventoryItem item = Seven.Party.Inventory.GetItem(i);
                 if (item != null)
                 {
                     int count = Seven.Party.Inventory.GetCount(i);
                     te = g.TextExtents(count.ToString());
-                    if (item.Type == ItemType.Field || item.Type == ItemType.Hybrid)
+
+                    if (item.CanUseInField)
                     {
                         Text.ShadowedText(g, item.Name,
                                               X + x1, Y + (i - topRow + 1) * y);
@@ -103,22 +129,29 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
         public override void SetAsControl()
         {
             base.SetAsControl();
         }
+
         public override void Reset()
         {
             option = 0;
             topRow = 0;
         }
-        public int Option { get { return option; } }
+
+
+
+        public IInventoryItem SelectedItem { get { return Seven.Party.Inventory.GetItem(option); } }
+
+        public int InventorySlot { get { return option; } }
         
         public override string Info
         {
             get
             {
-                IItem i = Seven.Party.Inventory.GetItem(option);
+                IInventoryItem i = Seven.Party.Inventory.GetItem(option);
                 return (i == null) ? "" : i.Description;
             }
         }

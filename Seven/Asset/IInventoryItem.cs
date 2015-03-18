@@ -2,12 +2,13 @@ using System;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal interface IItem
+    internal interface IInventoryItem
     {
-        ItemType Type { get; }
         string Name { get; }
         string ID { get; }
         string Description { get; }
+
+        bool CanUseInField { get; }
     }
 }
 

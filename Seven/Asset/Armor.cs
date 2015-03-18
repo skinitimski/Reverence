@@ -9,7 +9,7 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Armor : IItem, ISlotHolder
+    internal class Armor : IInventoryItem, ISlotHolder
     {
         #region Member Data
         
@@ -156,6 +156,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         public MateriaBase[] Slots { get { return _slots; } }
 
         public int Links { get { return _links; } }
+        
+        public bool CanUseInField { get { return false; } }
     }
 }
 

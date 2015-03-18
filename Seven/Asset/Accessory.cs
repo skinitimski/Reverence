@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Accessory : IItem
+    internal class Accessory : IInventoryItem
     {
         #region Member Data
         
@@ -80,6 +80,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         public string Description { get { return _desc; } }
         
         public static Dictionary<string, Accessory> AccessoryTable { get { return _table; } }
+        
+        public bool CanUseInField { get { return false; } }
     }
 }
 

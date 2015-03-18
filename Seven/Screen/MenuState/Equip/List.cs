@@ -149,7 +149,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             }
         }
         
-        public IItem Selection { get { return _equipment[_option].Item; } }
+        public IInventoryItem Selection { get { return _equipment[_option].Item; } }
         
         public override string Info { get { return Selection.Description; } }
     }

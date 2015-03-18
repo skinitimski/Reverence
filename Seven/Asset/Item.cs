@@ -6,26 +6,34 @@ using System.Xml;
 
 using NLua;
 
+using Atmosphere.Reverence.Attributes;
 using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Item : IItem
+    internal class Item : IInventoryItem
     {       
-        #region Member Data
-        
-        string _name;
-        string _desc;
-        ItemType _type;
-        ItemTarget _targetType;
-        
-        #endregion Member Data
-
-
-
         private static Dictionary<string, Item> _table;
+        public static readonly Item EMPTY;
 
-        public static Item EMPTY { get; private set; }
+
+
+
+        private class FieldUsageRecord
+        {
+            public FieldTarget Target { get; set; }
+
+            public LuaFunction CanUse { get; set; }
+
+            public LuaFunction Use { get; set; }
+        }
+
+
+
+        static Item()
+        {
+            EMPTY = new Item();
+        }
         
         public static void LoadItems()
         {
@@ -40,85 +48,110 @@ namespace Atmosphere.Reverence.Seven.Asset
                     continue;
                 }
 
-
-                string name = node.SelectSingleNode("name").InnerText;
-                string desc = node.SelectSingleNode("desc").InnerText;
                 
-                string id = Resource.CreateID(name);
+                Item i = new Item(node);
                 
-                ItemType type = (ItemType)Enum.Parse(typeof(ItemType), node.SelectSingleNode("type").InnerText);
-                ItemTarget target = (ItemTarget)Enum.Parse(typeof(ItemTarget), node.SelectSingleNode("target").InnerText);
-                
-                string field, battle;
-                
-                switch (type)
-                {
-                    case ItemType.Field:
-                        field = node.SelectSingleNode("field").InnerText;
-                        Seven.Lua.DoString("usefield" + id + " = " + field);
-                        break;
-                    case ItemType.Battle:
-                        battle = node.SelectSingleNode("battle").InnerText;
-                        Seven.Lua.DoString("usebattle" + id + " = " + battle);
-                        break;
-                    case ItemType.Hybrid:
-                        field = node.SelectSingleNode("field").InnerText;
-                        battle = node.SelectSingleNode("battle").InnerText;
-                        Seven.Lua.DoString("usefield" + id + " = " + field);
-                        Seven.Lua.DoString("usebattle" + id + " = " + battle);
-                        break;
-                }
-                
-                Item i = new Item(name, desc, type, target);
-                
-                _table.Add(id, i);
+                _table.Add(i.ID, i);
             }
-
-            EMPTY = new Item("", "", ItemType.Nonfunctional, ItemTarget.None);
         }
-        
-        public Item(string name, string desc, ItemType type, ItemTarget targetType)
+
+        private Item()
         {
-            _name = name;
-            _desc = desc;
-            _type = type;
-            _targetType = targetType;
+            Name = String.Empty;
+            Description = String.Empty;
         }
         
-        public bool Use()
-        {            
-            if (Seven.CurrentState.Equals(Seven.MenuState))
+        [LuaFunctionCaller]
+        private Item(XmlNode node)
+            : this()
+        {
+            Name = node.SelectSingleNode("name").InnerText;
+            Description = node.SelectSingleNode("desc").InnerText;
+                        
+            XmlNode field = node.SelectSingleNode("field");
+
+            if (field != null)
             {
-                LuaFunction l = Seven.Lua.GetFunction("usefield" + ID);
-                bool success = false;
+                FieldUsage = new FieldUsageRecord();
+
+                FieldUsage.Target = (FieldTarget)Enum.Parse(typeof(FieldTarget), field.SelectSingleNode("@target").Value);
+
+                char targetParameterName = Char.ToLower(FieldUsage.Target.ToString()[0]);
+
+                string canUse = String.Format("return function ({0}) {1} end", targetParameterName, node.SelectSingleNode("field/canUse").InnerText);
+                string use = String.Format("return function ({0}) {1} end", targetParameterName, node.SelectSingleNode("field/use").InnerText);
+
                 try
                 {
-                    success = (bool)l.Call() [0];
+                    FieldUsage.CanUse = (LuaFunction)Seven.Lua.DoString(canUse).First();
+                    FieldUsage.Use = (LuaFunction)Seven.Lua.DoString(use).First();
                 }
                 catch (Exception e)
                 {
+                    throw new ImplementationException("Error in item field scripts; id = " + ID, e);
                 }
-                return success;
             }
-            else if (Type == ItemType.Battle || Type == ItemType.Hybrid)
+        }
+
+
+        /// <summary>
+        /// Uses an item in the field.
+        /// </summary>
+        /// <returns>
+        /// <c>true</c>, if use was fielded, <c>false</c> otherwise.
+        /// </returns>
+        [LuaFunctionCaller]
+        public bool UseItemInField()
+        {
+            if (CanUseInField)
             {
-                LuaFunction l = Seven.Lua.GetFunction("usebattle" + ID);
+                bool canUse = false;
+             
                 try
                 {
-                    //l.Call(Game.Battle.ActiveAbility);
+                    switch (FieldUsage.Target)
+                    {
+                        case FieldTarget.Character:
+                            canUse = (bool)FieldUsage.CanUse.Call(Seven.Party.Selected).First();
+                            break;
+                        case FieldTarget.Party:
+                            canUse = (bool)FieldUsage.CanUse.Call(Seven.Party).First();
+                            break;
+                        case FieldTarget.World:
+                            canUse = (bool)FieldUsage.CanUse.Call().First();
+                            break;
+                    }
+                
+                    if (canUse)
+                    {
+                        switch (FieldUsage.Target)
+                        {
+                            case FieldTarget.Character:
+                                FieldUsage.Use.Call(Seven.Party.Selected);
+                                break;
+                            case FieldTarget.Party:
+                                FieldUsage.Use.Call(Seven.Party);
+                                break;
+                            case FieldTarget.World:
+                                FieldUsage.Use.Call();
+                                break;
+                        }
+                    }
                 }
                 catch (Exception e)
                 {
                 }
-                return true;
+
+                return canUse;
             }
             else
             {
-                throw new ImplementationException("Used a non-battle item while outside the field.");
+                throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
             }
+            
         }
         
-        public static IItem GetItem(string id, string type)
+        public static IInventoryItem GetItem(string id, string type)
         {
             switch (type)
             {
@@ -134,16 +167,18 @@ namespace Atmosphere.Reverence.Seven.Asset
                     throw new ArgumentException("Item type not valid: " + type, "type");
             }
         }
+
+        public string Name { get; private set; }
+
+        public string ID { get { return Resource.CreateID(Name); } }
+
+        public string Description { get; private set; }
+
+        public bool CanUseInField { get { return FieldUsage != null; } }
+
+        public FieldTarget FieldTarget { get { return FieldUsage == null ? FieldTarget.None : FieldUsage.Target; } }
         
-        public ItemType Type { get { return _type; } }
-
-        public ItemTarget TargetType { get { return _targetType; } }
-
-        public string Name { get { return _name; } }
-
-        public string ID { get { return Resource.CreateID(_name); } }
-
-        public string Description { get { return _desc; } }
+        private FieldUsageRecord FieldUsage { get; set; }
 
         public static Dictionary<string, Item> ItemTable { get { return _table; } }
     }
