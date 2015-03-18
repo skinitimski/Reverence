@@ -1,30 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
+
+using NLua;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Armor : IInventoryItem, ISlotHolder
+    internal class Armor : Equipment, ISlotHolder
     {
-        #region Member Data
-        
-        private int _defense;
-        private int _defensePercent;
-        private int _magicDefense;
-        private int _magicDefensePercent;
-        private string _name;
-        private string _desc;
-        private MateriaBase[] _slots;
-        private int _links;
-        private Growth _growth;
         private static Dictionary<string, Armor> _table;
-        
-        #endregion Member Data
         
         public static void LoadArmor()
         {
@@ -38,40 +28,36 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     continue;
                 }
-                
-                string name = node.SelectSingleNode("name").InnerText;
-                string id = Resource.CreateID(name);
-                string attach = node.SelectSingleNode("attach").InnerText;
-                string detach = node.SelectSingleNode("detach").InnerText;
-                
-                Seven.Lua.DoString("attach" + id + " = " + attach);
-                Seven.Lua.DoString("detach" + id + " = " + detach);
 
                 Armor armor = new Armor(node);
 
-                _table.Add(id, armor);
+                _table.Add(armor.ID, armor);
             }
+        }
+
+        private Armor()
+            : base()
+        {
         }
         
         private Armor(XmlNode node)
+            : base(node)
         {
-            _name = node.SelectSingleNode("name").InnerText;
-            _desc = node.SelectSingleNode("desc").InnerText;
-            _defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
-            _defensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
-            _magicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
-            _magicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
+            Defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
+            DefensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
+            MagicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
+            MagicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
             
-            _slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
+            Slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
 
-            _links = Int32.Parse(node.SelectSingleNode("links").InnerText);
+            Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
 
-            if (_links > _slots.Length / 2)
+            if (Links > Slots.Length / 2)
             {
                 throw new GameDataException("Materia pairs greater than number of slots");
             }
 
-            _growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
+            Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
 
         
@@ -94,24 +80,14 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         public void AttachMateria(MateriaBase orb, int slot)
         {
-            if (slot >= _slots.Length)
+            if (slot >= Slots.Length)
             {
                 throw new ImplementationException("Tried to attach materia to a slot not on this Armor");
             }
 
-            _slots[slot] = orb;
-        }
-        
-        public void Attach(Character c)
-        {
-            Seven.Lua.GetFunction("attach" + ID).Call(c);
+            Slots[slot] = orb;
         }
 
-        public void Detach(Character c)
-        {
-            Seven.Lua.GetFunction("detach" + ID).Call(c);
-        }
-        
         public static void SwapMateria(Armor before, Armor after, Character c)
         {
             for (int i = 0; i < before.Slots.Length; i++)
@@ -135,29 +111,21 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
         
-        public int Defense { get { return _defense; } }
+        public int Defense { get; private set; }
 
-        public int DefensePercent { get { return _defensePercent; } }
+        public int DefensePercent { get; private set; }
 
-        public int MagicDefense { get { return _magicDefense; } }
+        public int MagicDefense { get; private set; }
 
-        public int MagicDefensePercent { get { return _magicDefensePercent; } }
-
-        public string Name { get { return _name; } }
-
-        public string ID { get { return Resource.CreateID(_name); } }
-
-        public string Description { get { return _desc; } }
+        public int MagicDefensePercent { get; private set; }
 
         public ItemType Type { get { return ItemType.Armor; } }
 
-        public Growth Growth { get { return _growth; } }
+        public Growth Growth { get; private set; }
 
-        public MateriaBase[] Slots { get { return _slots; } }
+        public MateriaBase[] Slots { get; private set; }
 
-        public int Links { get { return _links; } }
-        
-        public bool CanUseInField { get { return false; } }
+        public int Links { get; private set; }
     }
 }
 

@@ -126,6 +126,7 @@
     <Compile Include="Screen\MenuState\Item\Top.cs" />
     <Compile Include="Asset\IInventoryItem.cs" />
     <Compile Include="Asset\FieldTarget.cs" />
+    <Compile Include="Asset\Equipment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

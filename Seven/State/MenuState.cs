@@ -161,7 +161,13 @@ namespace Atmosphere.Reverence.Seven.State
 
         public override void Draw(Gdk.Drawable d, int width, int height)
         {
-            ActiveLayer.Draw(d);
+            try
+            {
+                ActiveLayer.Draw(d);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         [GLib.ConnectBefore()]

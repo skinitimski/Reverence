@@ -34,7 +34,7 @@ namespace Atmosphere.Reverence.Seven
         {
             LuaEnvironment.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
-
+            LuaEnvironment.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
         }
 
         protected override void Init()

@@ -9,25 +9,10 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class Weapon : IInventoryItem, ISlotHolder
+    internal class Weapon : Equipment, ISlotHolder
     {
-        #region Member Data
-        
-        private int _attack;
-        private int _attackPercent;
-        private int _magic;
-        private int _criticalPercent;
-        private bool _longRange;
-        private string _name;
-        private string _desc;
-        private WeaponType _type;
-        private Element _element;
-        private MateriaBase[] _slots;
-        private int _links;
-        private Growth _growth;
         private static Dictionary<string, Weapon> _table;
-        
-        #endregion Member Data
+
 
         
         public static void LoadWeapons()
@@ -42,44 +27,39 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     continue;
                 }
-                                
-                string name = node.SelectSingleNode("name").InnerText;
-                string id = Resource.CreateID(name);
-                string attach = node.SelectSingleNode("attach").InnerText;
-                string detach = node.SelectSingleNode("detach").InnerText;
-                
-                Seven.Lua.DoString("attach" + id + " = " + attach);
-                Seven.Lua.DoString("detach" + id + " = " + detach);
 
                 Weapon weapon = new Weapon(node);
                 
-                _table.Add(id, weapon);
+                _table.Add(weapon.ID, weapon);
             }
         }
 
-        private Weapon(XmlNode node)
-        {            
-            _name = node.SelectSingleNode("name").InnerText;
-            _desc = node.SelectSingleNode("desc").InnerText;
-            
-            _attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
-            _attackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
-            _magic = Int32.Parse(node.SelectSingleNode("mag").InnerText);
-            _criticalPercent = Int32.Parse(node.SelectSingleNode("critp").InnerText);
-            _longRange = Boolean.Parse(node.SelectSingleNode("longrange").InnerText);
-            
-            _element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
-            _type = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
-            
-            _slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
-            _links = Int32.Parse(node.SelectSingleNode("links").InnerText);
+        private Weapon()
+            : base()
+        {
+        }
 
-            if (_links > _slots.Length / 2)
+        private Weapon(XmlNode node)
+            : base(node)
+        {     
+            Attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
+            AttackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
+            Magic = Int32.Parse(node.SelectSingleNode("mag").InnerText);
+            CriticalPercent = Int32.Parse(node.SelectSingleNode("critp").InnerText);
+            LongRange = Boolean.Parse(node.SelectSingleNode("longrange").InnerText);
+            
+            Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
+            Wielder = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
+            
+            Slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
+            Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
+
+            if (Links > Slots.Length / 2)
             {
                 throw new GameDataException("Materia pairs greater than number of slots");
             }
 
-            _growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
+            Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
         }
 
 
@@ -98,34 +78,34 @@ namespace Atmosphere.Reverence.Seven.Asset
         public override string ToString()
         {
             StringBuilder b = new StringBuilder();
-            b.AppendLine(string.Format("Name: {0}", _name));
-            b.AppendLine(string.Format("\tAttack: {0}", _attack.ToString()));
-            b.AppendLine(string.Format("\tAttack%: {0}", _attackPercent.ToString()));
-            b.AppendLine(string.Format("\tType: {0}", _type.ToString()));
+            b.AppendLine(string.Format("Name: {0}", Name));
+            b.AppendLine(string.Format("\tAttack: {0}", Attack.ToString()));
+            b.AppendLine(string.Format("\tAttack%: {0}", AttackPercent.ToString()));
+            b.AppendLine(string.Format("\tType: {0}", Type.ToString()));
             
             return b.ToString();
         }
         
         public void Attach(Character c)
         {
-            c.MagicBonus += _magic;
+            c.MagicBonus += Magic;
             Seven.Lua.GetFunction("attach" + ID).Call(c);
         }
 
         public void Detach(Character c)
         {
-            c.MagicBonus -= _magic;
+            c.MagicBonus -= Magic;
             Seven.Lua.GetFunction("detach" + ID).Call(c);
         }
         
         public void AttachMateria(MateriaBase orb, int slot)
         {
-            if (slot >= _slots.Length)
+            if (slot >= Slots.Length)
             {
                 throw new ImplementationException("Tried to attach materia to a slot not on this Weapon");
             }
 
-            _slots[slot] = orb;
+            Slots[slot] = orb;
         }
         
         public static void SwapMateria(Weapon before, Weapon after, Character c)
@@ -155,16 +135,12 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         
         #region Properties
-        
-        public string ID { get { return Resource.CreateID(_name); } }
 
-        public string Name { get { return _name; } }
-
-        public string Description
+        public override string Description
         {
             get
             {
-                string desc = _desc;
+                string desc = Desc;
 
                 if (Seven.MenuState.ActiveLayer == Seven.MenuState.ItemScreen)
                 {
@@ -173,36 +149,34 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                 if (LongRange)
                 {
-                    desc += (_desc == "" ? "" : "; ") + "Long range weapon";
+                    desc += (Desc == "" ? "" : "; ") + "Long range weapon";
                 }
 
                 return desc;
             }
         }
 
-        public int Attack { get { return _attack; } }
+        public int Attack { get; private set; }
 
-        public int AttackPercent { get { return _attackPercent; } }
+        public int AttackPercent  { get; private set; }
 
-        public int Magic { get { return _magic; } }
+        public int Magic  { get; private set; }
 
-        public int CriticalPercent { get { return _criticalPercent; } }
+        public int CriticalPercent  { get; private set; }
 
-        public bool LongRange { get { return _longRange; } }
+        public bool LongRange { get; private set; }
 
-        public WeaponType Wielder { get { return _type; } }
+        public WeaponType Wielder  { get; private set; }
 
         public ItemType Type { get { return ItemType.Weapon; } }
 
-        public Element Element { get { return _element; } }
+        public Element Element { get; private set; }
 
-        public Growth Growth { get { return _growth; } }
+        public Growth Growth { get; private set; }
 
-        public MateriaBase[] Slots { get { return _slots; } }
+        public MateriaBase[] Slots  { get; private set; }
 
-        public int Links { get { return _links; } }
-
-        public bool CanUseInField { get { return false; } }
+        public int Links  { get; private set; }
         
         #endregion Properties
     }

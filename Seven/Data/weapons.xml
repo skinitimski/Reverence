@@ -14,8 +14,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Mythril Saber</name>
@@ -30,8 +30,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Hardedge</name>
@@ -46,8 +46,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Butterfly Edge</name>
@@ -62,8 +62,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Enhance Sword</name>
@@ -78,8 +78,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Organics</name>
@@ -94,8 +94,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Crystal Sword</name>
@@ -110,8 +110,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Force Stealer</name>
@@ -126,8 +126,8 @@
         <growth>Double</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Rune Blade</name>
@@ -142,8 +142,8 @@
         <growth>Double</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Murasame</name>
@@ -158,8 +158,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Nail Bat</name>
@@ -174,8 +174,8 @@
         <growth>Nothing</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Yoshiyuki</name>
@@ -190,8 +190,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Apocalypse</name>
@@ -206,8 +206,8 @@
         <growth>Triple</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 16 end</attach>
-        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 16 end</detach>
+        <attach>c.SpiritBonus = c.SpiritBonus + 16</attach>
+        <detach>c.SpiritBonus = c.SpiritBonus - 16</detach>
     </weapon>
     <weapon>
         <name>Heaven's Cloud</name>
@@ -222,8 +222,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Ragnarok</name>
@@ -238,8 +238,8 @@
         <growth>Normal</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 35 end</attach>
-        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 35 end</detach>
+        <attach>c.SpiritBonus = c.SpiritBonus + 35</attach>
+        <detach>c.SpiritBonus = c.SpiritBonus - 35</detach>
     </weapon>
     <weapon>
         <name>Ultima Weapon</name>
@@ -254,8 +254,8 @@
         <growth>Nothing</growth>
         <type>Cloud</type>
         <longrange>false</longrange>
-        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 24 end</attach>
-        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 24 end</detach>
+        <attach>c.SpiritBonus = c.SpiritBonus + 24</attach>
+        <detach>c.SpiritBonus = c.SpiritBonus - 24</detach>
     </weapon>
 
     
@@ -274,8 +274,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Metal Knuckle</name>
@@ -290,8 +290,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Mythril Claw</name>
@@ -306,8 +306,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Grand Glove</name>
@@ -322,8 +322,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Tiger Fang</name>
@@ -338,8 +338,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Diamond Knuckle</name>
@@ -354,8 +354,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Dragon Claw</name>
@@ -370,8 +370,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Crystal Glove</name>
@@ -386,8 +386,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Motor Drive</name>
@@ -402,8 +402,8 @@
         <growth>Double</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Platinum Fist</name>
@@ -418,8 +418,8 @@
         <growth>Double</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Kaiser Knuckle</name>
@@ -434,8 +434,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Work Glove</name>
@@ -450,8 +450,8 @@
         <growth>Nothing</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Powersoul</name>
@@ -466,8 +466,8 @@
         <growth>Double</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Master Fist</name>
@@ -482,8 +482,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>God's Hand</name>
@@ -498,8 +498,8 @@
         <growth>Normal</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Premium Heart</name>
@@ -514,8 +514,8 @@
         <growth>Nothing</growth>
         <type>Tifa</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
 
 
@@ -534,8 +534,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Assault Gun</name>
@@ -550,8 +550,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Cannon Ball</name>
@@ -566,8 +566,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Atomic Scissors</name>
@@ -582,8 +582,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Heavy Vulcan</name>
@@ -598,8 +598,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Chainsaw</name>
@@ -614,8 +614,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Microlaser</name>
@@ -630,8 +630,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>A*M Cannon</name>
@@ -646,8 +646,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>W Machine Gun</name>
@@ -662,8 +662,8 @@
         <growth>Double</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Drill Arm</name>
@@ -678,8 +678,8 @@
         <growth>Double</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Solid Bazooka</name>
@@ -694,8 +694,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Rocket Punch</name>
@@ -710,8 +710,8 @@
         <growth>Nothing</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Enemy Launcher</name>
@@ -726,8 +726,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Pile Banger</name>
@@ -742,8 +742,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Max Ray</name>
@@ -758,8 +758,8 @@
         <growth>Normal</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Missing Score</name>
@@ -774,8 +774,8 @@
         <growth>Nothing</growth>
         <type>Barret</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     
     
@@ -794,8 +794,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Mythril Rod</name>
@@ -810,8 +810,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Full Metal Staff</name>
@@ -826,8 +826,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Striking Staff</name>
@@ -842,8 +842,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Prism Staff</name>
@@ -858,8 +858,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Aurora Rod</name>
@@ -874,8 +874,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Wizard Staff</name>
@@ -890,8 +890,8 @@
         <growth>Double</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Wizer Staff</name>
@@ -906,8 +906,8 @@
         <growth>Double</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Fairy Tale</name>
@@ -922,8 +922,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Umbrella</name>
@@ -938,8 +938,8 @@
         <growth>Nothing</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 20 end</attach>
-        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 20 end</detach>
+        <attach>c.VitalityBonus = c.VitalityBonus + 20</attach>
+        <detach>c.VitalityBonus = c.VitalityBonus - 20</detach>
     </weapon>
     <weapon>
         <name>Princess Guard</name>
@@ -954,8 +954,8 @@
         <growth>Normal</growth>
         <type>Aeris</type>
         <longrange>false</longrange>
-        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 12; c.SpiritBonus = c.SpiritBonus + 20 end</attach>
-        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 12; c.SpiritBonus = c.SpiritBonus - 20 end</detach>
+        <attach>c.VitalityBonus = c.VitalityBonus + 12; c.SpiritBonus = c.SpiritBonus + 20</attach>
+        <detach>c.VitalityBonus = c.VitalityBonus - 12; c.SpiritBonus = c.SpiritBonus - 20</detach>
     </weapon>
 
     
@@ -974,8 +974,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Diamond Pin</name>
@@ -990,8 +990,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Silver Barrette</name>
@@ -1006,8 +1006,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Gold Barrette</name>
@@ -1022,8 +1022,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Adaman Clip</name>
@@ -1038,8 +1038,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Crystal Comb</name>
@@ -1054,8 +1054,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Magic Comb</name>
@@ -1070,8 +1070,8 @@
         <growth>Double</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Plus Barrette</name>
@@ -1086,8 +1086,8 @@
         <growth>Double</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Centclip</name>
@@ -1102,8 +1102,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Hairpin</name>
@@ -1118,8 +1118,8 @@
         <growth>Nothing</growth>
         <type>RedXIII</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Seraph Comb</name>
@@ -1134,8 +1134,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Behemoth Horn</name>
@@ -1150,8 +1150,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 35; c.SpiritBonus = c.SpiritBonus + 18 end</attach>
-        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 35; c.SpiritBonus = c.SpiritBonus - 18 end</detach>
+        <attach>c.VitalityBonus = c.VitalityBonus + 35; c.SpiritBonus = c.SpiritBonus + 18</attach>
+        <detach>c.VitalityBonus = c.VitalityBonus - 35; c.SpiritBonus = c.SpiritBonus - 18</detach>
     </weapon>
     <weapon>
         <name>Spring Gun Clip</name>
@@ -1166,8 +1166,8 @@
         <growth>Normal</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Limited Moon</name>
@@ -1182,8 +1182,8 @@
         <growth>Nothing</growth>
         <type>RedXIII</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     
     
@@ -1202,8 +1202,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Boomerang</name>
@@ -1218,8 +1218,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Pinwheel</name>
@@ -1234,8 +1234,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Razor Ring</name>
@@ -1250,8 +1250,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Hawkeye</name>
@@ -1266,8 +1266,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Crystal Cross</name>
@@ -1282,8 +1282,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Wind Slash</name>
@@ -1298,8 +1298,8 @@
         <growth>Double</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Twin Viper</name>
@@ -1314,8 +1314,8 @@
         <growth>Double</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Spiral Shuriken</name>
@@ -1330,8 +1330,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Superball</name>
@@ -1346,8 +1346,8 @@
         <growth>Nothing</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Magic Shuriken</name>
@@ -1362,8 +1362,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) c.DexterityBonus = c.DexterityBonus + 10 end</attach>
-        <detach>function (c) c.DexterityBonus = c.DexterityBonus - 10 end</detach>
+        <attach>c.DexterityBonus = c.DexterityBonus + 10</attach>
+        <detach>c.DexterityBonus = c.DexterityBonus - 10</detach>
     </weapon>
     <weapon>
         <name>Rising Sun</name>
@@ -1378,8 +1378,8 @@
         <growth>Double</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Oritsuru</name>
@@ -1394,8 +1394,8 @@
         <growth>Normal</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Conformer</name>
@@ -1410,8 +1410,8 @@
         <growth>Nothing</growth>
         <type>Yuffie</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     
   
@@ -1430,8 +1430,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Green M-Phone</name>
@@ -1446,8 +1446,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Blue M-Phone</name>
@@ -1462,8 +1462,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Red M-Phone</name>
@@ -1478,8 +1478,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Crystal M-Phone</name>
@@ -1494,8 +1494,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>White M-Phone</name>
@@ -1510,8 +1510,8 @@
         <growth>Double</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Black M-Phone</name>
@@ -1526,8 +1526,8 @@
         <growth>Double</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Silver M-Phone</name>
@@ -1542,8 +1542,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Trumpet Shell</name>
@@ -1558,8 +1558,8 @@
         <growth>Nothing</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Gold M-Phone</name>
@@ -1574,8 +1574,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Battle Trumpet</name>
@@ -1590,8 +1590,8 @@
         <growth>Nothing</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Starlight Phone</name>
@@ -1606,8 +1606,8 @@
         <growth>Normal</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) c.VitalityBonus = c.VitalityBonus + 30 end</attach>
-        <detach>function (c) c.VitalityBonus = c.VitalityBonus - 30 end</detach>
+        <attach>c.VitalityBonus = c.VitalityBonus + 30</attach>
+        <detach>c.VitalityBonus = c.VitalityBonus - 30</detach>
     </weapon>
     <weapon>
         <name>HP Shout</name>
@@ -1622,8 +1622,8 @@
         <growth>Nothing</growth>
         <type>CaitSith</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     
     
@@ -1642,8 +1642,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Shotgun</name>
@@ -1658,8 +1658,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Shortbarrel</name>
@@ -1674,8 +1674,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Lariat</name>
@@ -1690,8 +1690,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Winchester</name>
@@ -1706,8 +1706,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Peacemaker</name>
@@ -1722,8 +1722,8 @@
         <growth>Double</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Buntline</name>
@@ -1738,8 +1738,8 @@
         <growth>Double</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Long Barrel R</name>
@@ -1754,8 +1754,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Silver Rifle</name>
@@ -1770,8 +1770,8 @@
         <growth>Nothing</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Sniper CR</name>
@@ -1786,8 +1786,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Supershot ST</name>
@@ -1802,8 +1802,8 @@
         <growth>Nothing</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Outsider</name>
@@ -1818,8 +1818,8 @@
         <growth>Normal</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Death Penalty</name>
@@ -1834,8 +1834,8 @@
         <growth>Nothing</growth>
         <type>Vincent</type>
         <longrange>true</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     
     
@@ -1854,8 +1854,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Slash Lance</name>
@@ -1870,8 +1870,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Trident</name>
@@ -1886,8 +1886,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Mast Ax</name>
@@ -1902,8 +1902,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Partisan</name>
@@ -1918,8 +1918,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Viper Halberd</name>
@@ -1934,8 +1934,8 @@
         <growth>Double</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Javelin</name>
@@ -1950,8 +1950,8 @@
         <growth>Double</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Grow Lance</name>
@@ -1966,8 +1966,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Mop</name>
@@ -1982,8 +1982,8 @@
         <growth>Nothing</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Dragoon Lance</name>
@@ -1998,8 +1998,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Scimitar</name>
@@ -2014,8 +2014,8 @@
         <growth>Triple</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Flayer</name>
@@ -2030,8 +2030,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
     <weapon>
         <name>Spirit Lance</name>
@@ -2046,8 +2046,8 @@
         <growth>Normal</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) c.SpiritBonus = c.SpiritBonus + 20 end</attach>
-        <detach>function (c) c.SpiritBonus = c.SpiritBonus - 20 end</detach>
+        <attach>c.SpiritBonus = c.SpiritBonus + 20</attach>
+        <detach>c.SpiritBonus = c.SpiritBonus - 20</detach>
     </weapon>
     <weapon>
         <name>Venus Gospel</name>
@@ -2062,8 +2062,8 @@
         <growth>Nothing</growth>
         <type>Cid</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
 
 
@@ -2080,8 +2080,8 @@
         <growth>Nothing</growth>
         <type>Sephiroth</type>
         <longrange>false</longrange>
-        <attach>function (c) end</attach>
-        <detach>function (c) end</detach>
+        <attach />
+        <detach />
     </weapon>
 
 </weapons>
