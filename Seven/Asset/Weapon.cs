@@ -76,18 +76,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             return b.ToString();
         }
         
-        public void Attach(Character c)
-        {
-            c.MagicBonus += Magic;
-            Seven.Lua.GetFunction("attach" + ID).Call(c);
-        }
-
-        public void Detach(Character c)
-        {
-            c.MagicBonus -= Magic;
-            Seven.Lua.GetFunction("detach" + ID).Call(c);
-        }
-        
         public void AttachMateria(MateriaBase orb, int slot)
         {
             if (slot >= Slots.Length)
