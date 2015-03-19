@@ -65,10 +65,14 @@
     <Folder Include="Screen\MenuState\Materia\" />
     <Folder Include="Screen\MenuState\Item\" />
     <Folder Include="Graphics\" />
+    <Folder Include="Screen\BattleState\" />
+    <Folder Include="Screen\BattleState\Summon\" />
+    <Folder Include="Screen\BattleState\Selector\" />
+    <Folder Include="Screen\BattleState\EnemySkill\" />
+    <Folder Include="Screen\BattleState\Magic\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
-    <Compile Include="Screen\MenuState\MenuScreen.cs" />
     <Compile Include="Screen\MenuState\Main\Location.cs" />
     <Compile Include="Screen\MenuState\Main\Options.cs" />
     <Compile Include="Screen\MenuState\Main\Status.cs" />
@@ -130,6 +134,36 @@
     <Compile Include="Graphics\Images.cs" />
     <Compile Include="Graphics\MateriaSlots.cs" />
     <Compile Include="Asset\SlotHolder.cs" />
+    <Compile Include="State\BattleState.cs" />
+    <Compile Include="Battle\Enemy.cs" />
+    <Compile Include="Battle\Combatant.cs" />
+    <Compile Include="Asset\MagicSpell.cs" />
+    <Compile Include="Asset\Summon.cs" />
+    <Compile Include="Screen\BattleState\BattleMenu.cs" />
+    <Compile Include="Screen\BattleState\BattleScreen.cs" />
+    <Compile Include="Screen\BattleState\EventBar.cs" />
+    <Compile Include="Screen\BattleState\InfoBar.cs" />
+    <Compile Include="Screen\BattleState\ItemMenu.cs" />
+    <Compile Include="Screen\BattleState\Summon\Main.cs" />
+    <Compile Include="Screen\BattleState\Summon\Info.cs" />
+    <Compile Include="Screen\BattleState\EnemySkill\Main.cs" />
+    <Compile Include="Screen\BattleState\EnemySkill\Info.cs" />
+    <Compile Include="Screen\BattleState\Magic\Info.cs" />
+    <Compile Include="Screen\BattleState\Magic\Main.cs" />
+    <Compile Include="Screen\BattleState\Selector\Selector.cs" />
+    <Compile Include="Screen\BattleState\Selector\SelfSelector.cs" />
+    <Compile Include="Screen\BattleState\Selector\TargetSelector.cs" />
+    <Compile Include="Screen\BattleState\Selector\GroupSelector.cs" />
+    <Compile Include="Screen\BattleState\Selector\FieldSelector.cs" />
+    <Compile Include="Screen\BattleState\StatusBarLeft.cs" />
+    <Compile Include="Screen\BattleState\StatusBarRight.cs" />
+    <Compile Include="Screen\BattleState\WItem.cs" />
+    <Compile Include="Battle\BattleEvent.cs" />
+    <Compile Include="Battle\Status.cs" />
+    <Compile Include="Battle\TargetGroup.cs" />
+    <Compile Include="Battle\TargetType.cs" />
+    <Compile Include="Battle\Formula.cs" />
+    <Compile Include="State\PostBattleState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
@@ -233,6 +267,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\scripts.lua">
       <LogicalName>lua.scripts</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\enemies.xml">
+      <LogicalName>data.enemies.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

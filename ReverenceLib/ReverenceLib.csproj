@@ -82,6 +82,7 @@
     <Compile Include="Attributes\GdkMethodAttribute.cs" />
     <Compile Include="Attributes\LuaFunctionCaller.cs" />
     <Compile Include="Graphics\Colors.cs" />
+    <Compile Include="Menu\MenuScreen.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\config.xml">

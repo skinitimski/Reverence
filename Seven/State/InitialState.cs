@@ -4,7 +4,7 @@ using GameState = Atmosphere.Reverence.State;
 
 namespace Atmosphere.Reverence.Seven.State
 {
-    public class InitialState : GameState
+    internal class InitialState : GameState
     {
         public InitialState()
         {

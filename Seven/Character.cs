@@ -7,11 +7,10 @@ using System.Xml.XPath;
 using System.IO;
 using System.Reflection;
 
-using Gdk;
-
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven
 {
@@ -330,8 +329,8 @@ namespace Atmosphere.Reverence.Seven
             InitTable(ref _stat_ranks, dataxml.SelectSingleNode("./ranks").InnerText, ',');
 
 
-            Profile = new Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
-            ProfileSmall = new Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
+            Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
+            ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
         }
         
         
@@ -1158,8 +1157,8 @@ namespace Atmosphere.Reverence.Seven
 
         public bool BackRow { get; set; }
         
-        public Pixbuf Profile { get; private set; }
+        public Gdk.Pixbuf Profile { get; private set; }
         
-        public Pixbuf ProfileSmall { get; private set; }
+        public Gdk.Pixbuf ProfileSmall { get; private set; }
     }
 }

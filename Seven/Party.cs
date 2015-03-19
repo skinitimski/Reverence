@@ -3,49 +3,53 @@ using System.Collections.Generic;
 using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Time;
 
 namespace Atmosphere.Reverence.Seven
 {
     internal class Party
     {
-        private Character[] _party = new Character[3];
+        public const int PARTY_SIZE = 3;
+        private Character[] _party = new Character[PARTY_SIZE];
         private static Dictionary<string, Character> _characters;
         private int _selectionIndex;
+
+        private static readonly XmlDocument CHARACTER_DATA = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
+
         
         public Party()
         {
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
-
-            InitCharacters(gamedata);
+            InitCharacters(CHARACTER_DATA);
 
             AddCharacters();
 
-            _party [0] = Cloud;
+            _party[0] = Cloud;
             
             Materiatory = new Materiatory();
             Inventory = new Inventory();
             Reserves = new Character[3, 3];
 
             Gil = 100;
+
+            BattleSpeed = CalculateBattleSpeed();
         }
 
         public Party(XmlNode savegame)
         {
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.characters.xml", typeof(Seven).Assembly);
-
-            InitCharacters(savegame, gamedata);
+            InitCharacters(savegame, CHARACTER_DATA);
 
             AddCharacters();
 
-
-
-            for (int k = 1; k <= 3; k++)
+            for (int k = 0; k <= 2; k++)
             {
-                string name = savegame.SelectSingleNode("./party/slot" + k.ToString()).InnerXml;
-                
-                if (!String.IsNullOrEmpty(name))
+                XmlNode node = savegame.SelectSingleNode("./party/slot" + k.ToString());
+
+                if (node != null)
                 {
-                    _party [k - 1] = _characters [name];
+                    if (!String.IsNullOrEmpty(node.InnerText))
+                    {
+                        _party[k] = _characters[node.InnerText];
+                    }
                 }
             }
             
@@ -59,9 +63,11 @@ namespace Atmosphere.Reverence.Seven
             foreach (XmlNode node in savegame.SelectNodes("./party/reserve"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
+                {
                     continue;
+                }
                 
-                Reserves [j, i] = _characters [node.InnerXml];
+                Reserves[j, i] = _characters[node.InnerXml];
                 i++;
                 if (i % 3 == 0)
                 {
@@ -133,15 +139,15 @@ namespace Atmosphere.Reverence.Seven
 
         public void SetSelection()
         {
-            if (_party [0] != null)
+            if (_party[0] != null)
             {
                 _selectionIndex = 0;
             }
-            else if (_party [1] != null)
+            else if (_party[1] != null)
             {
                 _selectionIndex = 1;
             }
-            else if (_party [2] != null)
+            else if (_party[2] != null)
             {
                 _selectionIndex = 2;
             }
@@ -156,8 +162,7 @@ namespace Atmosphere.Reverence.Seven
             do
             {
                 _selectionIndex = (_selectionIndex + 1) % 3;
-            }
-            while (_party[_selectionIndex] == null);
+            } while (_party[_selectionIndex] == null);
         }
 
         public void DecrementSelection()
@@ -165,22 +170,64 @@ namespace Atmosphere.Reverence.Seven
             do
             {
                 _selectionIndex = (_selectionIndex + 2) % 3;
-            }
-            while (_party[_selectionIndex] == null);
+            } while (_party[_selectionIndex] == null);
         }
 
-        public Character this [int index]
+
+
+
+
+        private static int CalculateBattleSpeed()
         {
-            get { return _party [index]; }
-            set { _party [index] = value; }
+            return Clock.TICKS_PER_MS;
+        }
+
+
+
+
+
+
+
+
+
+
+        
+        public int TurnTimerSpeed(Character c, int v_timerSpeed)
+        {
+            return (c.Dexterity + 50) * v_timerSpeed / NormalSpeed();
+        }
+        
+        public int NormalSpeed()
+        {
+            int sum = 0;
+            
+            if (this[0] != null) sum += this[0].Dexterity;
+            if (this[1] != null) sum += this[1].Dexterity;
+            if (this[2] != null) sum += this[2].Dexterity;
+            
+            if (sum % 2 == 1) sum++;
+            
+            return (sum / 2) + 50;
+        }
+
+
+
+
+
+        public Character this[int index]
+        {
+            get { return _party[index]; }
+            set { _party[index] = value; }
         }
 
         public Character[,] Reserves { get; private set; }
 
         public Character Selected
         {
-            get { return this [_selectionIndex]; } 
+            get { return this[_selectionIndex]; } 
         }
+
+
 
         public Character Cloud { get; private set; }
 
@@ -207,6 +254,10 @@ namespace Atmosphere.Reverence.Seven
         public Materiatory Materiatory { get; private set; }
 
         public int Gil { get; set; }
+
+        
+        /// <summary>If set to Clock.TICKS_PER_MS, realtime; if less, faster; if greater, slower</summary>
+        public int BattleSpeed { get; set; }
     }
 }
 

@@ -287,9 +287,9 @@
         </Sephiroth>
     </characters>
     <party>
-        <slot1>Cloud</slot1>
-        <slot2>Tifa</slot2>
-        <slot3>Aeris</slot3>
+        <slot0>Cloud</slot0>
+        <slot1>Tifa</slot1>
+        <slot2>Aeris</slot2>
         <reserve>Barret</reserve>
         <reserve>RedXIII</reserve>
         <reserve>Yuffie</reserve>

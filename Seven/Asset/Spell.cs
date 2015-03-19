@@ -8,7 +8,7 @@ using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    public class Spell
+    internal class Spell
     {        
         #region Member Data
         
@@ -108,11 +108,11 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             if (ID == "????")
             {
-                //Seven.Lua.GetFunction("action" + "qqqq").Call(Game.Battle.ActiveAbility);
+                //Seven.Lua.GetFunction("action" + "qqqq").Call(Seven.BattleState.ActiveAbility);
             }
             else
             {
-                //Seven.Lua.GetFunction("action" + ID).Call(Game.Battle.ActiveAbility);
+                //Seven.Lua.GetFunction("action" + ID).Call(Seven.BattleState.ActiveAbility);
             }
         }
         

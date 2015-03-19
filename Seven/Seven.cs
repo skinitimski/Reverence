@@ -4,6 +4,7 @@ using System.Xml;
 using NLua;
 
 using Atmosphere.Reverence;
+using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
 using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Asset;
@@ -16,6 +17,8 @@ namespace Atmosphere.Reverence.Seven
     {
         private Party _party;
         private MenuState _menuState;
+        private BattleState _battleState;
+        private PostBattleState _postBattleState;
         private Clock _clock;
 
 
@@ -68,12 +71,37 @@ namespace Atmosphere.Reverence.Seven
 
             SetState(_menuState);
         }
+        
+        public void BeginBattle()
+        {
+            _battleState = new BattleState();
+            _battleState.Init();
+            
+            SetState(_battleState);
+        }
+        
+        public void EndBattle()
+        {
+            if (State != _battleState)
+            {
+                throw new ImplementationException("Cannot go to Post-Battle state except from Battle state");
+            }
+
+            _postBattleState = new PostBattleState(_battleState);
+            _postBattleState.Init();
+            
+            SetState(_postBattleState);
+        }
 
         internal static GameState CurrentState { get { return Instance.State; } }
         
         internal static Lua Lua { get { return Instance.LuaEnvironment; } }
-
+        
         internal static MenuState MenuState { get { return Instance._menuState; } }
+        
+        internal static BattleState BattleState { get { return Instance._battleState; } }
+        
+        internal static PostBattleState PostBattleState { get { return Instance._postBattleState; } }
 
         internal static Party Party { get { return Instance._party; } }
 

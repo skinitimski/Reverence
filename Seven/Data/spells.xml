@@ -15,8 +15,8 @@
         <action>
             function (state) end
             <!--
-            ICombatant er = Game.Battle.ActiveAbility.Performer;
-            ICombatant ee = Game.Battle.ActiveAbility.Target[0];
+            Combatant er = Seven.BattleState.ActiveAbility.Performer;
+            Combatant ee = Seven.BattleState.ActiveAbility.Target[0];
 
             int bd = Formula.MagicalBase(er);
             int dam = bd + 110;
