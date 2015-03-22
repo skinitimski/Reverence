@@ -202,13 +202,7 @@ namespace Atmosphere.Reverence.Seven.State
             hoardMenus.Add(HoardItemLeft);
             hoardMenus.Add(new Screens.Hoard.ItemRight());
 
-
-            //            HoardScreen = new MenuScreen(5, Hoard.Label.Instance);
-            //            HoardScreen._menus[0] = Hoard.Label.Instance;
-            //            HoardScreen._menus[1] = Hoard.GilLeft.Instance;
-            //            HoardScreen._menus[2] = Hoard.GilRight.Instance;
-            //            HoardScreen._menus[3] = Hoard.ItemLeft.Instance;
-            //            HoardScreen._menus[4] = Hoard.ItemRight.Instance;
+            HoardScreen = new MenuScreen(hoardMenus, hoardLabel);
 
             _screen = VictoryScreen;
         }

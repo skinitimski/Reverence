@@ -82,8 +82,8 @@ namespace Atmosphere.Reverence.Seven
             int time = Int32.Parse(saveGame.SelectSingleNode("./time").InnerText);
             _clock = new Clock(Clock.TICKS_PER_MS, time, true);
 
-//            _menuState = new MenuState();
-//            _menuState.Init();
+            _menuState = new MenuState();
+            _menuState.Init();
 //
 //            SetState(_menuState);
 
