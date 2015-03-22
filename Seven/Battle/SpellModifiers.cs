@@ -2,7 +2,7 @@ using System;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    public class SpellModifiers
+    internal class SpellModifiers
     {
         public SpellModifiers()
         {

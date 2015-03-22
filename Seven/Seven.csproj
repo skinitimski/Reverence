@@ -166,7 +166,6 @@
     <Compile Include="Battle\TargetType.cs" />
     <Compile Include="Battle\Formula.cs" />
     <Compile Include="State\PostBattleState.cs" />
-    <Compile Include="Screen\BattleState\Selector\SelectorUser.cs" />
     <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
     <Compile Include="Screen\BattleState\WItemMenu.cs" />
     <Compile Include="Battle\AttackType.cs" />
@@ -184,6 +183,7 @@
     <Compile Include="Screen\PostBattleState\Hoard\GilRight.cs" />
     <Compile Include="Screen\PostBattleState\Victory\Info.cs" />
     <Compile Include="Screen\InitialState\Prompt.cs" />
+    <Compile Include="Screen\BattleState\Selector\ISelectorUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

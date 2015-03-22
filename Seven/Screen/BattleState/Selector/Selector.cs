@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public abstract void SetAsControl();
         public abstract void SetNotControl();
 
-        public abstract bool IsControl { get; }
+        public bool IsControl { get { return _isControl; } }
 
         public abstract Combatant[] Selected { get; }
         

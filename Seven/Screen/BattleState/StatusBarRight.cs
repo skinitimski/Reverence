@@ -37,9 +37,18 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-            DrawAllyStatus(d, Seven.BattleState.Allies[0], y0);
-            DrawAllyStatus(d, Seven.BattleState.Allies[1], y1);
-            DrawAllyStatus(d, Seven.BattleState.Allies[2], y2);
+            if (Seven.BattleState.Allies[0] != null)
+            {
+                DrawAllyStatus(d, Seven.BattleState.Allies[0], y0);
+            }
+            if (Seven.BattleState.Allies[1] != null)
+            {
+                DrawAllyStatus(d, Seven.BattleState.Allies[1], y1);
+            }
+            if (Seven.BattleState.Allies[2] != null)
+            {
+                DrawAllyStatus(d, Seven.BattleState.Allies[2], y2);
+            }
             
 
             

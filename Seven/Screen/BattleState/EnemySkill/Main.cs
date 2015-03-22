@@ -12,7 +12,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 {
-    internal class Main : ControlMenu, SelectorUser
+    internal class Main : ControlMenu, ISelectorUser
     {
         private const int COLUMNS = 2;
         

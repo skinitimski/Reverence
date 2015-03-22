@@ -60,8 +60,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public override void SetAsControl() { _isControl = true; }
         public override void SetNotControl() { _isControl = false; }
         
-        public override bool IsControl { get { return _isControl; } }
-        
         public override Combatant[] Selected
         {
             get

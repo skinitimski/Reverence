@@ -68,6 +68,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                     break;
             }
         }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
@@ -101,6 +102,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
         private void Exit()
         {
             foreach (Inventory.Record item in _taken)
@@ -111,8 +113,9 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                 }
             }
 
-            Seven.Instance.GoToMenu();
+            Seven.Instance.EndPostBattle();
         }
+
         private void TakeEverything() 
         {
             for (int i = 0; i < _hoard.Count; i++)
@@ -124,6 +127,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             _takeEverything = true;
             _option = 6;
         }
+
         private void TakeItem()
         {
             if (_option > _hoard.Count)
@@ -134,6 +138,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             _hoard[_option - 1] = new Inventory.Record(0);
             _taken.Add(take);
         }
+
         public override void SetAsControl()
         {
             base.SetAsControl();
@@ -141,12 +146,14 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             _hoard = Seven.PostBattleState.Items;
             _taken = new List<Inventory.Record>();
         }
+
         public override void SetNotControl()
         {
             base.SetNotControl();
             _hoard = null;
             _taken = null;
         }
+
         public override string Info { get { return ""; } }
         public List<Inventory.Record> Taken { get { return _taken; } }
     }

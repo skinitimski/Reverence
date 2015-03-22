@@ -14,9 +14,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
     internal sealed class TargetSelector : Selector
     {
         private int _option;
-        
         private List<Combatant> _targets;
-        
 
         public TargetSelector()
         {
@@ -29,33 +27,53 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 case Key.R1:
                     if (Seven.BattleState.Screen.AllAble)
-                        if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
+                    {
+                    if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
                     {
                         Seven.BattleState.Screen.PopControl();
                         Seven.BattleState.Screen.Type = TargetType.AllTar;
                         Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.GroupSelector);
                     }
+                    }
                     break;
                 case Key.Up:
-                    AdvanceOption(delegate(int i) { return _targets[i].Y > _targets[_option].Y; }); 
+                    AdvanceOption(delegate(int i)
+                    {
+                        return _targets[i].Y > _targets[_option].Y;
+                    }); 
                     break;
                 case Key.Down:
-                    AdvanceOption(delegate(int i) { return _targets[i].Y < _targets[_option].Y; }); 
+                    AdvanceOption(delegate(int i)
+                    {
+                        return _targets[i].Y < _targets[_option].Y;
+                    }); 
                     break;
                 case Key.Left:
-                    AdvanceOption(delegate(int i) { return _targets[i].X > _targets[_option].X; }); 
+                    AdvanceOption(delegate(int i)
+                    {
+                        return _targets[i].X > _targets[_option].X;
+                    }); 
                     break;
                 case Key.Right:
-                    AdvanceOption(delegate(int i) { return _targets[i].X < _targets[_option].X; }); 
+                    AdvanceOption(delegate(int i)
+                    {
+                        return _targets[i].X < _targets[_option].X;
+                    }); 
                     break;
                 case Key.Circle:
                     Seven.BattleState.Screen.User.ActOnSelection();
                     if (Seven.BattleState.Screen.RunActionHook)
+                    {
                         Seven.BattleState.ActionHook();
+                    }
                     else if (Seven.BattleState.Screen.RunClearControl)
+                    {
                         Seven.BattleState.ClearControl();
+                    }
                     else
+                    {
                         Seven.BattleState.Screen.PopControl();
+                    }
                     break;
                 case Key.X:
                     Seven.BattleState.ActionAbort();
@@ -70,9 +88,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             if (IsControl)
+            {
                 Shapes.RenderCursor(g,
                                       _targets[_option].X - 15,
                                       _targets[_option].Y);
+            }
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
@@ -91,10 +111,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             int pick = -1;
             for (int i = 0; i < _targets.Count; i++)
             {
-                if (i == _option) // skip current option
+                if (i == _option)
+                { // skip current option
                     continue;
-                if (ap(i)) // skip options not in the desired half-plane
+                }
+                if (ap(i))
+                { // skip options not in the desired half-plane
                     continue;
+                }
                 
                 // calculate distance
                 int dx = _targets[i].X - x0;
@@ -108,7 +132,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 }
             }
             if (pick >= 0)
+            {
                 _option = pick;
+            }
         }
         
         public override void SetAsControl()
@@ -120,7 +146,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 case TargetGroup.Allies:
                     foreach (Ally a in Seven.BattleState.Allies)
-                        if (a != null) _targets.Add(a);
+                        if (a != null)
+                        {
+                            _targets.Add(a);
+                        }
                     break;
                 case TargetGroup.Enemies:
                     foreach (Enemy e in Seven.BattleState.EnemyList)
@@ -128,7 +157,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     break;
                 case TargetGroup.Area:
                     foreach (Ally a in Seven.BattleState.Allies)
-                        if (a != null) _targets.Add(a);
+                        if (a != null)
+                        {
+                            _targets.Add(a);
+                        }
                     foreach (Enemy e in Seven.BattleState.EnemyList)
                         _targets.Add(e);
                     break;
@@ -136,9 +168,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             _option = 0;
         }
-        public override void SetNotControl() { _isControl = false; }
-        
-        public override bool IsControl { get { return _isControl; } }
+
+        public override void SetNotControl()
+        {
+            _isControl = false;
+        }
         
         public override Combatant[] Selected
         {
@@ -149,6 +183,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 return ret;
             }
         }
+
         public override string Info
         { get { return _targets[_option].ToString(); } }
     }

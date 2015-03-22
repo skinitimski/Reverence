@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = RunElementalChecks(dam, ref restorative, target, elements);
             dam = UpperSanityCheck(dam);
 
-            target.AcceptDamage(source, dam);
+            target.AcceptDamage(source, AttackType.Physical,  dam);
         }
 
         public static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
@@ -66,7 +66,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 dam = -dam;
             }
 
-            target.AcceptDamage(source, dam);
+            target.AcceptDamage(source, AttackType.Magical, dam);
         }
 
         public static void MagicChangeStatus()

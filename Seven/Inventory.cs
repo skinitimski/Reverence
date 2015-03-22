@@ -291,7 +291,7 @@ namespace Atmosphere.Reverence.Seven
                 throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
             }
             
-            bool used = ((Item)item).UseItemInField();
+            bool used = ((Item)item).UseInField();
             
             if (used)
             {
@@ -310,7 +310,7 @@ namespace Atmosphere.Reverence.Seven
                 throw new ImplementationException("Tried to use an item in battle that can't be used in battle.");
             }
 
-            ((Item)item).UseItemInBattle();
+            ((Item)item).UseInBattle();
 
             DecreaseCount(slot);
         }

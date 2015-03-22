@@ -15,7 +15,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
-    internal class BattleMenu : ControlMenu, SelectorUser
+    internal class BattleMenu : ControlMenu, ISelectorUser
     {
         #region Layout
 
@@ -122,7 +122,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
             if (_doubleCutOption2 == -1 && _doubleCutOption4 == -1 &&
                 _slashAllOption == -1 && _flashOption == -1)
+            {
                 _attackOption = o;
+            }
             o++;
             #endregion Attack
 
@@ -130,20 +132,26 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Magic Menu
             int c = 0;
-            foreach (MagicSpell s in a.MagicSpells){
-                c++;}
+            foreach (MagicSpell s in a.MagicSpells)
+            {
+                c++;
+            }
             if (c > 0)
             {
                 _magicMenuOption = o;
                 o++;
-                foreach (MateriaBase m in a.Materia){
-                    if (m != null && m.Name == "W-Magic"){
+                foreach (MateriaBase m in a.Materia)
+                {
+                    if (m != null && m.Name == "W-Magic")
+                    {
                         _wmagic = true;
                     }
                 }
@@ -155,21 +163,31 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Summon Menu
             c = 0;
+
             foreach (SummonSpell s in a.Summons)
+            {
                 c++;
+            }
+
             if (c > 0)
             {
                 _summonMenuOption = o;
                 o++;
                 foreach (MateriaBase m in a.Materia)
+                {
                     if (m != null && m.Name == "W-Summon")
+                    {
                         _wsummon = true;
+                    }
+                }
             }
             #endregion Summon Menu
 
@@ -177,18 +195,22 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Sense
 
             foreach (MateriaBase m in a.Materia)
+            {
                 if (m != null && m.Name == "Sense")
                 {
                     _senseOption = o;
                     o++;
                 }
+            }
 
             #endregion
 
@@ -196,37 +218,44 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Enemy Skill
 
             foreach (MateriaBase m in a.Materia)
+            { 
                 if (m != null && m.ID == "enemyskill")
                 {
                     _enemySkillMenuOption = o;
                     o++;
                 }
-
+            }
             #endregion
 
 
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Mime
 
             foreach (MateriaBase m in a.Materia)
+            {
                 if (m != null && m.ID == "mime")
                 {
                     _mimeOption = o;
                     o++;
                 }
+            }
 
             #endregion
 
@@ -234,32 +263,38 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Deathblow
 
             foreach (MateriaBase m in a.Materia)
+            {
                 if (m != null && m.ID == "deathblow")
                 {
                     _deathblowOption = o;
                     o++;
                 }
-
+            }
             #endregion
 
 
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             #region Steal
 
             foreach (MateriaBase m in a.Materia)
+            {
                 if (m != null && m.ID == "steal")
                 {
                     if (m.Level == 0)
@@ -273,8 +308,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         _stealOption = -1;
                     }
                 }
+            }
             if (_mugOption != -1 || _stealOption != -1)
+            {
                 o++;
+            }
 
             #endregion
 
@@ -282,13 +320,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // put this after every one in order to skip the Item option
             if (o == 3)
+            {
                 o++;
+            }
 
 
 
             _columns = (o - 1) / _rows + 1;
             if (_columns != 1)
+            {
                 Width = W * _columns;
+            }
             
         }
 

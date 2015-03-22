@@ -12,7 +12,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
-    internal class ItemMenu : ControlMenu, SelectorUser
+    internal class ItemMenu : ControlMenu, ISelectorUser
     {
         #region Layout
 
@@ -67,7 +67,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             int o = _option; // allocate to stack (option is on heap)
 
-            Seven.Party.Inventory.UseItemInBattle(o);
+            UseItem(o);
+        }
+
+        protected void UseItem(int slot, bool releaseAlly = true)
+        {
+            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, new Action(() =>  Seven.Party.Inventory.UseItemInBattle(slot)));
+
+            string itemName = Seven.Party.Inventory.GetItem(slot).Name;
+
+            e.ResetSourceTurnTimer = releaseAlly;
+            e.Dialogue = c => "Use item: " + itemName;
+            
+            Seven.BattleState.EnqueueAction(e);
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -101,8 +113,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
 
             if (IsControl)
+            {
                 Shapes.RenderCursor(g, X + cx, Y + cy + (_option - _topRow) * y);
-
+            }
 
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();

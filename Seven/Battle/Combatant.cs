@@ -58,7 +58,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract void Draw(Cairo.Context g);
         public abstract void Dispose();
         
-        public abstract void AcceptDamage(Combatant attacker, int delta);
+        public abstract void AcceptDamage(Combatant attacker, AttackType type, int delta);
         public virtual void Sense() { }
         
         protected abstract void ConfuAI();
@@ -73,7 +73,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (Poison && V_Timer.TotalMilliseconds - PoisonTime >= POISON_INTERVAL)
             {
-                AcceptDamage(this, MaxHP / 32);
+                AcceptDamage(this, AttackType.None, MaxHP / 32);
                 PoisonTime = V_Timer.TotalMilliseconds;
             }
             
@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 CureRegen();
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeInt >= REGEN_INTERVAL)
             {
-                AcceptDamage(this, MaxHP / 32);
+                AcceptDamage(this, AttackType.None, MaxHP / 32);
                 _regenTimeInt = V_Timer.TotalMilliseconds;
             }
             
@@ -125,7 +125,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 CureSeizure();
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeInt >= SEIZURE_INTERVAL)
             {
-                AcceptDamage(this, MaxHP / -32);
+                AcceptDamage(this, AttackType.None, MaxHP / -32);
                 _seizureTimeInt = V_Timer.TotalMilliseconds;
             }
         }
@@ -162,7 +162,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Inflict
-        //public abstract bool InflictDeath();
+        public abstract bool InflictDeath();
         public abstract bool InflictFury();
         public abstract bool InflictSadness();
         public abstract bool InflictSleep();
@@ -445,6 +445,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Clock C_Timer { get; protected set; } 
         public Clock V_Timer { get; protected set; } 
         public Timer TurnTimer { get; protected set; } 
+        
+        public bool WaitingToResolve { get; set; }
         
         public int X { get { return _x; } }
         public int Y { get { return _y; } }

@@ -229,13 +229,25 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Methods
         
-        public override void AcceptDamage(Combatant attacker, int delta)
+        public override void AcceptDamage(Combatant attacker, AttackType type, int delta)
         {
+            if (type == AttackType.Physical)
+            {
+                if (Sleep)
+                {
+                    CureSleep();
+                }
+                if (Confusion)
+                {
+                    CureConfusion();
+                }
+            }
+
             _hp -= delta;
             if (_hp < 0)
                 _hp = 0;
             if (_hp == 0)
-                _death = true;
+                InflictDeath();
         }
         
         public override string ToString()
@@ -274,17 +286,25 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             while (true)
             {
-                if (TurnTimer.IsUp)
+                if (TurnTimer.IsUp && !WaitingToResolve)
                 {
                     Ally attackee;
+
                     int i = Seven.BattleState.Random.Next(3);
                     
                     while (Seven.BattleState.Allies[i] == null || Seven.BattleState.Allies[i].IsDead)
+                    {
                         i = (i + 1) % 3;
+                    }
+
                     attackee = Seven.BattleState.Allies[i];
                     
                     int bd = Atk + ((Atk + Level) / 32) * (Atk * Level / 32);
                     int dam = (1 * (512 - attackee.Def) * bd) / (16 * 512);
+
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(this, AttackType.Physical, dam));
+
+                    e.Dialogue = c => Name + " attacks";
                     
 //                    _abilityState.LongRange = false;
 //                    _abilityState.QuadraMagic = false;
@@ -294,9 +314,12 @@ namespace Atmosphere.Reverence.Seven.Battle
 //                    _abilityState.Target[0] = attackee;
 //                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
 //                    
-//                    Seven.BattleState.EnqueueAction(_abilityState);
+                    Seven.BattleState.EnqueueAction(e);
                 }
-                else Thread.Sleep(100);
+                else
+                {
+                    Thread.Sleep(100);
+                }
             }
         }
         
@@ -304,7 +327,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             while (true)
             {
-                if (TurnTimer.IsUp)
+                if (TurnTimer.IsUp && !WaitingToResolve)
                 {
                     Enemy attackee;
                     int i = Seven.BattleState.Random.Next(Seven.BattleState.EnemyList.Count);
@@ -323,7 +346,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 //                    
 //                    Seven.BattleState.EnqueueAction(_abilityState);
                 }
-                else Thread.Sleep(100);
+                else
+                {
+                    Thread.Sleep(100);
+                }
             }
         }
         
@@ -331,7 +357,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             while (true)
             {
-                if (TurnTimer.IsUp)
+                if (TurnTimer.IsUp && !WaitingToResolve)
                 {
                     Ally attackee;
                     int i = Seven.BattleState.Random.Next(3);
@@ -354,7 +380,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 //                    
 //                    Seven.BattleState.EnqueueAction(_abilityState);
                 }
-                else Thread.Sleep(100);
+                else 
+                {
+                    Thread.Sleep(100);
+                }
             }
         }
         
@@ -369,29 +398,46 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Weak(params Element[] e)
         {
             foreach (Element d in e)
+            {
                 if (_weak.Contains(d))
+                {
                     return true;
+                }
+            }
             return false;
         }
         public override bool Halves(params Element[] e)
         {
             foreach (Element d in e)
+            {
                 if (_halve.Contains(d))
+                {
                     return true;
+                }
+            }
             return false;
         }
         public override bool Voids(params Element[] e)
         {
             foreach (Element d in e)
+            {
                 if (_void.Contains(d))
+                {
                     return true;
+                }
+            }
             return false;
         }
         public override bool Absorbs(params Element[] e)
         {
             foreach (Element d in e)
+            {
                 if (_absorb.Contains(d))
+                {
                     return true;
+                }
+            }
+
             return false;
         }
         public bool Immune(Status s)
@@ -427,7 +473,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 int r = Seven.BattleState.Random.Next(64);
                 if (r <= item.Chance)
+                {
                     return item.Item;
+                }
             }
             return null;
         }
@@ -452,14 +500,17 @@ namespace Atmosphere.Reverence.Seven.Battle
             _sadness = true;
             return true;
         }
-//        public override bool InflictDeath()
-//        {
-//            if (_death)
-//                return false;
-//            _death = true;
-//            _hp = 0;
-//            return true;
-//        }
+        public override bool InflictDeath()
+        {
+            if (_death)
+            {
+                return false;
+            }
+
+            _death = true;
+            _hp = 0;
+            return true;
+        }
         public override bool InflictSleep()
         {
             if (Immune(Status.Sleep))

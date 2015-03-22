@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +11,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {       
-    internal class Main : ControlMenu, SelectorUser
+    internal class Main : ControlMenu, ISelectorUser
     {
         private const int COLUMNS = 3;
 

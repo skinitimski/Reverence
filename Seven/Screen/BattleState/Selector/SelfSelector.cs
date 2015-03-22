@@ -28,11 +28,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 case Key.Circle:
                     Seven.BattleState.Screen.User.ActOnSelection();
                     if (Seven.BattleState.Screen.RunActionHook)
+                    {
                         Seven.BattleState.ActionHook();
+                    }
                     else if (Seven.BattleState.Screen.RunClearControl)
+                    {
                         Seven.BattleState.ClearControl();
+                    }
                     else
+                    {
                         Seven.BattleState.Screen.PopControl();
+                    }
                     break;
                 case Key.X:
                     Seven.BattleState.ActionAbort();
@@ -47,9 +53,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             if (IsControl)
-                Shapes.RenderCursor(g,
-                                      _targets[_option].X - 15,
-                                      _targets[_option].Y);
+            {
+                Shapes.RenderCursor(g, _targets[_option].X - 15, _targets[_option].Y);
+            }
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
@@ -63,9 +69,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             _option = 0;
         }
+
         public override void SetNotControl() { _isControl = false; }
-        
-        public override bool IsControl { get { return _isControl; } }
         
         public override Combatant[] Selected
         {

@@ -74,10 +74,10 @@ namespace Atmosphere.Reverence.Seven.Battle
                 EnemySkillMenu = new Screens.EnemySkill.Main(m);
             }
             
-//            if (HP == 0)
-//            {
-//                InflictDeath();
-//            }
+            if (HP == 0)
+            {
+                InflictDeath();
+            }
         }
         
         
@@ -221,24 +221,24 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Methods
         
-        public override void AcceptDamage(Combatant attacker, int delta)
+        public override void AcceptDamage(Combatant attacker, AttackType type, int delta)
         {
             // limit shtuff goes here
             
-//            if (Seven.BattleState.ActiveAbility.Type == AttackType.Physical)
-//            {
-//                if (Sleep)
-//                    CureSleep();
-//                if (Confusion)
-//                    CureConfusion();
-//            }
+            if (type == AttackType.Physical)
+            {
+                if (Sleep)
+                    CureSleep();
+                if (Confusion)
+                    CureConfusion();
+            }
             
             
             _c.HP -= delta;
             if (_c.HP < 0)
                 _c.HP = 0;
-//            if (_c.HP == 0)
-//                InflictDeath();
+            if (_c.HP == 0)
+                InflictDeath();
         }
         
         public override string ToString()
@@ -252,11 +252,18 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override void Draw(Cairo.Context g)
         {
             if (Sleep)
+            {
                 g.Color = new Cairo.Color(.05, .4, .05);
+            }
             else if (Poison)
+            {
                 g.Color = new Cairo.Color(0, 1, .4);
+            }
             else
+            {
                 g.Color = new Cairo.Color(1, 1, 1);
+            }
+
             g.Rectangle(X, Y, 20, 20);
             g.Fill();
         }
@@ -278,7 +285,10 @@ namespace Atmosphere.Reverence.Seven.Battle
                     int i = Seven.BattleState.Random.Next(3);
                     
                     while (Seven.BattleState.Allies[i] == null)
+                    {
                         i = (i + 1) % 3;
+                    }
+
                     attackee = Seven.BattleState.Allies[i];
                     
                     int bd = Formula.PhysicalBase(this);
@@ -337,16 +347,16 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Inflict Status
-//        public override bool InflictDeath()
-//        {
-//            if (_c.Immune(Status.Death))
-//                return false;
-//            if (DeathForce || Peerless || Petrify || Resist)
-//                return false;
-//            TurnTimer.Reset();
-//            PauseTimers();
-//            return _c.InflictDeath();
-//        }
+        public override bool InflictDeath()
+        {
+            if (_c.Immune(Status.Death))
+                return false;
+            if (DeathForce || Peerless || Petrify || Resist)
+                return false;
+            TurnTimer.Reset();
+            PauseTimers();
+            return _c.InflictDeath();
+        }
         public override bool InflictFury()
         {
             if (_c.Immune(Status.Fury))
@@ -786,12 +796,25 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             get
             {
+                bool longRange = false;
+
                 if (Weapon.LongRange)
-                    return true;
-                foreach (MateriaBase m in Materia)
-                    if (m != null && m.ID == "longrange")
-                        return true;
-                return false;
+                {
+                    longRange = true;
+                }
+                else
+                {
+                    foreach (MateriaBase m in Materia)
+                    {
+                        if (m != null && m.ID == "longrange")
+                        {
+                            longRange = true;
+                            break;
+                        }
+                    }
+                }
+
+                return longRange;
             }
         }
         public override bool Sensed { get { return true; } }
@@ -811,7 +834,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Screens.Magic.Main MagicMenu  { get; private set; }
         public Screens.Summon.Main SummonMenu  { get; private set; }
         public Screens.EnemySkill.Main EnemySkillMenu { get; private set; }
-        
+
         public Weapon Weapon { get { return _c.Weapon; } }
         public Armor Armor { get { return _c.Armor; } }
         public IEnumerable<MateriaBase> Materia { get { return _c.Materia; } }

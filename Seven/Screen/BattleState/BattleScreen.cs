@@ -47,6 +47,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             _controller = null;
 
             _mutex = new Mutex();
+
+            RunActionHook = true;
         }
 
         public void Draw(Gdk.Drawable d)
@@ -113,7 +115,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             while (_controllerStack.Count > 0)
             {
                 if (_controllerStack.Last() is GameMenu)
+                {
                     ((GameMenu)_controllerStack.Last()).Visible = false;
+                }
                 _controllerStack.Last().Reset();
                 _controllerStack.RemoveAt(_controllerStack.Count - 1);
             }
@@ -134,7 +138,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         /// then this method will use the tt parameter.</remarks>
         public void GetSelection(TargetGroup tg, TargetType tt, bool allAble)
         {
-            if (!(_controller is SelectorUser))
+            if (!(_controller is ISelectorUser))
             {
                 throw new ImplementationException("Tried to switch control to the Selector from a non-SelectorUser.");
             }
@@ -148,7 +152,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
 
             _mutex.WaitOne();
-            User = (SelectorUser)_controller;
+
+            User = (ISelectorUser)_controller;
             Group = tg;
             Type = tt;
             AllAble = allAble && Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0;
@@ -157,6 +162,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 PushControl(Seven.BattleState.Screen.GroupSelector);
             }
             else
+            {
                 switch (tt)
                 {
                     case TargetType.Self:
@@ -167,13 +173,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         break;
                     case TargetType.AllTarNS:
                     case TargetType.AllTar:
-                    case TargetType.NTar:
+                    //case TargetType.NTar:
                         PushControl(Seven.BattleState.Screen.GroupSelector);
                         break;
-                    case TargetType.Field:
+                    case TargetType.Area:
                         PushControl(Seven.BattleState.Screen.AreaSelector);
                         break;
                 }
+            }
+
             _mutex.ReleaseMutex();
         }
 
@@ -234,14 +242,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 // Clear is only relevant if we're not running the ActionHook().
                 // The ActionHook runs clear anyway.
                 if (!RunActionHook)
+                {
                     return _runClear;
-                else return false;
+                }
+
+                return false;
             }
         }
         public bool RunActionHook { get; private set; }
         
         
-        public SelectorUser User { get;  private set; }
+        public ISelectorUser User { get;  private set; }
         public TargetGroup Group { get;  private set; }
         public TargetType Type { get;  set; }
         public bool AllAble { get;  private set; }

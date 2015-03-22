@@ -34,11 +34,8 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool _holdingSquare;
 
-        
-        private Mutex _abilityMutex;
-
-        
-#endregion
+                
+        #endregion
         
         
         
@@ -49,8 +46,7 @@ namespace Atmosphere.Reverence.Seven.State
             _turnQueue = new Queue<Ally>();
             
             AbilityQueue = new Queue<BattleEvent>();
-            
-            _abilityMutex = new Mutex();
+
             Random = new Random();
             
             Items = new List<IInventoryItem>();
@@ -100,10 +96,12 @@ namespace Atmosphere.Reverence.Seven.State
         private bool IsReady(Ally a)
         {
             bool ready = true;
+
             ready = ready && a != null;                         // they're not null
             ready = ready && a.TurnTimer.IsUp;                  // they're ready
             //ready = ready && !AbilityQueue.Contains(a.Ability); // they're not in the ability queue
             //ready = ready && ActiveAbility != a.Ability;        // they're not acting now
+            ready = ready && !a.WaitingToResolve;
             ready = ready && !a.CannotAct;                      // they're able to act
             ready = ready && !_turnQueue.Contains(a);           // they're not already in the turn queue
             ready = ready && Commanding != a;                   // they're not in control
@@ -160,32 +158,32 @@ namespace Atmosphere.Reverence.Seven.State
         
         private void CheckAbilityQueue()
         {
-            _abilityMutex.WaitOne();
-            
-            // If the current ability is done, clear it
-            if (AbilityThread != null && !AbilityThread.IsAlive)
+            lock (AbilityQueue)
             {
+                // If the current ability is done, clear it
+                if (AbilityThread != null && !AbilityThread.IsAlive)
+                {
 #if DEBUG
-                Console.WriteLine("Killing action:");
-                Console.WriteLine(ActiveAbility.ToString());
+                    Console.WriteLine("Killing action:");
+                    Console.WriteLine(ActiveAbility.ToString());
 #endif
 //                if (ActiveAbility.Performer is Ally)
 //                {
 //                    LastPartyAction = (AbilityState)ActiveAbility.Clone();
 //                }
 
-                ActiveAbility = null;
-                AbilityThread = null;
+                    ActiveAbility = null;
+                    AbilityThread = null;
+                }
+
+                // Dequeue next ability if none is in progress
+                if (AbilityThread == null && AbilityQueue.Count > 0)
+                {
+                    ActiveAbility = AbilityQueue.Dequeue();
+                    AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
+                    AbilityThread.Start();
+                }
             }
-            // Dequeue next ability if none is in progress
-            if (AbilityThread == null && AbilityQueue.Count > 0)
-            {
-                ActiveAbility = AbilityQueue.Dequeue();
-                AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
-                AbilityThread.Start();
-            }
-            
-            _abilityMutex.ReleaseMutex();
         }
         
         private void CheckCombatantTimers()
@@ -235,17 +233,21 @@ namespace Atmosphere.Reverence.Seven.State
         
         public void EnqueueAction(BattleEvent a)
         {
-            _abilityMutex.WaitOne();
-
-            AbilityQueue.Enqueue(a);
-#if DEBUG
-            Console.WriteLine("Added ability to Queue. Current queue state:");
-            foreach (BattleEvent s in AbilityQueue)
+            lock (AbilityQueue)
             {
-                Console.WriteLine(s.ToString());
-            }
+                AbilityQueue.Enqueue(a);
+
+                a.Source.WaitingToResolve = true;
+
+#if DEBUG
+                Console.WriteLine("Added ability to Queue. Current queue state:");
+
+                foreach (BattleEvent s in AbilityQueue)
+                {
+                    Console.WriteLine(s.ToString());
+                }
 #endif
-            _abilityMutex.ReleaseMutex();
+            }
         }
         
         
@@ -373,7 +375,6 @@ namespace Atmosphere.Reverence.Seven.State
         
         public void ActionHook()
         {
-            //EnqueueAction(Commanding.Ability);
             ClearControl();
         }
         public void ActionAbort()

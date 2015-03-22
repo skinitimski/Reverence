@@ -7,6 +7,9 @@
             <canUse>return true</canUse>
             <use>c.HP = 0 c.MP = 0</use>
         </field>
+        <battle target="OneTar">
+            <use>c:InflictDeath()</use>
+        </battle>
     </item>
     <item>
         <name>Potion</name>
@@ -199,8 +202,8 @@
     <item>
         <name>Loco Weed</name>
         <desc>Inflicts [Confu]</desc>
-        <battle target="Combatant">
-            <use>c.IncrementLuck()</use>
+        <battle target="OneTar">
+            <use>c.InflictConfusion()</use>
         </battle>
     </item>
     <item>
@@ -214,14 +217,14 @@
     <item>
         <name>Vagyrisk Claw</name>
         <desc>Inflicts [Petrify]</desc>
-        <battle target="Combatant">
+        <battle target="OneTar">
             <use>c.InflictPetrify()</use>
         </battle>
     </item>
     <item>
         <name>Soft</name>
         <desc>Cures [Petrify]</desc>
-        <battle target="Combatant">
+        <battle target="OneTar">
             <use>c.CurePetrify()</use>
         </battle>
     </item>

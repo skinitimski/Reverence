@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +12,7 @@ using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {
-    internal class Main : ControlMenu, SelectorUser
+    internal class Main : ControlMenu, ISelectorUser
     {
         private int COLUMNS = 1;
 

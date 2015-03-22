@@ -75,20 +75,20 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             Name = node.SelectSingleNode("name").InnerText;
             Description = node.SelectSingleNode("desc").InnerText;
-                        
+            
             XmlNode field = node.SelectSingleNode("field");
-
+            
             if (field != null)
             {
                 FieldUsage = new FieldUsageRecord();
-
+                
                 FieldUsage.Target = (FieldTarget)Enum.Parse(typeof(FieldTarget), field.SelectSingleNode("@target").Value);
-
+                
                 char targetParameterName = Char.ToLower(FieldUsage.Target.ToString()[0]);
-
-                string canUse = String.Format("return function ({0}) {1} end", targetParameterName, node.SelectSingleNode("field/canUse").InnerText);
-                string use = String.Format("return function ({0}) {1} end", targetParameterName, node.SelectSingleNode("field/use").InnerText);
-
+                
+                string canUse = String.Format("return function ({0}) {1} end", targetParameterName, field.SelectSingleNode("canUse").InnerText);
+                string use = String.Format("return function ({0}) {1} end", targetParameterName, field.SelectSingleNode("use").InnerText);
+                
                 try
                 {
                     FieldUsage.CanUse = (LuaFunction)Seven.Lua.DoString(canUse).First();
@@ -99,6 +99,26 @@ namespace Atmosphere.Reverence.Seven.Asset
                     throw new ImplementationException("Error in item field scripts; id = " + ID, e);
                 }
             }
+            
+            XmlNode battle = node.SelectSingleNode("battle");
+            
+            if (battle != null)
+            {
+                BattleUsage = new BattleUsageRecord();
+                
+                BattleUsage.Target = (TargetType)Enum.Parse(typeof(TargetType), battle.SelectSingleNode("@target").Value);
+
+                string use = String.Format("return function (c) {0} end", battle.SelectSingleNode("use").InnerText);
+                
+                try
+                {
+                    BattleUsage.Use = (LuaFunction)Seven.Lua.DoString(use).First();
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in item battle scripts; id = " + ID, e);
+                }
+            }
         }
         
         
@@ -106,7 +126,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// Uses an item in the field.
         /// </summary>
         [LuaFunctionCaller]
-        public bool UseItemInField()
+        public bool UseInField()
         {
             if (CanUseInField)
             {
@@ -145,6 +165,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 catch (Exception e)
                 {
+                    throw new ImplementationException("Error calling field script; id = " + ID);
                 }
                 
                 return canUse;
@@ -160,7 +181,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// Uses an item in battle.
         /// </summary>
         [LuaFunctionCaller]
-        public void UseItemInBattle()
+        public void UseInBattle()
         {
             if (CanUseInBattle)
             {                
@@ -170,20 +191,21 @@ namespace Atmosphere.Reverence.Seven.Asset
                     {
                         case TargetType.AllTar:
                         case TargetType.AllTarNS:
-                        case TargetType.NTar:
+                        //case TargetType.NTar:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
                             break;
-                        case TargetType.Field:
+                        case TargetType.Area:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
                             break;
                         case TargetType.OneTar:
-                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
+                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected.First());
                             break;
                         default: break;
                     }
                 }
                 catch (Exception e)
                 {
+                    throw new ImplementationException("Error calling battle script; id = " + ID);
                 }
             }
             else
@@ -220,7 +242,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         public bool CanUseInField { get { return FieldUsage != null; } }
         
-        public bool CanUseInBattle { get { return FieldUsage != null; } }
+        public bool CanUseInBattle { get { return BattleUsage != null; } }
         
         public FieldTarget FieldTarget { get { return FieldUsage == null ? FieldTarget.None : FieldUsage.Target; } }
         

@@ -670,6 +670,7 @@ namespace Atmosphere.Reverence.Seven
 
             _fury = false;
             _sadness = false;
+            Death = true;
         }
         
         public bool InflictFury()
@@ -694,16 +695,17 @@ namespace Atmosphere.Reverence.Seven
             return true;
         }
 
-//        public bool InflictDeath()
-//        {
-//            if (_death)
-//            {
-//                return false;
-//            }
-//            _death = true;
-//            _hp = 0;
-//            return true;
-//        }
+        public bool InflictDeath()
+        {
+            if (Death)
+            {
+                return false;
+            }
+
+            Kill();
+
+            return true;
+        }
 
         public bool CureFury()
         {
@@ -1097,7 +1099,7 @@ namespace Atmosphere.Reverence.Seven
 
         public bool NearDeath { get { return HP <= (MaxHP / 4); } }
 
-        public bool Death { get { return HP == 0; } }
+        public bool Death { get; private set; }
         
         public Weapon Weapon
         {

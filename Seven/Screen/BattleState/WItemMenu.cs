@@ -29,8 +29,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 int first = _first;
                 int second = _option;
                                 
-                Seven.Party.Inventory.UseItemInBattle(first);
-                Seven.Party.Inventory.UseItemInBattle(second);
+                UseItem(first, false);
+                UseItem(second);
             }
             else
             {

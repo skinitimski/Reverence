@@ -7,9 +7,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         None,
         Self,
         OneTar,
-        NTar,
         AllTar,
         AllTarNS,
-        Field
+        Area
     }
 }
