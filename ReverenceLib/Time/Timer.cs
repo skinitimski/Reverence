@@ -10,7 +10,9 @@ namespace Atmosphere.Reverence.Time
         /// <summary>
         /// Timeout in ticks.
         /// </summary>
-        protected int _timeout;
+        protected long _timeout;
+
+        protected long _timeoutMs;
         
         #endregion Member Data
         
@@ -47,6 +49,7 @@ namespace Atmosphere.Reverence.Time
         public Timer(int timeout, int ticksPerMs, int elapsed, bool start)
             : base(ticksPerMs, elapsed, start)
         {
+            _timeoutMs = timeout;
             _timeout = timeout * TICKS_PER_MS;
         }
         
@@ -59,19 +62,35 @@ namespace Atmosphere.Reverence.Time
 
 
         /// <summary>
-        /// Gets the timeout in ms (unscaled).
-        /// </summary>
-        public int Timeout
-        {
-            get { return (int)(_timeout * TICKS_PER_MS); }
-        }
-
-        /// <summary>
         /// Returns true if this Timer is over its timeout limit; returns false otherwise.
         /// </summary>
         public bool IsUp
         {
             get { return GetTotalElapsedTicks() > _timeout; }
+        }
+
+        /// <summary>
+        /// Gets the timeout in ms.
+        /// </summary>
+        public long Timeout { get { return _timeoutMs; } }
+
+        public int PercentElapsed
+        {
+            get
+            {
+                int pe = 0;
+
+                if (TotalMilliseconds > _timeoutMs)
+                {
+                    pe = 100;
+                }
+                else
+                {
+                    pe = (int)((TotalMilliseconds * 100L) / _timeoutMs);
+                }
+
+                return pe;
+            }
         }
         
         #endregion Properties

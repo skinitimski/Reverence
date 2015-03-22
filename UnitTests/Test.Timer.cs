@@ -108,7 +108,7 @@ namespace Atmosphere.UnitTests
         {
             long elapsed1, elapsed2;
             
-            int halfWait = timer.Timeout / 2;
+            int halfWait = (int)(timer.Timeout / 2);
             
             Assert.AreEqual(timer.TotalMilliseconds, 0);
             Assert.IsFalse(timer.IsUp);
