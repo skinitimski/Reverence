@@ -36,6 +36,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         public Ally(Character c, int x, int y, int e)
+            : base()
         {
             _c = c;
             
@@ -43,7 +44,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             int vStep = Seven.Party.BattleSpeed;
             
-            C_Timer = new Clock(10000);
+            C_Timer = new Clock(Clock.TICKS_PER_MS);
             V_Timer = new Clock(vStep);
             TurnTimer = new Time.Timer(6000, Seven.Party.TurnTimerSpeed(c, vStep), e, true);
             
@@ -781,7 +782,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override string Name { get { return _c.Name; } }
         
-        public bool LongRange
+        public override bool LongRange
         {
             get
             {

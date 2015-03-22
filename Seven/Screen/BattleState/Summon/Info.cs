@@ -6,10 +6,11 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {
-    internal sealed class SummonMenuInfo : GameMenu
+    internal sealed class Info : GameMenu
     {
         #region Layout
         
@@ -22,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         
         #endregion Layout
 
-        public SummonMenuInfo()
+        public Info()
             : base(
                 Config.Instance.WindowWidth * 3 / 4 + 12,
                 Config.Instance.WindowHeight * 7 / 10 + 20,
@@ -41,11 +42,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             
             TextExtents te;
             
-            Summon s = Seven.BattleState.Commanding.SummonMenu.Selected;
+            SummonSpell s = Seven.BattleState.Commanding.SummonMenu.Selected;
             
             int row = 0;
             
-            if (!String.IsNullOrEmpty(s.ID))
+            if (s != null)
             {
                 string cost = s.Spell.Cost.ToString();
                 Text.ShadowedText(g, "MP Req", X + x1, Y + y0);
@@ -62,21 +63,21 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 
                 row++;
                 
-                if (s.AddedAbility.Contains(AddedAbility.All))
-                {
-                    string msg = "All x";
-                    msg += s.AllCount.ToString();
-                    Text.ShadowedText(g, msg, X + x0, Y + y0 + (row * ys));
-                    row++;
-                }
+//                if (s.AddedAbility.Contains(AddedAbility.All))
+//                {
+//                    string msg = "All x";
+//                    msg += s.AllCount.ToString();
+//                    Text.ShadowedText(g, msg, X + x0, Y + y0 + (row * ys));
+//                    row++;
+//                }
                 
-                if (s.AddedAbility.Contains(AddedAbility.QuadraMagic))
-                {
-                    string msg = "Q-Magic x";
-                    msg += s.QMagicCount.ToString();
-                    Text.ShadowedText(g, msg, X + x0, Y + y0 + (row * ys));
-                    row++;
-                }
+//                if (s.AddedAbility.Contains(AddedAbility.QuadraMagic))
+//                {
+//                    string msg = "Q-Magic x";
+//                    msg += s.QMagicCount.ToString();
+//                    Text.ShadowedText(g, msg, X + x0, Y + y0 + (row * ys));
+//                    row++;
+//                }
                 
             }
             

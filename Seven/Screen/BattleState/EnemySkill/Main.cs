@@ -5,13 +5,14 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 {
-    internal class Main : ControlMenu, ISelectorUser
+    internal class Main : ControlMenu, SelectorUser
     {
         private const int COLUMNS = 2;
         
@@ -74,7 +75,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                     if (_xopt < COLUMNS - 1) _xopt++;
                     break;
                 case Key.X:
-                    BattleScreen.Instance.PopControl();
+                    Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
@@ -88,13 +89,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         {
             Seven.BattleState.Commanding.MP -= _spells[_yopt, _xopt].Cost;
             
-            AbilityState state;
-            
-            state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-            
-            state.Performer = Seven.BattleState.Commanding;
-            
-            state.Action += delegate() { _spells[_xopt, _yopt].Action(); };
+//            AbilityState state;
+//            
+//            state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
+//            
+//            state.Performer = Seven.BattleState.Commanding;
+//            
+//            state.Action += delegate() { _spells[_xopt, _yopt].Action(); };
         }
         
         
@@ -120,7 +121,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                                       X + x1 + cx + _xopt * xs,
                                       Y + cy + (_yopt - _topRow + 1) * ys);
             
-            Info.Instance.Draw(d);
+            Seven.BattleState.Screen.EnemySkillInfo.Draw(d);
             
             
             ((IDisposable)g.Target).Dispose();
@@ -131,14 +132,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         {
             _topRow = 0;
             Visible = false;
-            Info.Instance.Visible = false;
+            Seven.BattleState.Screen.EnemySkillInfo.Visible = false;
         }
         
         public override void SetAsControl()
         {
             base.SetAsControl();
             Visible = true;
-            Info.Instance.Visible = true;
+            Seven.BattleState.Screen.EnemySkillInfo.Visible = true;
         }
         
         public bool IsValid { get { return _totalRows > 0; } }

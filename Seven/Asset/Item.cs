@@ -8,6 +8,7 @@ using NLua;
 
 using Atmosphere.Reverence.Attributes;
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
@@ -18,13 +19,20 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
 
-
+        
         private class FieldUsageRecord
         {
             public FieldTarget Target { get; set; }
-
+            
             public LuaFunction CanUse { get; set; }
-
+            
+            public LuaFunction Use { get; set; }
+        }
+        
+        private class BattleUsageRecord
+        {
+            public TargetType Target { get; set; }
+            
             public LuaFunction Use { get; set; }
         }
 
@@ -92,21 +100,18 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
             }
         }
-
-
+        
+        
         /// <summary>
         /// Uses an item in the field.
         /// </summary>
-        /// <returns>
-        /// <c>true</c>, if use was fielded, <c>false</c> otherwise.
-        /// </returns>
         [LuaFunctionCaller]
         public bool UseItemInField()
         {
             if (CanUseInField)
             {
                 bool canUse = false;
-             
+                
                 try
                 {
                     switch (FieldUsage.Target)
@@ -121,7 +126,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                             canUse = (bool)FieldUsage.CanUse.Call().First();
                             break;
                     }
-                
+                    
                     if (canUse)
                     {
                         switch (FieldUsage.Target)
@@ -141,15 +146,54 @@ namespace Atmosphere.Reverence.Seven.Asset
                 catch (Exception e)
                 {
                 }
-
+                
                 return canUse;
             }
             else
             {
                 throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
-            }
-            
+            }            
         }
+        
+        
+        /// <summary>
+        /// Uses an item in battle.
+        /// </summary>
+        [LuaFunctionCaller]
+        public void UseItemInBattle()
+        {
+            if (CanUseInBattle)
+            {                
+                try
+                {
+                    switch (BattleUsage.Target)
+                    {
+                        case TargetType.AllTar:
+                        case TargetType.AllTarNS:
+                        case TargetType.NTar:
+                            BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
+                            break;
+                        case TargetType.Field:
+                            BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
+                            break;
+                        case TargetType.OneTar:
+                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
+                            break;
+                        default: break;
+                    }
+                }
+                catch (Exception e)
+                {
+                }
+            }
+            else
+            {
+                throw new ImplementationException("Tried to use an item in battle that can't be used in battle.");
+            }            
+        }
+
+
+
         
         public static IInventoryItem GetItem(string id, string type)
         {
@@ -175,10 +219,16 @@ namespace Atmosphere.Reverence.Seven.Asset
         public string Description { get; private set; }
 
         public bool CanUseInField { get { return FieldUsage != null; } }
-
+        
+        public bool CanUseInBattle { get { return FieldUsage != null; } }
+        
         public FieldTarget FieldTarget { get { return FieldUsage == null ? FieldTarget.None : FieldUsage.Target; } }
         
+        public TargetType BattleTarget { get { return BattleUsage == null ? TargetType.None : BattleUsage.Target; } }
+        
         private FieldUsageRecord FieldUsage { get; set; }
+
+        private BattleUsageRecord BattleUsage { get; set; }
 
         public static Dictionary<string, Item> ItemTable { get { return _table; } }
     }

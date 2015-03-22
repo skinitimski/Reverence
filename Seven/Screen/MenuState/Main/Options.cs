@@ -82,7 +82,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                     }
                     break;
                 case Key.Square:
-                    //Game.GoToBattleState();
+                    Seven.Instance.BeginBattle();
                     break;
                 default:
                     break;

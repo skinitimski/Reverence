@@ -1,30 +1,32 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
-    internal sealed class ItemMenu : ControlMenu, ISelectorUser
+    internal class ItemMenu : ControlMenu, SelectorUser
     {
         #region Layout
 
-        const int x1 = 200;
-        const int x2 = 500;
-        const int y = 35;
-        const int cx = 15;
-        const int cy = 22;
+        protected const int x1 = 200;
+        protected const int x2 = 500;
+        protected const int y = 35;
+        protected const int cx = 15;
+        protected const int cy = 22;
 
         #endregion Layout
 
-        private int _option;
-        private int _topRow;
-        private readonly int _rows = 3;
+        protected int _option;
+        protected int _topRow;
+        protected readonly int _rows = 3;
 
         public ItemMenu()
             : base(
@@ -33,9 +35,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 Config.Instance.WindowWidth - 11,
                 (Config.Instance.WindowHeight * 5 / 20) - 25)
         {
-            Visible = false;
-            _option = 0;
-            _topRow = 0;
         }
 
         public override void ControlHandle(Key k)
@@ -52,14 +51,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
                 case Key.X:
                     Visible = false;
-                    BattleScreen.Instance.PopControl();
+                    Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
-                    IInventoryItem i = Inventory.GetItem(_option);
-                    if (i != null)
-                        if (i.Type == ItemType.Battle || i.Type == ItemType.Hybrid)
-                            BattleScreen.Instance.GetSelection(TargetGroup.Area, ((Item)i).TargetType);
+                    IInventoryItem i = Seven.Party.Inventory.GetItem(_option);
+                    if (i != null && i.CanUseInBattle)
+                    {
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, ((Item)i).BattleTarget);
+                    }
                     break;
             }
         }
@@ -67,28 +67,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             int o = _option; // allocate to stack (option is on heap)
 
-            Item i = (Item)Inventory.GetItem(_option);
-
-            AbilityState state = Seven.BattleState.Commanding.Ability;
-            switch (i.TargetType)
-            {
-                case TargetType.AllTar:
-                case TargetType.AllTarNS:
-                case TargetType.NTar:
-                    state.Target = GroupSelector.Instance.Selected;
-                    break;
-                case TargetType.Field:
-                    state.Target = FieldSelector.Instance.Selected;
-                    break;
-                case TargetType.OneTar:
-                    state.Target = TargetSelector.Instance.Selected;
-                    break;
-                default: break;
-            }
-
-            state.Performer = Seven.BattleState.Commanding;
-
-            state.Action += delegate() { Inventory.UseItem(o); };
+            Seven.Party.Inventory.UseItemInBattle(o);
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -103,29 +82,21 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             int j = Math.Min(_rows + _topRow, Inventory.INVENTORY_SIZE);
 
-            Color gray = new Color(.4, .4, .4);
-
             for (int i = _topRow; i < j; i++)
             {
-                IInventoryItem item = Inventory.GetItem(i);
+                IInventoryItem item = Seven.Party.Inventory.GetItem(i);
+
                 if (item != null)
                 {
-                    int count = Inventory.GetCount(i);
+                    int count = Seven.Party.Inventory.GetCount(i);
                     te = g.TextExtents(count.ToString());
-                    if (item.Type == ItemType.Battle || item.Type == ItemType.Hybrid)
-                    {
-                        Text.ShadowedText(g, item.Name,
+
+                    Color textColor = item.CanUseInBattle ? Colors.WHITE : Colors.GRAY_4;
+
+                    Text.ShadowedText(g, textColor, item.Name,
                             X + x1, Y + (i - _topRow + 1) * y);
-                        Text.ShadowedText(g, count.ToString(),
+                    Text.ShadowedText(g, textColor, count.ToString(),
                             X + x2 - te.Width, Y + (i - _topRow + 1) * y);
-                    }
-                    else
-                    {
-                        Text.ShadowedText(g, gray, item.Name,
-                            X + x1, Y + (i - _topRow + 1) * y);
-                        Text.ShadowedText(g, gray, count.ToString(),
-                            X + x2 - te.Width, Y + (i - _topRow + 1) * y);
-                    }
                 }
             }
 
@@ -153,8 +124,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             get
             {
-                IInventoryItem i = Inventory.GetItem(_option);
-                return (i == null) ? "" : i.Description;
+                IInventoryItem i = Seven.Party.Inventory.GetItem(_option);
+                return i.Description;
             }
         }
     }

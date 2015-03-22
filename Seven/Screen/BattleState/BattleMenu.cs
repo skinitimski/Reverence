@@ -15,7 +15,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
-    internal class BattleMenu : ControlMenu, ISelectorUser
+    internal class BattleMenu : ControlMenu, SelectorUser
     {
         #region Layout
 
@@ -369,151 +369,151 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Attack
             if (_option == _attackOption)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.LongRange = performer.LongRange;
-                state.QuadraMagic = false;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() { target.AcceptDamage(Game.Battle.ActiveAbility.Performer, dam); };
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.LongRange = performer.LongRange;
+//                state.QuadraMagic = false;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
             }
             #endregion Attack
             #region 2x-Cut
             else if (_option == _doubleCutOption2)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.LongRange = performer.LongRange;
-                state.QuadraMagic = false;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() { target.AcceptDamage(Game.Battle.ActiveAbility.Performer, dam); };
-
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.LongRange = performer.LongRange;
+//                state.QuadraMagic = false;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
+//
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
 
                 // Here we must disable the action hook, because we do not the second state
                 //  to be attached to Ally.Ability. If it were, when the first one is disposed of
                 //  it will reset the second one. See BattleState.CheckAbilityQueue()
-                Selector.DisableActionHook(true);
+//                DisableActionHook(true);
             }
             #endregion 2x-Cut
             #region 4x-Cut
             else if (_option == _doubleCutOption4)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.LongRange = performer.LongRange;
-                state.QuadraMagic = false;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() { target.AcceptDamage(Game.Battle.ActiveAbility.Performer, dam); };
-
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
-                Game.Battle.EnqueueAction((AbilityState)state.Clone());
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.LongRange = performer.LongRange;
+//                state.QuadraMagic = false;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
+//
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
+//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
 
                 // Here we must disable the action hook, because we do not the first three states
                 //  to be attached to Ally.Ability. If it were, when the first one is disposed of
                 //  it will reset the others. See BattleState.CheckAbilityQueue()
-                Selector.DisableActionHook(true);
+//                DisableActionHook(true);
             }
             #endregion 4x-Cut
             #region Sense
             else if (_option == _senseOption)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.Performer = performer;
-                state.Target = new ICombatant[1];
-                state.Target[0] = target;
-                state.Action += delegate() { target.Sense(); };
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.Performer = performer;
+//                state.Target = new ICombatant[1];
+//                state.Target[0] = target;
+//                state.Action += delegate() { target.Sense(); };
             }
             #endregion Sense
             #region Mime
             else if (_option == _mimeOption)
             {
-                if (Game.Battle.LastPartyAbility == null)
-                {
-                    Selector.DisableActionHook(true);
-                    Seven.BattleState.Commanding.TurnTimer.Reset();
-                }
-                else
-                {
-                    Seven.BattleState.Commanding.Ability = Game.Battle.LastPartyAbility;
-                    try
-                    {
-                        Seven.BattleState.Commanding.Ability.Performer = performer;
-                    }
-                    catch (Exception e)
-                    {
-                    }
-                }
+//                if (Seven.BattleState.LastPartyAbility == null)
+//                {
+////                    DisableActionHook(true);
+//                    Seven.BattleState.Commanding.TurnTimer.Reset();
+//                }
+//                else
+//                {
+//                    Seven.BattleState.Commanding.Ability = Seven.BattleState.LastPartyAbility;
+//                    try
+//                    {
+//                        Seven.BattleState.Commanding.Ability.Performer = performer;
+//                    }
+//                    catch (Exception e)
+//                    {
+//                    }
+//                }
             }
             #endregion Mime
             #region Deathblow
             else if (_option == _deathblowOption)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target) * 2;
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.LongRange = performer.LongRange;
-                state.QuadraMagic = false;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() { target.AcceptDamage(Game.Battle.ActiveAbility.Performer, dam); };
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.LongRange = performer.LongRange;
+//                state.QuadraMagic = false;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
             }
             #endregion Deathblow
             #region Steal
             else if (_option == _stealOption)
             {
-                target = TargetSelector.Instance.Selected[0];
-
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() { ((Enemy)target).StealItem(performer); };
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+//
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { ((Enemy)target).StealItem(performer); };
             }
             #endregion Steal
             #region Mug
             else if (_option == _mugOption)
             {
-                target = TargetSelector.Instance.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
 
-                AbilityState state = Seven.BattleState.Commanding.Ability;
-                state.Type = AttackType.Physical;
-                state.Performer = performer;
-                state.Target = TargetSelector.Instance.Selected;
-                state.Action += delegate() 
-                { 
-                    target.AcceptDamage(Game.Battle.ActiveAbility.Performer, dam);
-                    ((Enemy)target).StealItem(performer);
-                };
+//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                state.Type = AttackType.Physical;
+//                state.Performer = performer;
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Action += delegate() 
+//                { 
+//                    target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam);
+//                    ((Enemy)target).StealItem(performer);
+//                };
             }
             #endregion Mug
 

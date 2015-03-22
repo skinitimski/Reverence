@@ -402,6 +402,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract int MaxMP { get; }
         
         public abstract string Name { get; }
+
+        public abstract bool LongRange { get; }
         
         public abstract bool BackRow { get; }
         public abstract bool Sensed { get; }
@@ -446,7 +448,5 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
-        
-        public BattleEvent Ability { get; private set; } 
     }
 }

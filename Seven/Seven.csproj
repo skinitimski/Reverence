@@ -70,6 +70,9 @@
     <Folder Include="Screen\BattleState\Selector\" />
     <Folder Include="Screen\BattleState\EnemySkill\" />
     <Folder Include="Screen\BattleState\Magic\" />
+    <Folder Include="Screen\PostBattleState\" />
+    <Folder Include="Screen\PostBattleState\Hoard\" />
+    <Folder Include="Screen\PostBattleState\Victory\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -154,16 +157,31 @@
     <Compile Include="Screen\BattleState\Selector\SelfSelector.cs" />
     <Compile Include="Screen\BattleState\Selector\TargetSelector.cs" />
     <Compile Include="Screen\BattleState\Selector\GroupSelector.cs" />
-    <Compile Include="Screen\BattleState\Selector\FieldSelector.cs" />
     <Compile Include="Screen\BattleState\StatusBarLeft.cs" />
     <Compile Include="Screen\BattleState\StatusBarRight.cs" />
-    <Compile Include="Screen\BattleState\WItem.cs" />
     <Compile Include="Battle\BattleEvent.cs" />
     <Compile Include="Battle\Status.cs" />
     <Compile Include="Battle\TargetGroup.cs" />
     <Compile Include="Battle\TargetType.cs" />
     <Compile Include="Battle\Formula.cs" />
     <Compile Include="State\PostBattleState.cs" />
+    <Compile Include="Screen\BattleState\Selector\SelectorUser.cs" />
+    <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
+    <Compile Include="Screen\BattleState\WItemMenu.cs" />
+    <Compile Include="Battle\AttackType.cs" />
+    <Compile Include="Battle\SpellModifiers.cs" />
+    <Compile Include="Screen\PostBattleState\Hoard\GilLeft.cs" />
+    <Compile Include="Screen\PostBattleState\Hoard\ItemRight.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Ap.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Bottom.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Exp.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Label.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Middle.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Top.cs" />
+    <Compile Include="Screen\PostBattleState\Hoard\ItemLeft.cs" />
+    <Compile Include="Screen\PostBattleState\Hoard\Label.cs" />
+    <Compile Include="Screen\PostBattleState\Hoard\GilRight.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\Info.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

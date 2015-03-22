@@ -31,9 +31,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             string msg = "";
 
-            if (BattleScreen.Instance.Control != null)
+            if (Seven.BattleState.Screen.Control != null)
             {
-                msg = BattleScreen.Instance.Control.Info;
+                msg = Seven.BattleState.Screen.Control.Info;
             }
 
             te = g.TextExtents(msg);

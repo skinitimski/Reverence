@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
-{
-       
-    internal class Main : ControlMenu, ISelectorUser
+{       
+    internal class Main : ControlMenu, SelectorUser
     {
         private const int COLUMNS = 3;
 
@@ -46,10 +46,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             _wmagic = wmagic;
 
-            _spells = new MagicSpell[_totalRows,COLUMNS];
+            _spells = new MagicSpell[_totalRows, COLUMNS];
 
             foreach (MagicSpell s in spells)
+            {
                 _spells[s.Spell.Order / COLUMNS, s.Spell.Order % COLUMNS] = s;
+            }
 
             Squish();
 
@@ -63,8 +65,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             List<int> rowsToUse = new List<int>();
 
             for (b = 0; b < _totalRows; b++)
+            {
                 for (a = 0; a < COLUMNS; a++)
-                    if (!String.IsNullOrEmpty(_spells[b, a].ID)) { rowsToUse.Add(b); break; }
+                {
+                    if (_spells[b, a] != null)
+                    {
+                        rowsToUse.Add(b);
+                        break;
+                    }
+                }
+            }
+
 
             MagicSpell[,] newSpells = new MagicSpell[rowsToUse.Count, COLUMNS];
 
@@ -104,16 +115,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     break;
                 case Key.X:
                     Visible = false;
-                    BattleScreen.Instance.PopControl();
+                    Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
-                    if (!String.IsNullOrEmpty(_spells[_yopt, _xopt].ID))
+                    if (_spells[_yopt, _xopt] != null)
                         if (_wmagic)
                         {
                             if (_first[0] == -1)
                             {
-                                Selector.DisableActionHook();
+                                Seven.BattleState.Screen.DisableActionHook();
                                 if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Spell.Cost)
                                     _spells[_yopt, _xopt].Spell.Dispatch();
                             }
@@ -137,7 +148,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
             if (_first[0] != -1 || !_wmagic)
             {
-                AbilityState state;
+                //AbilityState state;
                 MagicSpell spell;
 
                 if (_wmagic)
@@ -147,45 +158,45 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                     #region First
 
-                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
+//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
                     spell = _spells[_first[0], _first[1]];
-
-                    state.Performer = Seven.BattleState.Commanding;
-                    state.Action += delegate() { spell.Spell.Action(); };
-
-                    Seven.BattleState.EnqueueAction(state);
+//
+//                    state.Performer = Seven.BattleState.Commanding;
+//                    state.Action += delegate() { spell.Spell.Action(); };
+//
+//                    Seven.BattleState.EnqueueAction(state);
 
                     #endregion First
 
 
                     #region Second
 
-                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
+//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
                     spell = _spells[_xopt, _yopt];
 
-                    state.Performer = Seven.BattleState.Commanding;
-                    state.Action += delegate() { spell.Spell.Action(); };
-
-                    Seven.BattleState.EnqueueAction(state);
+//                    state.Performer = Seven.BattleState.Commanding;
+//                    state.Action += delegate() { spell.Spell.Action(); };
+//
+//                    Seven.BattleState.EnqueueAction(state);
 
                     #endregion Second
 
 
-                    Selector.DisableActionHook(true);
+                    Seven.BattleState.Screen.DisableActionHook(true);
                 }
                 else
                 {
                     Seven.BattleState.Commanding.MP -= _spells[_yopt, _xopt].Spell.Cost;
 
-                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
+//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
                     spell = _spells[_xopt, _yopt];
 
-                    state.HitP = spell.Spell.Matp;
-                    state.Type = AttackType.Magical;
-                    state.MPTurboFactor = spell.MPTurboFactor;
-                    state.Elements = spell.Spell.Element;
-                    state.Performer = Seven.BattleState.Commanding;
-                    state.Action += delegate() { spell.Spell.Action(); };
+//                    state.HitP = spell.Spell.Matp;
+//                    state.Type = AttackType.Magical;
+//                    state.MPTurboFactor = spell.MPTurboFactor;
+//                    state.Elements = spell.Spell.Element;
+//                    state.Performer = Seven.BattleState.Commanding;
+//                    state.Action += delegate() { spell.Spell.Action(); };
                 }
             }
             else
@@ -207,11 +218,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
             int j = Math.Min(_visibleRows + _topRow, _totalRows);
 
+
             for (int b = _topRow; b < j; b++)
+            {
                 for (int a = 0; a < COLUMNS; a++)
-                    Text.ShadowedText(g, String.IsNullOrEmpty(_spells[b, a].ID) ? "" : _spells[b, a].Spell.Name,
+                {
+                    Text.ShadowedText(g, _spells[b, a] != null ? "" : _spells[b, a].Spell.Name,
                         X + x1 + a * xs,
                         Y + (b - _topRow + 1) * ys);
+                }
+            }
 
 
             if (IsControl)
@@ -219,7 +235,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     X + x1 + cx + _xopt * xs,
                     Y + cy + (_yopt - _topRow + 1) * ys);
 
-            MagicMenuInfo.Instance.Draw(d);
+            Seven.BattleState.Screen.MagicInfo.Draw(d);
 
 
             ((IDisposable)g.Target).Dispose();
@@ -230,7 +246,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             _topRow = 0;
             Visible = false;
-            MagicMenuInfo.Instance.Visible = false;
+            Seven.BattleState.Screen.MagicInfo.Visible = false;
             _first = new int[] { -1, -1 };
         }
 
@@ -238,13 +254,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             base.SetAsControl();
             Visible = true;
-            MagicMenuInfo.Instance.Visible = true;
+            Seven.BattleState.Screen.MagicInfo.Visible = true;
         }
 
         public bool IsValid { get { return _totalRows > 0; } }
 
         public override string Info
-        { get { return String.IsNullOrEmpty(_spells[_yopt, _xopt].ID) ? "" : _spells[_yopt, _xopt].Spell.Desc; } }
+        { get { return _spells[_yopt, _xopt] == null ? "" : _spells[_yopt, _xopt].Spell.Desc; } }
+
         public new MagicSpell Selected { get { return _spells[_yopt, _xopt]; } }
     }
 

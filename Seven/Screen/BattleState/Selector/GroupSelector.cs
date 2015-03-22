@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 
@@ -11,17 +13,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class GroupSelector : Selector
     {
-        public static GroupSelector Instance;
-        
         private TargetGroup _selectedGroup;
-        
-        
-        static GroupSelector()
-        {
-            Instance = new GroupSelector();
-            Game.Lua["GroupSelector"] = Instance;
-        }
-        private GroupSelector()
+
+        public GroupSelector()
         {
         }
         
@@ -30,20 +24,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.R1:
-                    if (AllAble)
+                    if (Seven.BattleState.Screen.AllAble)
                         if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
                     {
                         Seven.BattleState.Screen.PopControl();
-                        Selector.Type = TargetType.OneTar;
-                        Seven.BattleState.Screen.PushControl(TargetSelector.Instance);
+                        Seven.BattleState.Screen.Type = TargetType.OneTar;
+                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.TargetSelector);
                     }
                     break;
                 case Key.Circle:
-                    Seven.BattleState.Commanding.Ability.Target = Selected;
-                    User.ActOnSelection();
-                    if (RunActionHook)
+                    Seven.BattleState.Screen.User.ActOnSelection();
+                    if (Seven.BattleState.Screen.RunActionHook)
                         Seven.BattleState.ActionHook();
-                    else if (RunClearControl)
+                    else if (Seven.BattleState.Screen.RunClearControl)
                         Seven.BattleState.ClearControl();
                     else
                         Seven.BattleState.Screen.PopControl();
@@ -53,7 +46,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     break;
                 default: break;
             }
-            if (Group != TargetGroup.Area)
+            if (Seven.BattleState.Screen.Group != TargetGroup.Area)
                 return;
             switch (k)
             {
@@ -93,7 +86,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         {
             _isControl = true;
             
-            switch (Group)
+            switch (Seven.BattleState.Screen.Group)
             {
                 case TargetGroup.Allies:
                     _selectedGroup = TargetGroup.Allies;

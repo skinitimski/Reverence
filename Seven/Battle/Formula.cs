@@ -3,72 +3,85 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
+
 namespace Atmosphere.Reverence.Seven.Battle
 {
     internal static class Formula
     {
-        public static void PhysicalAttack(int power, BattleEvent state, int targetIndex)
+        public static void PhysicalAttack(int power, Combatant source, Combatant target)
         {
-            Combatant er = state.Performer;
-            Combatant ee = state.Target[targetIndex];
-
             bool restorative = false;
 
-            if (!PhysicalHit(state, targetIndex))
+            Element[] elements = new Element[0];
+
+            if (source is Ally)
+            {
+                Ally ally = (Ally)source;
+
+                elements = new Element[] { ally.Weapon.Element };
+            }
+
+
+            if (!PhysicalHit(source, target, elements))
+            {
                 return;
+            }
 
-            int bd = PhysicalBase(er);
-            int dam = PhysicalDamage(bd, power, ee);
+            int bd = PhysicalBase(source);
+            int dam = PhysicalDamage(bd, power, target);
 
-            dam = Critical(dam, state, targetIndex);
-            dam = Berserk(dam, state);
-            dam = RowCheck(dam, state, targetIndex);
-            dam = Frog(dam, state);
-            dam = Sadness(dam, ee);
-            dam = Split(dam, state);
-            dam = Barrier(dam, state, targetIndex);
-            dam = MPTurbo(dam, state);
-            dam = Mini(dam, state);
+            dam = Critical(dam, source, target);
+            dam = Berserk(dam, source);
+            dam = RowCheck(dam, source, target);
+            dam = Frog(dam, target);
+            dam = Sadness(dam, target);
+           // dam = Split(dam, state);
+            dam = Barrier(dam, target);
+            dam = Mini(dam, source);
             dam = RandomVariation(dam);
             dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, state, targetIndex);
+            dam = RunElementalChecks(dam, ref restorative, target, elements);
             dam = UpperSanityCheck(dam);
 
-            ee.AcceptDamage(er, dam);
+            target.AcceptDamage(source, dam);
         }
 
-        public static void MagicSpell(int power, BattleEvent state, int targetIndex)
+        public static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
         {
-            Combatant er = state.Performer;
-            Combatant ee = state.Target[targetIndex];
-
-            if (!MagicHit(state, targetIndex))
+            if (!MagicHit(source, target, spell))
+            {
                 return;
+            }
 
             bool restorative = false;
-            int bd = MagicalBase(er);
-            int dam = MagicalDamage(bd, 4, ee);
+            int bd = MagicalBase(source);
+            int dam = MagicalDamage(bd, 4, target);
 
-            RunMagicModifiers(dam, ref restorative, state, targetIndex);
+            RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
 
             if (restorative)
+            {
                 dam = -dam;
+            }
 
-            ee.AcceptDamage(er, dam);
+            target.AcceptDamage(source, dam);
         }
+
         public static void MagicChangeStatus()
         {
         }
 
-        public static int RunMagicModifiers(int dam, ref bool restorative, BattleEvent state, int targetIndex)
+        public static int RunMagicModifiers(int dam, ref bool restorative, Combatant target, Spell spell, SpellModifiers modifiers)
         {
-            dam = Sadness(dam, state.Target[targetIndex]);
-            dam = Split(dam, state);
-            dam = Barrier(dam, state, targetIndex);
-            dam = MPTurbo(dam, state);
+            dam = Sadness(dam, target);
+            dam = Split(dam, modifiers);
+            dam = MBarrier(dam, target);
+            dam = MPTurbo(dam, modifiers.MPTurboFactor);
             dam = RandomVariation(dam);
             dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, state, targetIndex);
+            dam = RunElementalChecks(dam, ref restorative, target, spell.Element);
             dam = UpperSanityCheck(dam);
 
             return dam;
@@ -86,49 +99,59 @@ namespace Atmosphere.Reverence.Seven.Battle
             return (power * (512 - ee.Def) * bd) / (16 * 512);
         }
 
-        public static bool PhysicalHit(BattleEvent state, int targetIndex)
+        public static bool PhysicalHit(Combatant source, Combatant target, Element[] elements)
         {
-            Combatant er = state.Performer;
-            Combatant ee = state.Target[targetIndex];
-
             int hitp;
 
-            if (ee.Absorbs(state.Elements) ||
-                ee.Voids(state.Elements) ||
-                ee.Death || ee.Sleep ||
-                ee.Confusion || ee.Stop ||
-                ee.Petrify || ee.Manipulate ||
-                ee.Paralysed || ee.Peerless)
-                hitp = 255;
-            else 
+            if (target.Absorbs(elements) ||
+                target.Voids(elements) ||
+                target.Death || 
+                target.Sleep ||
+                target.Confusion || 
+                target.Stop ||
+                target.Petrify || 
+                target.Manipulate ||
+                target.Paralysed || 
+                target.Peerless)
             {
-                hitp = ((er.Dexterity / 4) + state.HitP) 
-                    + er.Defp
-                    - ee.Defp;
-                if (er.Fury)
+                hitp = 255;
+            }
+            else
+            {
+                hitp = (source.Dexterity / 4) //+ state.HitP) 
+                    + source.Defp
+                    - target.Defp;
+                if (source.Fury)
+                {
                     hitp = hitp - hitp * 3 / 10;
+                }
             }
 
             // Sanity
             if (hitp < 1)
+            {
                 hitp = 1;
+            }
 
             int lucky = Seven.BattleState.Random.Next(0, 100);
 
             // Lucky Hit
-            if (lucky < Math.Floor(state.Performer.Luck / 4.0d))
+            if (lucky < Math.Floor(source.Luck / 4.0d))
+            {
                 hitp = 255;
+            }
             // Lucky Evade
-            else if (lucky < Math.Floor(ee.Luck / 4.0d))
-                if (er is Ally && ee is Enemy)
+            else if (lucky < Math.Floor(target.Luck / 4.0d))
+            {
+                if (source is Ally && target is Enemy)
+                {
                     hitp = 0;
+                }
+            }
 
             int r = Seven.BattleState.Random.Next(65536) * 99 / 65536 + 1;
 
-            if (r < hitp)
-                return true;
-            else return false;
-
+            return r < hitp;
         }
 
        
@@ -150,53 +173,61 @@ namespace Atmosphere.Reverence.Seven.Battle
             return (power * (512 - ee.Def) * bd) / (16 * 512);
         }
 
-        public static bool MagicHit(BattleEvent state, int targetIndex)
+        public static bool MagicHit(Combatant source, Combatant target, Spell spell)
         {
-            if (state.HitP == 255)
+            if (spell.Matp == 255 ||
+                target.Absorbs(spell.Element) ||
+                target.Voids(spell.Element))
+            {
                 return true;
-            if (state.Target[targetIndex].Absorbs(state.Elements))
+            }
+            if (target.Death ||
+                target.Sleep ||
+                target.Confusion ||
+                target.Stop ||
+                target.Petrify ||
+                target.Paralysed ||
+                target.Peerless ||
+                target.Reflect)
+            {
                 return true;
-            if (state.Target[targetIndex].Voids(state.Elements))
-                return true;
-            if (state.Target[targetIndex].Death ||
-                state.Target[targetIndex].Sleep ||
-                state.Target[targetIndex].Confusion ||
-                state.Target[targetIndex].Stop ||
-                state.Target[targetIndex].Petrify ||
-                state.Target[targetIndex].Paralysed ||
-                state.Target[targetIndex].Peerless ||
-                state.Target[targetIndex].Reflect)
-                return true;
+            }
 
-            int matp = state.HitP;
+            int matp = spell.Matp;
 
-            if (state.Performer.Fury)
+            if (source.Fury)
+            {
                 matp = matp - matp * 3 / 10;
+            }
 
-            if (Seven.BattleState.Random.Next(1, 101) > state.Target[targetIndex].MDefp)
+            if (Seven.BattleState.Random.Next(1, 101) > target.MDefp)
+            {
                 return false;
+            }
 
-            int hitp = matp + state.Performer.Level - state.Target[targetIndex].Level / 2 - 1;
+            int hitp = matp + source.Level - target.Level / 2 - 1;
 
-            if (Seven.BattleState.Random.Next(100) < hitp)
-                return true;
-            else return false;
+            return Seven.BattleState.Random.Next(100) < hitp;
         }
 
 
 
-        public static int Critical(int dam, BattleEvent state, int targetIndex)
+        public static int Critical(int dam, Combatant source, Combatant target)
         {
-            Combatant ee = state.Target[targetIndex];
-            Ally er = state.Performer as Ally;
+            Combatant ee = target;
+            Ally er = source as Ally;
 
             if (er == null)
+            {
                 return dam;
+            }
 
             int critp;
 
             if (er.LuckyGirl)
+            {
                 critp = 255;
+            }
             else
             {
                 critp = (er.Luck + er.Level - ee.Level) / 4;
@@ -206,31 +237,38 @@ namespace Atmosphere.Reverence.Seven.Battle
             int r = (Seven.BattleState.Random.Next(65536) * 99 / 65536) + 1;
 
             if (r <= critp)
+            {
                 dam = dam * 2;
+            }
+
             return dam;
         }
 
-        public static int Berserk(int dam, BattleEvent state)
+        public static int Berserk(int dam, Combatant source)
         {
-            if (state.Performer.Berserk)
-                dam = dam * 15 / 10;
+            if (source.Berserk) dam = dam * 15 / 10;
+
             return dam;
         }
 
-        public static int RowCheck(int dam, BattleEvent state, int targetIndex)
+        public static int RowCheck(int dam, Combatant source, Combatant target)
         {
-            if (state.LongRange)
+            if (source.LongRange)
+            {
                 return dam;
-            if (state.Performer.BackRow || state.Target[targetIndex].BackRow)
+            }
+            if (source.BackRow || target.BackRow)
+            {
                 dam = dam / 2;
+            }
 
             return dam;
         }
 
-        public static int Frog(int dam, BattleEvent state)
+        public static int Frog(int dam, Combatant source)
         {
-            if (state.Performer.Frog)
-                dam = dam / 4;
+            if (source.Frog) dam = dam / 4;
+
             return dam;
         }
 
@@ -238,104 +276,121 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int Sadness(int dam, Combatant ee)
         {
-            if (ee.Sadness)
-                dam = dam * 7 / 10;
+            if (ee.Sadness) dam = dam * 7 / 10;
+
             return dam;
         }
 
-        public static int Split(int dam, BattleEvent state)
+        public static int Split(int dam, SpellModifiers modifiers)
         {
-            if (state.QuadraMagic)
-                dam = dam / 2;
-            else if (state.Target.Length > 1 && !state.NoSplit)
-                dam = dam * 2 / 3;
-            return dam;
-        }
-
-        public static int Barrier(int dam, BattleEvent state, int targetIndex)
-        {
-            Combatant ee = state.Target[targetIndex];
-            switch (state.Type)
+            if (modifiers.QuadraMagic)
             {
-                case AttackType.Magical:
-                    if (ee.MBarrier) dam = dam / 2;
-                    break;
-                case AttackType.Physical:
-                    if (ee.Barrier) dam = dam / 2;
-                    break;
-                default: break;
+                dam = dam / 2;
+            }
+            else if (modifiers.Alled)
+            {
+                dam = dam * 2 / 3;
             }
             return dam;
         }
 
-        public static int MPTurbo(int dam, BattleEvent state)
+        public static int Barrier(int dam, Combatant target)
         {
-            dam = dam + (dam * 10 * state.MPTurboFactor) / 10;
+            if (target.Barrier) dam = dam / 2;
+            
             return dam;
         }
-        public static int Mini(int dam, BattleEvent state)
+
+        public static int MBarrier(int dam, Combatant target)
         {
-            if (state.Performer.Small)
-                dam = 0;
+            if (target.MBarrier) dam = dam / 2;
+
+            return dam;
+        }
+
+        public static int MPTurbo(int dam, int mpTurboFactor)
+        {
+            dam = dam + (dam * 10 * mpTurboFactor) / 10;
+
+            return dam;
+        }
+        public static int Mini(int dam, Combatant source)
+        {
+            if (source.Small) dam = 0;
+
             return dam;
         }
 
         public static int RandomVariation(int dam)
         {
             dam = dam * (3841 + Seven.BattleState.Random.Next(256)) / 4096;
+
             return dam;
         }
 
 
-        public static int RunElementalChecks(int dam, ref bool restorative, BattleEvent state, int targetIndex)
+        public static int RunElementalChecks(int dam, ref bool restorative, Combatant target, IEnumerable<Element> attackElements)
         {
             bool checksDone = false;
 
-            foreach (Element e in state.Elements)
-                if (state.Target[targetIndex].Voids(e))
+            foreach (Element e in attackElements)
+            {
+                if (target.Voids(e))
                 {
                     dam = 0;
                     checksDone = true;
                     break;
                 }
+            }
+
             if (!checksDone)
-                foreach (Element e in state.Elements)
-                    if (state.Target[targetIndex].Absorbs(e))
+            {
+                foreach (Element e in attackElements)
+                {
+                    if (target.Absorbs(e))
                     {
                         restorative = !restorative;
                         checksDone = true;
                         break;
                     }
+                }
+            }
+
             if (!checksDone)
-                foreach (Element e in state.Elements)
+            {
+                foreach (Element e in attackElements)
                 {
-                    if (state.Target[targetIndex].Halves(e) && state.Target[targetIndex].Weak(e))
+                    if (target.Halves(e) && target.Weak(e))
+                    {
                         continue;
-                    else if (state.Target[targetIndex].Halves(e))
+                    }
+                    else if (target.Halves(e))
                     {
                         dam = dam / 2;
                         break;
                     }
-                    else if (state.Target[targetIndex].Weak(e))
+                    else if (target.Weak(e))
                     {
                         dam = dam * 2;
                         break;
                     }
                 }
+            }
+
             return dam;
         }
 
         public static int LowerSanityCkeck(int dam)
         {
-            if (dam == 0)
-                dam = 1;
+            if (dam == 0) dam = 1;
+
             return dam;
         }
 
         public static int UpperSanityCheck(int dam)
         {
-            if (dam > 9999)
-                dam = 9999;
+            if (dam > 9999) dam = 9999;
+
             return dam;
         }
 

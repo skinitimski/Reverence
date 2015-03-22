@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
@@ -11,7 +12,7 @@ using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {
-    internal class Main : ControlMenu, ISelectorUser
+    internal class Main : ControlMenu, SelectorUser
     {
         private int COLUMNS = 1;
 
@@ -26,14 +27,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
         private int _option;
         private int _topRow;
-        private int _totalRows = Summon.TOTAL_SUMMONS;
+        private int _totalRows = SummonSpell.TOTAL_SUMMONS;
         private readonly int _visibleRows = 3;
-
         private bool _wsummon;
         private int _first = -1;
-
         private SummonSpell[] _summons;
-
 
         public Main(IEnumerable<SummonSpell> summons, bool wsummon)
             : base(
@@ -52,36 +50,51 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             Reset();
         }
 
-
-
         public override void ControlHandle(Key k)
         {
             switch (k)
             {
                 case Key.Up:
-                    if (_option > 0) _option--;
-                    if (_topRow > _option) _topRow--;
+                    if (_option > 0)
+                    {
+                        _option--;
+                    }
+                    if (_topRow > _option)
+                    {
+                        _topRow--;
+                    }
                     break;
                 case Key.Down:
-                    if (_option < _totalRows - 1) _option++;
-                    if (_topRow < _option - _visibleRows + 1) _topRow++;
+                    if (_option < _totalRows - 1)
+                    {
+                        _option++;
+                    }
+                    if (_topRow < _option - _visibleRows + 1)
+                    {
+                        _topRow++;
+                    }
                     break;
                 case Key.X:
                     Visible = false;
-                    BattleScreen.Instance.PopControl();
+                    Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
-                    if (!String.IsNullOrEmpty(_summons[_option].ID))
-                        if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.Cost)
+                    if (_summons[_option] != null)
+                    {
+                    if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.Cost)
+                    {
+                        if (_first == -1 && _wsummon)
                         {
-                            if (_first == -1 && _wsummon)
-                                Selector.DisableActionHook();
-                            _summons[_option].Spell.Dispatch();
+                            Seven.BattleState.Screen.DisableActionHook();
                         }
+                        _summons[_option].Spell.Dispatch();
+                    }
+                    }
                     break;
             }
         }
+
         public void ActOnSelection()
         {
             if (_first != -1 || !_wsummon)
@@ -90,30 +103,30 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
                 #region First
 
-                AbilityState state;
-
-                if (_wsummon)
-                {
-                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-
-                    state.Target = TargetSelector.Instance.Selected;
-                    state.Performer = Seven.BattleState.Commanding;
-
-                    state.Action += delegate() { _summons[_option].Spell.Action(); };
-
-                    Seven.BattleState.EnqueueAction(state);
-                }
+//                AbilityState state;
+//
+//                if (_wsummon)
+//                {
+//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
+//
+//                    state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                    state.Performer = Seven.BattleState.Commanding;
+//
+//                    state.Action += delegate() { _summons[_option].Spell.Action(); };
+//
+//                    Seven.BattleState.EnqueueAction(state);
+//                }
 
                 #endregion First
 
                 #region Second
 
-                state = Seven.BattleState.Commanding.Ability;
-
-                state.Target = TargetSelector.Instance.Selected;
-                state.Performer = Seven.BattleState.Commanding;
-
-                state.Action += delegate() { _summons[_option].Spell.Action(); };
+//                state = Seven.BattleState.Commanding.Ability;
+//
+//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Performer = Seven.BattleState.Commanding;
+//
+//                state.Action += delegate() { _summons[_option].Spell.Action(); };
 
                 // don't enqueue, will be picked up by Battle.ActionHook()
 
@@ -124,8 +137,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 _first = _option;
             }
         }
-
-
 
         protected override void DrawContents(Gdk.Drawable d)
         {
@@ -140,17 +151,21 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             int j = Math.Min(_visibleRows + _topRow, _totalRows);
 
             for (int b = _topRow; b < j; b++)
-                Text.ShadowedText(g, String.IsNullOrEmpty(_summons[b].ID) ? "" : _summons[b].Name,
+            {
+                Text.ShadowedText(g, _summons[b] == null ? "" : _summons[b].Name,
                     X + x1,
                     Y + (b - _topRow + 1) * ys);
+            }
 
 
             if (IsControl)
+            {
                 Shapes.RenderCursor(g,
                     X + x1 + cx,
                     Y + cy + (_option - _topRow + 1) * ys);
+            }
 
-            SummonMenuInfo.Instance.Draw(d);
+            Seven.BattleState.Screen.SummonMenuInfo.Draw(d);
 
 
             ((IDisposable)g.Target).Dispose();
@@ -162,7 +177,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             _option = 0;
             _topRow = 0;
             Visible = false;
-            SummonMenuInfo.Instance.Visible = false;
+            Seven.BattleState.Screen.SummonMenuInfo.Visible = false;
             _first = -1;
         }
 
@@ -170,23 +185,27 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             base.SetAsControl();
             Visible = true;
-            SummonMenuInfo.Instance.Visible = true;
+            Seven.BattleState.Screen.SummonMenuInfo.Visible = true;
         }
 
         public bool IsValid
         {
             get
             {
-                foreach (Summon s in _summons)
-                    if (!String.IsNullOrEmpty(_summons[_option].ID))
+                foreach (SummonSpell s in _summons)
+                {
+                    if (s != null)
+                    {
                         return true;
+                    }
+                }
                 return false;
             }
-        }        
+        }
 
-        public override string Info { get { return String.IsNullOrEmpty(_summons[_option].ID) ? "" : _summons[_option].Spell.Desc; } }
+        public override string Info { get { return _summons[_option] == null ? "" : _summons[_option].Spell.Desc; } }
 
-        public new SummonSpell Selected { get { return _summons[_option]; } }
+        public SummonSpell Selected { get { return _summons[_option]; } }
     }
 
 

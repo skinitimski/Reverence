@@ -5,16 +5,17 @@ using System.IO;
 using System.Linq;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
-    internal sealed class FieldSelector : Selector
+    internal sealed class AreaSelector : Selector
     {
         private List<Combatant> _targets;
         
-        public FieldSelector()
+        public AreaSelector()
         {
             _targets = new List<Combatant>();
         }
@@ -24,11 +25,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.Circle:
-                    Seven.BattleState.Commanding.Ability.Target = Selected;
-                    User.ActOnSelection();
-                    if (RunActionHook)
+                    Seven.BattleState.Screen.User.ActOnSelection();
+                    if (Seven.BattleState.Screen.RunActionHook)
                         Seven.BattleState.ActionHook();
-                    else if (RunClearControl)
+                    else if (Seven.BattleState.Screen.RunClearControl)
                         Seven.BattleState.ClearControl();
                     else
                         Seven.BattleState.Screen.PopControl();

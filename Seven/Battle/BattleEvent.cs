@@ -57,31 +57,33 @@ namespace Atmosphere.Reverence.Seven.Battle
             BattleEvent state = (BattleEvent)this.MemberwiseClone();
             
             // Deep objects
-            state._actionTimer = new Timer(2000, 0, false);
+            //state._actionTimer = new Timer(2000, 0, false);
             
             return state;
         }
         
         public void DoAction()
         {
-            _action();
-            _actionTimer.Unpause();
+            //_action();
+            //_actionTimer.Unpause();
             
             // used to simulate realtime animation! haha
-            while (!_actionTimer.IsUp) ;
-            Performer.TurnTimer.Reset();
+            //while (!_actionTimer.IsUp) ;
+            //Performer.TurnTimer.Reset();
         }
         
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(" AbilityState : ");
-            sb.AppendFormat("\tfrom {0} to {1}", Performer.Name, Target[0].Name);
+           // sb.AppendFormat("\tfrom {0} to {1}", Performer.Name, Target[0].Name);
             sb.AppendLine();
-            sb.AppendFormat("\ttype: {0}", _type.ToString());
+            //sb.AppendFormat("\ttype: {0}", _type.ToString());
             return sb.ToString();
         }
+
         
+        public Combatant Performer { get; private set; }
 //        public int HitP { get { return _hitp; } set { _hitp = value; } }
 //        public int MPTurboFactor { get { return _mpTurbo; } set { _mpTurbo = value; } }
 //        public bool NoSplit { get { return _noSplit; } set { _noSplit = value; } }
@@ -89,7 +91,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 //        public bool QuadraMagic { get { return _quadraMagic; } set { _quadraMagic = value; } }
 //        public AttackType Type { get { return _type; } set { _type = value; } }
 //        public Action Action { get { return _action; } set { _action = value; } }
-        public Combatant Performer { get; private set; }
 //        public Combatant[] Target { get { return _target; } set { _target = value; } }
 //        public Element[] Elements { get { return _elements; } set { _elements = value; } }
     }

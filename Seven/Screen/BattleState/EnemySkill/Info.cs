@@ -14,8 +14,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 {
     internal sealed class Info : GameMenu
     {
-        public static Info Instance;
-
         #region Layout
 
         const int x0 = 15; // ability col
@@ -27,11 +25,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
         #endregion Layout
 
-        static Info()
-        {
-            Instance = new Info();
-        }
-        private Info()
+        public Info()
             : base(
                 Config.Instance.WindowWidth * 3 / 4 + 12,
                 Config.Instance.WindowHeight * 7 / 10 + 20,

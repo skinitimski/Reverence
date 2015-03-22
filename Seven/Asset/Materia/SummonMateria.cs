@@ -14,18 +14,11 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public override Cairo.Color Color { get { return ORB_COLOR; } }
 
-        public Spell[] GetSpells
+        public Spell Spell
         {
             get
             {
-                Spell[] spells = new Spell[_abilities.Length];
-
-                for (int i = 0; i < _abilities.Length; i++)
-                {
-                    spells[i] = Spell.SpellTable[Resource.CreateID(_abilities[i])];
-                }
-
-                return spells;
+                return Spell.SpellTable[Resource.CreateID(_abilities[0])];
             }
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState

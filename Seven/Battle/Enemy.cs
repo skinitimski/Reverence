@@ -103,7 +103,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         #endregion Member Data
         
         
-        public static void Init()
+        static Enemy()
         {
             _table = new Dictionary<string, XmlNode>();
             
@@ -123,10 +123,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
 
         private Enemy()
+            : base()
         {
         }
         
         private Enemy(XmlNode node, int x, int y)
+            : this()
         {
             _weak = new List<Element>();
             _halve = new List<Element>();
@@ -193,10 +195,19 @@ namespace Atmosphere.Reverence.Seven.Battle
             _x = x;
             _y = y;
         }
-        
-        public Enemy(string id) : this(_table[id], Seven.BattleState.Random.Next(40, 300), Seven.BattleState.Random.Next(50, 200)) { }
-        
-        public static Enemy GetRandomEnemy(int x, int y)
+
+        public static Enemy CreateEnemy(string id, int x, int y)
+        {       
+            if (_table.Count <= 0)
+            {
+                throw new GameDataException("No enemies are defined!");
+            }
+
+            return new Enemy(_table[id], Seven.BattleState.Random.Next(40, 300), Seven.BattleState.Random.Next(50, 200));
+        }
+
+
+        public static Enemy CreateRandomEnemy(int x, int y)
         {
             if (_table.Count <= 0)
             {
@@ -205,11 +216,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             int c = Seven.BattleState.Random.Next(_table.Count);
             int i = 0;
+
             foreach (string s in _table.Keys)
             {
                 if (i == c) return new Enemy(_table[s], x, y);
                 i++;
             }
+
             return null;
         }
         
@@ -773,6 +786,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override int MaxMP { get { return _maxmp; } }
         
         public override string Name { get { return _name; } }
+
+        public override bool LongRange { get { return false; } }
         
         public override bool BackRow { get { return _backRow; } }
         public override bool Sensed { get { return _sensed; } }

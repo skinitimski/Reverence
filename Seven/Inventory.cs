@@ -281,24 +281,38 @@ namespace Atmosphere.Reverence.Seven
         {
             Array.Sort<Record>(_inventory);
         }
-
+        
         public bool UseItemInField(int slot)
         {
             IInventoryItem item = _inventory[slot].Item;
-
+            
             if (!item.CanUseInField)
             {
                 throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
             }
-                        
+            
             bool used = ((Item)item).UseItemInField();
-
+            
             if (used)
             {
                 DecreaseCount(slot);
             }
-
+            
             return used;
+        }
+        
+        public void UseItemInBattle(int slot)
+        {
+            IInventoryItem item = _inventory[slot].Item;
+            
+            if (!item.CanUseInBattle)
+            {
+                throw new ImplementationException("Tried to use an item in battle that can't be used in battle.");
+            }
+
+            ((Item)item).UseItemInBattle();
+
+            DecreaseCount(slot);
         }
     }
 }

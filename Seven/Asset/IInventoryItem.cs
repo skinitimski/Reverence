@@ -9,6 +9,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         string Description { get; }
 
         bool CanUseInField { get; }
+        bool CanUseInBattle { get; }
     }
 }
 

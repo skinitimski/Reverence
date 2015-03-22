@@ -30,7 +30,7 @@ namespace Atmosphere.Reverence.Seven
             Reserves = new Character[3, 3];
 
             Gil = 100;
-
+            
             BattleSpeed = CalculateBattleSpeed();
         }
 
@@ -77,6 +77,8 @@ namespace Atmosphere.Reverence.Seven
             }
             
             Gil = Int32.Parse(savegame.SelectSingleNode("./gil").InnerXml);
+            
+            BattleSpeed = CalculateBattleSpeed();
         }
 
         private void InitCharacters(XmlNode savegame, XmlNode gamedata)

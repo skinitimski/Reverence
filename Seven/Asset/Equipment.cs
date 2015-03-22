@@ -86,6 +86,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         private LuaFunction DoDetach { get; set; }
         
         public bool CanUseInField { get { return false; } }
+        
+        public bool CanUseInBattle { get { return false; } }
     }
 }
 

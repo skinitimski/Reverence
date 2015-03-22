@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 
@@ -27,12 +28,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.R1:
-                    if (AllAble)
+                    if (Seven.BattleState.Screen.AllAble)
                         if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
                     {
                         Seven.BattleState.Screen.PopControl();
-                        Selector.Type = TargetType.AllTar;
-                        Seven.BattleState.Screen.PushControl(GroupSelector.Instance);
+                        Seven.BattleState.Screen.Type = TargetType.AllTar;
+                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.GroupSelector);
                     }
                     break;
                 case Key.Up:
@@ -48,11 +49,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     AdvanceOption(delegate(int i) { return _targets[i].X < _targets[_option].X; }); 
                     break;
                 case Key.Circle:
-                    Seven.BattleState.Commanding.Ability.Target = Selected;
-                    User.ActOnSelection();
-                    if (RunActionHook)
+                    Seven.BattleState.Screen.User.ActOnSelection();
+                    if (Seven.BattleState.Screen.RunActionHook)
                         Seven.BattleState.ActionHook();
-                    else if (RunClearControl)
+                    else if (Seven.BattleState.Screen.RunClearControl)
                         Seven.BattleState.ClearControl();
                     else
                         Seven.BattleState.Screen.PopControl();
@@ -116,7 +116,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             _isControl = true;
             _targets = new List<Combatant>();
             
-            switch (Group)
+            switch (Seven.BattleState.Screen.Group)
             {
                 case TargetGroup.Allies:
                     foreach (Ally a in Seven.BattleState.Allies)

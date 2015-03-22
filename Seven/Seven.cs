@@ -93,6 +93,11 @@ namespace Atmosphere.Reverence.Seven
             SetState(_postBattleState);
         }
 
+        public void GoToMenu()
+        {
+            SetState(_menuState);
+        }
+
         internal static GameState CurrentState { get { return Instance.State; } }
         
         internal static Lua Lua { get { return Instance.LuaEnvironment; } }

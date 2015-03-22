@@ -44,7 +44,22 @@ namespace Atmosphere.Reverence.Seven.State
         
         public BattleState()
         {
+            Screen = new BattleScreen();
+
+            _turnQueue = new Queue<Ally>();
+            
+            AbilityQueue = new Queue<BattleEvent>();
+            
+            _abilityMutex = new Mutex();
+            Random = new Random();
+            
+            Items = new List<IInventoryItem>();
+        }
+        
+        protected override void InternalInit()
+        {
             BattleClock = new Clock(Seven.Party.BattleSpeed);
+
             
             
             Allies = new Ally[3];
@@ -74,42 +89,25 @@ namespace Atmosphere.Reverence.Seven.State
             //    EnemyList.Add(Enemy.GetRandomEnemy(Game.Random.Next(100, 250), Game.Random.Next(100, 300)));
             
             EnemyList = new List<Enemy>();
-            EnemyList.Add(new Enemy("mothslasher"));
-            
-            _turnQueue = new Queue<Ally>();
-            
-            //AbilityQueue = new Queue<AbilityState>();
-            
-            _abilityMutex = new Mutex();
-            
-            Items = new List<IInventoryItem>();
-
-            Random = new Random();
-
-            Screen = new BattleScreen();
-        }
-        
-        protected override void InternalInit()
-        {
+            EnemyList.Add(Enemy.CreateEnemy("mothslasher", 100, 100));
+           
             foreach (Enemy e in EnemyList)
             {
                 e.AIThread.Start();
             }
-
-            Commanding = null;
-            Screen.Init();
         }
         
         private bool IsReady(Ally a)
         {
             bool ready = true;
-            ready = ready && a != null; // they're not null
-            ready = ready && a.TurnTimer.IsUp; // they're ready
-            ready = ready && !AbilityQueue.Contains(a.Ability); // they're not in the ability queue
-            ready = ready && ActiveAbility != a.Ability; // they're not acting now
-            ready = ready && !a.CannotAct; // they're able to act
-            ready = ready && !_turnQueue.Contains(a); // they're not already in the turn queue
-            ready = ready && Commanding != a; // they're not in control
+            ready = ready && a != null;                         // they're not null
+            ready = ready && a.TurnTimer.IsUp;                  // they're ready
+            //ready = ready && !AbilityQueue.Contains(a.Ability); // they're not in the ability queue
+            //ready = ready && ActiveAbility != a.Ability;        // they're not acting now
+            ready = ready && !a.CannotAct;                      // they're able to act
+            ready = ready && !_turnQueue.Contains(a);           // they're not already in the turn queue
+            ready = ready && Commanding != a;                   // they're not in control
+
             return ready;
         }
         
@@ -151,10 +149,12 @@ namespace Atmosphere.Reverence.Seven.State
             
             // Check turn queue and set control if none set
             if (Commanding == null)
-                if (_turnQueue.Count > 0)
             {
-                Commanding = _turnQueue.Dequeue();
-                Screen.PushControl(Commanding.BattleMenu);
+                if (_turnQueue.Count > 0)
+                {
+                    Commanding = _turnQueue.Dequeue();
+                    Screen.PushControl(Commanding.BattleMenu);
+                }
             }
         }
         
@@ -174,7 +174,6 @@ namespace Atmosphere.Reverence.Seven.State
 //                    LastPartyAction = (AbilityState)ActiveAbility.Clone();
 //                }
 
-                ActiveAbility.Performer.Ability.Reset();
                 ActiveAbility = null;
                 AbilityThread = null;
             }
@@ -192,10 +191,17 @@ namespace Atmosphere.Reverence.Seven.State
         private void CheckCombatantTimers()
         {
             foreach (Combatant a in Allies)
+            {
                 if (a != null)
+                {
                     a.CheckTimers();
+                }
+            }
+
             foreach (Combatant e in EnemyList)
+            {
                 e.CheckTimers();
+            }
         }
         
         private void ClearDeadEnemies()
@@ -209,7 +215,9 @@ namespace Atmosphere.Reverence.Seven.State
                 Gil += e.Gil;
                 IInventoryItem temp = e.WinItem();
                 if (temp != null)
+                {
                     Items.Add(temp);
+                }
                 e.Dispose();
             }
 
@@ -218,9 +226,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool CheckForVictory()
         {
-            if (EnemyList.Count == 0)
-                return true;
-            else return false;
+            return EnemyList.Count == 0;
         }
         
         
@@ -230,11 +236,14 @@ namespace Atmosphere.Reverence.Seven.State
         public void EnqueueAction(BattleEvent a)
         {
             _abilityMutex.WaitOne();
+
             AbilityQueue.Enqueue(a);
 #if DEBUG
             Console.WriteLine("Added ability to Queue. Current queue state:");
             foreach (BattleEvent s in AbilityQueue)
+            {
                 Console.WriteLine(s.ToString());
+            }
 #endif
             _abilityMutex.ReleaseMutex();
         }
@@ -248,11 +257,22 @@ namespace Atmosphere.Reverence.Seven.State
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("Status:");
-            if (Allies[0] != null) sb.AppendLine(Allies[0].ToString());
-            if (Allies[1] != null) sb.AppendLine(Allies[1].ToString());
-            if (Allies[2] != null) sb.AppendLine(Allies[2].ToString());
+            if (Allies[0] != null)
+            {
+                sb.AppendLine(Allies[0].ToString());
+            }
+            if (Allies[1] != null)
+            {
+                sb.AppendLine(Allies[1].ToString());
+            }
+            if (Allies[2] != null)
+            {
+                sb.AppendLine(Allies[2].ToString());
+            }
             foreach (Enemy e in EnemyList)
+            {
                 sb.AppendLine(" Enemy " + e.ToString());
+            }
             return sb.ToString();
         }
         
@@ -268,9 +288,14 @@ namespace Atmosphere.Reverence.Seven.State
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            
-            Screen.Draw(d, !_holdingSquare);
-            
+            try
+            {
+                Screen.Draw(d, !_holdingSquare);
+            }
+            catch (Exception e)
+            {
+            }
+
             foreach (Combatant a in Allies)
             {
                 if (a != null)
@@ -345,7 +370,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         public void ActionHook()
         {
-            EnqueueAction(Commanding.Ability);
+            //EnqueueAction(Commanding.Ability);
             ClearControl();
         }
         public void ActionAbort()

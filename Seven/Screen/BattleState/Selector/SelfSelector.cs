@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
@@ -25,11 +26,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.Circle:
-                    Seven.BattleState.Commanding.Ability.Target = Selected;
-                    User.ActOnSelection();
-                    if (RunActionHook)
+                    Seven.BattleState.Screen.User.ActOnSelection();
+                    if (Seven.BattleState.Screen.RunActionHook)
                         Seven.BattleState.ActionHook();
-                    else if (RunClearControl)
+                    else if (Seven.BattleState.Screen.RunClearControl)
                         Seven.BattleState.ClearControl();
                     else
                         Seven.BattleState.Screen.PopControl();

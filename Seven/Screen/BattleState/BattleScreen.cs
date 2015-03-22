@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using Screens = Atmosphere.Reverence.Seven.Screen.BattleState;
+using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -25,16 +26,22 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         public BattleScreen()
         {
-        }
-
-        public void Init()
-        {
             StatusBarLeft = new Screens.StatusBarLeft();
             StatusBarRight = new Screens.StatusBarRight();
             InfoBar = new Screens.InfoBar();
             EventBar = new Screens.EventBar();
             ItemMenu = new Screens.ItemMenu();
             WItemMenu = new Screens.WItemMenu();
+
+            
+            MagicInfo = new Screens.Magic.Info();  
+            EnemySkillInfo = new Screens.EnemySkill.Info();  
+            SummonMenuInfo = new Screens.Summon.Info();  
+            
+            SelfSelector = new Screens.Selector.SelfSelector ();
+            TargetSelector = new Screens.Selector.TargetSelector();
+            GroupSelector = new Screens.Selector.GroupSelector();
+            AreaSelector = new Screens.Selector.AreaSelector();
 
             _controllerStack = new List<IController>();
             _controller = null;
@@ -127,38 +134,44 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         /// then this method will use the tt parameter.</remarks>
         public void GetSelection(TargetGroup tg, TargetType tt, bool allAble)
         {
-            if (!(_controller is ISelectorUser))
-                throw new ImplementationException("Tried to switch control to the Selector from a non-ISelectorUser.");
+            if (!(_controller is SelectorUser))
+            {
+                throw new ImplementationException("Tried to switch control to the Selector from a non-SelectorUser.");
+            }
 
             // If allAble, use TargetType.OneTar. If it's all-able, but not attached to All,
             //    then this must be able to use the tt parameter
 
-            if (allAble && !(_controller is Main))
+            if (allAble && !(_controller is Screens.Magic.Main))
+            {
                 throw new ImplementationException("All-switch only implemented from MagicMenu.");
+            }
 
             _mutex.WaitOne();
-            Selector.User = (ISelectorUser)_controller;
-            Selector.Group = tg;
-            Selector.Type = tt;
-            Selector.AllAble = allAble && Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0;
-            if (Selector.AllAble)
-                PushControl(GroupSelector.Instance);
+            User = (SelectorUser)_controller;
+            Group = tg;
+            Type = tt;
+            AllAble = allAble && Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0;
+            if (AllAble)
+            {
+                PushControl(Seven.BattleState.Screen.GroupSelector);
+            }
             else
                 switch (tt)
                 {
                     case TargetType.Self:
-                        PushControl(SelfSelector.Instance);
+                        PushControl(Seven.BattleState.Screen.SelfSelector);
                         break;
                     case TargetType.OneTar:
-                        PushControl(TargetSelector.Instance);
+                        PushControl(Seven.BattleState.Screen.TargetSelector);
                         break;
                     case TargetType.AllTarNS:
                     case TargetType.AllTar:
                     case TargetType.NTar:
-                        PushControl(GroupSelector.Instance);
+                        PushControl(Seven.BattleState.Screen.GroupSelector);
                         break;
                     case TargetType.Field:
-                        PushControl(FieldSelector.Instance);
+                        PushControl(Seven.BattleState.Screen.AreaSelector);
                         break;
                 }
             _mutex.ReleaseMutex();
@@ -175,6 +188,71 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         
         public Screens.ItemMenu ItemMenu { get; private set; }
         public Screens.WItemMenu WItemMenu { get; private set; }
+        
+        public Screens.Magic.Info MagicInfo { get; private set; }
+        
+        public Screens.Summon.Info SummonMenuInfo { get; private set; }
+        
+        public Screens.EnemySkill.Info EnemySkillInfo { get; private set; }
+        
+        public Screens.Selector.SelfSelector SelfSelector { get; private set; }
+        public Screens.Selector.TargetSelector TargetSelector { get; private set; }
+        public Screens.Selector.GroupSelector GroupSelector { get; private set; }
+        public Screens.Selector.AreaSelector AreaSelector { get; private set; }
+
+
+
+
+
+
+
+
+
+
+        //
+        // Selector
+        //
+
+        
+        private bool _runClear = false;
+        
+        public void DisableActionHook(bool clear)
+        {
+            RunActionHook = false;
+            _runClear = clear;
+        }
+        public void DisableActionHook()
+        {
+            RunActionHook = false;
+            _runClear = false;
+        }
+        
+        public bool RunClearControl
+        {
+            get
+            {
+                // Clear is only relevant if we're not running the ActionHook().
+                // The ActionHook runs clear anyway.
+                if (!RunActionHook)
+                    return _runClear;
+                else return false;
+            }
+        }
+        public bool RunActionHook { get; private set; }
+        
+        
+        public SelectorUser User { get;  private set; }
+        public TargetGroup Group { get;  private set; }
+        public TargetType Type { get;  set; }
+        public bool AllAble { get;  private set; }
+
+
+
+
+
+
+
+
 
     }
 }

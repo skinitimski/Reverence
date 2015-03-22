@@ -8,18 +8,14 @@ namespace Atmosphere.Reverence.Seven.Asset
     internal class Summon
     {
         public const int TOTAL_SUMMONS = 16;
-        private string _name;
-        private Spell[] _spell;
-        private int _allCount;
-        private int _qmagicCount;
         //private List<AddedAbility> _addedAbilities;
         
         public Summon(string name, SummonMateria s)
         {
-            _name = name;
-            _spell = s.GetSpells;
-            _allCount = 0;
-            _qmagicCount = 0;
+            Name = name;
+            Spell = s.Spell;
+            AllCount = 0;
+            QMagicCount = 0;
             //_addedAbilities = new List<AddedAbility>();
         }
         
@@ -28,14 +24,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             //_addedAbilities.Add(s.GetAbility());
             if (s.ID == "all")
             {
-                _allCount = s.Level + 1;
+                AllCount = s.Level + 1;
             }
 //            if (s.ID == "quadramagic")
-//                if (_name == "Knights of Round")
+//                if (Name == "Knights of Round")
 //                    _addedAbilities.Remove(s.GetAbility());
             else
             {
-                _qmagicCount = s.Level + 1;
+                QMagicCount = s.Level + 1;
             }
         }
         
@@ -44,17 +40,18 @@ namespace Atmosphere.Reverence.Seven.Asset
             return Spell.Compare(left.Spell, right.Spell);
         }
         
-        public Spell Spell { get { return _spell[0]; } }
+        public Spell Spell { get; private set; }
 
-        public string Name { get { return _name; } }
+        public string Name { get; private set; }
 
-        public int AllCount { get { return _allCount; } }
+        public int AllCount { get; private set; }
 
-        public int QMagicCount { get { return _qmagicCount; } }
+        public int QMagicCount { get; private set; }
 
-        public int Order { get { return _spell[0].Order; } }
+        public int Order { get { return Spell.Order; } }
 
-        public string ID { get { return _name == null ? "" : Resource.CreateID(Name); } }
+        public string ID { get { return Name == null ? "" : Resource.CreateID(Name); } }
+
         //public List<AddedAbility> AddedAbility { get { return _addedAbilities; } }
     }
 }
