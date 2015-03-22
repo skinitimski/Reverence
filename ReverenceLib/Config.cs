@@ -31,6 +31,11 @@ namespace Atmosphere.Reverence
             Config.Instance.WindowHeight = Int32.Parse(config.SelectSingleNode("/config/window/height").InnerText);
             RefreshRate = UInt32.Parse(config.SelectSingleNode("/config/window/fps").InnerText);
             
+            SplashScreenColor = new Color(
+                Double.Parse(config.SelectSingleNode("/config/window/splashScreenColor/@r").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/splashScreenColor/@g").Value),
+                Double.Parse(config.SelectSingleNode("/config/window/splashScreenColor/@b").Value));
+            
             BackgroundColor = new Color(
                 Double.Parse(config.SelectSingleNode("/config/window/bgColor/@r").Value),
                 Double.Parse(config.SelectSingleNode("/config/window/bgColor/@g").Value),
@@ -49,6 +54,8 @@ namespace Atmosphere.Reverence
         public int WindowHeight { get; private set; }
 
         public uint RefreshRate { get; private set; }
+        
+        public Color SplashScreenColor { get; private set; }
         
         public Color BackgroundColor { get; private set; }
         

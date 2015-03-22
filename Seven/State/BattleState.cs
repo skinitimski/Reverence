@@ -338,8 +338,11 @@ namespace Atmosphere.Reverence.Seven.State
                 default:
                     break;
             }
+
             if (Commanding != null)
+            {
                 Screen.Control.ControlHandle(k);
+            }
         }
         [GLib.ConnectBefore()]
         public override void KeyReleaseHandle(Key k)

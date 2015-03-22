@@ -51,6 +51,22 @@ namespace Atmosphere.Reverence.Seven
             Spell.LoadSpells();
         }
 
+        protected override void Cleanup()
+        {
+            if (_menuState != null)
+            {
+                _menuState.Dispose();
+            }
+            if (_battleState != null)
+            {
+                _battleState.Dispose();
+            }
+            if (_postBattleState != null)
+            {
+                _postBattleState.Dispose();
+            }
+        }
+
         protected override Atmosphere.Reverence.State GetInitialState()
         {
             return new InitialState();
@@ -89,10 +105,19 @@ namespace Atmosphere.Reverence.Seven
 
             _postBattleState = new PostBattleState(_battleState);
             _postBattleState.Init();
+
+            _battleState.Dispose();
             
             SetState(_postBattleState);
         }
+        
+        public void EndPostBattle()
+        {
+            _postBattleState.Dispose();
 
+            GoToMenu();
+        }
+        
         public void GoToMenu()
         {
             SetState(_menuState);

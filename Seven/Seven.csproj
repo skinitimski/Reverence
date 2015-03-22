@@ -73,6 +73,7 @@
     <Folder Include="Screen\PostBattleState\" />
     <Folder Include="Screen\PostBattleState\Hoard\" />
     <Folder Include="Screen\PostBattleState\Victory\" />
+    <Folder Include="Screen\InitialState\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="Screen\PostBattleState\Hoard\Label.cs" />
     <Compile Include="Screen\PostBattleState\Hoard\GilRight.cs" />
     <Compile Include="Screen\PostBattleState\Victory\Info.cs" />
+    <Compile Include="Screen\InitialState\Prompt.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

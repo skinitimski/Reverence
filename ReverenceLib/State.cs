@@ -8,6 +8,9 @@ namespace Atmosphere.Reverence
     {
         private bool _initialized = false;
 
+
+
+
         
         public void Init()
         {
@@ -27,9 +30,6 @@ namespace Atmosphere.Reverence
         public abstract void Draw(Gdk.Drawable d, int width, int height);
         
         public abstract void RunIteration();
-        
-        
-        
         
         public void Dispose()
         {

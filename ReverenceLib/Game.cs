@@ -1,9 +1,11 @@
+//#define DRAWGRID
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using NLua;
 
 using Cairo;
@@ -28,12 +30,107 @@ namespace Atmosphere.Reverence
 
 
 
+        
+        private class InitialState : State
+        {
+            public const int TIMEOUT_MS = 2000;
+            private const int HALF_TIMEOUT_MS = TIMEOUT_MS / 2;
+
+            private Time.Timer _timer;
+
+            private double r, g, b;
+
+            public InitialState()
+            {
+                _timer = new Time.Timer(2000);
+
+                Color fullcolor = Config.Instance.SplashScreenColor;
+
+                r = fullcolor.R;
+                g = fullcolor.G;
+                b = fullcolor.B;
+            }
+
+            public override void KeyPressHandle(Key k)
+            {                
+            }
+            
+            public override void KeyReleaseHandle(Key k)
+            {
+            }
+            
+            public override void RunIteration()
+            {                
+            }
+            
+            public override void Draw(Gdk.Drawable d, int width, int height)
+            {                
+                Gdk.GC gc = new Gdk.GC(d);
+                Cairo.Context g = Gdk.CairoHelper.Create(d);
+
+
+                g.MoveTo(0, 0);
+                g.LineTo(width, 0);
+                g.LineTo(width, height);
+                g.LineTo(0, height);
+                g.LineTo(0, 0);
+                g.ClosePath();
+                g.Color = GetCurrentColor();
+                g.Fill();
+                
+                ((IDisposable)g.Target).Dispose();
+                ((IDisposable)g).Dispose();
+            }
+
+            private Color GetCurrentColor()
+            {
+                double t = _timer.TotalMilliseconds;
+                double c;
+
+                if (t < HALF_TIMEOUT_MS)
+                {
+                    c = t / HALF_TIMEOUT_MS;
+                }
+                else
+                {
+                    c = (TIMEOUT_MS - t) / HALF_TIMEOUT_MS;
+                }
+
+                return new Color(r, g, b, c);
+            }
+            
+            protected override void InternalInit()
+            {
+            }
+            
+            protected override void InternalDispose()
+            {
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
         protected Game()
         {
             _gridColor = Config.Instance.Grid;
 
-            State = GetInitialState();
+            State = new InitialState();
+            InitLua();
+        }
+
+
+        private void InitLua()
+        {
             LuaEnvironment = new Lua();
             LuaEnvironment.LoadCLRPackage();
             
@@ -86,7 +183,7 @@ namespace Atmosphere.Reverence
                 
                 using (Context context = Gdk.CairoHelper.Create(_pixmap))
                 {
-#if DEBUG 
+#if DRAWGRID 
                     
                     context.Color = _gridColor;
                     
@@ -240,6 +337,10 @@ namespace Atmosphere.Reverence
             #region Switch
             switch (args.Event.Key)
             {
+                case Gdk.Key.r:
+                case Gdk.Key.R:
+                    Reset();
+                    break;
                 case Gdk.Key.q:
                 case Gdk.Key.Q:
                     Quit();
@@ -308,6 +409,33 @@ namespace Atmosphere.Reverence
         protected abstract State GetInitialState();
 
         protected abstract void Init();
+        
+        protected abstract void Cleanup();
+
+        protected void QueueInitialState()
+        {
+            new Thread(new ThreadStart(GoToInitialState)).Start();
+        }
+
+        protected void GoToInitialState()
+        {
+            Thread.Sleep(InitialState.TIMEOUT_MS);
+
+            State state = GetInitialState();
+            state.Init();
+
+            SetState(state).Dispose();
+        }
+
+        protected void Reset()
+        {           
+            Cleanup();
+
+            State = new InitialState();
+            InitLua();
+
+            QueueInitialState();
+        }
 
 
         /// <summary>
@@ -326,94 +454,96 @@ namespace Atmosphere.Reverence
             return previous;
         }
 
-
         private void Go()
         {
             Init();
 
-            Application.Init();
 
             
-            
-            _window = new Window(Config.Instance.WindowTitle);
-            _window.SetDefaultSize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
-            _window.DeleteEvent += OnWinDelete;
-            _window.KeyPressEvent += OnKeyPress;
-            _window.KeyReleaseEvent += OnKeyRelease;
-            _window.ConfigureEvent += OnWinConfigure;
-            _window.ExposeEvent += OnExposed;
-            
-            
-            GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
-            
-            _window.ShowAll();
-
-            _pixmap = new Gdk.Pixmap(_window.GdkWindow, Config.Instance.WindowWidth, Config.Instance.WindowHeight, -1);
-            _window.AppPaintable = true;
-            _window.DoubleBuffered = false;
-            
-
-            
-            while (!_quit)
+            try
             {
-                try
-                {
-                    State.RunIteration();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
-                }
-                
-                Gdk.Threads.Enter();
-                
-                if (Application.EventsPending())
+                Application.Init();
+
+                _window = new Window(Config.Instance.WindowTitle);
+                _window.SetDefaultSize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
+                _window.DeleteEvent += OnWinDelete;
+                _window.KeyPressEvent += OnKeyPress;
+                _window.KeyReleaseEvent += OnKeyRelease;
+                _window.ConfigureEvent += OnWinConfigure;
+                _window.ExposeEvent += OnExposed;
+            
+            
+                GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
+            
+                _window.ShowAll();
+
+                _pixmap = new Gdk.Pixmap(_window.GdkWindow, Config.Instance.WindowWidth, Config.Instance.WindowHeight, -1);
+                _window.AppPaintable = true;
+                _window.DoubleBuffered = false;
+                         
+
+                QueueInitialState();
+
+            
+                while (!_quit)
                 {
                     try
                     {
-                        Application.RunIteration();
+                        State.RunIteration();
                     }
                     catch (Exception e)
                     {
                         Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
                     }
-                    finally
+                
+                    Gdk.Threads.Enter();
+                
+                    if (Application.EventsPending())
                     {
-                        Gdk.Threads.Leave();
+                        try
+                        {
+                            Application.RunIteration();
+                        }
+                        catch (Exception e)
+                        {
+                            Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+                        }
+                        finally
+                        {
+                            Gdk.Threads.Leave();
+                        }
                     }
                 }
-            }
             
-            Gdk.Threads.Enter();
+                Gdk.Threads.Enter();
             
-            try
-            {
-                Application.Quit();
+                try
+                {
+                    Application.Quit();
+                }
+                finally
+                {
+                    Gdk.Threads.Leave();
+                }  
             }
             finally
             {
-                Gdk.Threads.Leave();
-            }            
+                Cleanup();
+            }
         }
-
-
-
-
 
         protected void Quit()
         {
             _quit = true;
         }
 
-
-
         public static void RunGame(Game game)
         {
             game.Go();
         }
-
         
         protected State State { get; private set; }
+
         protected Lua LuaEnvironment { get; private set; }
 
     }

@@ -5,6 +5,7 @@
         <width>800</width>
         <height>600</height>
         <fps>30</fps>
+        <splashScreenColor r=".2" g=".4" b=".6" />
         <bgColor r=".1" g=".1" b=".1" />
         <gridColor r=".9" g=".9" b=".9" />
     </window>
