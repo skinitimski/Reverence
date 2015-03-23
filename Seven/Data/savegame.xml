@@ -28,7 +28,9 @@
             </weapon>
             <armor>
                 <name>aegisarmlet</name>
-                <materia/>
+                <materia>                    
+                    <orb id="sense" type="Command" ap="0" slot="0" />
+                </materia>
             </armor>
             <accessory></accessory>
         </Cloud>

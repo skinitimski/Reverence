@@ -65,7 +65,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             g.SetFontSize(24);
             
             string hp, hpmax, mp, mpmax, limit, time;
-            long e, t;
             
             TextExtents te;
 

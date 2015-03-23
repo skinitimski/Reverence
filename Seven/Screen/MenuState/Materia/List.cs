@@ -98,9 +98,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            TextExtents te;
-            
+
             
             if (IsControl || Seven.MenuState.MateriaArrange.IsControl || Seven.MenuState.MateriaPrompt.IsControl)
             {

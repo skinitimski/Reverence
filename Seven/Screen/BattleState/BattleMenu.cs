@@ -409,22 +409,20 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             Ally performer = Seven.BattleState.Commanding;
 
             #region Attack
+
             if (_option == _attackOption)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected[0];
 
-                int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
-                int dam = Formula.PhysicalDamage(bd, 16, target);
-
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
-//                state.LongRange = performer.LongRange;
-//                state.QuadraMagic = false;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
+                BattleEvent e = new BattleEvent(performer, () => Formula.PhysicalAttack(16, performer.Atkp, performer, target, new Element[] { performer.Weapon.Element }));
+                
+                e.Dialogue = c => performer.Name + " attacks";
+                
+                Seven.BattleState.EnqueueAction(e);
             }
+
             #endregion Attack
+
             #region 2x-Cut
             else if (_option == _doubleCutOption2)
             {
@@ -477,7 +475,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 //                DisableActionHook(true);
             }
             #endregion 4x-Cut
+
             #region Sense
+
             else if (_option == _senseOption)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected[0];
@@ -487,9 +487,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 //                state.Target = new ICombatant[1];
 //                state.Target[0] = target;
 //                state.Action += delegate() { target.Sense(); };
+                
+                
+                BattleEvent e = new BattleEvent(performer, () => target.Sense());
+                
+                e.Dialogue = c => target.ToString();
+                
+                Seven.BattleState.EnqueueAction(e);
             }
+
             #endregion Sense
+
             #region Mime
+
             else if (_option == _mimeOption)
             {
 //                if (Seven.BattleState.LastPartyAbility == null)
@@ -509,8 +519,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 //                    }
 //                }
             }
+
             #endregion Mime
+
             #region Deathblow
+
             else if (_option == _deathblowOption)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected[0];
@@ -526,7 +539,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 //                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
 //                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
             }
+
             #endregion Deathblow
+
             #region Steal
             else if (_option == _stealOption)
             {

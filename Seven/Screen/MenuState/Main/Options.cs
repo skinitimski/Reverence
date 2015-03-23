@@ -19,7 +19,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             Order = 5,
             Limit = 6,
             Config = 7,
-            Phs = 8,
+            PHS = 8,
             Save = 9
         }
 
@@ -71,7 +71,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                         case Option.Config: // Config
                             //MenuState.MainMenu.ChangeLayer(Screen._configScreen);
                             break;
-                        case Option.Phs: // PHS
+                        case Option.PHS: // PHS
                             Seven.MenuState.ChangeScreen(Seven.MenuState.PhsScreen);
                             break;
                         case Option.Save: // Save
@@ -95,59 +95,26 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            
+                        
             if (IsControl)
             {
                 Shapes.RenderCursor(g, X + cx, Y + cy + ((int)option * y));
             }
-            
-            #region Menu Options
-            // Option 0
-            Text.ShadowedText(g, "Item",
-                                  X + x,
-                                  Y + (1 * y) + 5);
-            // Option 1
-            Text.ShadowedText(g, "Magic",
-                                  X + x,
-                                  Y + (2 * y) + 5);
-            // Option 2
-            Text.ShadowedText(g, "Materia",
-                                  X + x,
-                                  Y + (3 * y) + 5);
-            // Option 3
-            Text.ShadowedText(g, "Equip",
-                                  X + x,
-                                  Y + (4 * y) + 5);
-            // Option 4
-            Text.ShadowedText(g, "Status",
-                                  X + x,
-                                  Y + (5 * y) + 5);
-            // Option 5
-            Text.ShadowedText(g, "Order",
-                                  X + x,
-                                  Y + (6 * y) + 5);
-            // Option 6
-            Text.ShadowedText(g, "Limit",
-                                  X + x,
-                                  Y + (7 * y) + 5);
-            // Option 7
-            Text.ShadowedText(g, "Config",
-                                  X + x,
-                                  Y + (8 * y) + 5);
-            // Option 8
-            Text.ShadowedText(g, "PHS",
-                                  X + x,
-                                  Y + (9 * y) + 5);
-            // Option 9
-            Text.ShadowedText(g, "Save",
-                                  X + x,
-                                  Y + (10 * y) + 5);
-#endregion
-            
+
+            foreach (Option option in Enum.GetValues(typeof(Option)))
+            {
+                DrawOption(g, option);
+            }            
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
+        }
+
+        private void DrawOption(Cairo.Context g, Option o)
+        {
+            Text.ShadowedText(g, o.ToString(),
+                              X + x,
+                              Y + (((int)o + 1) * y) + 5);
         }
         
         public Option Selection { get { return option; } }

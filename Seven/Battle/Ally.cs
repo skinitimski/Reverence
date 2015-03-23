@@ -240,13 +240,12 @@ namespace Atmosphere.Reverence.Seven.Battle
                     CureConfusion();
                 }
             }
-            
-            
+                        
             _c.HP -= delta;
 
-            if (_c.HP == 0)
+            if (HP == 0)
             {
-                _c.Kill();
+                Kill();
             }
         }
         
@@ -300,68 +299,44 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region AI
         
-        protected override void ConfuAI()
+        public void RunAIConfu()
         {
-            while (true)
+            Ally target;
+            int i = Seven.BattleState.Random.Next(3);
+                    
+            while (Seven.BattleState.Allies[i] == null)
             {
-                if (TurnTimer.IsUp)
-                {
-                    Ally attackee;
-                    int i = Seven.BattleState.Random.Next(3);
-                    
-                    while (Seven.BattleState.Allies[i] == null)
-                    {
-                        i = (i + 1) % 3;
-                    }
-
-                    attackee = Seven.BattleState.Allies[i];
-                    
-                    int bd = Formula.PhysicalBase(this);
-                    int dam = Formula.PhysicalDamage(bd, 16, attackee);
-                    
-                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
-                    
-                    e.Dialogue = c => Name + " attacks (confused)";
-                    
-                    Seven.BattleState.EnqueueAction(e);
-                }
-                else 
-                {
-                    System.Threading.Thread.Sleep(100);
-                }
+                i = (i + 1) % 3;
             }
+
+            target = Seven.BattleState.Allies[i];
+
+            PhysicalAttack(16, Atkp, target, new Element[] { Weapon.Element });
         }
         
-        protected override void BerserkAI()
+        public void RunAIBerserk()
         {
-            while (true)
-            {
-                if (TurnTimer.IsUp)
-                {
-                    Enemy attackee;
-                    int i = Seven.BattleState.Random.Next(Seven.BattleState.EnemyList.Count);
+            Enemy target;
+
+            int i = Seven.BattleState.Random.Next(Seven.BattleState.EnemyList.Count);
                     
-                    attackee = Seven.BattleState.EnemyList[i];
-                    
-                    int bd = Formula.PhysicalBase(this);
-                    int dam = Formula.PhysicalDamage(bd, 16, attackee);
-                                        
-                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
-                    
-                    e.Dialogue = c => Name + " attacks (berserk)";
-                    
-                    Seven.BattleState.EnqueueAction(e);
-                }
-                else
-                {
-                    System.Threading.Thread.Sleep(100);
-                }
-            }
+            target = Seven.BattleState.EnemyList[i];
+            
+            PhysicalAttack(16, Atkp, target, new Element[] { Weapon.Element });
         }
         
         #endregion AI
         
-        
+
+        private void Kill()
+        {
+            TurnTimer.Reset();
+            PauseTimers();
+
+            // if we're running kill, then we just set HP == 0, 
+            //   so it's already been run on the character
+            //_c.Kill();
+        }
         
         #region Inflict Status
         public override bool InflictDeath()
@@ -412,8 +387,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Confusion || Petrify || Peerless || Resist)
                 return false;
             Confusion = true;
-            _confuThread = new System.Threading.Thread(new ThreadStart(ConfuAI));
-            _confuThread.Start();
             return true;
         }
         public override bool InflictSilence()
@@ -567,8 +540,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Berserk || Petrify || Peerless || Resist)
                 return false;
             Berserk = true;
-            _berserkThread = new Thread(new ThreadStart(BerserkAI));
-            _berserkThread.Start();
             return true;
         }
         public override bool InflictPeerless()
@@ -689,12 +660,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
         
         
-//        public override bool CureDeath()
-//        {
-//            CureAll();
-//            UnpauseTimers();
-//            return _c.CureDeath();
-//        }
+        public override bool CureDeath()
+        {
+            CureAll();
+            UnpauseTimers();
+            return _c.CureDeath();
+        }
+
         public override bool CureFury()
         {
             return _c.CureFury();
@@ -740,10 +712,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Dispose()
         {
-            if (_confuThread != null && _confuThread.IsAlive)
-                _confuThread.Abort();
-            if (_berserkThread != null && _berserkThread.IsAlive)
-                _berserkThread.Abort();
         }
         
         public override bool Weak(params Element[] e)

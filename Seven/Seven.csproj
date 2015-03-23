@@ -295,5 +295,8 @@
     <EmbeddedResource Include="Data\enemies.xml">
       <LogicalName>data.enemies.xml</LogicalName>
     </EmbeddedResource>
+    <EmbeddedResource Include="Data\scripts.battle.lua">
+      <LogicalName>lua.scripts.battle</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

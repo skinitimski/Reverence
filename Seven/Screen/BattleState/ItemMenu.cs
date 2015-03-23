@@ -63,7 +63,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
             }
         }
-        public void ActOnSelection()
+        public virtual void ActOnSelection()
         {
             int o = _option; // allocate to stack (option is on heap)
 

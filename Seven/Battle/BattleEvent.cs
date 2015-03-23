@@ -82,10 +82,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Combatant Source { get; private set; }
         public Action Action { get; private set; }
         private Timer ActionTimer { get; set; }
-
+        
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Atmosphere.Reverence.Seven.Battle.BattleEvent"/>
-        /// should reset the turn timer of its source when it completes its action.
+        /// should reset the turn timer of its source when it completes its action. Defaults to true.
         /// </summary>
         public bool ResetSourceTurnTimer { get; set; }
 

@@ -30,7 +30,6 @@ namespace Atmosphere.Reverence.Seven
         private int _magic_base;
         private int _spirit_base;
         private int _luck_base;
-        private WeaponType _weaponType;
         private Weapon _weapon;
         private Armor _armor;
         private Accessory _accessory;
@@ -41,12 +40,10 @@ namespace Atmosphere.Reverence.Seven
         private int _limitlvl;
         private bool _fury = false;
         private bool _sadness = false;
-        //private bool _death = false;
         private List<Element> _halve;
         private List<Element> _void;
         private List<Element> _absorb;
         private List<Status> _immune;
-        private string _name;
         private Sex _sex;
         private int _exp;
         
@@ -225,7 +222,7 @@ namespace Atmosphere.Reverence.Seven
             _immune = new List<Status>();
 
                        
-            _name = savexml.Name;
+            Name = savexml.Name;
 
             
             // Stats
@@ -246,7 +243,7 @@ namespace Atmosphere.Reverence.Seven
             _maxhp = Int32.Parse(savexml.SelectSingleNode("./maxhp").InnerText);
             if (_hp > _maxhp)
             {
-                throw new SaveStateException("HP > MAXHP for " + _name);
+                throw new SaveStateException("HP > MAXHP for " + Name);
             }
             //_death = (_hp == 0);
             
@@ -255,7 +252,7 @@ namespace Atmosphere.Reverence.Seven
             _maxmp = Int32.Parse(savexml.SelectSingleNode("./maxmp").InnerText);
             if (_mp > _maxmp)
             {
-                throw new SaveStateException("MP > MAXMP for " + _name);
+                throw new SaveStateException("MP > MAXMP for " + Name);
             }
             
             // Fury/Sadness
@@ -270,9 +267,6 @@ namespace Atmosphere.Reverence.Seven
             _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("./sex").InnerText);
             
             // Equipment
-            _weaponType = (WeaponType)Enum.Parse(typeof(WeaponType), _name.Replace(" ", ""));
-            XmlNode no = savexml.SelectSingleNode("./weapon/name");
-            
             _weapon = Weapon.Get(savexml.SelectSingleNode("./weapon/name").InnerText);
 
             foreach (XmlNode orb in savexml.SelectNodes("./weapon/materia/orb"))
@@ -291,7 +285,7 @@ namespace Atmosphere.Reverence.Seven
             
             _armor = Armor.Get(savexml.SelectSingleNode("./armor/name").InnerText);
 
-            foreach (XmlNode orb in savexml.SelectNodes("//armor/materia/orb"))
+            foreach (XmlNode orb in savexml.SelectNodes("./armor/materia/orb"))
             {
                 string id = orb.Attributes["id"].Value;
                 MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
@@ -328,8 +322,8 @@ namespace Atmosphere.Reverence.Seven
             InitTable(ref _stat_ranks, dataxml.SelectSingleNode("./ranks").InnerText, ',');
 
 
-            Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + _name.ToLower() + ".jpg");
-            ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + _name.ToLower() + ".jpg");
+            Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + Name.ToLower() + ".jpg");
+            ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + Name.ToLower() + ".jpg");
         }
         
         
@@ -338,7 +332,7 @@ namespace Atmosphere.Reverence.Seven
         public override string ToString()
         {
             StringBuilder b = new StringBuilder();
-            b.AppendLine(String.Format("Name: {0}", _name));
+            b.AppendLine(String.Format("Name: {0}", Name));
             b.AppendLine(String.Format("\tLevel: {0}", _level.ToString()));
             b.AppendLine(String.Format("\tExperience: {0}", _exp));
             b.AppendLine(String.Format("\tHP: {0}", _maxhp));
@@ -674,57 +668,86 @@ namespace Atmosphere.Reverence.Seven
         
         public bool InflictFury()
         {
-            if (_fury)
+            bool inflicted = false;
+            
+            if (!_fury)
             {
-                return false;
+                _sadness = false;
+                _fury = true;
+                inflicted = true;
             }
-            _sadness = false;
-            _fury = true;
-            return true;
+            
+            return inflicted;
         }
 
         public bool InflictSadness()
         {
-            if (_sadness)
+            bool inflicted = false;
+            
+            if (!_sadness)
             {
-                return false;
+                _fury = false;
+                _sadness = true;
+                inflicted = true;
             }
-            _fury = false;
-            _sadness = true;
-            return true;
+            
+            return inflicted;
         }
 
         public bool InflictDeath()
         {
-            if (Death)
+            bool inflicted = false;
+
+            if (!Death)
             {
-                return false;
+                Kill();
+                inflicted = true;
             }
-
-            Kill();
-
-            return true;
+            
+            return inflicted;
         }
 
         public bool CureFury()
         {
-            if (!_fury)
+            bool cured = false;
+            
+            if (_fury)
             {
-                return false;
+                _fury = false;
+                cured = true;
             }
-            _fury = false;
-            return true;
+            
+            return cured;
         }
 
         public bool CureSadness()
         {
-            if (!_sadness)
+            bool cured = false;
+            
+            if (_sadness)
             {
-                return false;
+                _sadness = false;
+                cured = true;
             }
+            
             _sadness = false;
-            return true;
+            
+            return cured;
         }
+        
+        public bool CureDeath()
+        {
+            bool cured = false;
+
+            if (Death)
+            {
+                Death = false;
+                cured = true;
+            }
+
+            return cured;
+        }
+
 
 //        public bool CureDeath()
 //        {
@@ -744,25 +767,16 @@ namespace Atmosphere.Reverence.Seven
         public void AddHalve(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _halve.Add(i);
+            }
         }
-
-        public void AddHalve(Element e)
-        {
-            _halve.Add(e);
-        }
-
         public void AddVoid(params Element[] e)
         {
             foreach (Element i in e)
             {
                 _void.Add(i);
             }
-        }
-
-        public void AddVoid(Element e)
-        {
-            _void.Add(e);
         }
 
         public void AddAbsorb(params Element[] e)
@@ -773,11 +787,6 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
-        public void AddAbsorb(Element e)
-        {
-            _absorb.Add(e);
-        }
-
         public void AddImmunity(Status s)
         {
             _immune.Add(s);
@@ -786,34 +795,25 @@ namespace Atmosphere.Reverence.Seven
         public void RemoveHalve(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _halve.Remove(i);
-        }
-
-        public void RemoveHalve(Element e)
-        {
-            _halve.Remove(e);
+            }
         }
 
         public void RemoveVoid(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _void.Remove(i);
-        }
-
-        public void RemoveVoid(Element e)
-        {
-            _void.Remove(e);
+            }
         }
 
         public void RemoveAbsorb(params Element[] e)
         {
             foreach (Element i in e)
+            {
                 _absorb.Remove(i);
-        }
-
-        public void RemoveAbsorb(Element e)
-        {
-            _absorb.Remove(e);
+            }
         }
 
         public void RemoveImmunity(Status s)
@@ -829,10 +829,13 @@ namespace Atmosphere.Reverence.Seven
         public bool Halves(params Element[] e)
         {
             foreach (Element d in e)
+            {
                 if (_halve.Contains(d))
                 {
                     return true;
                 }
+            }
+
             return false;
         }
 
@@ -1144,7 +1147,7 @@ namespace Atmosphere.Reverence.Seven
 
         public IEnumerable<MateriaBase> Materia { get { return Weapon.Slots.Union(Armor.Slots); } }
         
-        public string Name { get { return _name; } }
+        public string Name { get; private set; }
 
         public Sex Sex { get { return _sex; } }
         

@@ -10,21 +10,12 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal static class Formula
     {
-        public static void PhysicalAttack(int power, Combatant source, Combatant target)
+        public static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, Element[] elements)
         {
             bool restorative = false;
 
-            Element[] elements = new Element[0];
 
-            if (source is Ally)
-            {
-                Ally ally = (Ally)source;
-
-                elements = new Element[] { ally.Weapon.Element };
-            }
-
-
-            if (!PhysicalHit(source, target, elements))
+            if (!PhysicalHit(atkp, source, target, elements))
             {
                 return;
             }
@@ -97,7 +88,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return (power * (512 - ee.Def) * bd) / (16 * 512);
         }
 
-        public static bool PhysicalHit(Combatant source, Combatant target, Element[] elements)
+        public static bool PhysicalHit(int atkp, Combatant source, Combatant target, Element[] elements)
         {
             int hitp;
 
@@ -116,9 +107,10 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             else
             {
-                hitp = (source.Dexterity / 4) //+ state.HitP) 
+                hitp = (source.Dexterity / 4) + atkp
                     + source.Defp
                     - target.Defp;
+
                 if (source.Fury)
                 {
                     hitp = hitp - hitp * 3 / 10;

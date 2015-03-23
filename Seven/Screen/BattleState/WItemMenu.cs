@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
         }
 
-        public void ActOnSelection()
+        public override void ActOnSelection()
         {
             if (_first != -1)
             {

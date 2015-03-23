@@ -44,9 +44,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         protected long _seizureTimeInt = -1;
         protected long _seizureTimeEnd = -1;
 
-        
-        protected System.Threading.Thread _confuThread;
-        protected System.Threading.Thread _berserkThread;
 
         
         
@@ -65,9 +62,28 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
         public virtual void Sense() { }
-        
-        protected abstract void ConfuAI();
-        protected abstract void BerserkAI();
+
+
+
+        public void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements)
+        {
+            BattleEvent e = new BattleEvent(this, () => Formula.PhysicalAttack(power, atkp, this, target, elements));
+
+            string msg = " attacks";
+
+            if (Confusion)
+            {
+                msg += " (confused)";
+            }
+            else if (Berserk)
+            {
+                msg += " (berserk)";
+            }
+
+            e.Dialogue = c => Name + msg;
+
+            Seven.BattleState.EnqueueAction(e);
+        }
         
         public void CheckTimers()
         {
@@ -200,7 +216,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         #endregion Inflict
         
         #region Cure
-        //public abstract bool CureDeath();
+        public abstract bool CureDeath();
         public abstract bool CureFury();
         public abstract bool CureSadness();
         public bool CureSleep()
@@ -220,10 +236,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureConfusion()
         {
             Confusion = false;
-            if (_confuThread != null && _confuThread.IsAlive)
-                _confuThread.Abort();
-            if (_confuThread != null)
-                _confuThread = null;
             return true;
         }
         public bool CureSilence()
@@ -320,10 +332,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureBerserk()
         {
             Berserk = false;
-            if (_berserkThread != null && _berserkThread.IsAlive)
-                _berserkThread.Abort();
-            if (_berserkThread != null)
-                _berserkThread = null;
             return true;
         }
         public bool CurePeerless()
@@ -450,8 +458,19 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Clock C_Timer { get; protected set; } 
         public Clock V_Timer { get; protected set; } 
         public Timer TurnTimer { get; protected set; } 
-        
-        public bool WaitingToResolve { get; set; }
+
+        private bool _waiting;
+        public bool WaitingToResolve
+        { 
+            get
+            {
+                return _waiting;
+            }
+            set
+            {
+                _waiting = value;
+            }
+        }
         
         public int X { get { return _x; } }
         public int Y { get { return _y; } }

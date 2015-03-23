@@ -165,7 +165,7 @@ namespace Atmosphere.Reverence.Seven
         {
             do
             {
-                _selectionIndex = (_selectionIndex + 1) % 3;
+                _selectionIndex = (_selectionIndex + 1) % PARTY_SIZE;
             } while (_party[_selectionIndex] == null);
         }
 
@@ -173,7 +173,7 @@ namespace Atmosphere.Reverence.Seven
         {
             do
             {
-                _selectionIndex = (_selectionIndex + 2) % 3;
+                _selectionIndex = (_selectionIndex + 2) % PARTY_SIZE;
             } while (_party[_selectionIndex] == null);
         }
 
@@ -260,6 +260,8 @@ namespace Atmosphere.Reverence.Seven
         public int Gil { get; set; }
 
         public Random Random { get; private set; }
+
+        public int Size { get { return PARTY_SIZE; } }
 
         
         /// <summary>If set to Clock.TICKS_PER_MS, realtime; if less, faster; if greater, slower</summary>

@@ -33,7 +33,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
         protected override void DrawContents(Gdk.Drawable d)
         {
-            Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
 
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
@@ -43,15 +42,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             #region Left
             
-            string str, vit, dex, mag, spi, lck;
+//            string str, vit, dex, mag, spi, lck;
             int atk, atkp, def, defp, mat, mdf, mdfp;
             
-            str = Seven.Party.Selected.Strength.ToString();
-            vit = Seven.Party.Selected.Vitality.ToString();
-            dex = Seven.Party.Selected.Dexterity.ToString();
-            mag = Seven.Party.Selected.Magic.ToString();
-            spi = Seven.Party.Selected.Spirit.ToString();
-            lck = Seven.Party.Selected.Luck.ToString();
+//            str = Seven.Party.Selected.Strength.ToString();
+//            vit = Seven.Party.Selected.Vitality.ToString();
+//            dex = Seven.Party.Selected.Dexterity.ToString();
+//            mag = Seven.Party.Selected.Magic.ToString();
+//            spi = Seven.Party.Selected.Spirit.ToString();
+//            lck = Seven.Party.Selected.Luck.ToString();
             
             atk = Ally.Attack(Seven.Party.Selected);
             atkp = Ally.AttackPercent(Seven.Party.Selected);

@@ -36,7 +36,37 @@
             <item id="carbonbangle" type="armor" chance="8"/>
         </steal>
         <morph/>
+        <attacks>
+            <attack id="Verbal Attack">
+                <type>Physical</type>
+                <power>16</power>
+                <atkp>100</atkp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <visible>false</visible>
+            </attack>
+            <attack id="Speed Slash">
+                <type>Physical</type>
+                <power>29</power>
+                <atkp>85</atkp>
+                <target>Combatant</target>
+                <element>Cut</element>
+            </attack>
+        </attacks>
+        <ai>
+            <main>
+                a = chooseRandomAlly()
+                i = math.random(3)
+                
+                if i == 3 then
+                    self:UseAttack("Speed Slash", a)
+                else
+                    self:UseAttack("Verbal Attack", a)
+                end                
+            </main>
+        </ai>
     </enemy>
+    <!--
     <enemy>
         <name>Soldier:3rd</name>
         <lvl>13</lvl>
@@ -125,4 +155,5 @@
         </steal>
         <morph id="remedy" type="item" />
     </enemy>
+    -->
 </enemies>

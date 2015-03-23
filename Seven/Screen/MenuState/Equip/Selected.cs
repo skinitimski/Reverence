@@ -45,7 +45,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         
         protected override void DrawContents(Gdk.Drawable d)
         {
-            Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);

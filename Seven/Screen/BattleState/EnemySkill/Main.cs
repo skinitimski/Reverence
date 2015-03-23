@@ -146,7 +146,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         
         public override string Info
         { get { return String.IsNullOrEmpty(_spells[_yopt, _xopt].ID) ? "" : _spells[_yopt, _xopt].Desc; } }
-        public new Spell Selected { get { return _spells[_yopt, _xopt]; } }
+        public Spell Selected { get { return _spells[_yopt, _xopt]; } }
     }
 }
 

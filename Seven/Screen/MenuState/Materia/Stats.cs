@@ -67,9 +67,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 Cairo.Color yellow = COLOR_TEXT_YELLOW;
                 Cairo.Color red = COLOR_TEXT_RED;
                 Cairo.Color gray = new Color(.4, .4, .4);
-                Cairo.Color white = Colors.WHITE;
-                
-                
+                                
                 if (orb.ID == "enemyskill")
                 {
                     EnemySkillMateria esm = (EnemySkillMateria)orb;

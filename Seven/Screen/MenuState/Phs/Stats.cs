@@ -73,12 +73,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
-
-
 
             
             if (Seven.Party[0] != null)
@@ -94,9 +88,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             if (Seven.Party[2] != null)
             {
                 DrawCharacterStatus(d, gc, g, Seven.Party[2], y2);
-            }
-
-            
+            }            
 
             if (IsControl)
             {
@@ -106,6 +98,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             {
                 Shapes.RenderBlinkingCursor(g, X + cx, Y + cy);
             }
+
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();

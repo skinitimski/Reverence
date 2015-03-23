@@ -145,8 +145,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
-            TextExtents te;
-
 
             int j = Math.Min(_visibleRows + _topRow, _totalRows);
 
@@ -156,7 +154,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     X + x1,
                     Y + (b - _topRow + 1) * ys);
             }
-
 
             if (IsControl)
             {

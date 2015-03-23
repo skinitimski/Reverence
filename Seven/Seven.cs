@@ -37,12 +37,13 @@ namespace Atmosphere.Reverence.Seven
         {
             LuaEnvironment.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
+            LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
             LuaEnvironment.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
         }
 
         protected override void Init()
         {
-            LuaEnvironment["Seven"] = this;
+            LuaEnvironment[typeof(Seven).Name] = this;
             Weapon.LoadWeapons();
             Armor.LoadArmor();
             Accessory.LoadAccessories();
@@ -84,16 +85,18 @@ namespace Atmosphere.Reverence.Seven
 
             _menuState = new MenuState();
             _menuState.Init();
-//
-//            SetState(_menuState);
 
-            BeginBattle();
+            SetState(_menuState);
+
+            //BeginBattle();
         }
         
         public void BeginBattle()
         {
             _battleState = new BattleState();
             _battleState.Init();
+
+            LuaEnvironment[typeof(BattleState).Name] = _battleState;
             
             SetState(_battleState);
         }

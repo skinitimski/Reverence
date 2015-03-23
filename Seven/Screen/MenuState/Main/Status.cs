@@ -167,13 +167,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             
             g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
-            
+                      
 
-            
             if (Seven.Party[0] != null)
             {
                 DrawCharacterStatus(d, gc, g, Seven.Party[0], y0);

@@ -262,7 +262,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         public override string Info
         { get { return _spells[_yopt, _xopt] == null ? "" : _spells[_yopt, _xopt].Spell.Desc; } }
 
-        public new MagicSpell Selected { get { return _spells[_yopt, _xopt]; } }
+        public MagicSpell Selected { get { return _spells[_yopt, _xopt]; } }
     }
 
 

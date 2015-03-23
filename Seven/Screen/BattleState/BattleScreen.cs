@@ -232,8 +232,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         }
         public void DisableActionHook()
         {
-            RunActionHook = false;
-            _runClear = false;
+            DisableActionHook(false);
         }
         
         public bool RunClearControl

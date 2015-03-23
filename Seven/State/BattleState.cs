@@ -47,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.State
             _turnQueue = new Queue<Ally>();
             _damageIcons = new Queue<DamageIcon>();
             
-            AbilityQueue = new Queue<BattleEvent>();
+            EventQueue = new Queue<BattleEvent>();
 
             Random = new Random();
             
@@ -81,18 +81,14 @@ namespace Atmosphere.Reverence.Seven.State
             }
             
             
-            int numberOfEnemies = 1;//Game.Random.Next(1, 3);
+            //int numberOfEnemies = 1;
+            //Game.Random.Next(1, 3);
             //EnemyList = new List<Enemy>(numberOfEnemies);
             //for (int i = 0; i < numberOfEnemies; i++)
             //    EnemyList.Add(Enemy.GetRandomEnemy(Game.Random.Next(100, 250), Game.Random.Next(100, 300)));
             
             EnemyList = new List<Enemy>();
             EnemyList.Add(Enemy.CreateEnemy("mothslasher", 100, 100));
-           
-            foreach (Enemy e in EnemyList)
-            {
-                e.AIThread.Start();
-            }
         }
         
         private bool IsReady(Ally a)
@@ -115,9 +111,11 @@ namespace Atmosphere.Reverence.Seven.State
         {
             SetControl();
             
-            CheckAbilityQueue();
+            CheckEventQueue();
             
             CheckCombatantTimers();
+
+            CheckEnemyTurnTimers();
             
             CheckDamageIcons();
             
@@ -130,7 +128,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             if (CheckForLoss())
             {
-
+                Seven.Instance.LoseGame();
             }
         }
         
@@ -146,11 +144,22 @@ namespace Atmosphere.Reverence.Seven.State
             }
             
             // Check turn timers and enqueue if up
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
                 if (IsReady(Allies[i]))
                 {
-                    _turnQueue.Enqueue(Allies[i]);
+                    if (Allies[i].Confusion)
+                    {
+                        Allies[i].RunAIConfu();
+                    }
+                    else if (Allies[i].Berserk)
+                    {
+                        Allies[i].RunAIBerserk();
+                    }
+                    else
+                    {
+                        _turnQueue.Enqueue(Allies[i]);
+                    }
                 }
             }
             
@@ -165,9 +174,9 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
         
-        private void CheckAbilityQueue()
+        private void CheckEventQueue()
         {
-            lock (AbilityQueue)
+            lock (EventQueue)
             {
                 // If the current ability is done, clear it
                 if (AbilityThread != null && !AbilityThread.IsAlive)
@@ -186,9 +195,9 @@ namespace Atmosphere.Reverence.Seven.State
                 }
 
                 // Dequeue next ability if none is in progress
-                if (AbilityThread == null && AbilityQueue.Count > 0)
+                if (AbilityThread == null && EventQueue.Count > 0)
                 {
-                    ActiveAbility = AbilityQueue.Dequeue();
+                    ActiveAbility = EventQueue.Dequeue();
                     AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
                     AbilityThread.Start();
                 }
@@ -211,20 +220,30 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
         
+        private void CheckEnemyTurnTimers()
+        {
+            foreach (Enemy e in EnemyList)
+            {
+                if (e.TurnTimer.IsUp && !e.WaitingToResolve)
+                {
+                    e.WaitingToResolve = true;
+                    e.RunAIMain();
+                }
+            }
+        }
+        
         private void CheckDamageIcons()
         {
-            while (true)
+            if (_damageIcons.Count > 0)
             {
                 DamageIcon icon = _damageIcons.Peek();
 
-                if (icon.IsDone) 
+                if (icon.IsDone)
                 {
                     _damageIcons.Dequeue();
                 }
-                else
-                {
-                    break;
-                }
+
+                // don't loop over all of them...just get it the next iteration
             }
         }
         
@@ -264,16 +283,14 @@ namespace Atmosphere.Reverence.Seven.State
         
         public void EnqueueAction(BattleEvent a)
         {
-            lock (AbilityQueue)
+            lock (EventQueue)
             {
-                AbilityQueue.Enqueue(a);
-
-                a.Source.WaitingToResolve = true;
+                EventQueue.Enqueue(a);
 
 #if DEBUG
                 Console.WriteLine("Added ability to Queue. Current queue state:");
 
-                foreach (BattleEvent s in AbilityQueue)
+                foreach (BattleEvent s in EventQueue)
                 {
                     Console.WriteLine(s.ToString());
                 }
@@ -418,6 +435,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         public void ActionHook()
         {
+            Commanding.WaitingToResolve = true;
             ClearControl();
         }
         public void ActionAbort()
@@ -469,7 +487,7 @@ namespace Atmosphere.Reverence.Seven.State
 
         public Random Random { get; private set; }
 
-        public Queue<BattleEvent> AbilityQueue { get; private set; }
+        public Queue<BattleEvent> EventQueue { get; private set; }
         
         #endregion Properties
         

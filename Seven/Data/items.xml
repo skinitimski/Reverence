@@ -119,7 +119,7 @@
         <field target="Party">
             <canUse>return canPartyHeal(p)</canUse>
             <use>
-                for i = 0,2 do
+                for i = 0, p.Size - 1 do
                     if p[i] ~= nil and not p[i].Death 
                     then
                         p[i].HP = p[i].MaxHP  
@@ -130,8 +130,7 @@
         </field>
         <battle target="Group">
             <use>
-                j = c.Length
-                for i = 0,j do
+                for i = 0, #c do
                     if c[i] ~= nil and not c[i].Death 
                     then
                         c[i].HP = c[i].HP + c[i].MaxHP  
@@ -146,10 +145,16 @@
         <desc>Restores life</desc>
         <field target="Character">
             <canUse>return c.Death</canUse>
-            <use>c.HP = c.MaxHP / 10</use>
+            <use>
+                c:CureDeath()
+                c.HP = c.MaxHP / 10
+            </use>
         </field>
         <battle target="Combatant">
-            <use>c:CureDeath()</use>
+            <use>
+                c:CureDeath()
+                c.HP = c.MaxHP / 10
+            </use>
         </battle>
     </item>
     <item>
