@@ -33,7 +33,7 @@ namespace Atmosphere.Reverence
         
         private class InitialState : State
         {
-            public const int TIMEOUT_MS = 2000;
+            public const int TIMEOUT_MS = 500;
             private const int HALF_TIMEOUT_MS = TIMEOUT_MS / 2;
 
             private Time.Timer _timer;
@@ -67,7 +67,6 @@ namespace Atmosphere.Reverence
             {                
                 Gdk.GC gc = new Gdk.GC(d);
                 Cairo.Context g = Gdk.CairoHelper.Create(d);
-
 
                 g.MoveTo(0, 0);
                 g.LineTo(width, 0);
@@ -227,7 +226,7 @@ namespace Atmosphere.Reverence
         [GdkMethod()]
         private void OnWinDelete(object o, DeleteEventArgs args)
         {
-            Application.Quit();
+            _quit = true;
         }
         
         [GdkMethod()]
