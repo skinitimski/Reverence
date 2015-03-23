@@ -165,7 +165,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 catch (Exception e)
                 {
-                    throw new ImplementationException("Error calling field script; id = " + ID);
+                    throw new ImplementationException("Error calling field script; id = " + ID, e);
                 }
                 
                 return canUse;
@@ -189,15 +189,15 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     switch (BattleUsage.Target)
                     {
-                        case TargetType.AllTar:
-                        case TargetType.AllTarNS:
+                        case TargetType.Group:
+                        case TargetType.GroupNS:
                         //case TargetType.NTar:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
                             break;
                         case TargetType.Area:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
                             break;
-                        case TargetType.OneTar:
+                        case TargetType.Combatant:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected.First());
                             break;
                         default: break;
@@ -205,7 +205,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 catch (Exception e)
                 {
-                    throw new ImplementationException("Error calling battle script; id = " + ID);
+                    throw new ImplementationException("Error calling battle script; id = " + ID, e);
                 }
             }
             else

@@ -7,7 +7,7 @@
             <canUse>return true</canUse>
             <use>c.HP = 0 c.MP = 0</use>
         </field>
-        <battle target="OneTar">
+        <battle target="Combatant">
             <use>c:InflictDeath()</use>
         </battle>
     </item>
@@ -18,6 +18,9 @@
             <canUse>return not (c.Death or c.HPFull)</canUse>
             <use>c.HP = c.HP + 100</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptDamage(-100) end</use>
+        </battle>
         <!--
         <field>
             function ()
@@ -44,6 +47,9 @@
             <canUse>return not (c.Death or c.HPFull)</canUse>
             <use>c.HP = c.HP + 500</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptDamage(-500) end</use>
+        </battle>
         <!--
         <field>
             function ()
@@ -70,6 +76,9 @@
             <canUse>return not (c.Death or c.HPFull)</canUse>
             <use>c.HP = c.MaxHP</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptDamage(-c.MaxHP) end</use>
+        </battle>
     </item>
     <item>
         <name>Ether</name>
@@ -78,6 +87,9 @@
             <canUse>return not (c.Death or c.MPFull)</canUse>
             <use>c.MP = c.MP + 100</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptMPLoss(-100) end</use>
+        </battle>
     </item>
     <item>
         <name>Turbo Ether</name>
@@ -86,6 +98,9 @@
             <canUse>return not (c.Death or c.MPFull)</canUse>
             <use>c.MP = c.MaxMP</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptMPLoss(-c.MaxMP) end</use>
+        </battle>
     </item>
     <item>
         <name>Elixir</name>
@@ -94,6 +109,9 @@
             <canUse>return not (c.Death or (c.MPFull and c.HPFull))</canUse>
             <use>c.HP = c.MaxHP c.MP = c.MaxMP</use>
         </field>
+        <battle target="Combatant">
+            <use>if not c.Death then c:AcceptDamage(-c.MaxHP); c:AcceptMPLoss(-c.MaxMP) end</use>
+        </battle>
     </item>
     <item>
         <name>Megalixir</name>
@@ -102,7 +120,7 @@
             <canUse>return canPartyHeal(p)</canUse>
             <use>
                 for i = 0,2 do
-                    if p ~= nil and not p[i].Death 
+                    if p[i] ~= nil and not p[i].Death 
                     then
                         p[i].HP = p[i].MaxHP  
                         p[i].MP = p[i].MaxMP
@@ -110,6 +128,18 @@
                 end            
             </use>
         </field>
+        <battle target="Group">
+            <use>
+                j = c.Length
+                for i = 0,j do
+                    if c[i] ~= nil and not c[i].Death 
+                    then
+                        c[i].HP = c[i].HP + c[i].MaxHP  
+                        c[i].MP = c[i].MP + c[i].MaxMP
+                    end
+                end  
+            </use>
+        </battle>
     </item>
     <item>
         <name>Phoenix Down</name>
@@ -118,6 +148,9 @@
             <canUse>return c.Death</canUse>
             <use>c.HP = c.MaxHP / 10</use>
         </field>
+        <battle target="Combatant">
+            <use>c:CureDeath()</use>
+        </battle>
     </item>
     <item>
         <name>Tent</name>
@@ -126,7 +159,7 @@
             <canUse>return canPartyHeal(p)</canUse>
             <use>
                 for i = 0,2 do
-                    if p ~= nil and not p[i].Death 
+                    if p[i] ~= nil and not p[i].Death 
                     then
                         p[i].HP = p[i].MaxHP  
                         p[i].MP = p[i].MaxMP
@@ -142,6 +175,9 @@
             <canUse>return not c.Death and not c.Fury</canUse>
             <use>if c.Sadness then c:CureSadness() else c:InflictFury() end</use>
         </field>
+        <battle target="Combatant">
+            <use>c:InflictFury()</use>
+        </battle>
     </item>
     <item>
         <name>Tranquilizer</name>
@@ -150,6 +186,9 @@
             <canUse>return not c.Death and not c.Sadness</canUse>
             <use>if c.Fury then c:CureFury() else c:InflictSadness() end</use>
         </field>
+        <battle target="Combatant">
+            <use>c:InflictSadness()</use>
+        </battle>
     </item>
     <item>
         <name>Power Source</name>
@@ -202,8 +241,8 @@
     <item>
         <name>Loco Weed</name>
         <desc>Inflicts [Confu]</desc>
-        <battle target="OneTar">
-            <use>c.InflictConfusion()</use>
+        <battle target="Combatant">
+            <use>c:InflictConfusion()</use>
         </battle>
     </item>
     <item>
@@ -217,15 +256,15 @@
     <item>
         <name>Vagyrisk Claw</name>
         <desc>Inflicts [Petrify]</desc>
-        <battle target="OneTar">
-            <use>c.InflictPetrify()</use>
+        <battle target="Combatant">
+            <use>c:InflictPetrify()</use>
         </battle>
     </item>
     <item>
         <name>Soft</name>
         <desc>Cures [Petrify]</desc>
-        <battle target="OneTar">
-            <use>c.CurePetrify()</use>
+        <battle target="Combatant">
+            <use>c:CurePetrify()</use>
         </battle>
     </item>
 </items>

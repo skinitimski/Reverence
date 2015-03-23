@@ -7,6 +7,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.XPath;
 
+using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
@@ -217,28 +219,51 @@ namespace Atmosphere.Reverence.Seven.Battle
             return ap;
         }
         
-        
+
         
         #region Methods
         
-        public override void AcceptDamage(Combatant attacker, AttackType type, int delta)
+        public override void AcceptDamage(int delta, AttackType type = AttackType.None)
         {
+            Seven.BattleState.AddDamageIcon(delta, this);
+
             // limit shtuff goes here
             
             if (type == AttackType.Physical)
             {
                 if (Sleep)
+                {
                     CureSleep();
+                }
                 if (Confusion)
+                {
                     CureConfusion();
+                }
             }
             
             
             _c.HP -= delta;
-            if (_c.HP < 0)
-                _c.HP = 0;
+
             if (_c.HP == 0)
-                InflictDeath();
+            {
+                _c.Kill();
+            }
+        }
+        
+        public override void AcceptMPLoss(int delta)
+        {
+            Seven.BattleState.AddDamageIcon(delta, this, true);
+
+            _c.MP -= delta;
+        }
+        
+        public override void UseMP(int amount)
+        {
+            if (_c.MP - amount < 0)
+            {
+                throw new ImplementationException("Used more MP than I had -- " + Name);
+            }
+            _c.MP -= amount;
         }
         
         public override string ToString()
@@ -251,23 +276,23 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Draw(Cairo.Context g)
         {
+            Cairo.Color iconColor = Colors.GRAY_8;
+
             if (Sleep)
             {
-                g.Color = new Cairo.Color(.05, .4, .05);
+                iconColor = new Cairo.Color(.05, .4, .05);
             }
             else if (Poison)
             {
-                g.Color = new Cairo.Color(0, 1, .4);
-            }
-            else
-            {
-                g.Color = new Cairo.Color(1, 1, 1);
+                iconColor = new Cairo.Color(0, 1, .4);
             }
 
-            g.Rectangle(X, Y, 20, 20);
+            int iconSize = 20;
+
+            g.Color = iconColor;
+            g.Rectangle(X - iconSize / 2, Y- iconSize / 2, iconSize, iconSize);
             g.Fill();
         }
-        
         
         #endregion Methods
         
@@ -294,15 +319,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                     int bd = Formula.PhysicalBase(this);
                     int dam = Formula.PhysicalDamage(bd, 16, attackee);
                     
-//                    _abilityState.LongRange = LongRange;
-//                    _abilityState.QuadraMagic = false;
-//                    _abilityState.Type = AttackType.Physical;
-//                    _abilityState.Performer = this;
-//                    _abilityState.Target = new Combatant[1];
-//                    _abilityState.Target[0] = attackee;
-//                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
-//                    
-//                    Seven.BattleState.EnqueueAction(_abilityState);
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
+                    
+                    e.Dialogue = c => Name + " attacks (confused)";
+                    
+                    Seven.BattleState.EnqueueAction(e);
                 }
                 else 
                 {
@@ -324,16 +345,12 @@ namespace Atmosphere.Reverence.Seven.Battle
                     
                     int bd = Formula.PhysicalBase(this);
                     int dam = Formula.PhysicalDamage(bd, 16, attackee);
+                                        
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
                     
-//                    _abilityState.LongRange = LongRange;
-//                    _abilityState.QuadraMagic = false;
-//                    _abilityState.Type = AttackType.Physical;
-//                    _abilityState.Performer = this;
-//                    _abilityState.Target = new Combatant[1];
-//                    _abilityState.Target[0] = attackee;
-//                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
-//                    
-//                    Seven.BattleState.EnqueueAction(_abilityState);
+                    e.Dialogue = c => Name + " attacks (berserk)";
+                    
+                    Seven.BattleState.EnqueueAction(e);
                 }
                 else
                 {
@@ -770,7 +787,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override int Level { get { return _c.Level; } }
         
         public override int HP { get { return _c.HP; } }
-        public override int MP { get { return _c.MP; } set { _c.MP = value; } }
+        public override int MP { get { return _c.MP; } }
         public override int MaxHP { get { return _c.MaxHP; } }
         public override int MaxMP { get { return _c.MaxMP; } }
         

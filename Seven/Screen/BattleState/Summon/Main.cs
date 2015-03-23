@@ -99,7 +99,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             if (_first != -1 || !_wsummon)
             {
-                Seven.BattleState.Commanding.MP -= _summons[_option].Spell.Cost;
+                Seven.BattleState.Commanding.UseMP(_summons[_option].Spell.Cost);
 
                 #region First
 

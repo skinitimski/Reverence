@@ -112,6 +112,21 @@ namespace Atmosphere.Reverence.Seven
             
             SetState(_postBattleState);
         }
+
+        public void LoseGame()
+        {
+            if (State != _battleState)
+            {
+                throw new ImplementationException("I don't think you can lose the game outside of battle.");
+            }
+            
+            _battleState.Dispose();
+
+            LossState loss = new LossState();
+            loss.Init();
+            
+            SetState(loss);
+        }
         
         public void EndPostBattle()
         {

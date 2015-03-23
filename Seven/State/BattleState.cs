@@ -28,7 +28,8 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         #region Member Data
-
+        
+        private Queue<DamageIcon> _damageIcons;
 
         private Queue<Ally> _turnQueue;
         
@@ -44,6 +45,7 @@ namespace Atmosphere.Reverence.Seven.State
             Screen = new BattleScreen();
 
             _turnQueue = new Queue<Ally>();
+            _damageIcons = new Queue<DamageIcon>();
             
             AbilityQueue = new Queue<BattleEvent>();
 
@@ -62,11 +64,11 @@ namespace Atmosphere.Reverence.Seven.State
             
             if (Seven.Party[0] != null)
             {
-                Allies[0] = new Ally(Seven.Party[0], 550, 100, 2000);
+                Allies[0] = new Ally(Seven.Party[0], 550, 125, 2000);
             }
             if (Seven.Party[1] != null)
             {
-                Allies[1] = new Ally(Seven.Party[1], 580, 200, 2500);
+                Allies[1] = new Ally(Seven.Party[1], 580, 212, 2500);
             }
             if (Seven.Party[2] != null)
             {
@@ -117,11 +119,18 @@ namespace Atmosphere.Reverence.Seven.State
             
             CheckCombatantTimers();
             
+            CheckDamageIcons();
+            
             ClearDeadEnemies();
             
             if (CheckForVictory())
             {
                 Seven.Instance.EndBattle();
+            }
+
+            if (CheckForLoss())
+            {
+
             }
         }
         
@@ -195,10 +204,27 @@ namespace Atmosphere.Reverence.Seven.State
                     a.CheckTimers();
                 }
             }
-
+            
             foreach (Combatant e in EnemyList)
             {
                 e.CheckTimers();
+            }
+        }
+        
+        private void CheckDamageIcons()
+        {
+            while (true)
+            {
+                DamageIcon icon = _damageIcons.Peek();
+
+                if (icon.IsDone) 
+                {
+                    _damageIcons.Dequeue();
+                }
+                else
+                {
+                    break;
+                }
             }
         }
         
@@ -226,6 +252,11 @@ namespace Atmosphere.Reverence.Seven.State
         {
             return EnemyList.Count == 0;
         }
+
+        private bool CheckForLoss()
+        {
+            return !Allies.Any(a => !a.IsDead);
+        }
         
         
         
@@ -248,6 +279,13 @@ namespace Atmosphere.Reverence.Seven.State
                 }
 #endif
             }
+        }
+
+        public void AddDamageIcon(int amount, Combatant receiver, bool mp = false)
+        {
+            DamageIcon icon = new DamageIcon(amount, receiver, mp);
+
+            _damageIcons.Enqueue(icon);
         }
         
         
@@ -313,6 +351,11 @@ namespace Atmosphere.Reverence.Seven.State
             if (Commanding != null)
             {
                 Shapes.RenderCursor(g, new Cairo.Color(.8, .8, 0), Commanding.X, Commanding.Y - 15);
+            }
+
+            foreach (DamageIcon icon in _damageIcons)
+            {
+                icon.Draw(d);
             }
 
             ((IDisposable)g.Target).Dispose();

@@ -19,8 +19,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         const int y0 = 50;
         const int y1 = 100;
         
-        const int xpic = 15;
-        const int ypic = 15;
+        const int xpic = 4;
+        const int ypic = 4;
         
 #endregion
         

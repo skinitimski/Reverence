@@ -74,6 +74,7 @@
     <Folder Include="Screen\PostBattleState\Hoard\" />
     <Folder Include="Screen\PostBattleState\Victory\" />
     <Folder Include="Screen\InitialState\" />
+    <Folder Include="Screen\LossState\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -184,6 +185,9 @@
     <Compile Include="Screen\PostBattleState\Victory\Info.cs" />
     <Compile Include="Screen\InitialState\Prompt.cs" />
     <Compile Include="Screen\BattleState\Selector\ISelectorUser.cs" />
+    <Compile Include="Screen\BattleState\DamageIcon.cs" />
+    <Compile Include="State\LossState.cs" />
+    <Compile Include="Screen\LossState\Prompt.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

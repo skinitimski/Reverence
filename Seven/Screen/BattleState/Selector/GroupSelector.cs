@@ -28,7 +28,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                         if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
                     {
                         Seven.BattleState.Screen.PopControl();
-                        Seven.BattleState.Screen.Type = TargetType.OneTar;
+                        Seven.BattleState.Screen.Type = TargetType.Combatant;
                         Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.TargetSelector);
                     }
                     break;

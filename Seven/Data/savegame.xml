@@ -288,10 +288,8 @@
     </characters>
     <party>
         <slot0>Cloud</slot0>
-        <!--
         <slot1>Tifa</slot1>
         <slot2>Aeris</slot2>
-        -->
         <reserve>Barret</reserve>
         <reserve>RedXIII</reserve>
         <reserve>Yuffie</reserve>

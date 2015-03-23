@@ -87,7 +87,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         }
         public void ActOnSelection()
         {
-            Seven.BattleState.Commanding.MP -= _spells[_yopt, _xopt].Cost;
+            Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Cost);
             
 //            AbilityState state;
 //            

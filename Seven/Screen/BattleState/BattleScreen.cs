@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -73,6 +73,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     c.Draw(d);
                 }
             }
+
             _mutex.ReleaseMutex();
         }
         
@@ -168,11 +169,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     case TargetType.Self:
                         PushControl(Seven.BattleState.Screen.SelfSelector);
                         break;
-                    case TargetType.OneTar:
+                    case TargetType.Combatant:
                         PushControl(Seven.BattleState.Screen.TargetSelector);
                         break;
-                    case TargetType.AllTarNS:
-                    case TargetType.AllTar:
+                    case TargetType.GroupNS:
+                    case TargetType.Group:
                     //case TargetType.NTar:
                         PushControl(Seven.BattleState.Screen.GroupSelector);
                         break;

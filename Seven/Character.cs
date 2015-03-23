@@ -991,11 +991,6 @@ namespace Atmosphere.Reverence.Seven
         {
             get
             {
-                if (_hp > MaxHP)
-                {
-                    _hp = MaxHP;
-                }
-
                 return _hp; 
             }
             set
@@ -1010,7 +1005,8 @@ namespace Atmosphere.Reverence.Seven
                 {
                     _hp = 0;
                 }
-                else if (_hp == 0)
+
+                if (_hp == 0)
                 {
                     Kill();
                 }

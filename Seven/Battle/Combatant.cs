@@ -58,7 +58,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract void Draw(Cairo.Context g);
         public abstract void Dispose();
         
-        public abstract void AcceptDamage(Combatant attacker, AttackType type, int delta);
+        public abstract void AcceptDamage(int delta, AttackType type = AttackType.None);
+        public abstract void AcceptMPLoss(int delta);
+
+        public abstract void UseMP(int amount);
+
+
         public virtual void Sense() { }
         
         protected abstract void ConfuAI();
@@ -73,7 +78,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (Poison && V_Timer.TotalMilliseconds - PoisonTime >= POISON_INTERVAL)
             {
-                AcceptDamage(this, AttackType.None, MaxHP / 32);
+                AcceptDamage(MaxHP / 32);
                 PoisonTime = V_Timer.TotalMilliseconds;
             }
             
@@ -89,7 +94,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 CureRegen();
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeInt >= REGEN_INTERVAL)
             {
-                AcceptDamage(this, AttackType.None, MaxHP / 32);
+                AcceptDamage(MaxHP / 32);
                 _regenTimeInt = V_Timer.TotalMilliseconds;
             }
             
@@ -125,7 +130,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 CureSeizure();
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeInt >= SEIZURE_INTERVAL)
             {
-                AcceptDamage(this, AttackType.None, MaxHP / -32);
+                AcceptDamage(MaxHP / -32);
                 _seizureTimeInt = V_Timer.TotalMilliseconds;
             }
         }
@@ -397,7 +402,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract int Level { get; }
         
         public abstract int HP { get; }
-        public abstract int MP { get; set; }
+        public abstract int MP { get; }
         public abstract int MaxHP { get; }
         public abstract int MaxMP { get; }
         

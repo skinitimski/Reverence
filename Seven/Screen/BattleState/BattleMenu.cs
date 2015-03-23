@@ -360,16 +360,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
                 case Key.Circle:
                     if (_option == _attackOption) 
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.OneTar);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
 
                     else if (_option == _doubleCutOption2 || _option == _doubleCutOption4)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.OneTar);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
 
                     else if (_option == _slashAllOption) 
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.AllTarNS);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.GroupNS);
 
                     else if (_option == _flashOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.AllTarNS);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
 
                     else if (_option == _magicMenuOption && !Seven.BattleState.Commanding.Silence)
                         Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
@@ -381,16 +381,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
 
                     else if (_option == _senseOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.OneTar);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
 
                     else if (_option == _mimeOption)
                         Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Self);
 
                     else if (_option == _deathblowOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.OneTar);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
 
                     else if (_option == _stealOption || _option == _mugOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.OneTar);
+                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.Combatant);
 
                     else if (_option == _itemMenuOption)
                         if (_witem)

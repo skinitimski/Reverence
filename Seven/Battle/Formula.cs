@@ -37,7 +37,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = RowCheck(dam, source, target);
             dam = Frog(dam, target);
             dam = Sadness(dam, target);
-           // dam = Split(dam, state);
+            // dam = Split(dam, state);
             dam = Barrier(dam, target);
             dam = Mini(dam, source);
             dam = RandomVariation(dam);
@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = RunElementalChecks(dam, ref restorative, target, elements);
             dam = UpperSanityCheck(dam);
 
-            target.AcceptDamage(source, AttackType.Physical,  dam);
+            target.AcceptDamage(dam, AttackType.Physical);
         }
 
         public static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
@@ -66,7 +66,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 dam = -dam;
             }
 
-            target.AcceptDamage(source, AttackType.Magical, dam);
+            target.AcceptDamage(dam, AttackType.Magical);
         }
 
         public static void MagicChangeStatus()
@@ -86,8 +86,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return dam;
         }
-
-
 
         public static int PhysicalBase(Combatant er)
         {
@@ -154,15 +152,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             return r < hitp;
         }
 
-       
-
-
-
-
-
-
-
-
         public static int MagicalBase(Combatant er)
         {
             return 6 * (er.Mat + er.Level);
@@ -210,8 +199,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             return Seven.BattleState.Random.Next(100) < hitp;
         }
 
-
-
         public static int Critical(int dam, Combatant source, Combatant target)
         {
             Combatant ee = target;
@@ -246,7 +233,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int Berserk(int dam, Combatant source)
         {
-            if (source.Berserk) dam = dam * 15 / 10;
+            if (source.Berserk)
+            {
+                dam = dam * 15 / 10;
+            }
 
             return dam;
         }
@@ -267,16 +257,20 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int Frog(int dam, Combatant source)
         {
-            if (source.Frog) dam = dam / 4;
+            if (source.Frog)
+            {
+                dam = dam / 4;
+            }
 
             return dam;
         }
 
-
-
         public static int Sadness(int dam, Combatant ee)
         {
-            if (ee.Sadness) dam = dam * 7 / 10;
+            if (ee.Sadness)
+            {
+                dam = dam * 7 / 10;
+            }
 
             return dam;
         }
@@ -296,14 +290,20 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int Barrier(int dam, Combatant target)
         {
-            if (target.Barrier) dam = dam / 2;
+            if (target.Barrier)
+            {
+                dam = dam / 2;
+            }
             
             return dam;
         }
 
         public static int MBarrier(int dam, Combatant target)
         {
-            if (target.MBarrier) dam = dam / 2;
+            if (target.MBarrier)
+            {
+                dam = dam / 2;
+            }
 
             return dam;
         }
@@ -314,9 +314,13 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return dam;
         }
+
         public static int Mini(int dam, Combatant source)
         {
-            if (source.Small) dam = 0;
+            if (source.Small)
+            {
+                dam = 0;
+            }
 
             return dam;
         }
@@ -327,7 +331,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return dam;
         }
-
 
         public static int RunElementalChecks(int dam, ref bool restorative, Combatant target, IEnumerable<Element> attackElements)
         {
@@ -382,14 +385,20 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int LowerSanityCkeck(int dam)
         {
-            if (dam == 0) dam = 1;
+            if (dam == 0)
+            {
+                dam = 1;
+            }
 
             return dam;
         }
 
         public static int UpperSanityCheck(int dam)
         {
-            if (dam > 9999) dam = 9999;
+            if (dam > 9999)
+            {
+                dam = 9999;
+            }
 
             return dam;
         }

@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.XPath;
 
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 
@@ -56,15 +57,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         #region Member Data
         
         private int _level;
-        
+
         private int _hp;
         private int _mp;
         private int _maxhp;
         private int _maxmp;
-        
-        private int _exp;
-        private int _ap;
-        private int _gil;
         
         private int _attack;
         private int _defense;
@@ -95,8 +92,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         private List<EnemyItem> _steal;
         private IInventoryItem _morph;
         
-        
-        private Thread _ai;
+
         
         private static Dictionary<string, XmlNode> _table;
 
@@ -149,14 +145,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             _magicAttack = Int32.Parse(node.SelectSingleNode("mat").InnerText);
             _magicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
             _luck = Int32.Parse(node.SelectSingleNode("lck").InnerText);
-            
+
             _level = Int32.Parse(node.SelectSingleNode("lvl").InnerText);
             _maxhp = _hp = Int32.Parse(node.SelectSingleNode("hp").InnerText);
             _maxmp = _mp = Int32.Parse(node.SelectSingleNode("mp").InnerText);
             
-            _exp = Int32.Parse(node.SelectSingleNode("exp").InnerText);
-            _ap = Int32.Parse(node.SelectSingleNode("ap").InnerText);
-            _gil = Int32.Parse(node.SelectSingleNode("gil").InnerText);
+            Exp = Int32.Parse(node.SelectSingleNode("exp").InnerText);
+            AP = Int32.Parse(node.SelectSingleNode("ap").InnerText);
+            Gil = Int32.Parse(node.SelectSingleNode("gil").InnerText);
             
             
             foreach (XmlNode weak in node.SelectSingleNode("weaks").ChildNodes)
@@ -175,14 +171,15 @@ namespace Atmosphere.Reverence.Seven.Battle
             foreach (XmlNode steal in node.SelectSingleNode("steal").ChildNodes)
                 _steal.Add(new EnemyItem(steal.OuterXml));
             foreach (XmlNode morph in node.SelectSingleNode("morph").ChildNodes)
-                if (morph.Attributes["id"] != null)
             {
-                string id = morph.Attributes["id"].Value;
-                string type = morph.Attributes["type"].Value;
+                if (morph.Attributes["id"] != null)
+                {
+                    string id = morph.Attributes["id"].Value;
+                    string type = morph.Attributes["type"].Value;
                 
-                _morph = Item.GetItem(id, type);
+                    _morph = Item.GetItem(id, type);
+                }
             }
-            
             
             int vStep = Seven.Party.BattleSpeed;
             
@@ -190,7 +187,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             V_Timer = new Clock(vStep);
             TurnTimer = new Time.Timer(6000, _dexterity * vStep / Seven.Party.NormalSpeed());
             
-            _ai = new Thread(new ThreadStart(AI));
+            AIThread = new Thread(new ThreadStart(AI));
             
             _x = x;
             _y = y;
@@ -198,22 +195,17 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static Enemy CreateEnemy(string id, int x, int y)
         {       
-            if (_table.Count <= 0)
+            if (!_table.ContainsKey(id))
             {
-                throw new GameDataException("No enemies are defined!");
+                throw new GameDataException("No enemy defined with id = " + id);
             }
 
-            return new Enemy(_table[id], Seven.BattleState.Random.Next(40, 300), Seven.BattleState.Random.Next(50, 200));
+            return new Enemy(_table[id], x, x);
         }
 
 
         public static Enemy CreateRandomEnemy(int x, int y)
         {
-            if (_table.Count <= 0)
-            {
-                throw new GameDataException("No enemies are defined!");
-            }
-            
             int c = Seven.BattleState.Random.Next(_table.Count);
             int i = 0;
 
@@ -229,8 +221,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Methods
         
-        public override void AcceptDamage(Combatant attacker, AttackType type, int delta)
+        public override void AcceptDamage(int delta, AttackType type = AttackType.None)
         {
+            Seven.BattleState.AddDamageIcon(delta, this);
+
             if (type == AttackType.Physical)
             {
                 if (Sleep)
@@ -244,21 +238,60 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             _hp -= delta;
+
             if (_hp < 0)
+            {
                 _hp = 0;
-            if (_hp == 0)
-                InflictDeath();
+            }
+            else if (_hp > _maxhp)
+            {
+                _hp = _maxhp;
+            }
+
+            if (HP == 0)
+            {
+                _death = true;
+            }
+        }
+
+        public override void AcceptMPLoss(int delta)
+        {
+            Seven.BattleState.AddDamageIcon(delta, this, true);
+
+            _mp -= delta;
+
+            if (_mp > _maxmp)
+            {
+                _mp = _maxmp;
+            }
+            else if (_mp < 0)
+            {
+                _mp = 0;
+            }
+        }
+
+        public override void UseMP(int amount)
+        {
+            if (_mp - amount < 0)
+            {
+                throw new ImplementationException("Used more MP than I had -- " + Name);
+            }
+            _mp -= amount;
         }
         
         public override string ToString()
         {
+            string description = Name;
+
             if (Sensed)
-                return String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}/{6}",
+            {
+                description = String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}/{6}",
                                      Name, HP, MaxHP, MP, MaxMP,
                                      (TurnTimer.TotalMilliseconds > TurnTimer.Timeout) ? TurnTimer.Timeout : TurnTimer.TotalMilliseconds,
                                      TurnTimer.Timeout);
-            else
-                return Name;
+            }
+
+            return description;
         }
         
 //        public Enemy Clone()
@@ -266,16 +299,21 @@ namespace Atmosphere.Reverence.Seven.Battle
 //            return new Enemy(Resource.CreateID(Name));
 //        }
 
-        public void ResetAI()
-        {
-            _ai.Abort();
-            _ai = new Thread(new ThreadStart(AI));
-        }
+//        public void ResetAI()
+//        {
+//            AIThread.Abort();
+//            AIThread = new Thread(new ThreadStart(AI));
+//        }
         
         public override void Draw(Cairo.Context g)
         {
-            g.Color = new Cairo.Color(1, 1, 1);
-            g.Rectangle(X, Y, 20, 20);
+            Cairo.Color iconColor = Colors.GRAY_8;
+            
+            int iconSize = 20;
+
+            g.Color = iconColor;
+            g.Rectangle(X - iconSize / 2, Y- iconSize / 2, iconSize, iconSize);
+            g.Fill();
             g.Fill();
         }
         
@@ -302,18 +340,10 @@ namespace Atmosphere.Reverence.Seven.Battle
                     int bd = Atk + ((Atk + Level) / 32) * (Atk * Level / 32);
                     int dam = (1 * (512 - attackee.Def) * bd) / (16 * 512);
 
-                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(this, AttackType.Physical, dam));
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
 
                     e.Dialogue = c => Name + " attacks";
-                    
-//                    _abilityState.LongRange = false;
-//                    _abilityState.QuadraMagic = false;
-//                    _abilityState.Type = AttackType.Physical;
-//                    _abilityState.Performer = this;
-//                    _abilityState.Target = new Combatant[1];
-//                    _abilityState.Target[0] = attackee;
-//                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
-//                    
+
                     Seven.BattleState.EnqueueAction(e);
                 }
                 else
@@ -336,15 +366,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                     int bd = Formula.PhysicalBase(this);
                     int dam = Formula.PhysicalDamage(bd, 16, attackee);
                     
-//                    _abilityState.LongRange = false;
-//                    _abilityState.QuadraMagic = false;
-//                    _abilityState.Type = AttackType.Physical;
-//                    _abilityState.Performer = this;
-//                    _abilityState.Target = new Combatant[1];
-//                    _abilityState.Target[0] = attackee;
-//                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
-//                    
-//                    Seven.BattleState.EnqueueAction(_abilityState);
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
+
+                    e.Dialogue = c => Name + " attacks (confused)";
+                    
+                    Seven.BattleState.EnqueueAction(e);
                 }
                 else
                 {
@@ -370,15 +396,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                     int bd = Formula.PhysicalBase(this);
                     int dam = Formula.PhysicalDamage(bd, 16, attackee);
                     
-//                    _abilityState.LongRange = false;
-//                    _abilityState.QuadraMagic = false;
-//                    _abilityState.Type = AttackType.Physical;
-//                    _abilityState.Performer = this;
-//                    _abilityState.Target = new Combatant[1];
-//                    _abilityState.Target[0] = attackee;
-//                    _abilityState.Action += delegate() { attackee.AcceptDamage(this, dam); };
-//                    
-//                    Seven.BattleState.EnqueueAction(_abilityState);
+                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
+                    
+                    e.Dialogue = c => Name + " attacks (berserk)";
+                    
+                    Seven.BattleState.EnqueueAction(e);
                 }
                 else 
                 {
@@ -397,48 +419,20 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override bool Weak(params Element[] e)
         {
-            foreach (Element d in e)
-            {
-                if (_weak.Contains(d))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return e.Any(x => _weak.Contains(x));
         }
+
         public override bool Halves(params Element[] e)
         {
-            foreach (Element d in e)
-            {
-                if (_halve.Contains(d))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return e.Any(x => _halve.Contains(x));
         }
         public override bool Voids(params Element[] e)
         {
-            foreach (Element d in e)
-            {
-                if (_void.Contains(d))
-                {
-                    return true;
-                }
-            }
-            return false;
+            return e.Any(x => _void.Contains(x));
         }
         public override bool Absorbs(params Element[] e)
         {
-            foreach (Element d in e)
-            {
-                if (_absorb.Contains(d))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return e.Any(x => _absorb.Contains(x));
         }
         public bool Immune(Status s)
         {
@@ -486,30 +480,42 @@ namespace Atmosphere.Reverence.Seven.Battle
         #region Inflict Status
         public override bool InflictFury()
         {
-            if (_fury)
-                return false;
-            _sadness = false;
-            _fury = true;
-            return true;
+            bool inflicted = false;
+
+            if (!_fury)
+            {
+                _sadness = false;
+                _fury = true;
+                inflicted = true;
+            }
+
+            return inflicted;
         }
         public override bool InflictSadness()
         {
-            if (_sadness)
-                return false;
-            _fury = false;
-            _sadness = true;
-            return true;
+            bool inflicted = false;
+            
+            if (!_sadness)
+            {
+                _fury = false;
+                _sadness = true;
+                inflicted = true;
+            }
+            
+            return inflicted;
         }
         public override bool InflictDeath()
         {
-            if (_death)
+            bool inflicted = false;
+
+            if (!_death)
             {
-                return false;
+                _death = true;
+                _hp = 0;
+                inflicted = true;
             }
 
-            _death = true;
-            _hp = 0;
-            return true;
+            return inflicted;
         }
         public override bool InflictSleep()
         {
@@ -781,17 +787,29 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override bool CureFury()
         {
-            if (!_fury)
-                return false;
-            _fury = false;
-            return true;
+            bool cured = false;
+
+            if (_fury)
+            {
+                _fury = false;
+                cured = true;
+            }
+
+            return cured;
         }
         public override bool CureSadness()
         {
-            if (!_sadness)
-                return false;
+            bool cured = false;
+            
+            if (_sadness)
+            {
+                _sadness = false;
+                cured = true;
+            }
+
             _sadness = false;
-            return true;
+            
+            return cured;
         }
 //        public override bool CureDeath()
 //        {
@@ -806,8 +824,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Dispose()
         {
-            if (_ai != null && _ai.IsAlive)
-                _ai.Abort();
+            if (AIThread != null && AIThread.IsAlive)
+            {
+                AIThread.Abort();
+            }
         }
         
         #endregion Methods
@@ -818,9 +838,9 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override int Level { get { return _level; } }
         
-        public int Exp { get { return _exp; } }
-        public int AP { get { return _ap; } }
-        public int Gil { get { return _gil; } }
+        public int Exp  { get; private set; }
+        public int AP { get; private set; }
+        public int Gil  { get; private set; }
         
         public override int Atk { get { return _attack; } }
         public override int Def { get { return _defense; } }
@@ -831,8 +851,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override int MDefp { get { return 0; } }
         public override int Luck { get { return _luck; } }
         
-        public override int HP { get { return _hp; } }
-        public override int MP { get { return _mp; } set { _mp = value; } }
+        public override int HP  { get { return _hp; }  }
+        public override int MP { get { return _mp; }  }
         public override int MaxHP { get { return _maxhp; } }
         public override int MaxMP { get { return _maxmp; } }
         
@@ -847,7 +867,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Sadness { get { return _sadness; } }
         public override bool Fury { get { return _fury; } }
         
-        public Thread AIThread { get { return _ai; } }
+        public Thread AIThread { get; private set; }
         
         #endregion Properties
         

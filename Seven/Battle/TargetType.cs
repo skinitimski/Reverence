@@ -6,9 +6,9 @@ namespace Atmosphere.Reverence.Seven.Battle
     {
         None,
         Self,
-        OneTar,
-        AllTar,
-        AllTarNS,
+        Combatant,
+        Group,
+        GroupNS,
         Area
     }
 }

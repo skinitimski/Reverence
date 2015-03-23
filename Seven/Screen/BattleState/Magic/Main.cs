@@ -153,8 +153,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                 if (_wmagic)
                 {
-                    Seven.BattleState.Commanding.MP -= _spells[_first[0], _first[1]].Spell.Cost;
-                    Seven.BattleState.Commanding.MP -= _spells[_yopt, _xopt].Spell.Cost;
+                    Seven.BattleState.Commanding.UseMP(_spells[_first[0], _first[1]].Spell.Cost);
+                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.Cost);
 
                     #region First
 
@@ -186,7 +186,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                 }
                 else
                 {
-                    Seven.BattleState.Commanding.MP -= _spells[_yopt, _xopt].Spell.Cost;
+                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.Cost);
 
 //                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
                     spell = _spells[_xopt, _yopt];
