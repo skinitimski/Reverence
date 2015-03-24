@@ -7,8 +7,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         None,
         Self,
         Combatant,
+        Ally,
+        Enemy,
+        Allies,
+        Enemies,
         Group,
-        GroupNS,
         Area
     }
 }

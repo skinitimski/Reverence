@@ -67,10 +67,9 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine(" AbilityState : ");
+            sb.AppendFormat(" {0} : {1}{2}", typeof(BattleEvent).Name, GetStatus(), Environment.NewLine);
             sb.AppendFormat("\tsource {0}", Source.Name);
             sb.AppendLine();
-            //sb.AppendFormat("\ttype: {0}", _type.ToString());
             return sb.ToString();
         }
 

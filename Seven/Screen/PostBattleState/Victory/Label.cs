@@ -35,6 +35,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
         public override string Info { get { return ""; } }
     }
 }

@@ -72,15 +72,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
         public override void SetNotControl() { _isControl = false; }
         
-        public override Combatant[] Selected
-        {
-            get
-            {
-                Combatant[] ret = new Combatant[1];
-                ret[0] = _targets[_option];
-                return ret;
-            }
-        }
+        public Combatant Selected { get { return _targets[_option]; } }
         public override string Info
         { get { return _targets[_option].ToString(); } }
     }

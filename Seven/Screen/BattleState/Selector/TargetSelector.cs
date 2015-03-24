@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Cairo;
 
+using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
@@ -13,6 +14,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class TargetSelector : Selector
     {
+        private delegate bool HalfplanePredicate(int i);
+
+
         private int _option;
         private List<Combatant> _targets;
 
@@ -26,39 +30,27 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.R1:
-                    if (Seven.BattleState.Screen.AllAble)
-                    {
-                    if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
-                    {
-                        Seven.BattleState.Screen.PopControl();
-                        Seven.BattleState.Screen.Type = TargetType.Group;
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.GroupSelector);
-                    }
-                    }
+//                    if (AllAble)
+//                    {
+//                        if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
+//                        {
+//                            Seven.BattleState.Screen.PopControl();
+//                            Seven.BattleState.Screen.Type = TargetType.Group;
+//                            Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.GroupSelector);
+//                        }
+//                    }
                     break;
                 case Key.Up:
-                    AdvanceOption(delegate(int i)
-                    {
-                        return _targets[i].Y > _targets[_option].Y;
-                    }); 
+                    AdvanceOption(i => _targets[i].Y > _targets[_option].Y); 
                     break;
                 case Key.Down:
-                    AdvanceOption(delegate(int i)
-                    {
-                        return _targets[i].Y < _targets[_option].Y;
-                    }); 
+                    AdvanceOption(i => _targets[i].Y < _targets[_option].Y); 
                     break;
                 case Key.Left:
-                    AdvanceOption(delegate(int i)
-                    {
-                        return _targets[i].X > _targets[_option].X;
-                    }); 
+                    AdvanceOption(i => _targets[i].X > _targets[_option].X);
                     break;
                 case Key.Right:
-                    AdvanceOption(delegate(int i)
-                    {
-                        return _targets[i].X < _targets[_option].X;
-                    }); 
+                    AdvanceOption(i => _targets[i].X < _targets[_option].X);
                     break;
                 case Key.Circle:
                     Seven.BattleState.Screen.User.ActOnSelection();
@@ -89,16 +81,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             if (IsControl)
             {
-                Shapes.RenderCursor(g,
-                                      _targets[_option].X - 15,
-                                      _targets[_option].Y);
+                Shapes.RenderCursor(g, _targets[_option].X - 15, _targets[_option].Y);
             }
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
-        
-        private delegate bool HalfplanePredicate(int i);
+
         
         private void AdvanceOption(HalfplanePredicate ap)
         {
@@ -136,37 +125,76 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 _option = pick;
             }
         }
+
+
+
+
+
         
+        
+        public void SelectOnlyAllies()
+        {
+            CanTargetAllies = true;
+            CanTargetEnemies = false;
+            
+            DefaultSelection = TargetGroup.Allies;
+        }
+        public void SelectOnlyEnemies()
+        {
+            CanTargetAllies = false;
+            CanTargetEnemies = true;
+            
+            DefaultSelection = TargetGroup.Enemies;
+        }
+        public void SelectEitherGroup(TargetGroup defaultSelection)
+        {
+            CanTargetAllies = true;
+            CanTargetEnemies = true;
+            
+            DefaultSelection = defaultSelection;
+        }
+
+
         public override void SetAsControl()
         {
+            _option = 0;
             _isControl = true;
             _targets = new List<Combatant>();
-            
-            switch (Seven.BattleState.Screen.Group)
+
+            int numAllies = 0;
+
+            if (CanTargetAllies)
             {
-                case TargetGroup.Allies:
-                    foreach (Ally a in Seven.BattleState.Allies)
-                        if (a != null)
-                        {
-                            _targets.Add(a);
-                        }
-                    break;
-                case TargetGroup.Enemies:
-                    foreach (Enemy e in Seven.BattleState.EnemyList)
-                        _targets.Add(e);
-                    break;
-                case TargetGroup.Area:
-                    foreach (Ally a in Seven.BattleState.Allies)
-                        if (a != null)
-                        {
-                            _targets.Add(a);
-                        }
-                    foreach (Enemy e in Seven.BattleState.EnemyList)
-                        _targets.Add(e);
-                    break;
+                foreach (Ally a in Seven.BattleState.Allies)
+                {
+                    if (a != null)
+                    {
+                        _targets.Add(a);
+                        numAllies++;
+                    }
+                }
             }
-            
-            _option = 0;
+
+            if (CanTargetEnemies)
+            {                
+                foreach (Enemy e in Seven.BattleState.EnemyList)
+                {
+                    _targets.Add(e);
+                }
+            }
+
+            if (CanTargetAllies && CanTargetEnemies)
+            {
+                switch (DefaultSelection)
+                {
+                    case TargetGroup.Allies:
+                        _option = 0;
+                        break;
+                    case TargetGroup.Enemies:
+                        _option = numAllies;
+                        break;
+                }
+            }           
         }
 
         public override void SetNotControl()
@@ -174,18 +202,23 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             _isControl = false;
         }
         
-        public override Combatant[] Selected
+        public Combatant Selected
         {
             get
             {
-                Combatant[] ret = new Combatant[1];
-                ret[0] = _targets[_option];
-                return ret;
+                return _targets[_option];
             }
         }
 
-        public override string Info
-        { get { return _targets[_option].ToString(); } }
+        public override string Info { get { return _targets[_option].ToString(); } }
+       
+
+        public bool AllAble { get; private set; }
+             
+        private bool CanTargetAllies { get; set; }
+        private bool CanTargetEnemies { get; set; }
+
+        private TargetGroup DefaultSelection { get; set; }
     }
 }
 

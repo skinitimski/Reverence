@@ -56,10 +56,41 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
                 case Key.Circle:
                     IInventoryItem i = Seven.Party.Inventory.GetItem(_option);
-                    if (i != null && i.CanUseInBattle)
+
+                    if (i.CanUseInBattle)
                     {
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, ((Item)i).BattleTarget);
+                        TargetType t = ((Item)i).BattleTarget;
+
+                        switch (t)
+                        {
+                            case TargetType.Self:
+                                Seven.BattleState.Screen.SelectSelf();
+                                break;
+                            case TargetType.Combatant:
+                                Seven.BattleState.Screen.SelectCombatant(TargetGroup.Allies);
+                                break;
+                            case TargetType.Ally:
+                                Seven.BattleState.Screen.SelectAlly();
+                                break;
+                            case TargetType.Enemy:
+                                Seven.BattleState.Screen.SelectEnemy();
+                                break;
+                            case TargetType.Group:
+                                Seven.BattleState.Screen.SelectEitherGroup(TargetGroup.Allies);
+                                break;
+                            case TargetType.Allies:
+                                Seven.BattleState.Screen.SelectAllies();
+                                break;
+                            case TargetType.Enemies:
+                                Seven.BattleState.Screen.SelectEnemies();
+                                break;
+                            case TargetType.Area:
+                                Seven.BattleState.Screen.SelectArea();
+                                break;
+                        }
+
                     }
+
                     break;
             }
         }

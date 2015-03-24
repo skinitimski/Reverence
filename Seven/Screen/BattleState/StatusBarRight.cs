@@ -33,10 +33,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         
         protected override void DrawContents(Gdk.Drawable d)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-
-
-
             if (Seven.BattleState.Allies[0] != null)
             {
                 DrawAllyStatus(d, Seven.BattleState.Allies[0], y0);
@@ -52,9 +48,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
 
             
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
+
         }
 
         private void DrawAllyStatus(Gdk.Drawable d, Ally c, int y)
@@ -93,6 +87,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x6 - te.Width + te.XBearing, Y + y);
+
+            ((IDisposable)g.Target).Dispose();
+            ((IDisposable)g).Dispose();
         }
     }
 }

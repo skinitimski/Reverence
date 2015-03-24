@@ -57,6 +57,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             TextExtents te = g.TextExtents(Message);
             
             Text.ShadowedText(g, Color, Message, X - (te.Width / 2), Y - (te.Height / 2) + GetCurrentDisplacement());
+            
+            ((IDisposable)g.Target).Dispose();
+            ((IDisposable)g).Dispose();
         }
 
         private int GetCurrentDisplacement()

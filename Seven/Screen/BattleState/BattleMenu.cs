@@ -42,11 +42,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private int _mugOption = -1;
         private int _enemySkillMenuOption = -1;
         private int _itemMenuOption = 3;
-
         private bool _witem = false;
         private bool _wmagic = false;
         private bool _wsummon = false;
-
         private int _option;
         private int _options;
         private int _columns;
@@ -342,61 +340,88 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             switch (k)
             {
                 case Key.Up:
-                    if (row > 0) _option--;
+                    if (row > 0)
+                    {
+                        _option--;
+                    }
                     break;
                 case Key.Down:
                     //if (_option < _rows * _columns - 1) _option++;
-                    if (row < _rows - 1) _option++;
+                    if (row < _rows - 1)
+                    {
+                        _option++;
+                    }
                     break;
                 case Key.Right:
                     //if (_option + _rows < _rows * _columns - 1)
                     if (col < _columns - 1)
+                    {
                         _option += _rows;
+                    }
                     break;
                 case Key.Left:
                     //if (_option - _rows >= 0)
                     if (col > 0)
+                    {
                         _option -= _rows;
+                    }
                     break;
                 case Key.Circle:
-                    if (_option == _attackOption) 
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
-
+                    if (_option == _attackOption)
+                    {
+                        Seven.BattleState.Screen.SelectCombatant(TargetGroup.Enemies);
+                    }
                     else if (_option == _doubleCutOption2 || _option == _doubleCutOption4)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
-
-                    else if (_option == _slashAllOption) 
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.GroupNS);
-
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
+                    }
+                    else if (_option == _slashAllOption)
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.GroupNS);
+                    }
                     else if (_option == _flashOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
-
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
+                    }
                     else if (_option == _magicMenuOption && !Seven.BattleState.Commanding.Silence)
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
-
+                    {
+                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
+                    }
                     else if (_option == _enemySkillMenuOption && !Seven.BattleState.Commanding.Silence)
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.EnemySkillMenu);
-
+                    {
+                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.EnemySkillMenu);
+                    }
                     else if (_option == _summonMenuOption && !Seven.BattleState.Commanding.Silence)
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
-
+                    {
+                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
+                    }
                     else if (_option == _senseOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
-
+                    {
+                        Seven.BattleState.Screen.SelectCombatant(TargetGroup.Enemies);
+                    }
                     else if (_option == _mimeOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Self);
-
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Self);
+                    }
                     else if (_option == _deathblowOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
-
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
+                    }
                     else if (_option == _stealOption || _option == _mugOption)
-                        Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.Combatant);
-
+                    {
+                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.Combatant);
+                    }
                     else if (_option == _itemMenuOption)
+                    {
                         if (_witem)
+                        {
                             Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.WItemMenu);
+                        }
                         else
+                        {
                             Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.ItemMenu);
+                        }
+                    }
                     break;
                 default:
                     break;
@@ -412,7 +437,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             if (_option == _attackOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
                 BattleEvent e = new BattleEvent(performer, () => Formula.PhysicalAttack(16, performer.Atkp, performer, target, new Element[] { performer.Weapon.Element }));
                 
@@ -426,7 +451,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region 2x-Cut
             else if (_option == _doubleCutOption2)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
@@ -451,7 +476,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region 4x-Cut
             else if (_option == _doubleCutOption4)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
@@ -480,7 +505,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _senseOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
 //                AbilityState state = Seven.BattleState.Commanding.Ability;
 //                state.Performer = performer;
@@ -526,7 +551,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _deathblowOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target) * 2;
@@ -545,7 +570,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Steal
             else if (_option == _stealOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 //
 //                AbilityState state = Seven.BattleState.Commanding.Ability;
 //                state.Type = AttackType.Physical;
@@ -557,7 +582,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Mug
             else if (_option == _mugOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected[0];
+                target = Seven.BattleState.Screen.TargetSelector.Selected;
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
@@ -590,21 +615,33 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
             if (IsControl)
+            {
                 Shapes.RenderCursor(g, X + cx + (_option / _rows * xs), Y + cy + (_option % _rows * y));
+            }
 
 
 
             // "Attack"
             if (_slashAllOption != -1)
+            {
                 Text.ShadowedText(g, c, "Slash-All", X + x, Y + ((_slashAllOption % _rows + 1) * y) + y0);
+            }
             else if (_flashOption != -1)
+            {
                 Text.ShadowedText(g, c, "Flash", X + x, Y + ((_flashOption % _rows + 1) * y) + y0);
+            }
             else if (_doubleCutOption2 != -1)
+            {
                 Text.ShadowedText(g, c, "2x-Cut", X + x, Y + ((_doubleCutOption2 % _rows + 1) * y) + y0);
+            }
             else if (_doubleCutOption4 != -1)
+            {
                 Text.ShadowedText(g, c, "4x-Cut", X + x, Y + ((_doubleCutOption4 % _rows + 1) * y) + y0);
+            }
             else
+            {
                 Text.ShadowedText(g, c, "Attack", X + x, Y + ((_attackOption % _rows + 1) * y) + y0);
+            }
 
             
 
@@ -612,9 +649,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             if (_magicMenuOption != -1)
             {
                 if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                {
                     c = gray;
+                }
                 else
+                {
                     c = white;
+                }
                 Text.ShadowedText(g, c, _wmagic ? "W-Magic" : "Magic", 
                     X + x + xs * (_magicMenuOption / _rows), 
                     Y + ((_magicMenuOption % _rows + 1) * y) + y0);
@@ -624,9 +665,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             if (_summonMenuOption != -1)
             {
                 if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                {
                     c = gray;
+                }
                 else
+                {
                     c = white;
+                }
                 Text.ShadowedText(g, c, _wsummon ? "W-Summon" : "Summon", 
                     X + x + xs * (_summonMenuOption / _rows),
                     Y + ((_summonMenuOption % _rows + 1) * y) + y0);
@@ -645,9 +690,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             if (_enemySkillMenuOption != -1)
             {
                 if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                {
                     c = gray;
+                }
                 else
+                {
                     c = white;
+                }
                 Text.ShadowedText(g, c, "E.Skill",
                     X + x + xs * (_enemySkillMenuOption / _rows),
                     Y + ((_enemySkillMenuOption % _rows + 1) * y) + y0);
@@ -730,8 +779,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 }
             }
         }
+
         public bool WItem { get { return _witem; } }
+
         public bool WMagic { get { return _wmagic; } }
+
         public bool WSummon { get { return _wsummon; } }
     }
 

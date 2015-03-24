@@ -189,18 +189,21 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     switch (BattleUsage.Target)
                     {
+                        case TargetType.Combatant:
+                        case TargetType.Ally:
+                        case TargetType.Enemy:
+                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
+                            break;
+
                         case TargetType.Group:
-                        case TargetType.GroupNS:
-                        //case TargetType.NTar:
+                        case TargetType.Allies:
+                        case TargetType.Enemies:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
                             break;
+
                         case TargetType.Area:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
                             break;
-                        case TargetType.Combatant:
-                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected.First());
-                            break;
-                        default: break;
                     }
                 }
                 catch (Exception e)

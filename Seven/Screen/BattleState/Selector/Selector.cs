@@ -12,7 +12,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal abstract class Selector : IController
     {
-
         protected bool _isControl = false;
 
         public abstract void ControlHandle(Key k);
@@ -22,8 +21,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public abstract void SetNotControl();
 
         public bool IsControl { get { return _isControl; } }
-
-        public abstract Combatant[] Selected { get; }
         
         public virtual void Reset() 
         {

@@ -48,9 +48,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             if (IsControl)
             {
                 foreach (Combatant a in Seven.BattleState.Allies)
+                {
                     Shapes.RenderCursor(g, a.X - 15, a.Y);
+                }
                 foreach (Combatant e in Seven.BattleState.EnemyList)
+                {
                     Shapes.RenderCursor(g, e.X - 15, e.Y);
+                }
             }
             
             ((IDisposable)g.Target).Dispose();
@@ -60,19 +64,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public override void SetAsControl() { _isControl = true; }
         public override void SetNotControl() { _isControl = false; }
         
-        public override Combatant[] Selected
+        public Combatant[] Selected
         {
             get
             {
-                int count = 0;
-                foreach (Combatant a in Seven.BattleState.Allies)
-                    count++;
-                count += Seven.BattleState.EnemyList.Count;
+                int count = Seven.BattleState.Allies.Length + Seven.BattleState.EnemyList.Count;
+
                 Combatant[] ret = new Combatant[count];
                 int i = 0;
                 foreach (Combatant a in Seven.BattleState.Allies)
                 {
-                    if (a != null) ret[i] = a;
+                    ret[i] = a;
                     i++;
                 }
                 foreach (Combatant e in Seven.BattleState.EnemyList)

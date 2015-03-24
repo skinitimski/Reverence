@@ -23,31 +23,42 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         {
             switch (k)
             {
-                case Key.R1:
-                    if (Seven.BattleState.Screen.AllAble)
-                        if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
-                    {
-                        Seven.BattleState.Screen.PopControl();
-                        Seven.BattleState.Screen.Type = TargetType.Combatant;
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.TargetSelector);
-                    }
-                    break;
+//                case Key.R1:
+//                    if (Seven.BattleState.Screen.AllAble)
+//                    {
+//                    if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
+//                    {
+//                        Seven.BattleState.Screen.PopControl();
+//                        Seven.BattleState.Screen.Type = TargetType.Combatant;
+//                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.TargetSelector);
+//                    }
+//                    }
+//                    break;
                 case Key.Circle:
                     Seven.BattleState.Screen.User.ActOnSelection();
                     if (Seven.BattleState.Screen.RunActionHook)
+                    {
                         Seven.BattleState.ActionHook();
+                    }
                     else if (Seven.BattleState.Screen.RunClearControl)
+                    {
                         Seven.BattleState.ClearControl();
+                    }
                     else
+                    {
                         Seven.BattleState.Screen.PopControl();
+                    }
                     break;
                 case Key.X:
                     Seven.BattleState.ActionAbort();
                     break;
-                default: break;
+                default:
+                    break;
             }
-            if (Seven.BattleState.Screen.Group != TargetGroup.Area)
+            if (CanTargetEither)
+            {
                 return;
+            }
             switch (k)
             {
                 case Key.Left:
@@ -56,7 +67,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 case Key.Right:
                     _selectedGroup = TargetGroup.Allies;
                     break;
-                default: break;
+                default:
+                    break;
             }
         }
         
@@ -65,17 +77,25 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             if (IsControl)
-                switch (_selectedGroup)
             {
-                case TargetGroup.Allies:
-                foreach (Combatant a in Seven.BattleState.Allies)
-                    if (a != null)
-                        Shapes.RenderCursor(g, a.X - 15, a.Y);
-                break;
-                case TargetGroup.Enemies:
-                foreach (Combatant e in Seven.BattleState.EnemyList)
-                    Shapes.RenderCursor(g, e.X - 15, e.Y);
-                break;
+                switch (_selectedGroup)
+                {
+                    case TargetGroup.Allies:
+                        foreach (Combatant a in Seven.BattleState.Allies)
+                        {
+                            if (a != null)
+                            {
+                                Shapes.RenderCursor(g, a.X - 15, a.Y);
+                            }
+                        }
+                        break;
+                    case TargetGroup.Enemies:
+                        foreach (Combatant e in Seven.BattleState.EnemyList)
+                        {
+                            Shapes.RenderCursor(g, e.X - 15, e.Y);
+                        }
+                        break;
+                }
             }
             
             ((IDisposable)g.Target).Dispose();
@@ -85,21 +105,50 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public override void SetAsControl()
         {
             _isControl = true;
+            switch (DefaultSelection)
             
-            switch (Seven.BattleState.Screen.Group)
             {
                 case TargetGroup.Allies:
                     _selectedGroup = TargetGroup.Allies;
                     break;
                 case TargetGroup.Enemies:
-                case TargetGroup.Area:
                     _selectedGroup = TargetGroup.Enemies;
                     break;
             }
         }
-        public override void SetNotControl() { _isControl = false; }
+
+        public override void SetNotControl()
+        {
+            _isControl = false;
+        }
+
+
+
+
+
+        public void SelectOnlyAllies()
+        {
+            CanTargetAllies = true;
+            CanTargetEnemies = false;
+
+            DefaultSelection = TargetGroup.Allies;
+        }
+        public void SelectOnlyEnemies()
+        {
+            CanTargetAllies = false;
+            CanTargetEnemies = true;
+            
+            DefaultSelection = TargetGroup.Enemies;
+        }
+        public void SelectEitherGroup(TargetGroup defaultSelection)
+        {
+            CanTargetAllies = true;
+            CanTargetEnemies = true;
+
+            DefaultSelection = defaultSelection;
+        }
         
-        public override Combatant[] Selected
+        public Combatant[] Selected
         {
             get
             {
@@ -109,10 +158,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                         return Seven.BattleState.Allies;
                     case TargetGroup.Enemies:
                         return Seven.BattleState.EnemyList.ToArray();
-                    default: throw new ImplementationException(String.Format("GroupSelector targeting wrong group: {0}", _selectedGroup.ToString()));
+                    default:
+                        throw new ImplementationException(String.Format("GroupSelector targeting wrong group: {0}", _selectedGroup.ToString()));
                 }
             }
         }
+
         public override string Info
         {
             get
@@ -128,6 +179,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 }
             }
         }
+
+        private bool CanTargetAllies { get; set; }
+        private bool CanTargetEnemies { get; set; }
+        private bool CanTargetEither { get { return CanTargetAllies && CanTargetEnemies; } }
+        private TargetGroup DefaultSelection { get; set; }
+
     }
 }
 
