@@ -492,7 +492,7 @@ namespace Atmosphere.Reverence
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+                        LogException(e);
                     }
                 
                     Gdk.Threads.Enter();
@@ -505,7 +505,7 @@ namespace Atmosphere.Reverence
                         }
                         catch (Exception e)
                         {
-                            Console.WriteLine("FATAL ERROR: {0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+                            LogException(e);
                         }
                         finally
                         {
@@ -540,6 +540,21 @@ namespace Atmosphere.Reverence
         {
             game.Go();
         }
+
+
+        private static void LogException(Exception e)
+        {            
+            Console.WriteLine("FATAL ERROR");
+
+            while (e != null)
+            {                
+                Console.WriteLine("{0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
+
+                e = e.InnerException;
+            }
+        }
+
+
         
         protected State State { get; private set; }
 
