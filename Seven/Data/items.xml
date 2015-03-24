@@ -7,7 +7,7 @@
             <canUse>return true</canUse>
             <use>c.HP = 0 c.MP = 0</use>
         </field>
-        <battle target="Combatant">
+        <battle target="Combatant" intendedForEnemies="true">
             <use>c:InflictDeath()</use>
         </battle>
     </item>
@@ -21,24 +21,6 @@
         <battle target="Combatant">
             <use>if not c.Death then c:AcceptDamage(-100) end</use>
         </battle>
-        <!--
-        <field>
-            function ()
-            if Seven.Party.Selected.Death then return false end
-            if Seven.Party.Selected.HP == Seven.Party.Selected.MaxHP then return false end
-            Seven.Party.Selected.HP = Seven.Party.Selected.HP + 100
-            return true
-            end
-        </field>
-        <battle>
-            function (state)
-            if state.Target[0].Death then return false end
-            if state.Target[0].HP == state.Target[0].MaxHP then return false end
-            state.Target[0]:AcceptDamage(state.Performer, -100)
-            return true
-            end
-        </battle>
-        -->
     </item>
     <item>
         <name>Hi-Potion</name>
@@ -50,24 +32,6 @@
         <battle target="Combatant">
             <use>if not c.Death then c:AcceptDamage(-500) end</use>
         </battle>
-        <!--
-        <field>
-            function ()
-            if Seven.Party.Selected.Death then return false end
-            if Seven.Party.Selected.HP == Seven.Party.Selected.MaxHP then return false end
-            Seven.Party.Selected.HP = Seven.Party.Selected.HP + 500
-            return true
-            end
-        </field>
-        <battle>
-            function (state)
-            if state.Target[0].Death then return false end
-            if state.Target[0].HP == state.Target[0].MaxHP then return false end
-            state.Target[0]:AcceptDamage(state.Performer, -500)
-            return true
-            end
-        </battle>
-        -->
     </item>
     <item>
         <name>X-Potion</name>
@@ -261,14 +225,14 @@
     <item>
         <name>Vagyrisk Claw</name>
         <desc>Inflicts [Petrify]</desc>
-        <battle target="Combatant">
+        <battle target="Combatant" intendedForEnemies="true">
             <use>c:InflictPetrify()</use>
         </battle>
     </item>
     <item>
         <name>Soft</name>
         <desc>Cures [Petrify]</desc>
-        <battle target="Combatant">
+        <battle target="Combatant" intendedForEnemies="true">
             <use>c:CurePetrify()</use>
         </battle>
     </item>

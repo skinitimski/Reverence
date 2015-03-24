@@ -34,6 +34,8 @@ namespace Atmosphere.Reverence.Seven.Asset
             public TargetType Target { get; set; }
             
             public LuaFunction Use { get; set; }
+
+            public bool IntendedForEnemies { get; set; }
         }
 
 
@@ -55,7 +57,6 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     continue;
                 }
-
                 
                 Item i = new Item(node);
                 
@@ -107,6 +108,13 @@ namespace Atmosphere.Reverence.Seven.Asset
                 BattleUsage = new BattleUsageRecord();
                 
                 BattleUsage.Target = (TargetType)Enum.Parse(typeof(TargetType), battle.SelectSingleNode("@target").Value);
+
+                XmlNode intendedForEnemiesNode = battle.SelectSingleNode("@intendedForEnemies");
+
+                if (intendedForEnemiesNode != null)
+                {
+                    BattleUsage.IntendedForEnemies = Boolean.Parse(intendedForEnemiesNode.Value);
+                }
 
                 string use = String.Format("return function (c) {0} end", battle.SelectSingleNode("use").InnerText);
                 
@@ -256,6 +264,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         private BattleUsageRecord BattleUsage { get; set; }
 
         public static Dictionary<string, Item> ItemTable { get { return _table; } }
+
+        public bool IntendedForEnemies { get { return BattleUsage == null ? false : BattleUsage.IntendedForEnemies; } }
     }
 }
 

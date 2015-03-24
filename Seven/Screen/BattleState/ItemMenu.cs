@@ -59,15 +59,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
                     if (i.CanUseInBattle)
                     {
-                        TargetType t = ((Item)i).BattleTarget;
+                        Item item = (Item)i;
 
-                        switch (t)
+                        switch (item.BattleTarget)
                         {
                             case TargetType.Self:
                                 Seven.BattleState.Screen.SelectSelf();
                                 break;
                             case TargetType.Combatant:
-                                Seven.BattleState.Screen.SelectCombatant(TargetGroup.Allies);
+                                Seven.BattleState.Screen.SelectCombatant(item.IntendedForEnemies ? TargetGroup.Enemies : TargetGroup.Allies);
                                 break;
                             case TargetType.Ally:
                                 Seven.BattleState.Screen.SelectAlly();
@@ -76,7 +76,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                                 Seven.BattleState.Screen.SelectEnemy();
                                 break;
                             case TargetType.Group:
-                                Seven.BattleState.Screen.SelectEitherGroup(TargetGroup.Allies);
+                                Seven.BattleState.Screen.SelectEitherGroup(item.IntendedForEnemies ? TargetGroup.Enemies : TargetGroup.Allies);
                                 break;
                             case TargetType.Allies:
                                 Seven.BattleState.Screen.SelectAllies();
