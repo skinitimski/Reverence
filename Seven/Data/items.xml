@@ -94,14 +94,16 @@
         </field>
         <battle target="Group">
             <use>
-                for i = 0, #c do
+                for i = 0, c.Count - 1 do
                     if c[i] ~= nil and not c[i].Death 
                     then
-                        c[i].HP = c[i].HP + c[i].MaxHP  
-                        c[i].MP = c[i].MP + c[i].MaxMP
+                        c[i]:AcceptDamage(-c[i].MaxHP)
+                        c[i]:AcceptMPLoss(-c[i].MaxMP)
                     end
-                end  
+                end
             </use>
+            <!--
+            -->
         </battle>
     </item>
     <item>

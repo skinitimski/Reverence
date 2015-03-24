@@ -102,7 +102,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
             
             XmlNode battle = node.SelectSingleNode("battle");
-            
+
             if (battle != null)
             {
                 BattleUsage = new BattleUsageRecord();

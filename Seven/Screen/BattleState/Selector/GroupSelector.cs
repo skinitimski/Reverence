@@ -148,16 +148,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             DefaultSelection = defaultSelection;
         }
         
-        public Combatant[] Selected
+        public List<Combatant> Selected
         {
             get
             {
                 switch (_selectedGroup)
                 {
                     case TargetGroup.Allies:
-                        return Seven.BattleState.Allies;
+                        return Seven.BattleState.Allies.Cast<Combatant>().ToList();
                     case TargetGroup.Enemies:
-                        return Seven.BattleState.EnemyList.ToArray();
+                        return Seven.BattleState.EnemyList.Cast<Combatant>().ToList();
                     default:
                         throw new ImplementationException(String.Format("GroupSelector targeting wrong group: {0}", _selectedGroup.ToString()));
                 }

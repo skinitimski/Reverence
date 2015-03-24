@@ -43,7 +43,7 @@
                 <atkp>100</atkp>
                 <target>Combatant</target>
                 <element>Hit</element>
-                <visible>false</visible>
+                <hidden>true</hidden>
             </attack>
             <attack id="Speed Slash">
                 <type>Physical</type>
@@ -57,12 +57,12 @@
             <main>
                 a = chooseRandomAlly()
                 i = math.random(3)
-                
+            
                 if i == 3 then
                     self:UseAttack("Speed Slash", a)
                 else
                     self:UseAttack("Verbal Attack", a)
-                end                
+                end  
             </main>
         </ai>
     </enemy>

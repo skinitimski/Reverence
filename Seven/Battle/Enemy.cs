@@ -39,6 +39,14 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Atkp = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
                 Target = (TargetType)Enum.Parse(typeof(TargetType), node.SelectSingleNode("target").InnerText);
                 Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
+                InfoVisible = true;
+
+                XmlNode hiddenNode = node.SelectSingleNode("hidden");
+
+                if (hiddenNode != null)
+                {
+                    InfoVisible = Boolean.Parse(hiddenNode.InnerText);
+                }
             }
 
             public string ID { get; private set; }
@@ -46,6 +54,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             public int Atkp { get; private set; }
             public TargetType Target { get; private set; }
             public Element Element { get; private set; }
+            public bool InfoVisible { get; private set; }
         }
         
         private struct EnemyItem
@@ -378,7 +387,14 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             Attack attack = Attacks[id];
 
-            PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element });
+            string description = " attacks";
+
+            if (attack.InfoVisible)
+            {
+                description = " uses " + attack.ID;
+            }
+
+            PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element }, description);
         }
 
 

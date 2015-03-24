@@ -109,6 +109,16 @@ namespace Atmosphere.Reverence.Seven.State
         
         public override void RunIteration()
         {
+            if (CheckForLoss())
+            {
+                Seven.Instance.LoseGame();
+            }
+            
+            if (CheckForVictory())
+            {
+                Seven.Instance.EndBattle();
+            }
+
             SetControl();
             
             CheckEventQueue();
@@ -120,16 +130,6 @@ namespace Atmosphere.Reverence.Seven.State
             CheckDamageIcons();
             
             ClearDeadEnemies();
-            
-            if (CheckForVictory())
-            {
-                Seven.Instance.EndBattle();
-            }
-
-            if (CheckForLoss())
-            {
-                Seven.Instance.LoseGame();
-            }
         }
         
         private void SetControl()
@@ -182,7 +182,7 @@ namespace Atmosphere.Reverence.Seven.State
                 if (AbilityThread != null && !AbilityThread.IsAlive)
                 {
 #if DEBUG
-                    Console.WriteLine("Killing action:");
+                    Console.WriteLine("Event has completed:");
                     Console.WriteLine(ActiveAbility.ToString());
 #endif
 //                if (ActiveAbility.Performer is Ally)
@@ -288,7 +288,7 @@ namespace Atmosphere.Reverence.Seven.State
                 EventQueue.Enqueue(a);
 
 #if DEBUG
-                Console.WriteLine("Added ability to Queue. Current queue state:");
+                Console.WriteLine("Added event to queue. Events (last-in first):");
 
                 foreach (BattleEvent s in EventQueue)
                 {
@@ -438,6 +438,7 @@ namespace Atmosphere.Reverence.Seven.State
             Commanding.WaitingToResolve = true;
             ClearControl();
         }
+
         public void ActionAbort()
         {
             Screen.PopControl();
@@ -459,6 +460,7 @@ namespace Atmosphere.Reverence.Seven.State
                     a.Dispose();
                 }
             }
+
             foreach (Enemy e in EnemyList)
             {
                 e.Dispose();

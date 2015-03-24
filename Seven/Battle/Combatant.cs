@@ -65,11 +65,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        public void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements)
+        public void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements, string msg = " attacks")
         {
             BattleEvent e = new BattleEvent(this, () => Formula.PhysicalAttack(power, atkp, this, target, elements));
-
-            string msg = " attacks";
 
             if (Confusion)
             {
@@ -468,6 +466,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             set
             {
+                Console.WriteLine("{0} is {1} waiting", Name, value ? "now" : "no longer");
+
                 _waiting = value;
             }
         }

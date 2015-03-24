@@ -64,25 +64,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public override void SetAsControl() { _isControl = true; }
         public override void SetNotControl() { _isControl = false; }
         
-        public Combatant[] Selected
+        public List<Combatant> Selected
         {
             get
             {
-                int count = Seven.BattleState.Allies.Length + Seven.BattleState.EnemyList.Count;
+                List<Combatant> selected = new List<Combatant>();
 
-                Combatant[] ret = new Combatant[count];
-                int i = 0;
-                foreach (Combatant a in Seven.BattleState.Allies)
-                {
-                    ret[i] = a;
-                    i++;
-                }
-                foreach (Combatant e in Seven.BattleState.EnemyList)
-                {
-                    ret[i] = e;
-                    i++;
-                }
-                return ret;
+                selected.AddRange(Seven.BattleState.Allies);
+                selected.AddRange(Seven.BattleState.EnemyList);
+
+                return selected;
             }
         }
         public override string Info
