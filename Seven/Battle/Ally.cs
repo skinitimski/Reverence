@@ -337,8 +337,10 @@ namespace Atmosphere.Reverence.Seven.Battle
             //   so it's already been run on the character
             //_c.Kill();
         }
-        
+
+
         #region Inflict Status
+
         public override bool InflictDeath()
         {
             if (_c.Immune(Status.Death))
@@ -349,277 +351,26 @@ namespace Atmosphere.Reverence.Seven.Battle
             PauseTimers();
             return _c.InflictDeath();
         }
+
         public override bool InflictFury()
         {
             if (_c.Immune(Status.Fury))
                 return false;
             return _c.InflictFury();
         }
+
         public override bool InflictSadness()
         {
             if (_c.Immune(Status.Sadness))
                 return false;
             return _c.InflictSadness();
         }
-        public override bool InflictSleep()
-        {
-            if (_c.Immune(Status.Sleep))
-                return false;
-            if (Sleep || Petrify || Peerless || Resist) return false;
-            Sleep = true;
-            _sleepTime = V_Timer.TotalMilliseconds;
-            TurnTimer.Pause();
-            return true;
-        }
-        public override bool InflictPoison()
-        {
-            if (_c.Immune(Status.Poison))
-                return false;
-            if (Poison) return false;
-            Poison = true;
-            PoisonTime = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictConfusion()
-        {
-            if (_c.Immune(Status.Confusion))
-                return false;
-            if (Confusion || Petrify || Peerless || Resist)
-                return false;
-            Confusion = true;
-            return true;
-        }
-        public override bool InflictSilence()
-        {
-            if (_c.Immune(Status.Silence))
-                return false;
-            if (Silence || Petrify || Peerless || Resist)
-                return false;
-            Silence = true;
-            return true;
-        }
-        public override bool InflictHaste()
-        {
-            if (_c.Immune(Status.Haste) || _c.Immune(Status.Slow))
-                return false;
-            if (Haste || Petrify || Peerless || Resist)
-                return false;
-            if (Slow)
-                CureSlow();
-           Haste = true;
-            DoubleTimers();
-            return true;
-        }
-        public override bool InflictSlow()
-        {
-            if (_c.Immune(Status.Slow) || _c.Immune(Status.Haste))
-                return false;
-            if (Slow || Petrify || Peerless || Resist)
-                return false;
-            if (Haste)
-                CureHaste();
-            Slow = true;
-            HalveTimers();
-            return true;
-        }
-        public override bool InflictStop()
-        {
-            if (_c.Immune(Status.Stop))
-                return false;
-            if (Stop || Petrify || Peerless || Resist)
-                return false;
-           Stop = true;
-            PauseTimers();
-            return true;
-        }
-        public override bool InflictFrog()
-        {
-            if (_c.Immune(Status.Frog))
-                return false;
-            if (Frog || Petrify || Peerless || Resist)
-                return false;
-            Frog = true;
-            return true;
-        }
-        public override bool InflictSmall()
-        {
-            if (_c.Immune(Status.Small))
-                return false;
-            if (Small || Petrify || Peerless || Resist)
-                return false;
-            Small = true;
-            return true;
-        }
-        public override bool InflictSlowNumb()
-        {
-            if (_c.Immune(Status.SlowNumb))
-                return false;
-            if (SlowNumb || Petrify || Peerless || Resist)
-                return false;
-            SlowNumb = true;
-            _slownumbTime = C_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictPetrify()
-        {
-            if (_c.Immune(Status.Petrify))
-                return false;
-            if (Petrify || Peerless || Resist)
-                return false;
-            Petrify = true;
-            return true;
-        }
-        public override bool InflictRegen()
-        {
-            if (_c.Immune(Status.Regen))
-                return false;
-            if (Regen || Petrify || Peerless || Resist)
-                return false;
-            Regen = true;
-            _regenTimeEnd = V_Timer.TotalMilliseconds;
-            _regenTimeInt = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictBarrier()
-        {
-            if (_c.Immune(Status.Barrier))
-                return false;
-            if (Barrier || Petrify || Peerless || Resist)
-                return false;
-            Barrier = true;
-            _barrierTime = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictMBarrier()
-        {
-            if (_c.Immune(Status.MBarrier))
-                return false;
-            if (MBarrier || Petrify || Peerless || Resist)
-                return false;
-            MBarrier = true;
-            _mbarrierTime = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictReflect()
-        {
-            if (_c.Immune(Status.Reflect))
-                return false;
-            if (Reflect || Petrify || Peerless || Resist)
-                return false;
-            Reflect = true;
-            return true;
-        }
-        public override bool InflictShield()
-        {
-            if (_c.Immune(Status.Shield))
-                return false;
-            if (Shield || Petrify || Resist)
-                return false;
-            Shield = true;
-            _shieldTime = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictDeathSentence()
-        {
-            if (_c.Immune(Status.DeathSentence))
-                return false;
-            if (DeathSentence || Petrify || Peerless || Resist || DeathForce)
-                return false;
-            DeathSentence = true;
-            _deathsentenceTime = C_Timer.TotalMilliseconds;
-            return true;
-        }
+                
         public override bool InflictManipulate()
         {
             return false;
         }
-        public override bool InflictBerserk()
-        {
-            if (_c.Immune(Status.Berserk))
-                return false;
-            if (Berserk || Petrify || Peerless || Resist)
-                return false;
-            Berserk = true;
-            return true;
-        }
-        public override bool InflictPeerless()
-        {
-            if (_c.Immune(Status.Peerless))
-                return false;
-            if (Peerless || Petrify || Resist)
-                return false;
-            Peerless = true;
-            _peerlessTime = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictParalyzed()
-        {
-            if (_c.Immune(Status.Paralyzed))
-                return false;
-            if (Paralysed || Petrify || Peerless || Resist)
-                return false;
-            Paralysed = true;
-            _paralyzedTime = V_Timer.TotalMilliseconds;
-            TurnTimer.Pause();
-            return true;
-        }
-        public override bool InflictDarkness()
-        {
-            if (_c.Immune(Status.Darkness))
-                return false;
-            if (Darkness || Petrify || Peerless || Resist)
-                return false;
-            Darkness = true;
-            return true;
-        }
-        public override bool InflictSeizure()
-        {
-            if (_c.Immune(Status.Seizure))
-                return false;
-            if (Seizure || Petrify || Peerless || Resist)
-                return false;
-            Seizure = true;
-            _seizureTimeEnd = V_Timer.TotalMilliseconds;
-            _seizureTimeInt = V_Timer.TotalMilliseconds;
-            return true;
-        }
-        public override bool InflictDeathForce()
-        {
-            if (_c.Immune(Status.DeathForce))
-                return false;
-            if (DeathForce || Petrify || Peerless || Resist)
-                return false;
-            DeathForce = true;
-            return true;
-        }
-        public override bool InflictResist()
-        {
-            if (_c.Immune(Status.Resist))
-                return false;
-            if (Resist || Petrify || Peerless)
-                return false;
-            Resist = true;
-            return true;
-        }
-        public override bool InflictLuckyGirl()
-        {
-            if (_c.Immune(Status.LuckyGirl))
-                return false;
-            if (LuckyGirl || Petrify || Peerless || Resist)
-                return false;
-            LuckyGirl = true;
-            return true;
-        }
-        public override bool InflictImprisoned()
-        {
-            if (_c.Immune(Status.Imprisoned))
-                return false;
-            if (Imprisoned || Petrify)
-                return false;
-            Imprisoned = true;
-            PauseTimers();
-            return true;
-        }
+
         #endregion Inflict
         
         
@@ -729,6 +480,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Absorbs(params Element[] e)
         {
             return _c.Absorbs(e);
+        }
+        public override bool Immune(Status s)
+        {
+            return _c.Immune(s);
         }
         
         
