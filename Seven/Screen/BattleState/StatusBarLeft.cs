@@ -5,6 +5,8 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
@@ -36,17 +38,39 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             g.SetFontSize(28);
             
             
-            string name0 = (Seven.BattleState.Allies[0] == null) ? "" : Seven.BattleState.Allies[0].Name;
-            string name1 = (Seven.BattleState.Allies[1] == null) ? "" : Seven.BattleState.Allies[1].Name;
-            string name2 = (Seven.BattleState.Allies[2] == null) ? "" : Seven.BattleState.Allies[2].Name;
+            if (Seven.BattleState.Allies[0] == null)
+            {
+                DrawAllyStatus(g, Seven.BattleState.Allies[0], y0);
+            }
             
-            if (name0.CompareTo("") != 0) Text.ShadowedText(g, name0, X + x1, Y + y0);
-            if (name1.CompareTo("") != 0) Text.ShadowedText(g, name1, X + x1, Y + y1);
-            if (name2.CompareTo("") != 0) Text.ShadowedText(g, name2, X + x1, Y + y2);
+            if (Seven.BattleState.Allies[1] == null)
+            {
+                DrawAllyStatus(g, Seven.BattleState.Allies[1], y1);
+            }
             
+            if (Seven.BattleState.Allies[2] == null)
+            {
+                DrawAllyStatus(g, Seven.BattleState.Allies[2], y2);
+            }
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
+        }
+
+        private void DrawAllyStatus(Context g, Ally a, int y)
+        {                        
+            Color nameColor = Colors.WHITE;
+            
+            if (a.Death)
+            {
+                nameColor = COLOR_TEXT_RED;
+            }
+            else if (a.NearDeath)
+            {
+                nameColor = COLOR_TEXT_YELLOW;
+            }
+
+            Text.ShadowedText(g, nameColor, a.Name, X + x1, Y + y);
         }
     }
 }

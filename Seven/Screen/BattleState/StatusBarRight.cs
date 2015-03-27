@@ -45,13 +45,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 DrawAllyStatus(d, Seven.BattleState.Allies[2], y2);
             }
-            
-
-            
-
         }
 
-        private void DrawAllyStatus(Gdk.Drawable d, Ally c, int y)
+        private void DrawAllyStatus(Gdk.Drawable d, Ally a, int y)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
@@ -60,30 +56,77 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             string hp, hpmax, mp, mpmax, limit, time;
             
-            TextExtents te;
+            TextExtents te;           
+            
+            Color color;
 
-            hp = c.HP.ToString() + "/";
-            hpmax = c.MaxHP.ToString();
-            
+
+            // HP
+
+            color = Colors.WHITE;
+                        
+            if (a.Death)
+            {
+                color = COLOR_TEXT_RED;
+            }
+            else if (a.NearDeath)
+            {
+                color = COLOR_TEXT_YELLOW;
+            }
+
+            hp = a.HP.ToString() + "/";            
             te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x1 - te.Width, Y + y);
-            te = g.TextExtents(hpmax);
-            Text.ShadowedText(g, hpmax, X + x2 - te.Width, Y + y);
+            Text.ShadowedText(g, color, hp, X + x1 - te.Width, Y + y);
+
+
+
+            // MP
             
-            mp = c.MP.ToString() + "/";
-            mpmax = c.MaxMP.ToString();
+            color = Colors.WHITE;
+                        
+            if (a.Death)
+            {
+                color = COLOR_TEXT_RED;
+            }
+            else if (a.MP <= a.MaxMP / 8)
+            {
+                color = COLOR_TEXT_YELLOW;
+            }
             
+            mp = a.MP.ToString() + "/";
             te = g.TextExtents(mp);
             Text.ShadowedText(g, mp, X + x3 - te.Width, Y + y);
+
+            
+            
+            // HP MAX / MP MAX
+            
+            color = a.Death ? COLOR_TEXT_RED : Colors.WHITE;
+            
+            hpmax = a.MaxHP.ToString();
+            te = g.TextExtents(hpmax);
+            Text.ShadowedText(g, color, hpmax, X + x2 - te.Width, Y + y);
+            
+            mpmax = a.MaxMP.ToString();
             te = g.TextExtents(mpmax);
             Text.ShadowedText(g, mpmax, X + x4 - te.Width, Y + y);
-            
+
+
+
+            // LIMIT
+
+            color = Colors.WHITE;
+
             limit = "0%";
             
             te = g.TextExtents(limit);
             Text.ShadowedText(g, limit, X + x5 - te.Width + te.XBearing, Y + y);
+
+
+
+            // TURN TIMER
             
-            time = c.TurnTimer.PercentElapsed + "%";
+            time = a.TurnTimer.PercentElapsed + "%";
             
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x6 - te.Width + te.XBearing, Y + y);
