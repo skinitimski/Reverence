@@ -71,7 +71,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
             
@@ -112,7 +112,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
             Images.RenderProfile(d, gc, X + x1, Y + yp + y - y0, c);
                 
-            g.Color = COLOR_TEXT_TEAL;
+            g.Color = Colors.TEXT_TEAL;
             g.MoveTo(X + x3, Y + y + ya);
             g.ShowText("LV");
             g.MoveTo(X + x3, Y + y + yb);
@@ -125,11 +125,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
             if (c.Death)
             {
-                namec = COLOR_TEXT_RED;
+                namec = Colors.TEXT_RED;
             }
             else if (c.NearDeath)
             {
-                namec = COLOR_TEXT_YELLOW;
+                namec = Colors.TEXT_YELLOW;
             }
                 
             Text.ShadowedText(g, namec, c.Name, X + x3, Y + y);

@@ -35,23 +35,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
 
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
             
             #region Left
-            
-//            string str, vit, dex, mag, spi, lck;
+
             int atk, atkp, def, defp, mat, mdf, mdfp;
-            
-//            str = Seven.Party.Selected.Strength.ToString();
-//            vit = Seven.Party.Selected.Vitality.ToString();
-//            dex = Seven.Party.Selected.Dexterity.ToString();
-//            mag = Seven.Party.Selected.Magic.ToString();
-//            spi = Seven.Party.Selected.Spirit.ToString();
-//            lck = Seven.Party.Selected.Luck.ToString();
-            
+
             atk = Ally.Attack(Seven.Party.Selected);
             atkp = Ally.AttackPercent(Seven.Party.Selected);
             def = Ally.Defense(Seven.Party.Selected);
@@ -60,7 +52,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             mdf = Ally.MagicDefense(Seven.Party.Selected);
             mdfp = Ally.MagicDefensePercent(Seven.Party.Selected);
             
-            Cairo.Color greenish = COLOR_TEXT_TEAL;
+            Cairo.Color greenish = Colors.TEXT_TEAL;
             
             Text.ShadowedText(g, greenish, "Attack", X + x0, Y + yr + (line * 0));
             Text.ShadowedText(g, greenish, "Attack %", X + x0, Y + yr + (line * 1));
@@ -143,44 +135,44 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 Text.ShadowedText(g, ">", X + x2, Y + yr + (line * 6));
                 
                 te = g.TextExtents(t_atk.ToString());
-                if (t_atk < atk) c = COLOR_TEXT_RED;
-                else if (t_atk > atk) c = COLOR_TEXT_YELLOW;
+                if (t_atk < atk) c = Colors.TEXT_RED;
+                else if (t_atk > atk) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_atk.ToString(), X + x3 - te.Width, Y + yr + (line * 0));
                 
                 te = g.TextExtents(t_atkp.ToString());
-                if (t_atkp < atkp) c = COLOR_TEXT_RED;
-                else if (t_atkp > atkp) c = COLOR_TEXT_YELLOW;
+                if (t_atkp < atkp) c = Colors.TEXT_RED;
+                else if (t_atkp > atkp) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_atkp.ToString(), X + x3 - te.Width, Y + yr + (line * 1));
                 
                 te = g.TextExtents(t_def.ToString());
-                if (t_def < def) c = COLOR_TEXT_RED;
-                else if (t_def > def) c = COLOR_TEXT_YELLOW;
+                if (t_def < def) c = Colors.TEXT_RED;
+                else if (t_def > def) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_def.ToString(), X + x3 - te.Width, Y + yr + (line * 2));
                 
                 te = g.TextExtents(t_defp.ToString());
-                if (t_defp < defp) c = COLOR_TEXT_RED;
-                else if (t_defp > defp) c = COLOR_TEXT_YELLOW;
+                if (t_defp < defp) c = Colors.TEXT_RED;
+                else if (t_defp > defp) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_defp.ToString(), X + x3 - te.Width, Y + yr + (line * 3));
                 
                 te = g.TextExtents(t_mat.ToString());
-                if (t_mat < mat) c = COLOR_TEXT_RED;
-                else if (t_mat > mat) c = COLOR_TEXT_YELLOW;
+                if (t_mat < mat) c = Colors.TEXT_RED;
+                else if (t_mat > mat) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_mat.ToString(), X + x3 - te.Width, Y + yr + (line * 4));
                 
                 te = g.TextExtents(t_mdf.ToString());
-                if (t_mdf < mdf) c = COLOR_TEXT_RED;
-                else if (t_mdf > mdf) c = COLOR_TEXT_YELLOW;
+                if (t_mdf < mdf) c = Colors.TEXT_RED;
+                else if (t_mdf > mdf) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_mdf.ToString(), X + x3 - te.Width, Y + yr + (line * 5));
                 
                 te = g.TextExtents(t_mdfp.ToString());
-                if (t_mdfp < mdfp) c = COLOR_TEXT_RED;
-                else if (t_mdfp > mdfp) c = COLOR_TEXT_YELLOW;
+                if (t_mdfp < mdfp) c = Colors.TEXT_RED;
+                else if (t_mdfp > mdfp) c = Colors.TEXT_YELLOW;
                 else c = Colors.WHITE;
                 Text.ShadowedText(g, c, t_mdfp.ToString(), X + x3 - te.Width, Y + yr + (line * 6));
                 

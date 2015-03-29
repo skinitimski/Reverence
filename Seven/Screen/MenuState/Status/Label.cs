@@ -8,12 +8,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
     internal sealed class Label : ControlMenu
     {
-        public static Label Instance;
-        
-        static Label()
-        {
-            Instance = new Label();
-        }
         public Label()
             : base(
                 Config.Instance.WindowWidth * 3 / 4,
@@ -21,6 +15,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                 Config.Instance.WindowWidth / 4 - 10,
                 Config.Instance.WindowHeight / 15)
         { }
+
         public override void ControlHandle(Key k)
         {
             switch (k)
@@ -49,11 +44,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                     break;
             }
         }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             Text.ShadowedText(g, "Status", X + 20, Y + 25);
@@ -61,6 +57,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
         public override void SetAsControl()
         {
             base.SetAsControl();
@@ -70,8 +67,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Seven.MenuState.StatusThree.Visible = false;
         }
         
-        public override string Info
-        { get { return ""; } }
+        public override string Info { get { return ""; } }
     }
 }
 

@@ -15,24 +15,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         
         const int x0 = 30;
         const int x1 = 150;
+
         
         const int ya = 40;
         const int yb = ya + 40;
-        
-        const int yh = 0; // first row (right)
-        const int yi = yh + 40; // successive rows
-        const int yj = yi + 37; //    |
-        const int yk = yj + 40; //    | 
-        const int yl = yk + 37; //    x
-        
-        const int xs = yl - yk;
-        const int ysa = 7;
-        const int ysb = 11;
-        const int zs = 5;
-        
-        const int x2 = x1 + (8 * xs) / 2;
-        
-#endregion
+
+        const int y_slots = ya - MateriaSlots.SLOT_RADIUS * 2;
+
+        #endregion
 
         public Selected()
             : base(
@@ -47,27 +37,23 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
             
             if (SelectedEquipment != null)
-            {
-                g.Color = new Color(.1, .1, .2);
-                g.Rectangle(X + x1, Y + ya - (yj - yi) + ysa, 8 * xs, yj - yi);
-                g.Fill();
+            {                                
+                MateriaSlots.Render(g, SelectedEquipment, X + x1, Y + y_slots, false);
 
-                                
-                MateriaSlots.Render(g, SelectedEquipment, X + x1, Y + ya, false);
-
-                Text.ShadowedText(g, COLOR_TEXT_TEAL, "Slot", X + x0, Y + ya);
-                Text.ShadowedText(g, COLOR_TEXT_TEAL, "Growth", X + x0, Y + yb);
+                Text.ShadowedText(g, Colors.TEXT_TEAL, "Slot", X + x0, Y + ya);
+                Text.ShadowedText(g, Colors.TEXT_TEAL, "Growth", X + x0, Y + yb);
                 
                 string growth = SelectedEquipment.Growth.ToString();
                 
                 te = g.TextExtents(growth);
-                Text.ShadowedText(g, growth, X + x2 - (te.Width / 2), Y + yb);
+
+                Text.ShadowedText(g, growth, X + x1, Y + yb);
             }
             
             ((IDisposable)g.Target).Dispose();
@@ -84,24 +70,24 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 {
                     switch (Seven.MenuState.EquipTop.Option)
                     {
-                        // case 2 is accessory
                         case 0: 
                             equipment = Seven.Party.Selected.Weapon;
                             break;
                         case 1:
                             equipment = Seven.Party.Selected.Armor;
                             break;
+                        // case 2 is accessory
                     }
                 }
                 else if (Seven.MenuState.EquipList.IsControl)
                 {
                     switch (Seven.MenuState.EquipTop.Option)
                     {
-                        // case 2 is accessory
                         case 0: 
                         case 1: 
                             equipment = (SlotHolder)Seven.MenuState.EquipList.Selection;
                             break;
+                        // case 2 is accessory
                     }
                 }
 

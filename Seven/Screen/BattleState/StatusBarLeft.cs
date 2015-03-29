@@ -34,7 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(28);
             
             
@@ -63,11 +63,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             if (a.Death)
             {
-                nameColor = COLOR_TEXT_RED;
+                nameColor = Colors.TEXT_RED;
             }
             else if (a.NearDeath)
             {
-                nameColor = COLOR_TEXT_YELLOW;
+                nameColor = Colors.TEXT_YELLOW;
             }
 
             Text.ShadowedText(g, nameColor, a.Name, X + x1, Y + y);

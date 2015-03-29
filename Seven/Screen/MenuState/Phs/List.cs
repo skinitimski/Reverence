@@ -2,6 +2,7 @@ using System;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Menu;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
@@ -63,9 +64,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                     }
                     break;
                 case Key.Circle:
-                    Character temp = Seven.Party.Reserves [optionY, optionX];
-                    Seven.Party.Reserves [optionY, optionX] = Seven.Party [Seven.MenuState.PhsStats.Option];
-                    Seven.Party [Seven.MenuState.PhsStats.Option] = temp;
+                    Character temp = Seven.Party.Reserves[optionY, optionX];
+                    Seven.Party.Reserves[optionY, optionX] = Seven.Party[Seven.MenuState.PhsStats.Option];
+                    Seven.Party[Seven.MenuState.PhsStats.Option] = temp;
                     Update();
                     Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsStats);
                     break;
@@ -110,11 +111,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             {
                 for (int b = 0; b <= 2; b++)
                 {
-                    if (Seven.Party.Reserves [a, b] != null)
+                    if (Seven.Party.Reserves[a, b] != null)
                     {
-                        d.DrawPixbuf(gc, Seven.Party.Reserves [a, b].ProfileSmall, 0, 0, X + x + b * xs, Y + y + a * ys,
-                                 Character.PROFILE_WIDTH_SMALL, Character.PROFILE_HEIGHT_SMALL,
-                                 Gdk.RgbDither.None, 0, 0);
+                        Images.RenderProfileSmall(d, gc, X + x + b * xs, Y + y + a * ys, Seven.Party.Reserves[a, b]);
                     }
                 }
             }
@@ -136,7 +135,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                 {
                     if (b + (3 * a) < Seven.Party.Reserves.Length)
                     {
-                        _characters [a, b] = Seven.Party.Reserves [b, a];
+                        _characters[a, b] = Seven.Party.Reserves[b, a];
                     }
                 }
             }
@@ -148,7 +147,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         }
         
         public Character Selection
-        { get { return Seven.Party.Reserves [optionY, optionX]; } }
+        { get { return Seven.Party.Reserves[optionY, optionX]; } }
         
         public override string Info
         { get { return (Selection == null) ? "" : Selection.Name; } }

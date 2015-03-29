@@ -13,11 +13,6 @@ namespace Atmosphere.Reverence.Menu
         protected Color border = new Color(0.8, 0.8, 0.8, 1);
         protected Color borderTransparent = new Color(0.8, 0.8, 0.8, 0.6);
 
-        protected Color COLOR_TEXT_TEAL = new Color(.3, .8, .8);
-        protected Color COLOR_TEXT_RED = new Color(0.8, 0, 0);
-        protected Color COLOR_TEXT_YELLOW = new Color(.8, .8, 0);
-        protected Color COLOR_TEXT_MAGENTA = new Color(.7, 0, .7);
-
         #region Menu Colors
 
         // top left

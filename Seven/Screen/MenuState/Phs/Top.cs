@@ -20,7 +20,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             Text.ShadowedText(g, "Please Make a Party of Three", X + 50, Y + 25);

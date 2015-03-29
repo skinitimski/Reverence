@@ -15,19 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         #region Layout
         
         const int x1 = 10; // xpic
-        const int x3 = 140; // name
-        const int x4 = x3 + 65; // lvl
-        const int x5 = x4 + 42; // hp
-        const int x6 = x5 + 65; // hpm
-        const int x7 = x3 + 110; // fury/sadness
-        const int cx = x5 - 8;
-        const int y0 = 60; // row 0
+        const int xs = x1 + Character.PROFILE_WIDTH + 10; // name
+        const int cx = 245;
+        const int y0 = 60;  // row 0
         const int y1 = 210; // row 1
         const int y2 = 360; // row 2
-        const int ya = 30; // subrow 1
-        const int yb = 55; // subrow 2
-        const int yc = 80; // subrow 3
-        const int yp = 12; // ypic
+        const int yp = 12;  // ypic
         const int c0 = y0 - 8;             // cursor index 0
         const int c1 = y0 - 8 + (y1 - y0); // cursor index 1
         const int c2 = y0 - 8 + (y2 - y0); // cursor index 2 
@@ -125,7 +118,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
             
@@ -168,61 +161,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
         {       
             Images.RenderProfile(d, gc, X + x1, Y + yp + y - y0, c);
-            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
 
-            g.Color = COLOR_TEXT_TEAL;
-            g.MoveTo(X + x3, Y + y + ya);
-            g.ShowText("LV");
-            g.MoveTo(X + x3, Y + y + yb);
-            g.ShowText("HP");
-            g.MoveTo(X + x3, Y + y + yc);
-            g.ShowText("MP");
-            g.Color = Colors.WHITE;
-
-            if (c.Fury)
-            {
-                Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Fury]", X + x7, Y + y);
-            }
-            else if (c.Sadness)
-            {
-                Text.ShadowedText(g, COLOR_TEXT_MAGENTA, "[Sadness]", X + x7, Y + y);
-            }
-            
-            Color namec = Colors.WHITE;
-            if (c.Death)
-            {
-                namec = COLOR_TEXT_RED;
-            }
-            else if (c.NearDeath)
-            {
-                namec = COLOR_TEXT_YELLOW;
-            }
-            
-            Text.ShadowedText(g, namec, c.Name, X + x3, Y + y);
-            
-            lvl = c.Level.ToString();
-            hp = c.HP.ToString() + "/";
-            hpm = c.MaxHP.ToString();
-            mp = c.MP.ToString() + "/";
-            mpm = c.MaxMP.ToString();
-            
-            te = g.TextExtents(lvl);
-            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y + ya);
-            
-            te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y + yb);
-            
-            te = g.TextExtents(hpm);
-            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y + yb);
-            
-            te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y + yc);
-            
-            te = g.TextExtents(mpm);
-            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y + yc);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + xs, Y + y);
         }
 
 

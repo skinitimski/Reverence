@@ -12,8 +12,8 @@
                 <lvl>6</lvl>
             </stats>
             <exp>610</exp>
-            <hp>158</hp>
-            <maxhp>314</maxhp>
+            <hp>2199</hp>
+            <maxhp>5189</maxhp>
             <mp>33</mp>
             <maxmp>54</maxmp>
             <limitlvl>1</limitlvl>
@@ -47,8 +47,8 @@
             <exp>580</exp>
             <hp>341</hp>
             <maxhp>500</maxhp>
-            <mp>40</mp>
-            <maxmp>40</maxmp>
+            <mp>5</mp>
+            <maxmp>7</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>true</sadness>
@@ -101,10 +101,10 @@
                 <lvl>6</lvl>
             </stats>
             <exp>201</exp>
-            <hp>198</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <hp>99</hp>
+            <maxhp>99</maxhp>
+            <mp>576</mp>
+            <maxmp>999</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>

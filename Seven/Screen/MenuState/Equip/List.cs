@@ -81,7 +81,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.Color = Colors.WHITE;
             g.SetFontSize(24);
             

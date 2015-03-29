@@ -11,41 +11,36 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
     internal sealed class Top : ControlMenu
     {
         #region Layout
-        
-        const int x3 = 140;
-        const int x4 = x3 + 65;
-        const int x5 = x4 + 42;
-        const int x6 = x5 + 65;
+
         const int x7 = 330; // wpn.
         const int x7a = x7 + 25;
         const int x8 = x7 + 65; // wpn name
-        const int x9 = x8 + 40; // box
-        
-        const int y = 50; // top row
-        const int ya = 30; // subrow 1
-        const int yb = 55; // subrow 2
-        const int yc = 80; // subrow 3
+        const int x9 = x8 + 60; // box
         
         const int yh = 43;      // weapon
-        const int yi = yh + 40; //  -subrow
-        const int yj = yi + 35; // armor
+        const int yi = yh + 15; //  -subrow
+        const int yj = yi + 65; // armor
         const int yja = yj - 8; // check
-        const int yk = yj + 40; //  -subrow
-        const int yl = yk + 35; // end
+        const int yk = yj + 15; //  -subrow
+        const int yl = yk + 65; // end
         const int yla = yl - 8; // arrange
+        
+        const int cy0 = yi + MateriaSlots.SLOT_RADIUS;
+        const int cy1 = yk + MateriaSlots.SLOT_RADIUS;
         
         const int xpic = 15;
         const int ypic = 15;
-        const int xs = (yl - yk) * 9 / 8;
         const int ys = 13;
-        const int zs = 5;
+        
+        const int x_status = xpic + Character.PROFILE_WIDTH + 15;
+        const int y_status = ypic + 35;
         
         #endregion
         
         private int optionX = 0;
         private int optionY = 0;
         private int cx = x9;
-        private int cy = yi;
+        private int cy = cy0;
 
         public Top()
             : base(
@@ -62,19 +57,27 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             {
                 case Key.Up:
                     if (optionY > 0)
+                    {
                         optionY--;
+                    }
                     break;
                 case Key.Down:
                     if (optionY < 1)
+                    {
                         optionY++;
+                    }
                     break;
                 case Key.Left:
                     if (optionX > -1)
+                    {
                         optionX--;
+                    }
                     break;
                 case Key.Right:
                     if (optionX < 7)
+                    {
                         optionX++;
+                    }
                     break;
                 case Key.X:
                     Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
@@ -84,6 +87,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     break;
                 case Key.Circle:
                     if (optionX == -1)
+                    {
                         switch (optionY)
                         {
                             case 0: // check
@@ -94,7 +98,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                             default:
                                 break;
                         }
+                    }
                     else
+                    {
                         switch (optionY)
                         {
                             case 0:
@@ -110,27 +116,30 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                                 }
                                 break;
                         }
+                    }
                     break;
                 case Key.Triangle:
-                    if (optionX == -1){
-                        break;}
+                    if (optionX == -1)
+                    {
+                        break;
+                    }
                     MateriaBase orb;
                     switch (optionY)
                     {
                         case 0:
-                            orb = Seven.Party.Selected.Weapon.Slots [optionX];
+                            orb = Seven.Party.Selected.Weapon.Slots[optionX];
                             if (orb != null)
                             {
-                                Seven.Party.Selected.Weapon.Slots [optionX] = null;
+                                Seven.Party.Selected.Weapon.Slots[optionX] = null;
                                 orb.Detach(Seven.Party.Selected);
                                 Seven.Party.Materiatory.Put(orb);
                             }
                             break;
                         case 1:
-                            orb = Seven.Party.Selected.Armor.Slots [optionX];
+                            orb = Seven.Party.Selected.Armor.Slots[optionX];
                             if (orb != null)
                             {
-                                Seven.Party.Selected.Armor.Slots [optionX] = null;
+                                Seven.Party.Selected.Armor.Slots[optionX] = null;
                                 orb.Detach(Seven.Party.Selected);
                                 Seven.Party.Materiatory.Put(orb);
                             }
@@ -145,18 +154,22 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             switch (optionY)
             {
                 case 0:
-                    cy = yi;
+                    cy = cy0;
                     break;
                 case 1:
-                    cy = yk;
+                    cy = cy1;
                     break;
                 default:
                     break;
             }
             if (optionX == -1)
+            {
                 cx = x7;
+            }
             else
-                cx = x9 + optionX * xs;
+            {
+                cx = x9 + optionX * MateriaSlots.SLOT_SPACING;
+            }
         }
         
         protected override void DrawContents(Gdk.Drawable d)
@@ -164,7 +177,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
@@ -174,14 +187,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             
             #region Slots
-            
-            g.Color = new Color(.1, .1, .2);
-            g.Rectangle(x9, yi, 8 * xs, yj - yi);
-            g.Fill();
-            g.Rectangle(x9, yk, 8 * xs, yl - yk);
-            g.Fill();
-
-            
+                        
             MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
             MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
             
@@ -189,44 +195,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             #region Character Status
             
-            d.DrawPixbuf(gc, Seven.Party.Selected.Profile, 0, 0,
-                         X + xpic, Y + ypic,
-                         Character.PROFILE_WIDTH, Character.PROFILE_HEIGHT,
-                         Gdk.RgbDither.None, 0, 0);
+            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
             
-            g.Color = COLOR_TEXT_TEAL;
-            g.MoveTo(X + x3, Y + y + ya);
-            g.ShowText("LV");
-            g.MoveTo(X + x3, Y + y + yb);
-            g.ShowText("HP");
-            g.MoveTo(X + x3, Y + y + yc);
-            g.ShowText("MP");
-            g.Color = Colors.WHITE;
-            
-            Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
-            
-            lvl = Seven.Party.Selected.Level.ToString();
-            hp = Seven.Party.Selected.HP.ToString() + "/";
-            hpm = Seven.Party.Selected.MaxHP.ToString();
-            mp = Seven.Party.Selected.MP.ToString() + "/";
-            mpm = Seven.Party.Selected.MaxMP.ToString();
-            
-            te = g.TextExtents(lvl);
-            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y + ya);
-            te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y + yb);
-            te = g.TextExtents(hpm);
-            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y + yb);
-            te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y + yc);
-            te = g.TextExtents(mpm);
-            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y + yc);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, Seven.Party.Selected, X + x_status, Y + y_status, false);
             
             #endregion Status
             
             #region Equipment
             
-            g.Color = COLOR_TEXT_TEAL;
+            g.Color = Colors.TEXT_TEAL;
             g.MoveTo(X + x7, Y + yh);
             g.ShowText("Wpn.");
             g.MoveTo(X + x7, Y + yj);
@@ -249,7 +226,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             if (IsControl)
             {
-                Shapes.RenderCursor(g, X + cx, Y + cy - ys);
+                Shapes.RenderCursor(g, X + cx, Y + cy);
             }
 
 

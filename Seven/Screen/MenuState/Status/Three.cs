@@ -7,7 +7,7 @@ using Atmosphere.Reverence.Seven.Graphics;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
-    internal sealed class Three : Menu.Menu
+    internal sealed class Three : StatusBase
     {
         const int x0 = 50; // column 1
         const int x1 = 275; // column 2
@@ -21,16 +21,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int ya = y + 30;  // next row 
         const int yb = ya + 25; //    "
         const int yc = yb + 25; //    "
-        
-        const int xpic = 15;
-        const int ypic = 15;
+
 
         public Three()
-            : base(
-                2,
-                Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth - 10,
-                Config.Instance.WindowHeight * 9 / 10)
+            : base()
         {
             Visible = false;
         }
@@ -40,50 +34,16 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             
             TextExtents te;
             
-            string lvl, hp, hpm, mp, mpm;
-            
             
             #region Character Status
             
-            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
-            
-            g.Color = COLOR_TEXT_TEAL;
-            g.MoveTo(X + x3, Y + ya);
-            g.ShowText("LV");
-            g.MoveTo(X + x3, Y + yb);
-            g.ShowText("HP");
-            g.MoveTo(X + x3, Y + yc);
-            g.ShowText("MP");
-            g.Color = Colors.WHITE;
-            
-            Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
-            
-            lvl = Seven.Party.Selected.Level.ToString();
-            hp = Seven.Party.Selected.HP.ToString() + "/";
-            hpm = Seven.Party.Selected.MaxHP.ToString();
-            mp = Seven.Party.Selected.MP.ToString() + "/";
-            mpm = Seven.Party.Selected.MaxMP.ToString();
-            
-            te = g.TextExtents(lvl);
-            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + ya);
-            
-            te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + yb);
-            
-            te = g.TextExtents(hpm);
-            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + yb);
-            
-            te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + yc);
-            
-            te = g.TextExtents(mpm);
-            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + yc);
+            DrawCharacterStatus(d, gc, g);
             
             #endregion Status
             

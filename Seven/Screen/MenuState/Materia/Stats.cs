@@ -44,7 +44,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
@@ -63,9 +63,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 Shapes.RenderCircle(g, orb.Color, 7, X + x1, Y + yp);
                 Text.ShadowedText(g, orb.Name, X + x2, Y + y0);
                 
-                Cairo.Color greenish = COLOR_TEXT_TEAL;
-                Cairo.Color yellow = COLOR_TEXT_YELLOW;
-                Cairo.Color red = COLOR_TEXT_RED;
+                Cairo.Color greenish = Colors.TEXT_TEAL;
+                Cairo.Color yellow = Colors.TEXT_YELLOW;
+                Cairo.Color red = Colors.TEXT_RED;
                 Cairo.Color gray = new Color(.4, .4, .4);
                                 
                 if (orb.ID == "enemyskill")

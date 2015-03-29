@@ -188,6 +188,8 @@
     <Compile Include="Screen\LossState\Prompt.cs" />
     <Compile Include="Battle\BattleTarget.cs" />
     <Compile Include="Battle\BattleTargetGroup.cs" />
+    <Compile Include="Graphics\Stats.cs" />
+    <Compile Include="Screen\MenuState\Status\StatusBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

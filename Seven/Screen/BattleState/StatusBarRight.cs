@@ -12,15 +12,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class StatusBarRight : GameMenu
     {
-        const int x1 = 90;  // hp
-        const int x2 = 169; // /hpm
-        const int x3 = 245; // mp
-        const int x4 = 300; // /mpm
-        const int x5 = 365; // limit
-        const int x6 = 440; // time
+        const int x1 = 90;   // hp
+        const int x2a = 150; // /
+        const int x2 = 150;  // hpm
+        const int x3 = 245;  // mp
+        const int x4a = 290; // /
+        const int x4 = 290;  // mpm
+        const int x5 = 365;  // limit
+        const int x6 = 440;  // time
         const int y0 = 30;
         const int y1 = 75;
         const int y2 = 120;
+
+        const string SLASH = "/";
 
         public StatusBarRight()
             : base(
@@ -51,7 +55,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             string hp, hpmax, mp, mpmax, limit, time;
@@ -60,18 +64,23 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             Color color;
 
-
-            // HP
+            // slashes
 
             color = Colors.WHITE;
+
+            te = g.TextExtents(SLASH);
+            Text.ShadowedText(g, color, SLASH, X + x2a - te.Width, Y + y);
+            Text.ShadowedText(g, color, SLASH, X + x4a - te.Width, Y + y);
+            
+            // HP
                         
             if (a.Death)
             {
-                color = COLOR_TEXT_RED;
+                color = Colors.TEXT_RED;
             }
             else if (a.NearDeath)
             {
-                color = COLOR_TEXT_YELLOW;
+                color = Colors.TEXT_YELLOW;
             }
 
             hp = a.HP.ToString();            
@@ -86,11 +95,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         
             if (a.Death)
             {
-                color = COLOR_TEXT_RED;
+                color = Colors.TEXT_RED;
             }
             else if (a.MP <= a.MaxMP / 8)
             {
-                color = COLOR_TEXT_YELLOW;
+                color = Colors.TEXT_YELLOW;
             }
             
             mp = a.MP.ToString();
@@ -101,17 +110,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             // HP MAX / MP MAX
             
-            color = a.Death ? COLOR_TEXT_RED : Colors.WHITE;
+            color = a.Death ? Colors.TEXT_RED : Colors.WHITE;
             
             hpmax = a.MaxHP.ToString();
-            while (hpmax.Length < 4) hpmax = " " + hpmax;
-            hpmax = "/" + hpmax;
+            hpmax = hpmax;
             te = g.TextExtents(hpmax);
             Text.ShadowedText(g, color, hpmax, X + x2 - te.Width, Y + y);
             
             mpmax = a.MaxMP.ToString();
-            while (mpmax.Length < 3) mpmax = " " + mpmax;
-            mpmax = "/" + mpmax;
+            mpmax = mpmax;
             te = g.TextExtents(mpmax);
             Text.ShadowedText(g, mpmax, X + x4 - te.Width, Y + y);
 

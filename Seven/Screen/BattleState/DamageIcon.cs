@@ -51,7 +51,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(20);
 
             TextExtents te = g.TextExtents(Message);

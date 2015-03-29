@@ -10,17 +10,18 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
     {
         public Label()
             : base(
-                Config.Instance.WindowWidth * 3 / 4,
+                Config.Instance.WindowWidth * 4 / 5,
                 Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth / 4 - 10,
+                Config.Instance.WindowWidth / 5 - 10,
                 Config.Instance.WindowHeight / 15)
         { }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
-            g.SetFontSize(24);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
+            g.SetFontSize(Text.FONT_SIZE_LABEL);
             
             Text.ShadowedText(g, "Materia", X + 20, Y + 25);
             

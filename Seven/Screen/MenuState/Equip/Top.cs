@@ -11,28 +11,24 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
     internal sealed class Top : ControlMenu
     {
         #region Layout
-        
-        const int x3 = 140; // name(s)
-        const int x4 = x3 + 65; // lvl
-        const int x5 = x4 + 42; // hp
-        const int x6 = x5 + 65; // hpm
-        const int x7 = 330; // equipment labels
+
+        const int x7 = 370; // equipment labels
         const int x8 = x7 + 60; // equipment names
         const int cx = x7 + 25;
-        const int y = 50; // main row
-        const int ya = 30; // subrow A1
-        const int yb = 55; // subrow A2
-        const int yc = 80; // subrow A3
+
         const int yi = 35; // subrow B1
         const int yj = yi + 50; // subrow B2
         const int yk = yj + 50; // subrow B3
         
         const int xpic = 15;
         const int ypic = 15;
-        static int cy = yi;
         
+        const int x_status = xpic + Character.PROFILE_WIDTH + 15;
+        const int y_status = ypic + 35;
+                
         #endregion
         
+        private int cy = yi;
         private int _option = 0;
 
         public Top()
@@ -111,56 +107,25 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             Gdk.GC gc = new Gdk.GC(d);
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
-            g.SelectFontFace("Lucida Console", FontSlant.Normal, FontWeight.Bold);
+            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
+
             string weapon, armor, acc;
             
             
             #region Character Status
             
             Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
-            
-            g.Color = COLOR_TEXT_TEAL;
-            g.MoveTo(X + x3, Y + y + ya);
-            g.ShowText("LV");
-            g.MoveTo(X + x3, Y + y + yb);
-            g.ShowText("HP");
-            g.MoveTo(X + x3, Y + y + yc);
-            g.ShowText("MP");
-            g.Color = Colors.WHITE;
-            
-            Text.ShadowedText(g, Seven.Party.Selected.Name, X + x3, Y + y);
-            
-            lvl = Seven.Party.Selected.Level.ToString();
-            hp = Seven.Party.Selected.HP.ToString() + "/";
-            hpm = Seven.Party.Selected.MaxHP.ToString();
-            mp = Seven.Party.Selected.MP.ToString() + "/";
-            mpm = Seven.Party.Selected.MaxMP.ToString();
-            
-            te = g.TextExtents(lvl);
-            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y + ya);
-            
-            te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y + yb);
-            
-            te = g.TextExtents(hpm);
-            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y + yb);
-            
-            te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y + yc);
-            
-            te = g.TextExtents(mpm);
-            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y + yc);
-            
+
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, Seven.Party.Selected, X + x_status, Y + y_status, false);
+
             #endregion Status
             
             #region Equipment
             
-            g.Color = COLOR_TEXT_TEAL;
+            g.Color = Colors.TEXT_TEAL;
             g.MoveTo(X + x7, Y + yi);
             g.ShowText("Wpn.");
             g.MoveTo(X + x7, Y + yj);
