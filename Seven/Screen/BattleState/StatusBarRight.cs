@@ -12,14 +12,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class StatusBarRight : GameMenu
     {
-        const int x1 = 90;   // hp
-        const int x2a = 150; // /
-        const int x2 = 150;  // hpm
-        const int x3 = 245;  // mp
-        const int x4a = 290; // /
-        const int x4 = 290;  // mpm
-        const int x5 = 365;  // limit
-        const int x6 = 440;  // time
+        const int x_hp = 70;  
+        const int x_hp_slash = x_hp + 16;
+        const int x_hpmax = x_hp_slash + 60;
+        const int x_mp = x_hpmax + 70;
+        const int x_mp_slash = x_mp + 16;
+        const int x_mpmax = x_mp_slash + 45;
+        const int x_limit = 365;
+        const int x_time = 440; 
+
         const int y0 = 30;
         const int y1 = 75;
         const int y2 = 120;
@@ -69,8 +70,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             color = Colors.WHITE;
 
             te = g.TextExtents(SLASH);
-            Text.ShadowedText(g, color, SLASH, X + x2a - te.Width, Y + y);
-            Text.ShadowedText(g, color, SLASH, X + x4a - te.Width, Y + y);
+            Text.ShadowedText(g, color, SLASH, X + x_hp_slash - te.Width, Y + y);
+            Text.ShadowedText(g, color, SLASH, X + x_mp_slash - te.Width, Y + y);
             
             // HP
                         
@@ -85,7 +86,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             hp = a.HP.ToString();            
             te = g.TextExtents(hp);
-            Text.ShadowedText(g, color, hp, X + x1 - te.Width, Y + y);
+            Text.ShadowedText(g, color, hp, X + x_hp - te.Width, Y + y);
 
 
 
@@ -104,7 +105,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             mp = a.MP.ToString();
             te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x3 - te.Width, Y + y);
+            Text.ShadowedText(g, mp, X + x_mp - te.Width, Y + y);
 
             
             
@@ -115,12 +116,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             hpmax = a.MaxHP.ToString();
             hpmax = hpmax;
             te = g.TextExtents(hpmax);
-            Text.ShadowedText(g, color, hpmax, X + x2 - te.Width, Y + y);
+            Text.ShadowedText(g, color, hpmax, X + x_hpmax - te.Width, Y + y);
             
             mpmax = a.MaxMP.ToString();
             mpmax = mpmax;
             te = g.TextExtents(mpmax);
-            Text.ShadowedText(g, mpmax, X + x4 - te.Width, Y + y);
+            Text.ShadowedText(g, mpmax, X + x_mpmax - te.Width, Y + y);
 
 
 
@@ -131,7 +132,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             limit = "0%";
             
             te = g.TextExtents(limit);
-            Text.ShadowedText(g, limit, X + x5 - te.Width + te.XBearing, Y + y);
+            Text.ShadowedText(g, limit, X + x_limit - te.Width + te.XBearing, Y + y);
 
 
 
@@ -140,7 +141,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             time = a.TurnTimer.PercentElapsed + "%";
             
             te = g.TextExtents(time);
-            Text.ShadowedText(g, time, X + x6 - te.Width + te.XBearing, Y + y);
+            Text.ShadowedText(g, time, X + x_time - te.Width + te.XBearing, Y + y);
 
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
