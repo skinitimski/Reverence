@@ -161,7 +161,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Attacks = new Dictionary<string, Attack>();
         }
         
-        private Enemy(XmlNode node, int x, int y)
+        private Enemy(XmlNode node, int x, int y, string designation)
             : this()
         {            
             _name = node.SelectSingleNode("name").InnerText;
@@ -180,7 +180,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             Exp = Int32.Parse(node.SelectSingleNode("exp").InnerText);
             AP = Int32.Parse(node.SelectSingleNode("ap").InnerText);
             Gil = Int32.Parse(node.SelectSingleNode("gil").InnerText);
-            
+
+            if (!String.IsNullOrEmpty(designation))
+            {
+                _name += " " + designation;
+            }
             
             foreach (XmlNode weak in node.SelectSingleNode("weaks").ChildNodes)
                 _weak.Add((Element)Enum.Parse(typeof(Element), weak.InnerText));
@@ -241,32 +245,18 @@ namespace Atmosphere.Reverence.Seven.Battle
             _y = y;
         }
 
-        public static Enemy CreateEnemy(string id, int x, int y)
+        public static Enemy CreateEnemy(string id, int x, int y, string designation = "")
         {       
             if (!_table.ContainsKey(id))
             {
                 throw new GameDataException("No enemy defined with id = " + id);
             }
 
-            return new Enemy(_table[id], x, x);
+            return new Enemy(_table[id], x, y, designation);
         }
 
 
-        public static Enemy CreateRandomEnemy(int x, int y)
-        {
-            int c = Seven.BattleState.Random.Next(_table.Count);
-            int i = 0;
 
-            foreach (string s in _table.Keys)
-            {
-                if (i == c) return new Enemy(_table[s], x, y);
-                i++;
-            }
-
-            return null;
-        }
-        
-        
         #region Methods
         
         public override void AcceptDamage(int delta, AttackType type = AttackType.None)
@@ -355,9 +345,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             int iconSize = 20;
 
             g.Color = iconColor;
-            g.Rectangle(X - iconSize / 2, Y- iconSize / 2, iconSize, iconSize);
+            g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
             g.Fill();
             g.Fill();
+
+            Text.ShadowedText(g, Colors.WHITE, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
         }
         
         

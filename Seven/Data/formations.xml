@@ -1,0 +1,6 @@
+<formations>
+    <formation id="debug0">
+        <enemy id="mothslasher" x="100" y="175" row="0" />
+        <enemy id="mothslasher" x="100" y="250" row="0" />        
+    </formation>
+</formations>

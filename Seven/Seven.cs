@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Time;
 using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven
@@ -50,6 +51,7 @@ namespace Atmosphere.Reverence.Seven
             Item.LoadItems();
             MateriaBase.LoadMateria();
             Spell.LoadSpells();
+            Formation.LoadFormations();
         }
 
         protected override void Cleanup()
@@ -93,7 +95,7 @@ namespace Atmosphere.Reverence.Seven
         
         public void BeginBattle()
         {
-            _battleState = new BattleState();
+            _battleState = new BattleState("debug0");
             _battleState.Init();
 
             LuaEnvironment[typeof(BattleState).Name] = _battleState;

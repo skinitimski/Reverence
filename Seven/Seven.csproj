@@ -193,6 +193,7 @@
     <Compile Include="Screen\BattleState\Magic\WMagic.cs" />
     <Compile Include="Screen\BattleState\MissIcon.cs" />
     <Compile Include="Screen\BattleState\BattleIcon.cs" />
+    <Compile Include="Battle\Formation.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
@@ -302,6 +303,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\scripts.battle.lua">
       <LogicalName>lua.scripts.battle</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\formations.xml">
+      <LogicalName>data.formations.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

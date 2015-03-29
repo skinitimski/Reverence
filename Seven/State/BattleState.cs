@@ -23,10 +23,6 @@ namespace Atmosphere.Reverence.Seven.State
 {    
     internal class BattleState : GameState
     {
-        // Singleton
-        
-        
-        
         #region Member Data
         
         private Queue<BattleIcon> _battleIcons;
@@ -35,31 +31,36 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool _holdingSquare;
 
+        private Formation _formation;
+
                 
         #endregion
         
+
+        private BattleState()
+        {
+        }
         
-        
-        public BattleState()
+        public BattleState(string formationId)
         {
             Screen = new BattleScreen();
-
+            
             _turnQueue = new Queue<Ally>();
             _battleIcons = new Queue<BattleIcon>();
             
             EventQueue = new Queue<BattleEvent>();
-
+            
             Random = new Random();
             
             Items = new List<IInventoryItem>();
+
+            _formation = Formation.Get(formationId);
         }
         
         protected override void InternalInit()
         {
             BattleClock = new Clock(Seven.Party.BattleSpeed);
-
-            
-            
+                       
             Allies = new Ally[3];
             
             if (Seven.Party[0] != null)
@@ -79,17 +80,8 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 throw new GameDataException("Must have at least one ally in battle.");
             }
-            
-            
-            //int numberOfEnemies = 1;
-            //Game.Random.Next(1, 3);
-            //EnemyList = new List<Enemy>(numberOfEnemies);
-            //for (int i = 0; i < numberOfEnemies; i++)
-            //    EnemyList.Add(Enemy.GetRandomEnemy(Game.Random.Next(100, 250), Game.Random.Next(100, 300)));
-            
-            EnemyList = new List<Enemy>();
 
-            EnemyList.Add(Enemy.CreateEnemy("mothslasher", 100, 100));
+            EnemyList = _formation.GetEnemyList();
         }
         
         private bool IsReady(Ally a)
