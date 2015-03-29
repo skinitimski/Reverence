@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.Graphics
             if (renderBackground)
             {
                 g.Color = Colors.GRAY_1;
-                g.Rectangle(x, y, 9 * SLOT_SPACING, SLOT_RADIUS * 2);
+                g.Rectangle(x, y, 8 * SLOT_SPACING, SLOT_RADIUS * 2);
                 g.Fill();
             }
 

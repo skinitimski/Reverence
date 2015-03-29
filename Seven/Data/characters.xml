@@ -19,6 +19,7 @@
         <limitlvl>1</limitlvl>
         <fury>false</fury>
         <sadness>false</sadness>
+        <backRow>false</backRow>
         <qvals>     68,   71,   73,   74,   74,   74,   75,   77</qvals>
         <lbvals>    15,   16,   16,   17,   17,   17,   18,   19</lbvals>
         <lgvals>    20,   10,   10,    8,    8,    8,    7,    6</lgvals>
@@ -66,6 +67,7 @@
         <mpgvals> 60,   70,   84,   94,  104,  104,   92,   72</mpgvals>
         <ranks>6,18,16,9,25</ranks>
         <sex>Female</sex>
+        <backRow>false</backRow>
         <weapon>
             <name>leatherglove</name>
             <materia/>
@@ -101,6 +103,7 @@
         <mpgvals>57,67,77, 90,102,100, 84,63</mpgvals>
         <ranks>5,2,18,14,29</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>
             <name>gatlinggun</name>
             <materia/>
@@ -136,6 +139,7 @@
         <mpgvals>70,84,99,112,124,120,105,82</mpgvals>
         <ranks>23,20,0,1,28</ranks>
         <sex>Female</sex>
+        <backRow>true</backRow>
         <weapon>
             <name>guardstick</name>
             <materia/>
@@ -171,6 +175,7 @@
         <mpgvals>58,75,86, 97,108,112, 94,66</mpgvals>
         <ranks>12,11,13,9,23</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>
             <name>mythrilclip</name>
             <materia>
@@ -211,6 +216,7 @@
         <mpgvals>58,72,80, 93,106,110, 85,72</mpgvals>
         <ranks>16,19,11,10,24</ranks>
         <sex>Female</sex>
+        <backRow>false</backRow>
         <weapon>4pointshuriken</weapon>
         <weapon>
             <name>masamune</name>
@@ -249,6 +255,7 @@
         <mpgvals>60,75,83, 97,108,108, 94,70</mpgvals>
         <ranks>19,22,6,4,28</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>yellowmphone</weapon>
         <weapon>
             <name>masamune</name>
@@ -288,6 +295,7 @@
         <mpgvals>63,80,90, 96,100,105, 97,84</mpgvals>
         <ranks>21,22,6,4,28</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>quicksilver</weapon>
         <weapon>
             <name>masamune</name>
@@ -324,6 +332,7 @@
         <mpgvals>54,75,83, 87, 94,104, 89,69</mpgvals>
         <ranks>11,7,17,15,27</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>spear</weapon>
         <weapon>
             <name>masamune</name>
@@ -363,6 +372,7 @@
         <mpgvals>64,78,90,101,112,112, 96,73</mpgvals>
         <ranks>0,5,1,2,23</ranks>
         <sex>Male</sex>
+        <backRow>false</backRow>
         <weapon>
             <name>masamune</name>
             <materia/>

@@ -12,34 +12,34 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
     {
         #region Layout
 
-        const int x7 = 330; // wpn.
-        const int x7a = x7 + 25;
-        const int x8 = x7 + 65; // wpn name
-        const int x9 = x8 + 60; // box
+        const int x_labels = 370; // wpn.
+        const int x_names = x_labels + 65; // wpn name
         
-        const int yh = 43;      // weapon
-        const int yi = yh + 15; //  -subrow
-        const int yj = yi + 65; // armor
-        const int yja = yj - 8; // check
-        const int yk = yj + 15; //  -subrow
-        const int yl = yk + 65; // end
-        const int yla = yl - 8; // arrange
-        
-        const int cy0 = yi + MateriaSlots.SLOT_RADIUS;
-        const int cy1 = yk + MateriaSlots.SLOT_RADIUS;
-        
+        const int y_weapon = 35;     
+        const int y_check = y_weapon + 38;
+        const int y_armor = y_check + 42;
+        const int y_arrange = y_armor + 38;
+                
         const int xpic = 15;
         const int ypic = 15;
-        const int ys = 13;
         
         const int x_status = xpic + Character.PROFILE_WIDTH + 15;
         const int y_status = ypic + 35;
+
+        const int x_slots = x_names + 20;
+
+        const int y_slots_weapon = y_weapon + 15;
+        const int y_slots_armor = y_armor + 15;
+
         
+        const int cy0 = y_slots_weapon + MateriaSlots.SLOT_RADIUS;
+        const int cy1 = y_slots_armor + MateriaSlots.SLOT_RADIUS;
+
         #endregion
         
         private int optionX = 0;
         private int optionY = 0;
-        private int cx = x9;
+        private int cx = x_slots;
         private int cy = cy0;
 
         public Top()
@@ -164,11 +164,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             }
             if (optionX == -1)
             {
-                cx = x7;
+                cx = x_labels;
             }
             else
             {
-                cx = x9 + optionX * MateriaSlots.SLOT_SPACING;
+                cx = x_slots + optionX * MateriaSlots.SLOT_SPACING;
             }
         }
         
@@ -179,17 +179,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
-            string weapon, armor;
+
             
             
             #region Slots
                         
-            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
-            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
+            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x_slots, Y + y_slots_weapon);
+            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x_slots, Y + y_slots_armor);
             
             #endregion
             
@@ -204,22 +200,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             #region Equipment
             
             g.Color = Colors.TEXT_TEAL;
-            g.MoveTo(X + x7, Y + yh);
+            g.MoveTo(X + x_labels, Y + y_weapon);
             g.ShowText("Wpn.");
-            g.MoveTo(X + x7, Y + yj);
+            g.MoveTo(X + x_labels, Y + y_armor);
             g.ShowText("Arm.");
             g.Color = Colors.WHITE;
             
-            Text.ShadowedText(g, "Check", x7a, yja);
-            Text.ShadowedText(g, "Arr.", x7a, yla);
+            Text.ShadowedText(g, "Check", X + x_labels, Y + y_check);
+            Text.ShadowedText(g, "Arr.", X + x_labels, Y + y_arrange);
             
+            string weapon, armor;
             weapon = Seven.Party.Selected.Weapon.Name;
             armor = Seven.Party.Selected.Armor.Name;
-            
-            te = g.TextExtents(weapon);
-            Text.ShadowedText(g, weapon, X + x8, Y + yh); 
-            te = g.TextExtents(armor);
-            Text.ShadowedText(g, armor, X + x8, Y + yj);
+
+            Text.ShadowedText(g, Seven.Party.Selected.Weapon.Name, X + x_names, Y + y_weapon); 
+            Text.ShadowedText(g, Seven.Party.Selected.Armor.Name, X + x_names, Y + y_armor);
             
             #endregion 
             

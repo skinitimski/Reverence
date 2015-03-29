@@ -38,8 +38,6 @@ namespace Atmosphere.Reverence.Seven
         private int _maxhp;
         private int _maxmp;
         private int _limitlvl;
-        private bool _fury = false;
-        private bool _sadness = false;
         private List<Element> _halve;
         private List<Element> _void;
         private List<Element> _absorb;
@@ -256,15 +254,18 @@ namespace Atmosphere.Reverence.Seven
             }
             
             // Fury/Sadness
-            _sadness = Boolean.Parse(savexml.SelectSingleNode("./sadness").InnerText);
-            _fury = Boolean.Parse(savexml.SelectSingleNode("./fury").InnerText);
-            if (_sadness && _fury)
+            Sadness = Boolean.Parse(savexml.SelectSingleNode("./sadness").InnerText);
+            Fury = Boolean.Parse(savexml.SelectSingleNode("./fury").InnerText);
+            if (Sadness && Fury)
             {
                 throw new SaveStateException("Can't be both sad and furious");
             }
             
             // Sex
             _sex = (Sex)Enum.Parse(typeof(Sex), dataxml.SelectSingleNode("./sex").InnerText);
+
+            // Back row?
+            BackRow = Boolean.Parse(savexml.SelectSingleNode("./backRow").InnerText);
             
             // Equipment
             _weapon = Weapon.Get(savexml.SelectSingleNode("./weapon/name").InnerText);
@@ -661,8 +662,8 @@ namespace Atmosphere.Reverence.Seven
         {
             _hp = 0;
 
-            _fury = false;
-            _sadness = false;
+            Fury = false;
+            Sadness = false;
             Death = true;
         }
         
@@ -670,10 +671,10 @@ namespace Atmosphere.Reverence.Seven
         {
             bool inflicted = false;
             
-            if (!_fury)
+            if (!Fury)
             {
-                _sadness = false;
-                _fury = true;
+                Sadness = false;
+                Fury = true;
                 inflicted = true;
             }
             
@@ -684,10 +685,10 @@ namespace Atmosphere.Reverence.Seven
         {
             bool inflicted = false;
             
-            if (!_sadness)
+            if (!Sadness)
             {
-                _fury = false;
-                _sadness = true;
+                Fury = false;
+                Sadness = true;
                 inflicted = true;
             }
             
@@ -711,9 +712,9 @@ namespace Atmosphere.Reverence.Seven
         {
             bool cured = false;
             
-            if (_fury)
+            if (Fury)
             {
-                _fury = false;
+                Fury = false;
                 cured = true;
             }
             
@@ -724,13 +725,13 @@ namespace Atmosphere.Reverence.Seven
         {
             bool cured = false;
             
-            if (_sadness)
+            if (Sadness)
             {
-                _sadness = false;
+                Sadness = false;
                 cured = true;
             }
             
-            _sadness = false;
+            Sadness = false;
             
             return cured;
         }
@@ -1091,9 +1092,9 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
-        public bool Sadness { get { return _sadness; } }
+        public bool Sadness { get; private set; }
 
-        public bool Fury { get { return _fury; } }
+        public bool Fury { get; private set; }
 
         public bool NearDeath { get { return HP <= (MaxHP / 4); } }
 

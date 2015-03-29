@@ -12,13 +12,14 @@
                 <lvl>6</lvl>
             </stats>
             <exp>610</exp>
-            <hp>2199</hp>
-            <maxhp>5189</maxhp>
+            <hp>158</hp>
+            <maxhp>314</maxhp>
             <mp>33</mp>
             <maxmp>54</maxmp>
             <limitlvl>1</limitlvl>
             <fury>true</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>bustersword</name>
                 <materia>
@@ -47,11 +48,12 @@
             <exp>580</exp>
             <hp>341</hp>
             <maxhp>500</maxhp>
-            <mp>5</mp>
-            <maxmp>7</maxmp>
+            <mp>40</mp>
+            <maxmp>40</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>true</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>leatherglove</name>
                 <materia/>
@@ -80,6 +82,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>gatlinggun</name>
                 <materia/>
@@ -101,13 +104,14 @@
                 <lvl>6</lvl>
             </stats>
             <exp>201</exp>
-            <hp>99</hp>
-            <maxhp>99</maxhp>
-            <mp>576</mp>
-            <maxmp>999</maxmp>
+            <hp>198</hp>
+            <maxhp>350</maxhp>
+            <mp>30</mp>
+            <maxmp>30</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>true</backRow>
             <weapon>
                 <name>guardstick</name>
                 <materia/>
@@ -136,6 +140,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>mythrilclip</name>
                 <materia/>
@@ -164,6 +169,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>4pointshuriken</name>
                 <materia/>
@@ -192,6 +198,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>yellowmphone</name>
                 <materia/>
@@ -220,6 +227,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>quicksilver</name>
                 <materia/>
@@ -248,6 +256,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>spear</name>
                 <materia/>
@@ -277,6 +286,7 @@
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
+            <backRow>false</backRow>
             <weapon>
                 <name>masamune</name>
                 <materia/>
@@ -290,8 +300,8 @@
     </characters>
     <party>
         <slot0>Cloud</slot0>
-        <slot1>Tifa</slot1>
-        <slot2>Aeris</slot2>
+        <slot1>Aeris</slot1>
+        <slot2>Tifa</slot2>
         <reserve>Barret</reserve>
         <reserve>RedXIII</reserve>
         <reserve>Yuffie</reserve>
