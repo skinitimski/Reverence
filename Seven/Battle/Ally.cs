@@ -49,8 +49,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             GetSummons();
             
             BattleMenu = new BattleMenu(this);
-            
-            MagicMenu = new Screens.Magic.Main(MagicSpells, BattleMenu.WMagic);
+
+            if (BattleMenu.WMagic)
+            {
+                MagicMenu = new Screens.Magic.WMagic(MagicSpells);
+            }
+            else
+            {
+                MagicMenu = new Screens.Magic.Main(MagicSpells);
+            }
+
             if (!MagicMenu.IsValid)
             {
                 MagicMenu = null;
@@ -296,6 +304,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             g.Color = iconColor;
             g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
             g.Fill();
+
+
+            Text.ShadowedText(g, Colors.WHITE, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
         }
         
         #endregion Methods

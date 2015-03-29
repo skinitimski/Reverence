@@ -110,7 +110,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             string itemName = Seven.Party.Inventory.GetItem(slot).Name;
 
             e.ResetSourceTurnTimer = releaseAlly;
-            e.Dialogue = c => "Use item: " + itemName;
+            e.Dialogue = c => Seven.BattleState.Commanding.Name + " uses item " + itemName;
             
             Seven.BattleState.EnqueueAction(e);
         }

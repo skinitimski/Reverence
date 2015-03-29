@@ -31,6 +31,25 @@ namespace Atmosphere.Reverence.Graphics
             
             g.Restore();
         }
+        
+        public static void ShadowedText(Cairo.Context g, Cairo.Color c, string text, double x, double y, string font, int point)
+        {
+            g.Save();
+
+            g.SelectFontFace(font, FontSlant.Normal, FontWeight.Normal);
+            g.SetFontSize(point);
+
+            
+            g.MoveTo(x + SHADOW_SPACING, y + SHADOW_SPACING);
+            g.Color = Colors.BLACK;
+            g.ShowText(text);
+            
+            g.MoveTo(x, y);
+            g.Color = c;
+            g.ShowText(text);
+            
+            g.Restore();
+        }
     }
 }
 

@@ -24,9 +24,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         
         public virtual void Reset() 
         {
-//            RunActionHook = true;
-//            _runClear = false;
 //            AllAble = false;
+
+            Seven.BattleState.Screen.EnableActionHook(false);
         }
         
         public abstract string Info { get; }

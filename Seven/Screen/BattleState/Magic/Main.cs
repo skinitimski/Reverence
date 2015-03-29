@@ -7,13 +7,14 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {       
     internal class Main : ControlMenu, ISelectorUser
     {
-        private const int COLUMNS = 3;
+        const int COLUMNS = 3;
 
         #region Layout
 
@@ -25,24 +26,20 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         #endregion Layout
 
-        private int _xopt;
-        private int _yopt;
+        protected int _xopt;
+        protected int _yopt;
         private int _topRow;
         private int _totalRows = (MagicSpell.TOTAL_SPELLS / COLUMNS) + ((MagicSpell.TOTAL_SPELLS % COLUMNS == 0) ? 0 : 1);
         private readonly int _visibleRows = 3;
-        private bool _wmagic;
-        private int[] _first = new int[] { -1, -1 };
-        private MagicSpell[,] _spells;
+        protected MagicSpell[,] _spells;
 
-        public Main(IEnumerable<MagicSpell> spells, bool wmagic)
+        public Main(IEnumerable<MagicSpell> spells)
             : base(
                 5,
                 Config.Instance.WindowHeight * 7 / 10 + 20,
                 Config.Instance.WindowWidth * 3 / 4,
                 (Config.Instance.WindowHeight * 5 / 20) - 25)
         {
-            _wmagic = wmagic;
-
             _spells = new MagicSpell[_totalRows, COLUMNS];
 
             foreach (MagicSpell s in spells)
@@ -136,33 +133,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     if (_spells[_yopt, _xopt] != null)
                     {
                         Spell spell = _spells[_yopt, _xopt].Spell;
-
-                        if (_wmagic)
+                        
+                        if (CommandingAvailableMP >= spell.MPCost)
                         {
-                            if (_first[0] == -1)
-                            {
-                                Seven.BattleState.Screen.DisableActionHook();
-
-                                if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Spell.MPCost)
-                                {
-                                    Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
-                                }
-                            }
-                            else
-                            {
-                                int mpAfterFirst = Seven.BattleState.Commanding.MP - _spells[_first[0], _first[1]].Spell.MPCost;
-                                if (mpAfterFirst >= spell.MPCost)
-                                {
-                                    Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (Seven.BattleState.Commanding.MP >= spell.MPCost)
-                            {
-                                Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
-                            }
+                            Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
                         }
                     }
                     break;
@@ -171,65 +145,42 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         public void ActOnSelection()
         {
+            UseSpell(_xopt, _yopt);
+        }
 
-            if (_first[0] != -1 || !_wmagic)
+        protected void UseSpell(int xopt, int yopt, bool releaseAlly = true)
+        {
+            Spell spell = _spells[yopt, xopt].Spell;
+            
+            switch (spell.Target)
             {
-                //AbilityState state;
-                MagicSpell spell;
-
-                if (_wmagic)
-                {
-                    Seven.BattleState.Commanding.UseMP(_spells[_first[0], _first[1]].Spell.MPCost);
-                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.MPCost);
-
-                    #region First
-
-//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-                    spell = _spells[_first[0], _first[1]];
-//
-//                    state.Performer = Seven.BattleState.Commanding;
-//                    state.Action += delegate() { spell.Spell.Action(); };
-//
-//                    Seven.BattleState.EnqueueAction(state);
-
-                    #endregion First
-
-
-                    #region Second
-
-//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-                    spell = _spells[_xopt, _yopt];
-
-//                    state.Performer = Seven.BattleState.Commanding;
-//                    state.Action += delegate() { spell.Spell.Action(); };
-//
-//                    Seven.BattleState.EnqueueAction(state);
-
-                    #endregion Second
-
-
-                    Seven.BattleState.Screen.DisableActionHook(true);
-                }
-                else
-                {
-                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.MPCost);
-
-//                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-                    spell = _spells[_xopt, _yopt];
-
-//                    state.HitP = spell.Spell.Matp;
-//                    state.Type = AttackType.Magical;
-//                    state.MPTurboFactor = spell.MPTurboFactor;
-//                    state.Elements = spell.Spell.Element;
-//                    state.Performer = Seven.BattleState.Commanding;
-//                    state.Action += delegate() { spell.Spell.Action(); };
-                }
+                case BattleTarget.Combatant:
+                case BattleTarget.Ally:
+                case BattleTarget.Enemy:
+                    //BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
+                    break;
+                    
+                case BattleTarget.Group:
+                case BattleTarget.Allies:
+                case BattleTarget.Enemies:
+                    //BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
+                    break;
+                    
+                case BattleTarget.Area:
+                    //BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
+                    break;
             }
-            else
-            {
-                _first[0] = _xopt;
-                _first[1] = _yopt;
-            }
+
+
+            //Seven.BattleState.Commanding.UseSpell(
+
+                
+            //                    state.HitP = spell.Spell.Matp;
+            //                    state.Type = AttackType.Magical;
+            //                    state.MPTurboFactor = spell.MPTurboFactor;
+            //                    state.Elements = spell.Spell.Element;
+            //                    state.Performer = Seven.BattleState.Commanding;
+            //                    state.Action += delegate() { spell.Spell.Action(); };
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -273,7 +224,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             _topRow = 0;
             Visible = false;
             Seven.BattleState.Screen.MagicInfo.Visible = false;
-            _first = new int[] { -1, -1 };
         }
 
         public override void SetAsControl()
@@ -289,6 +239,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         { get { return _spells[_yopt, _xopt] == null ? "" : _spells[_yopt, _xopt].Spell.Desc; } }
 
         public MagicSpell Selected { get { return _spells[_yopt, _xopt]; } }
+
+        protected virtual int CommandingAvailableMP { get { return Seven.BattleState.Commanding.MP; } }
     }
 
 

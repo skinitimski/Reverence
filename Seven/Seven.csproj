@@ -190,6 +190,9 @@
     <Compile Include="Battle\BattleTargetGroup.cs" />
     <Compile Include="Graphics\Stats.cs" />
     <Compile Include="Screen\MenuState\Status\StatusBase.cs" />
+    <Compile Include="Screen\BattleState\Magic\WMagic.cs" />
+    <Compile Include="Screen\BattleState\MissIcon.cs" />
+    <Compile Include="Screen\BattleState\BattleIcon.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

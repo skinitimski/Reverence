@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         #region Member Data
         
-        private Queue<DamageIcon> _damageIcons;
+        private Queue<BattleIcon> _battleIcons;
 
         private Queue<Ally> _turnQueue;
         
@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.State
             Screen = new BattleScreen();
 
             _turnQueue = new Queue<Ally>();
-            _damageIcons = new Queue<DamageIcon>();
+            _battleIcons = new Queue<BattleIcon>();
             
             EventQueue = new Queue<BattleEvent>();
 
@@ -127,7 +127,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             CheckEnemyTurnTimers();
             
-            CheckDamageIcons();
+            CheckIcons();
             
             ClearDeadEnemies();
         }
@@ -232,15 +232,15 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
         
-        private void CheckDamageIcons()
+        private void CheckIcons()
         {
-            if (_damageIcons.Count > 0)
+            if (_battleIcons.Count > 0)
             {
-                DamageIcon icon = _damageIcons.Peek();
+                BattleIcon icon = _battleIcons.Peek();
 
                 if (icon.IsDone)
                 {
-                    _damageIcons.Dequeue();
+                    _battleIcons.Dequeue();
                 }
 
                 // don't loop over all of them...just get it the next iteration
@@ -302,7 +302,14 @@ namespace Atmosphere.Reverence.Seven.State
         {
             DamageIcon icon = new DamageIcon(amount, receiver, mp);
 
-            _damageIcons.Enqueue(icon);
+            _battleIcons.Enqueue(icon);
+        }
+
+        public void AddMissIcon(Combatant receiver)
+        {
+            MissIcon icon = new MissIcon(receiver);
+
+            _battleIcons.Enqueue(icon);
         }
         
         
@@ -313,7 +320,9 @@ namespace Atmosphere.Reverence.Seven.State
         public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
+
             sb.AppendLine("Status:");
+
             if (Allies[0] != null)
             {
                 sb.AppendLine(Allies[0].ToString());
@@ -326,10 +335,12 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 sb.AppendLine(Allies[2].ToString());
             }
+
             foreach (Enemy e in EnemyList)
             {
                 sb.AppendLine(" Enemy " + e.ToString());
             }
+
             return sb.ToString();
         }
         
@@ -344,14 +355,8 @@ namespace Atmosphere.Reverence.Seven.State
         public override void Draw(Gdk.Drawable d, int width, int height)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
-            try
-            {
-                Screen.Draw(d, !_holdingSquare);
-            }
-            catch (Exception e)
-            {
-            }
+
+            Screen.Draw(d, !_holdingSquare);
 
             foreach (Combatant a in Allies)
             {
@@ -370,7 +375,7 @@ namespace Atmosphere.Reverence.Seven.State
                 Shapes.RenderCursor(g, new Cairo.Color(.8, .8, 0), Commanding.X, Commanding.Y - 15);
             }
 
-            foreach (DamageIcon icon in _damageIcons)
+            foreach (BattleIcon icon in _battleIcons)
             {
                 icon.Draw(d);
             }

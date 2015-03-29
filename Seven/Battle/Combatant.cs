@@ -57,6 +57,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public abstract void AcceptDamage(int delta, AttackType type = AttackType.None);
         public abstract void AcceptMPLoss(int delta);
+       
 
         public abstract void UseMP(int amount);
 
@@ -84,6 +85,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             Seven.BattleState.EnqueueAction(e);
         }
 
+        internal void UseSpell(IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers, bool resetTurnTimer = true)
+        {
+            BattleEvent e = new BattleEvent(this, () => UseSpell(this, targets, spell, modifiers));
+                       
+            e.Dialogue = c => Name + " casts " + spell.Name;
+            e.ResetSourceTurnTimer = resetTurnTimer;
+            
+            Seven.BattleState.EnqueueAction(e);
+        }
+
 
 
 
@@ -91,40 +102,47 @@ namespace Atmosphere.Reverence.Seven.Battle
         private static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
             bool restorative = false;
-            
-            
-            if (!Formula.PhysicalHit(atkp, source, target, elements))
+                        
+            if (Formula.PhysicalHit(atkp, source, target, elements))
             {
-                return;
+                int bd = Formula.PhysicalBase(source);
+                int dam = Formula.PhysicalDamage(bd, power, target);
+
+                Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
+
+                target.AcceptDamage(dam, AttackType.Physical);
             }
-            
-            int bd = Formula.PhysicalBase(source);
-            int dam = Formula.PhysicalDamage(bd, power, target);
-
-            Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
-
-            target.AcceptDamage(dam, AttackType.Physical);
+            else
+            {
+                Seven.BattleState.AddMissIcon(target);
+            }
         }
         
-        private static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
+        private static void UseSpell(Combatant source, IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers)
         {
-            if (!Formula.MagicHit(source, target, spell.Atkp, spell.Elements))
+            foreach (Combatant target in targets)
             {
-                return;
+                if (Formula.MagicHit(source, target, spell.Atkp, spell.Elements))
+                {            
+                    bool restorative = false;
+
+                    int bd = Formula.MagicalBase(source);
+                    int dam = Formula.MagicalDamage(bd, 4, target);
+            
+                    Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
+            
+                    if (restorative)
+                    {
+                        dam = -dam;
+                    }
+                
+                    target.AcceptDamage(dam, AttackType.Magical);
+                }
+                else
+                {
+                    Seven.BattleState.AddMissIcon(target);
+                }
             }
-            
-            bool restorative = false;
-            int bd = Formula.MagicalBase(source);
-            int dam = Formula.MagicalDamage(bd, 4, target);
-            
-            Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
-            
-            if (restorative)
-            {
-                dam = -dam;
-            }
-            
-            target.AcceptDamage(dam, AttackType.Magical);
         }
 
 
