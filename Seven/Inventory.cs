@@ -6,6 +6,7 @@ using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 
 using GameItem = Atmosphere.Reverence.Seven.Asset.Item;
 
@@ -301,7 +302,7 @@ namespace Atmosphere.Reverence.Seven
             return used;
         }
         
-        public void UseItemInBattle(int slot)
+        public void UseItemInBattle(int slot, IEnumerable<Combatant> targets)
         {
             IInventoryItem item = _inventory[slot].Item;
             
@@ -310,7 +311,7 @@ namespace Atmosphere.Reverence.Seven
                 throw new ImplementationException("Tried to use an item in battle that can't be used in battle.");
             }
 
-            ((Item)item).UseInBattle();
+            ((Item)item).UseInBattle(targets);
 
             DecreaseCount(slot);
         }

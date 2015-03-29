@@ -52,27 +52,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 case Key.Right:
                     AdvanceOption(i => _targets[i].X < _targets[_option].X);
                     break;
-                case Key.Circle:
-                    Seven.BattleState.Screen.User.ActOnSelection();
-                    if (Seven.BattleState.Screen.RunActionHook)
-                    {
-                        Seven.BattleState.ActionHook();
-                    }
-                    else if (Seven.BattleState.Screen.RunClearControl)
-                    {
-                        Seven.BattleState.ClearControl();
-                    }
-                    else
-                    {
-                        Seven.BattleState.Screen.PopControl();
-                    }
-                    break;
-                case Key.X:
-                    Seven.BattleState.ActionAbort();
-                    break;
                 default:
                     break;
             }
+
+            base.ControlHandle(k);
         }
         
         public override void Draw(Gdk.Drawable d)
@@ -202,11 +186,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             _isControl = false;
         }
         
-        public Combatant Selected
+        protected override IEnumerable<Combatant> Selected
         {
             get
             {
-                return _targets[_option];
+                return new List<Combatant> { _targets[_option] };
             }
         }
 

@@ -45,8 +45,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             _controllerStack = new List<IController>();
             _controller = null;
-
-            RunActionHook = true;
         }
 
         public void Draw(Gdk.Drawable d)
@@ -132,7 +130,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-        public void GetSelection(BattleTarget target, bool targetEnemiesFirst = false)
+        public void ActivateSelector(BattleTarget target, bool targetEnemiesFirst = false)
         {
             switch (target)
             {
@@ -283,38 +281,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         // Selector
         //
 
-        
-        private bool _runClear = false;
-        
-        public void DisableActionHook(bool clear = false)
-        {
-            RunActionHook = false;
-            _runClear = clear;
-        }
 
-        public void EnableActionHook(bool clear = false)
-        {
-            RunActionHook = true;
-            _runClear = clear;
-        }
-        
-        public bool RunClearControl
-        {
-            get
-            {
-                // Clear is only relevant if we're not running the ActionHook().
-                // The ActionHook runs clear anyway.
-                if (!RunActionHook)
-                {
-                    return _runClear;
-                }
 
-                return false;
-            }
-        }
-        public bool RunActionHook { get; private set; }
-        
-        
+              
         public ISelectorUser User { get;  private set; }
 
 

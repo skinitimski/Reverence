@@ -136,16 +136,18 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         
                         if (CommandingAvailableMP >= spell.MPCost)
                         {
-                            Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
+                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                     }
                     break;
             }
         }
 
-        public void ActOnSelection()
+        public virtual bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             UseSpell(_xopt, _yopt);
+
+            return true;
         }
 
         protected void UseSpell(int xopt, int yopt, bool releaseAlly = true)

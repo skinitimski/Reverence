@@ -15,8 +15,34 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         protected const int CURSOR_SPACING = 25;
 
         protected bool _isControl = false;
+        
+        public virtual void ControlHandle(Key k)
+        {
+            switch (k)
+            {
+                case Key.Circle:
 
-        public abstract void ControlHandle(Key k);
+                    bool clear = Seven.BattleState.Screen.User.ActOnSelection(Selected);
+
+                    if (clear)
+                    {
+                        Seven.BattleState.ClearControl();
+                    }
+                    else
+                    {
+                        Seven.BattleState.Screen.PopControl();
+                    }
+
+                    break;
+
+                case Key.X:
+                    Seven.BattleState.ActionAbort();
+                    break;
+                default:
+                    break;
+            }
+        }
+
         public abstract void Draw(Gdk.Drawable d);
 
         public abstract void SetAsControl();
@@ -24,14 +50,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
         public bool IsControl { get { return _isControl; } }
         
-        public virtual void Reset() 
+        public void Reset() 
         {
 //            AllAble = false;
-
-            Seven.BattleState.Screen.EnableActionHook(false);
         }
         
         public abstract string Info { get; }
+
+        protected abstract IEnumerable<Combatant> Selected { get; }
 
     }
 

@@ -61,22 +61,28 @@ namespace Atmosphere.Reverence.Seven.State
         {
             BattleClock = new Clock(Seven.Party.BattleSpeed);
                        
-            Allies = new Ally[3];
-            
-            if (Seven.Party[0] != null)
+            Allies = new Ally[Party.PARTY_SIZE];
+
+            int x0 = 550;
+            int y0 = 125;
+
+            int xs = 30;
+            int ys = 250 / Party.PARTY_SIZE;
+
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                Allies[0] = new Ally(Seven.Party[0], 550, 125, 2000);
+                if (Seven.Party[i] != null)
+                {
+                    int elapsed = Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+
+                    int x = x0 + (i * xs);
+                    int y = y0 + (i * ys);
+
+                    Allies[i] = new Ally(Seven.Party[i], x, y, elapsed);
+                }
             }
-            if (Seven.Party[1] != null)
-            {
-                Allies[1] = new Ally(Seven.Party[1], 580, 212, 2500);
-            }
-            if (Seven.Party[2] != null)
-            {
-                Allies[2] = new Ally(Seven.Party[2], 610, 300, 2300);
-            }
-            
-            if (Allies[0] == null && Allies[1] == null && Allies[2] == null)
+
+            if (Allies.All(a => a == null))
             {
                 throw new GameDataException("Must have at least one ally in battle.");
             }

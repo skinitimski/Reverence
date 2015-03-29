@@ -195,23 +195,26 @@ namespace Atmosphere.Reverence.Seven
 
 
 
-        
-        public int TurnTimerSpeed(Character c, int v_timerSpeed)
-        {
-            return (c.Dexterity + 50) * v_timerSpeed / NormalSpeed();
-        }
+
         
         public int NormalSpeed()
         {
             int sum = 0;
-            
-            if (this[0] != null) sum += this[0].Dexterity;
-            if (this[1] != null) sum += this[1].Dexterity;
-            if (this[2] != null) sum += this[2].Dexterity;
-            
+            int count = 0;
+
+            for (int i = 0; i < PARTY_SIZE; i++)
+            {
+                if (this[i] != null)
+                {
+                    sum += this[i].Dexterity;
+                    count++;
+                }
+            }
+
+            // round up
             if (sum % 2 == 1) sum++;
             
-            return (sum / 2) + 50;
+            return (sum / count) + 50;
         }
 
 

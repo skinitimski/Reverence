@@ -189,7 +189,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// Uses an item in battle.
         /// </summary>
         [LuaFunctionCaller]
-        public void UseInBattle()
+        public void UseInBattle(IEnumerable<Combatant> targets)
         {
             if (CanUseInBattle)
             {                
@@ -200,17 +200,13 @@ namespace Atmosphere.Reverence.Seven.Asset
                         case BattleTarget.Combatant:
                         case BattleTarget.Ally:
                         case BattleTarget.Enemy:
-                            BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
+                            BattleUsage.Use.Call(targets.First());
                             break;
 
                         case BattleTarget.Group:
                         case BattleTarget.Allies:
                         case BattleTarget.Enemies:
-                            BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
-                            break;
-
-                        case BattleTarget.Area:
-                            BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
+                            BattleUsage.Use.Call(targets);
                             break;
                     }
                 }

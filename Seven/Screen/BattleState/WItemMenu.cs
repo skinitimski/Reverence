@@ -14,36 +14,72 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class WItemMenu : ItemMenu
     {
-        private int _first = -1;
-               
+        private class Choice
+        {
+            public int Slot;
+            public IEnumerable<Combatant> Targets;
+        }
+            
+
+
         public WItemMenu()
             : base()
         {
         }
-
-
-        public override void ActOnSelection()
+        
+        public override void ControlHandle(Key k)
         {
-            if (_first != -1)
+            bool cancel = false;
+
+            switch (k)
             {
-                // allocate to stack (option is on heap)
-                int first = _first;
-                int second = _option;
-                                
-                UseItem(first, false);
-                UseItem(second);
+                case Key.Circle:
+                    
+                    if (FirstChoice != null)
+                    {
+                        if (_option == FirstChoice.Slot && Seven.Party.Inventory.GetCount(_option) == 1)
+                        {
+                            cancel = true;
+                        }
+                    }
+                    
+                    break;
+            }
+
+            if (!cancel)
+            {
+                base.ControlHandle(k);
+            }
+        }
+
+        public override bool ActOnSelection(IEnumerable<Combatant> targets)
+        {
+            if (FirstChoice != null)
+            {         
+                UseItem(FirstChoice.Slot, FirstChoice.Targets, false);
+                UseItem(_option, targets);
+
+                return true;
             }
             else
             {
-                _first = _option;
+                FirstChoice = new Choice
+                {
+                    Slot = _option,
+                    Targets = targets
+                };
+
+                return false;
             }
         }
         
         public override void Reset()
         {
             base.Reset();
-            _first = -1;
+            FirstChoice = null;
         }
+
+        private Choice FirstChoice { get; set; }
     }
 }
 

@@ -50,10 +50,15 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             public string ID { get; private set; }
+
             public int Power { get; private set; }
+
             public int Atkp { get; private set; }
+
             public BattleTarget Target { get; private set; }
+
             public Element Element { get; private set; }
+
             public bool InfoVisible { get; private set; }
         }
         
@@ -77,6 +82,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             public IInventoryItem Item { get { return _item; } }
+
             public int Chance { get { return _chance; } }
         }
         
@@ -86,12 +92,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         #region Member Data
         
         private int _level;
-
         private int _hp;
         private int _mp;
         private int _maxhp;
         private int _maxmp;
-        
         private int _attack;
         private int _defense;
         private int _defensePercent;
@@ -99,29 +103,21 @@ namespace Atmosphere.Reverence.Seven.Battle
         private int _magicAttack;
         private int _magicDefense;
         private int _luck;
-        
         private string _name;
-        
         private bool _backRow = false;
         private bool _sensed = false;
-        
         private bool _fury = false;
         private bool _sadness = false;
         private bool _death = false;
         private bool _manipulate = false;
-        
         private List<Element> _weak;
         private List<Element> _halve;
         private List<Element> _void;
         private List<Element> _absorb;
         private List<Status> _immune;
-        
         private List<EnemyItem> _win;
         private List<EnemyItem> _steal;
         private IInventoryItem _morph;
-        
-
-        
         private static Dictionary<string, XmlNode> _table;
 
         #endregion Member Data
@@ -186,22 +182,37 @@ namespace Atmosphere.Reverence.Seven.Battle
                 _name += " " + designation;
             }
             
-            foreach (XmlNode weak in node.SelectSingleNode("weaks").ChildNodes)
+            foreach (XmlNode weak in node.SelectNodes("weaks/weak"))
+            {
                 _weak.Add((Element)Enum.Parse(typeof(Element), weak.InnerText));
-            foreach (XmlNode halve in node.SelectSingleNode("halves").ChildNodes)
+            }
+            foreach (XmlNode halve in node.SelectNodes("halves/halve"))
+            {
                 _halve.Add((Element)Enum.Parse(typeof(Element), halve.InnerText));
-            foreach (XmlNode v in node.SelectSingleNode("voids").ChildNodes)
+            }
+                                                                                                                                                                                                                        
+            foreach (XmlNode v in node.SelectNodes("voids/void"))
+            {
                 _void.Add((Element)Enum.Parse(typeof(Element), v.InnerText));
-            foreach (XmlNode absorb in node.SelectSingleNode("absorbs").ChildNodes)
+            }
+            foreach (XmlNode absorb in node.SelectNodes("absorbs/absorb"))
+            {
                 _absorb.Add((Element)Enum.Parse(typeof(Element), absorb.InnerText));
-            foreach (XmlNode immunity in node.SelectSingleNode("immunities").ChildNodes)
+            }
+            foreach (XmlNode immunity in node.SelectNodes("immunities/immunity"))
+            {
                 _immune.Add((Status)Enum.Parse(typeof(Status), immunity.InnerText));
+            }
             
-            foreach (XmlNode win in node.SelectSingleNode("win").ChildNodes)
+            foreach (XmlNode win in node.SelectNodes("win/item"))
+            {
                 _win.Add(new EnemyItem(win.OuterXml));
-            foreach (XmlNode steal in node.SelectSingleNode("steal").ChildNodes)
+            }
+            foreach (XmlNode steal in node.SelectNodes("steal/item"))
+            {
                 _steal.Add(new EnemyItem(steal.OuterXml));
-            foreach (XmlNode morph in node.SelectSingleNode("morph").ChildNodes)
+            }
+            foreach (XmlNode morph in node.SelectNodes("morph/item"))
             {
                 if (morph.Attributes["id"] != null)
                 {
@@ -235,11 +246,13 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
             
-            int vStep = Seven.Party.BattleSpeed;
             
-            C_Timer = new Clock(vStep);
+            int vStep = Seven.Party.BattleSpeed;
+            int tStep = Dexterity * vStep / Seven.Party.NormalSpeed();
+            
+            C_Timer = new Clock();
             V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(6000, _dexterity * vStep / Seven.Party.NormalSpeed());
+            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep);
 
             _x = x;
             _y = y;
@@ -367,9 +380,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-
-
-
         public void UseAttack(string id, Combatant target)
         {
             if (!Attacks.ContainsKey(id))
@@ -487,7 +497,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             _sensed = true;
         }
 
-
         public override bool Weak(Element e)
         {
             return _weak.Contains(e);
@@ -532,7 +541,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             return _immune.Contains(s);
         }
-        
         
         public void StealItem(Ally thief)
         {
@@ -586,6 +594,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return inflicted;
         }
+
         public override bool InflictSadness()
         {
             bool inflicted = false;
@@ -599,6 +608,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             return inflicted;
         }
+
         public override bool InflictDeath()
         {
             bool inflicted = false;
@@ -635,6 +645,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return cured;
         }
+
         public override bool CureSadness()
         {
             bool cured = false;
@@ -679,21 +690,33 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override int Level { get { return _level; } }
         
         public int Exp  { get; private set; }
+
         public int AP { get; private set; }
+
         public int Gil  { get; private set; }
         
         public override int Atk { get { return _attack; } }
+
         public override int Def { get { return _defense; } }
+
         public override int Defp { get { return _defensePercent; } }
+
         public override int Dexterity { get { return _dexterity; } }
+
         public override int Mat { get { return _magicAttack; } }
+
         public override int MDef { get { return _magicDefense; } }
+
         public override int MDefp { get { return 0; } }
+
         public override int Luck { get { return _luck; } }
         
-        public override int HP  { get { return _hp; }  }
-        public override int MP { get { return _mp; }  }
+        public override int HP  { get { return _hp; } }
+
+        public override int MP { get { return _mp; } }
+
         public override int MaxHP { get { return _maxhp; } }
+
         public override int MaxMP { get { return _maxmp; } }
         
         public override string Name { get { return _name; } }
@@ -701,14 +724,21 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool LongRange { get { return false; } }
 
         public override bool BackRow { get { return _backRow; } }
+
         public override bool Sensed { get { return _sensed; } }
+
         public override bool Death { get { return _death; } }
+
         public override bool NearDeath { get { return HP <= (MaxHP / 4); } }
+
         public override bool Sadness { get { return _sadness; } }
+
         public override bool Fury { get { return _fury; } }
 
         private LuaFunction AIMain { get; set; }
+
         private LuaFunction AIConfu { get; set; }
+
         private LuaFunction AIBerserk { get; set; }
 
         private Dictionary<string, Attack> Attacks { get; set; }

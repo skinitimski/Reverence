@@ -26,6 +26,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public const long PARALYZED_DURATION = 3000; // 20 v-timer units
         public const long SEIZURE_INTERVAL = 1200; // 4 v-timer units
         public const long SEIZURE_DURATION = 38100; // 127 v-timer units
+
+        public const int TURN_TIMER_TIMEOUT = 6000;
         
         protected int _x;
         protected int _y;

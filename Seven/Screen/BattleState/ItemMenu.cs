@@ -55,40 +55,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     Reset();
                     break;
                 case Key.Circle:
-                    IInventoryItem i = Seven.Party.Inventory.GetItem(_option);
+                    IInventoryItem i = Selection;
 
                     if (i.CanUseInBattle)
                     {
                         Item item = (Item)i;
 
-                        switch (item.BattleTarget)
-                        {
-                            case BattleTarget.Self:
-                                Seven.BattleState.Screen.SelectSelf();
-                                break;
-                            case BattleTarget.Combatant:
-                                Seven.BattleState.Screen.SelectCombatant(item.IntendedForEnemies ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
-                                break;
-                            case BattleTarget.Ally:
-                                Seven.BattleState.Screen.SelectAlly();
-                                break;
-                            case BattleTarget.Enemy:
-                                Seven.BattleState.Screen.SelectEnemy();
-                                break;
-                            case BattleTarget.Group:
-                                Seven.BattleState.Screen.SelectEitherGroup(item.IntendedForEnemies ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
-                                break;
-                            case BattleTarget.Allies:
-                                Seven.BattleState.Screen.SelectAllies();
-                                break;
-                            case BattleTarget.Enemies:
-                                Seven.BattleState.Screen.SelectEnemies();
-                                break;
-                            case BattleTarget.Area:
-                                Seven.BattleState.Screen.SelectArea();
-                                break;
-                        }
-
+                        Seven.BattleState.Screen.ActivateSelector(item.BattleTarget, item.IntendedForEnemies);
                     }
 
                     break;
@@ -96,21 +69,24 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         }
 
 
-        public virtual void ActOnSelection()
+        public virtual bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             int o = _option; // allocate to stack (option is on heap)
 
-            UseItem(o);
+            UseItem(o, targets);
+
+            return true;
         }
 
-        protected void UseItem(int slot, bool releaseAlly = true)
+        protected void UseItem(int slot, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, new Action(() =>  Seven.Party.Inventory.UseItemInBattle(slot)));
+            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, new Action(() =>  Seven.Party.Inventory.UseItemInBattle(slot, targets)));
 
+            string userName = Seven.BattleState.Commanding.Name;
             string itemName = Seven.Party.Inventory.GetItem(slot).Name;
 
             e.ResetSourceTurnTimer = releaseAlly;
-            e.Dialogue = c => Seven.BattleState.Commanding.Name + " uses item " + itemName;
+            e.Dialogue = c => userName + " uses item " + itemName;
             
             Seven.BattleState.EnqueueAction(e);
         }
@@ -170,9 +146,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
             get
             {
-                IInventoryItem i = Seven.Party.Inventory.GetItem(_option);
+                IInventoryItem i = Selection;
                 return i.Description;
             }
         }
+
+        protected IInventoryItem Selection { get { return Seven.Party.Inventory.GetItem(_option); } }
     }
 }

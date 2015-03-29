@@ -31,6 +31,7 @@
                 <name>aegisarmlet</name>
                 <materia>                    
                     <orb id="sense" type="Command" ap="0" slot="0" />
+                    <orb id="witem" type="Command" ap="0" slot="1" />
                 </materia>
             </armor>
             <accessory></accessory>

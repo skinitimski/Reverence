@@ -20,33 +20,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         {
             _targets = new List<Combatant>();
         }
-        
-        public override void ControlHandle(Key k)
-        {
-            switch (k)
-            {
-                case Key.Circle:
-                    Seven.BattleState.Screen.User.ActOnSelection();
-                    if (Seven.BattleState.Screen.RunActionHook)
-                    {
-                        Seven.BattleState.ActionHook();
-                    }
-                    else if (Seven.BattleState.Screen.RunClearControl)
-                    {
-                        Seven.BattleState.ClearControl();
-                    }
-                    else
-                    {
-                        Seven.BattleState.Screen.PopControl();
-                    }
-                    break;
-                case Key.X:
-                    Seven.BattleState.ActionAbort();
-                    break;
-                default:
-                    break;
-            }
-        }
+
         
         public override void Draw(Gdk.Drawable d)
         {
@@ -71,8 +45,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         }
 
         public override void SetNotControl() { _isControl = false; }
-        
-        public Combatant Selected { get { return _targets[_option]; } }
+
+        protected override IEnumerable<Combatant> Selected
+        {
+            get
+            {
+                return new List<Combatant> { _targets[_option] };
+            }
+        }
+
         public override string Info
         { get { return _targets[_option].ToString(); } }
     }

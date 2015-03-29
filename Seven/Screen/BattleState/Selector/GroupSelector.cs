@@ -34,26 +34,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 //                    }
 //                    }
 //                    break;
-                case Key.Circle:
-                    Seven.BattleState.Screen.User.ActOnSelection();
-                    if (Seven.BattleState.Screen.RunActionHook)
-                    {
-                        Seven.BattleState.ActionHook();
-                    }
-                    else if (Seven.BattleState.Screen.RunClearControl)
-                    {
-                        Seven.BattleState.ClearControl();
-                    }
-                    else
-                    {
-                        Seven.BattleState.Screen.PopControl();
-                    }
-                    break;
-                case Key.X:
-                    Seven.BattleState.ActionAbort();
-                    break;
-                default:
-                    break;
             }
             if (CanTargetEither)
             {
@@ -70,6 +50,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 default:
                     break;
             }
+            
+            
+            base.ControlHandle(k);
         }
         
         public override void Draw(Gdk.Drawable d)
@@ -148,19 +131,23 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             DefaultSelection = defaultSelection;
         }
         
-        public List<Combatant> Selected
+        protected override IEnumerable<Combatant> Selected
         {
             get
             {
+                IEnumerable<Combatant> selected = null;
+
                 switch (_selectedGroup)
                 {
                     case BattleTargetGroup.Allies:
-                        return Seven.BattleState.Allies.Cast<Combatant>().ToList();
+                        selected =  Seven.BattleState.Allies.Cast<Combatant>();
+                        break;
                     case BattleTargetGroup.Enemies:
-                        return Seven.BattleState.EnemyList.Cast<Combatant>().ToList();
-                    default:
-                        throw new ImplementationException(String.Format("GroupSelector targeting wrong group: {0}", _selectedGroup.ToString()));
+                        selected =  Seven.BattleState.EnemyList.Cast<Combatant>();
+                        break;
                 }
+
+                return selected;
             }
         }
 

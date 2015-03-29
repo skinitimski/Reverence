@@ -7,6 +7,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 
@@ -84,14 +85,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     {
                         if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.MPCost)
                         {
-                            if (_first == -1 && _wsummon)
-                            {
-                                Seven.BattleState.Screen.DisableActionHook();
-                            }
-
                             Spell spell = _summons[_option].Spell;
 
-                            Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
+                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                         else
                         {
@@ -102,7 +98,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             }
         }
 
-        public void ActOnSelection()
+        public bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             if (_first != -1 || !_wsummon)
             {
@@ -138,10 +134,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 // don't enqueue, will be picked up by Battle.ActionHook()
 
                 #endregion Second
+
+                return true;
             }
             else
             {
                 _first = _option;
+                return false;
             }
         }
 

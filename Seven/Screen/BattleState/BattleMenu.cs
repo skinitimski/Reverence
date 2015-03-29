@@ -428,7 +428,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
         }
 
-        public void ActOnSelection()
+        public bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             Combatant target;
             Ally performer = Seven.BattleState.Commanding;
@@ -437,7 +437,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             if (_option == _attackOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 performer.Attack(target);
             }
@@ -449,7 +449,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _doubleCutOption2)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
                 
                 performer.Attack(target, false);
                 performer.Attack(target);
@@ -461,7 +461,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _doubleCutOption4)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 performer.Attack(target, false);
                 performer.Attack(target, false);
@@ -475,7 +475,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _senseOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 BattleEvent e = new BattleEvent(performer, () => target.Sense());
                 
@@ -514,7 +514,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _deathblowOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target) * 2;
@@ -533,7 +533,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Steal
             else if (_option == _stealOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 BattleEvent e = new BattleEvent(performer, () => ((Enemy)target).StealItem(performer));
                 
@@ -545,7 +545,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Mug
             else if (_option == _mugOption)
             {
-                target = Seven.BattleState.Screen.TargetSelector.Selected;
+                target = targets.First();
 
                 int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
@@ -562,6 +562,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
             #endregion Mug
 
+            return true;
         }
 
         protected override void DrawContents(Gdk.Drawable d)

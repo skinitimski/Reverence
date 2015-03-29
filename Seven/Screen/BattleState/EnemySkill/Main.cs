@@ -7,6 +7,7 @@ using Cairo;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
@@ -85,13 +86,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
                         if (Seven.BattleState.Commanding.MP >= skill.MPCost)
                         {
-                            Seven.BattleState.Screen.GetSelection(skill.Target, skill.TargetEnemiesFirst);
+                            Seven.BattleState.Screen.ActivateSelector(skill.Target, skill.TargetEnemiesFirst);
                         }
                     }
                     break;
             }
         }
-        public void ActOnSelection()
+        public bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].MPCost);
             
@@ -102,7 +103,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 //            state.Performer = Seven.BattleState.Commanding;
 //            
 //            state.Action += delegate() { _spells[_xopt, _yopt].Action(); };
+
+            return true;
         }
+
+
         
         
         protected override void DrawContents(Gdk.Drawable d)
