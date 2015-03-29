@@ -137,16 +137,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             CanTargetAllies = true;
             CanTargetEnemies = false;
             
-            DefaultSelection = TargetGroup.Allies;
+            DefaultSelection = BattleTargetGroup.Allies;
         }
         public void SelectOnlyEnemies()
         {
             CanTargetAllies = false;
             CanTargetEnemies = true;
             
-            DefaultSelection = TargetGroup.Enemies;
+            DefaultSelection = BattleTargetGroup.Enemies;
         }
-        public void SelectEitherGroup(TargetGroup defaultSelection)
+        public void SelectEitherGroup(BattleTargetGroup defaultSelection)
         {
             CanTargetAllies = true;
             CanTargetEnemies = true;
@@ -187,10 +187,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 switch (DefaultSelection)
                 {
-                    case TargetGroup.Allies:
+                    case BattleTargetGroup.Allies:
                         _option = 0;
                         break;
-                    case TargetGroup.Enemies:
+                    case BattleTargetGroup.Enemies:
                         _option = numAllies;
                         break;
                 }
@@ -218,7 +218,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         private bool CanTargetAllies { get; set; }
         private bool CanTargetEnemies { get; set; }
 
-        private TargetGroup DefaultSelection { get; set; }
+        private BattleTargetGroup DefaultSelection { get; set; }
     }
 }
 

@@ -369,7 +369,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 case Key.Circle:
                     if (_option == _attackOption)
                     {
-                        Seven.BattleState.Screen.SelectCombatant(TargetGroup.Enemies);
+                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _doubleCutOption2 || _option == _doubleCutOption4)
                     {
@@ -397,7 +397,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _senseOption)
                     {
-                        Seven.BattleState.Screen.SelectCombatant(TargetGroup.Enemies);
+                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _mimeOption)
                     {
@@ -439,66 +439,36 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected;
 
-                BattleEvent e = new BattleEvent(performer, () => Formula.PhysicalAttack(16, performer.Atkp, performer, target, new Element[] { performer.Weapon.Element }));
-                
-                e.Dialogue = c => performer.Name + " attacks";
-                
-                Seven.BattleState.EnqueueAction(e);
+                performer.Attack(target);
             }
 
             #endregion Attack
 
+
             #region 2x-Cut
+
             else if (_option == _doubleCutOption2)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected;
-
-                int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
-                int dam = Formula.PhysicalDamage(bd, 16, target);
-
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
-//                state.LongRange = performer.LongRange;
-//                state.QuadraMagic = false;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
-//
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-
-                // Here we must disable the action hook, because we do not the second state
-                //  to be attached to Ally.Ability. If it were, when the first one is disposed of
-                //  it will reset the second one. See BattleState.CheckAbilityQueue()
-//                DisableActionHook(true);
+                
+                performer.Attack(target, false);
+                performer.Attack(target);
             }
+
             #endregion 2x-Cut
+
             #region 4x-Cut
+
             else if (_option == _doubleCutOption4)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected;
 
-                int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
-                int dam = Formula.PhysicalDamage(bd, 16, target);
-
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
-//                state.LongRange = performer.LongRange;
-//                state.QuadraMagic = false;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
-//
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-//                Seven.BattleState.EnqueueAction((AbilityState)state.Clone());
-
-                // Here we must disable the action hook, because we do not the first three states
-                //  to be attached to Ally.Ability. If it were, when the first one is disposed of
-                //  it will reset the others. See BattleState.CheckAbilityQueue()
-//                DisableActionHook(true);
+                performer.Attack(target, false);
+                performer.Attack(target, false);
+                performer.Attack(target, false);
+                performer.Attack(target);
             }
+
             #endregion 4x-Cut
 
             #region Sense
@@ -507,13 +477,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected;
 
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
-//                state.Performer = performer;
-//                state.Target = new ICombatant[1];
-//                state.Target[0] = target;
-//                state.Action += delegate() { target.Sense(); };
-                
-                
                 BattleEvent e = new BattleEvent(performer, () => target.Sense());
                 
                 e.Dialogue = c => target.ToString();
@@ -571,12 +534,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             else if (_option == _stealOption)
             {
                 target = Seven.BattleState.Screen.TargetSelector.Selected;
-//
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { ((Enemy)target).StealItem(performer); };
+
+                BattleEvent e = new BattleEvent(performer, () => ((Enemy)target).StealItem(performer));
+                
+                e.Dialogue = c => target.ToString() + " being theived";
+                
+                Seven.BattleState.EnqueueAction(e);
             }
             #endregion Steal
             #region Mug

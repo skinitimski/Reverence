@@ -826,7 +826,7 @@ namespace Atmosphere.Reverence.Seven
             return _halve.Contains(e);
         }
 
-        public bool Halves(params Element[] e)
+        public bool Halves(IEnumerable<Element> e)
         {
             foreach (Element d in e)
             {
@@ -844,7 +844,7 @@ namespace Atmosphere.Reverence.Seven
             return _void.Contains(e);
         }
 
-        public bool Voids(params Element[] e)
+        public bool Voids(IEnumerable<Element> e)
         {
             foreach (Element d in e)
                 if (_void.Contains(d))
@@ -859,7 +859,7 @@ namespace Atmosphere.Reverence.Seven
             return _absorb.Contains(e);
         }
 
-        public bool Absorbs(params Element[] e)
+        public bool Absorbs(IEnumerable<Element> e)
         {
             foreach (Element d in e)
                 if (_absorb.Contains(d))

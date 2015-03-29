@@ -48,7 +48,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             
             if (s != null)
             {
-                string cost = s.Spell.Cost.ToString();
+                string cost = s.Spell.MPCost.ToString();
                 Text.ShadowedText(g, "MP Req", X + x1, Y + y0);
                 
                 row++;

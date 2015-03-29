@@ -65,9 +65,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        public void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements, string msg = " attacks")
+        protected void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements, bool resetTurnTimer = true, string msg = " attacks")
         {
-            BattleEvent e = new BattleEvent(this, () => Formula.PhysicalAttack(power, atkp, this, target, elements));
+            BattleEvent e = new BattleEvent(this, () => PhysicalAttack(power, atkp, this, target, elements));
 
             if (Confusion)
             {
@@ -79,9 +79,63 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             e.Dialogue = c => Name + msg;
+            e.ResetSourceTurnTimer = resetTurnTimer;
 
             Seven.BattleState.EnqueueAction(e);
         }
+
+
+
+
+        
+        private static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
+        {
+            bool restorative = false;
+            
+            
+            if (!Formula.PhysicalHit(atkp, source, target, elements))
+            {
+                return;
+            }
+            
+            int bd = Formula.PhysicalBase(source);
+            int dam = Formula.PhysicalDamage(bd, power, target);
+
+            Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
+
+            target.AcceptDamage(dam, AttackType.Physical);
+        }
+        
+        private static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
+        {
+            if (!Formula.MagicHit(source, target, spell.Atkp, spell.Elements))
+            {
+                return;
+            }
+            
+            bool restorative = false;
+            int bd = Formula.MagicalBase(source);
+            int dam = Formula.MagicalDamage(bd, 4, target);
+            
+            Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
+            
+            if (restorative)
+            {
+                dam = -dam;
+            }
+            
+            target.AcceptDamage(dam, AttackType.Magical);
+        }
+
+
+
+
+
+
+
+
+
+
         
         public void CheckTimers()
         {
@@ -181,11 +235,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Inflict
+
         public abstract bool InflictDeath();
         public abstract bool InflictFury();
         public abstract bool InflictSadness();
-
-        
+                
         public bool InflictSleep()
         {
             if (Immune(Status.Sleep))
@@ -447,7 +501,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
         #endregion Inflict
-        
+
+
+
         #region Cure
         public abstract bool CureDeath();
         public abstract bool CureFury();
@@ -620,12 +676,17 @@ namespace Atmosphere.Reverence.Seven.Battle
             return true;
         }
         #endregion Cure
+
+
         
-        
-        public abstract bool Weak(params Element[] e);
-        public abstract bool Halves(params Element[] e);
-        public abstract bool Voids(params Element[] e);
-        public abstract bool Absorbs(params Element[] e);
+        public abstract bool Weak(IEnumerable<Element> elements);
+        public abstract bool Halves(IEnumerable<Element> elements);
+        public abstract bool Voids(IEnumerable<Element> elements);
+        public abstract bool Absorbs(IEnumerable<Element> elements);
+        public abstract bool Weak(Element e);
+        public abstract bool Halves(Element e);
+        public abstract bool Voids(Element e);
+        public abstract bool Absorbs(Element e);
         public abstract bool Immune(Status s);
         
         

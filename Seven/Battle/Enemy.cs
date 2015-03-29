@@ -37,7 +37,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 ID = node.SelectSingleNode("@id").Value;
                 Power = Int32.Parse(node.SelectSingleNode("power").InnerText);
                 Atkp = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
-                Target = (TargetType)Enum.Parse(typeof(TargetType), node.SelectSingleNode("target").InnerText);
+                Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), node.SelectSingleNode("target").InnerText);
                 Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
                 InfoVisible = true;
 
@@ -52,7 +52,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             public string ID { get; private set; }
             public int Power { get; private set; }
             public int Atkp { get; private set; }
-            public TargetType Target { get; private set; }
+            public BattleTarget Target { get; private set; }
             public Element Element { get; private set; }
             public bool InfoVisible { get; private set; }
         }
@@ -394,7 +394,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 description = " uses " + attack.ID;
             }
 
-            PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element }, description);
+            PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element }, true, description);
         }
 
 
@@ -494,25 +494,48 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             _sensed = true;
         }
-        
-        
-        public override bool Weak(params Element[] e)
+
+
+        public override bool Weak(Element e)
         {
-            return e.Any(x => _weak.Contains(x));
+            return _weak.Contains(e);
+        }
+        
+        public override bool Weak(IEnumerable<Element> elements)
+        {
+            return elements.Any(e => Weak(e));
         }
 
-        public override bool Halves(params Element[] e)
+        public override bool Halves(Element e)
         {
-            return e.Any(x => _halve.Contains(x));
+            return _halve.Contains(e);
         }
-        public override bool Voids(params Element[] e)
+
+        public override bool Halves(IEnumerable<Element> elements)
         {
-            return e.Any(x => _void.Contains(x));
+            return elements.Any(e => Halves(e));
         }
-        public override bool Absorbs(params Element[] e)
+
+        public override bool Voids(Element e)
         {
-            return e.Any(x => _absorb.Contains(x));
+            return _void.Contains(e);
         }
+
+        public override bool Voids(IEnumerable<Element> elements)
+        {
+            return elements.Any(e => Voids(e));
+        }
+        
+        public override bool Absorbs(Element e)
+        {
+            return _absorb.Contains(e);
+        }
+        
+        public override bool Absorbs(IEnumerable<Element> elements)
+        {
+            return elements.Any(e => Absorbs(e));
+        }
+
         public override bool Immune(Status s)
         {
             return _immune.Contains(s);

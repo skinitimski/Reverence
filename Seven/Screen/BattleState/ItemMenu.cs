@@ -63,28 +63,28 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
                         switch (item.BattleTarget)
                         {
-                            case TargetType.Self:
+                            case BattleTarget.Self:
                                 Seven.BattleState.Screen.SelectSelf();
                                 break;
-                            case TargetType.Combatant:
-                                Seven.BattleState.Screen.SelectCombatant(item.IntendedForEnemies ? TargetGroup.Enemies : TargetGroup.Allies);
+                            case BattleTarget.Combatant:
+                                Seven.BattleState.Screen.SelectCombatant(item.IntendedForEnemies ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
                                 break;
-                            case TargetType.Ally:
+                            case BattleTarget.Ally:
                                 Seven.BattleState.Screen.SelectAlly();
                                 break;
-                            case TargetType.Enemy:
+                            case BattleTarget.Enemy:
                                 Seven.BattleState.Screen.SelectEnemy();
                                 break;
-                            case TargetType.Group:
-                                Seven.BattleState.Screen.SelectEitherGroup(item.IntendedForEnemies ? TargetGroup.Enemies : TargetGroup.Allies);
+                            case BattleTarget.Group:
+                                Seven.BattleState.Screen.SelectEitherGroup(item.IntendedForEnemies ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
                                 break;
-                            case TargetType.Allies:
+                            case BattleTarget.Allies:
                                 Seven.BattleState.Screen.SelectAllies();
                                 break;
-                            case TargetType.Enemies:
+                            case BattleTarget.Enemies:
                                 Seven.BattleState.Screen.SelectEnemies();
                                 break;
-                            case TargetType.Area:
+                            case BattleTarget.Area:
                                 Seven.BattleState.Screen.SelectArea();
                                 break;
                         }
@@ -94,6 +94,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
             }
         }
+
+
         public virtual void ActOnSelection()
         {
             int o = _option; // allocate to stack (option is on heap)

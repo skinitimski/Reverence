@@ -10,58 +10,21 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal static class Formula
     {
-        public static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, Element[] elements)
+        public static int RunPhysicalModifiers(int dam, ref bool restorative, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
-            bool restorative = false;
+            dam = Formula.Critical(dam, source, target);
+            dam = Formula.Berserk(dam, source);
+            dam = Formula.RowCheck(dam, source, target);
+            dam = Formula.Frog(dam, target);
+            dam = Formula.Sadness(dam, target);
+            dam = Formula.Barrier(dam, target);
+            dam = Formula.Mini(dam, source);
+            dam = Formula.RandomVariation(dam);
+            dam = Formula.LowerSanityCkeck(dam);
+            dam = Formula.RunElementalChecks(dam, ref restorative, target, elements);
+            dam = Formula.UpperSanityCheck(dam);
 
-
-            if (!PhysicalHit(atkp, source, target, elements))
-            {
-                return;
-            }
-
-            int bd = PhysicalBase(source);
-            int dam = PhysicalDamage(bd, power, target);
-
-            dam = Critical(dam, source, target);
-            dam = Berserk(dam, source);
-            dam = RowCheck(dam, source, target);
-            dam = Frog(dam, target);
-            dam = Sadness(dam, target);
-            // dam = Split(dam, state);
-            dam = Barrier(dam, target);
-            dam = Mini(dam, source);
-            dam = RandomVariation(dam);
-            dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, target, elements);
-            dam = UpperSanityCheck(dam);
-
-            target.AcceptDamage(dam, AttackType.Physical);
-        }
-
-        public static void MagicSpell(int power, Combatant source, Combatant target, Spell spell, SpellModifiers modifiers)
-        {
-            if (!MagicHit(source, target, spell))
-            {
-                return;
-            }
-
-            bool restorative = false;
-            int bd = MagicalBase(source);
-            int dam = MagicalDamage(bd, 4, target);
-
-            RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
-
-            if (restorative)
-            {
-                dam = -dam;
-            }
-
-            target.AcceptDamage(dam, AttackType.Magical);
-        }
-
-        public static void MagicChangeStatus()
-        {
+            return dam;
         }
 
         public static int RunMagicModifiers(int dam, ref bool restorative, Combatant target, Spell spell, SpellModifiers modifiers)
@@ -72,7 +35,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = MPTurbo(dam, modifiers.MPTurboFactor);
             dam = RandomVariation(dam);
             dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, target, spell.Element);
+            dam = RunElementalChecks(dam, ref restorative, target, spell.Elements);
             dam = UpperSanityCheck(dam);
 
             return dam;
@@ -88,7 +51,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return (power * (512 - ee.Def) * bd) / (16 * 512);
         }
 
-        public static bool PhysicalHit(int atkp, Combatant source, Combatant target, Element[] elements)
+        public static bool PhysicalHit(int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
             int hitp;
 
@@ -154,11 +117,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             return (power * (512 - ee.Def) * bd) / (16 * 512);
         }
 
-        public static bool MagicHit(Combatant source, Combatant target, Spell spell)
+        public static bool MagicHit(Combatant source, Combatant target, int matp, IEnumerable<Element> elements)
         {
-            if (spell.Matp == 255 ||
-                target.Absorbs(spell.Element) ||
-                target.Voids(spell.Element))
+            if (matp == 255 ||
+                target.Absorbs(elements) ||
+                target.Voids(elements))
             {
                 return true;
             }
@@ -173,8 +136,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 return true;
             }
-
-            int matp = spell.Matp;
 
             if (source.Fury)
             {

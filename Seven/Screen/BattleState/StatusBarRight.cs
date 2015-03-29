@@ -12,10 +12,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class StatusBarRight : GameMenu
     {
-        const int x1 = 90; // hp
-        const int x2 = 150; // hpm
+        const int x1 = 90;  // hp
+        const int x2 = 169; // /hpm
         const int x3 = 245; // mp
-        const int x4 = 290; // mpm
+        const int x4 = 300; // /mpm
         const int x5 = 365; // limit
         const int x6 = 440; // time
         const int y0 = 30;
@@ -74,7 +74,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 color = COLOR_TEXT_YELLOW;
             }
 
-            hp = a.HP.ToString() + "/";            
+            hp = a.HP.ToString();            
             te = g.TextExtents(hp);
             Text.ShadowedText(g, color, hp, X + x1 - te.Width, Y + y);
 
@@ -93,7 +93,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 color = COLOR_TEXT_YELLOW;
             }
             
-            mp = a.MP.ToString() + "/";
+            mp = a.MP.ToString();
             te = g.TextExtents(mp);
             Text.ShadowedText(g, mp, X + x3 - te.Width, Y + y);
 
@@ -104,10 +104,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             color = a.Death ? COLOR_TEXT_RED : Colors.WHITE;
             
             hpmax = a.MaxHP.ToString();
+            while (hpmax.Length < 4) hpmax = " " + hpmax;
+            hpmax = "/" + hpmax;
             te = g.TextExtents(hpmax);
             Text.ShadowedText(g, color, hpmax, X + x2 - te.Width, Y + y);
             
             mpmax = a.MaxMP.ToString();
+            while (mpmax.Length < 3) mpmax = " " + mpmax;
+            mpmax = "/" + mpmax;
             te = g.TextExtents(mpmax);
             Text.ShadowedText(g, mpmax, X + x4 - te.Width, Y + y);
 

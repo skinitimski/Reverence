@@ -80,14 +80,20 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                     break;
                 case Key.Circle:
                     if (!String.IsNullOrEmpty(_spells[_yopt, _xopt].ID))
-                        if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Cost)
-                            _spells[_yopt, _xopt].Dispatch();
+                    {
+                        Spell skill = _spells[_yopt, _xopt];
+
+                        if (Seven.BattleState.Commanding.MP >= skill.MPCost)
+                        {
+                            Seven.BattleState.Screen.GetSelection(skill.Target, skill.TargetEnemiesFirst);
+                        }
+                    }
                     break;
             }
         }
         public void ActOnSelection()
         {
-            Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Cost);
+            Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].MPCost);
             
 //            AbilityState state;
 //            

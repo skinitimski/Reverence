@@ -13,7 +13,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class GroupSelector : Selector
     {
-        private TargetGroup _selectedGroup;
+        private BattleTargetGroup _selectedGroup;
 
         public GroupSelector()
         {
@@ -62,10 +62,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
                 case Key.Left:
-                    _selectedGroup = TargetGroup.Enemies;
+                    _selectedGroup = BattleTargetGroup.Enemies;
                     break;
                 case Key.Right:
-                    _selectedGroup = TargetGroup.Allies;
+                    _selectedGroup = BattleTargetGroup.Allies;
                     break;
                 default:
                     break;
@@ -80,7 +80,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 switch (_selectedGroup)
                 {
-                    case TargetGroup.Allies:
+                    case BattleTargetGroup.Allies:
                         foreach (Combatant a in Seven.BattleState.Allies)
                         {
                             if (a != null)
@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                             }
                         }
                         break;
-                    case TargetGroup.Enemies:
+                    case BattleTargetGroup.Enemies:
                         foreach (Combatant e in Seven.BattleState.EnemyList)
                         {
                             Shapes.RenderCursor(g, e.X - 15, e.Y);
@@ -108,11 +108,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (DefaultSelection)
             
             {
-                case TargetGroup.Allies:
-                    _selectedGroup = TargetGroup.Allies;
+                case BattleTargetGroup.Allies:
+                    _selectedGroup = BattleTargetGroup.Allies;
                     break;
-                case TargetGroup.Enemies:
-                    _selectedGroup = TargetGroup.Enemies;
+                case BattleTargetGroup.Enemies:
+                    _selectedGroup = BattleTargetGroup.Enemies;
                     break;
             }
         }
@@ -131,16 +131,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             CanTargetAllies = true;
             CanTargetEnemies = false;
 
-            DefaultSelection = TargetGroup.Allies;
+            DefaultSelection = BattleTargetGroup.Allies;
         }
         public void SelectOnlyEnemies()
         {
             CanTargetAllies = false;
             CanTargetEnemies = true;
             
-            DefaultSelection = TargetGroup.Enemies;
+            DefaultSelection = BattleTargetGroup.Enemies;
         }
-        public void SelectEitherGroup(TargetGroup defaultSelection)
+        public void SelectEitherGroup(BattleTargetGroup defaultSelection)
         {
             CanTargetAllies = true;
             CanTargetEnemies = true;
@@ -154,9 +154,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 switch (_selectedGroup)
                 {
-                    case TargetGroup.Allies:
+                    case BattleTargetGroup.Allies:
                         return Seven.BattleState.Allies.Cast<Combatant>().ToList();
-                    case TargetGroup.Enemies:
+                    case BattleTargetGroup.Enemies:
                         return Seven.BattleState.EnemyList.Cast<Combatant>().ToList();
                     default:
                         throw new ImplementationException(String.Format("GroupSelector targeting wrong group: {0}", _selectedGroup.ToString()));
@@ -170,9 +170,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 switch (_selectedGroup)
                 {
-                    case TargetGroup.Allies:
+                    case BattleTargetGroup.Allies:
                         return "All Allies";
-                    case TargetGroup.Enemies:
+                    case BattleTargetGroup.Enemies:
                         return "All enemies";
                     default:
                         return "";
@@ -183,7 +183,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         private bool CanTargetAllies { get; set; }
         private bool CanTargetEnemies { get; set; }
         private bool CanTargetEither { get { return CanTargetAllies && CanTargetEnemies; } }
-        private TargetGroup DefaultSelection { get; set; }
+        private BattleTargetGroup DefaultSelection { get; set; }
 
     }
 }

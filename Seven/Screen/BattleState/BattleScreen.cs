@@ -19,7 +19,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private IController _controller;
         private List<IController> _controllerStack;
 
-        private Mutex _mutex;
 
 
 
@@ -47,8 +46,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             _controllerStack = new List<IController>();
             _controller = null;
 
-            _mutex = new Mutex();
-
             RunActionHook = true;
         }
 
@@ -65,30 +62,32 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             EventBar.Draw(d);
 
 
-            _mutex.WaitOne();
-
-            if (stack)
+            lock (_controllerStack)
             {
-                foreach (IController c in _controllerStack)
+                if (stack)
                 {
-                    c.Draw(d);
+                    foreach (IController c in _controllerStack)
+                    {
+                        c.Draw(d);
+                    }
                 }
             }
-
-            _mutex.ReleaseMutex();
         }
         
 
         public void PushControl(IController to)
         {
-            _mutex.WaitOne();
-            if (_controller != null)
-                _controller.SetNotControl();
+            lock (_controllerStack)
+            {
+                if (_controller != null)
+                {
+                    _controller.SetNotControl();
+                }
 
-            _controllerStack.Add(to);
-            _controller = _controllerStack.Last();
-            _controller.SetAsControl();
-            _mutex.ReleaseMutex();
+                _controllerStack.Add(to);
+                _controller = _controllerStack.Last();
+                _controller.SetAsControl();
+            }
         }
         public void PopControl()
         {
@@ -97,13 +96,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 throw new ImplementationException("Hmm...no _control and you're Pop()ping?");
             }
 
-            _mutex.WaitOne();
-            _controller.SetNotControl();
-            _controller.Reset();
-            _controllerStack.RemoveAt(_controllerStack.Count - 1);
-            _controller = _controllerStack.Last();
-            _controller.SetAsControl();
-            _mutex.ReleaseMutex();
+            lock (_controllerStack)
+            {
+                _controller.SetNotControl();
+                _controller.Reset();
+                _controllerStack.RemoveAt(_controllerStack.Count - 1);
+                _controller = _controllerStack.Last();
+                _controller.SetAsControl();
+            }
         }
         public void ClearControl()
         {
@@ -112,26 +112,56 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 throw new ImplementationException("Hmm...no _control and you're Clear()ing?");
             }
 
-            _mutex.WaitOne();
-            _controller.SetNotControl();
-            while (_controllerStack.Count > 0)
+            lock (_controllerStack)
             {
-                if (_controllerStack.Last() is GameMenu)
+                _controller.SetNotControl();
+                while (_controllerStack.Count > 0)
                 {
-                    ((GameMenu)_controllerStack.Last()).Visible = false;
+                    if (_controllerStack.Last() is GameMenu)
+                    {
+                        ((GameMenu)_controllerStack.Last()).Visible = false;
+                    }
+                    _controllerStack.Last().Reset();
+                    _controllerStack.RemoveAt(_controllerStack.Count - 1);
                 }
-                _controllerStack.Last().Reset();
-                _controllerStack.RemoveAt(_controllerStack.Count - 1);
+                _controller = null;
             }
-            _controller = null;
-            _mutex.ReleaseMutex();
         }
 
 
 
 
 
-
+        public void GetSelection(BattleTarget target, bool targetEnemiesFirst = false)
+        {
+            switch (target)
+            {
+                case BattleTarget.Self:
+                    SelectSelf();
+                    break;
+                case BattleTarget.Combatant:
+                    SelectCombatant(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
+                    break;
+                case BattleTarget.Ally:
+                    SelectAlly();
+                    break;
+                case BattleTarget.Enemy:
+                    Seven.BattleState.Screen.SelectEnemy();
+                    break;
+                case BattleTarget.Group:
+                    Seven.BattleState.Screen.SelectEitherGroup(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
+                    break;
+                case BattleTarget.Allies:
+                    Seven.BattleState.Screen.SelectAllies();
+                    break;
+                case BattleTarget.Enemies:
+                    Seven.BattleState.Screen.SelectEnemies();
+                    break;
+                case BattleTarget.Area:
+                    Seven.BattleState.Screen.SelectArea();
+                    break;
+            }
+        }
 
 
 
@@ -154,7 +184,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             SelectTarget();
         }
 
-        public void SelectCombatant(TargetGroup defaultGroup)
+        public void SelectCombatant(BattleTargetGroup defaultGroup)
         {
             TargetSelector.SelectEitherGroup(defaultGroup);
 
@@ -185,7 +215,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             SelectGroup();
         }
 
-        public void SelectEitherGroup(TargetGroup defaultSelection)
+        public void SelectEitherGroup(BattleTargetGroup defaultSelection)
         {
             GroupSelector.SelectEitherGroup(defaultSelection);
 
@@ -209,73 +239,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 throw new ImplementationException("Tried to switch control to the Selector from a non-SelectorUser.");
             }
 
-            User = (ISelectorUser)_controller;
+            lock (_controllerStack)
+            {
+                User = (ISelectorUser)_controller;
 
-            PushControl(selector);
+                PushControl(selector);
+            }
         }
-
-//        public void GetSelection(TargetGroup tg, TargetType tt)
-//        {
-//            GetSelection(tg, tt, false);
-//                        
-//            PushControl(Seven.BattleState.Screen.TargetSelector);
-//        }
-//
-//        /// <summary>Activates the Selector.</summary>
-//        /// <param name="tg">Valid TargetGroup for selection</param>
-//        /// <param name="tt">Valid TargetType for selection</param>
-//        /// <param name="allAble">Whether or not this ability can switch between one and all targets.</param>
-//        /// <remarks>If allAble, use TargetType.OneTar, since if the ability isn't attached to All,
-//        /// then this method will use the tt parameter.</remarks>
-//        public void GetSelection(TargetGroup tg, TargetType tt, bool allAble)
-//        {
-//            if (!(_controller is ISelectorUser))
-//            {
-//                throw new ImplementationException("Tried to switch control to the Selector from a non-SelectorUser.");
-//            }
-//
-//            // If allAble, use TargetType.OneTar. If it's all-able, but not attached to All,
-//            //    then this must be able to use the tt parameter
-//
-//            if (allAble && !(_controller is Screens.Magic.Main))
-//            {
-//                throw new ImplementationException("All-switch only implemented from MagicMenu.");
-//            }
-//
-//            _mutex.WaitOne();
-//
-//            User = (ISelectorUser)_controller;
-//            //Group = tg;
-//            //Type = tt;
-//            //AllAble = allAble && Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0;
-//
-////            if (AllAble)
-////            {
-////                PushControl(Seven.BattleState.Screen.GroupSelector);
-////            }
-////            else
-////            {
-//                switch (tt)
-//                {
-//                    case TargetType.Self:
-//                        PushControl(Seven.BattleState.Screen.SelfSelector);
-//                        break;
-//                    case TargetType.Combatant:
-//                        PushControl(Seven.BattleState.Screen.TargetSelector);
-//                        break;
-//                    case TargetType.GroupNS:
-//                    case TargetType.Group:
-//                    //case TargetType.NTar:
-//                        PushControl(Seven.BattleState.Screen.GroupSelector);
-//                        break;
-//                    case TargetType.Area:
-//                        PushControl(Seven.BattleState.Screen.AreaSelector);
-//                        break;
-//                }
-////            }
-//
-//            _mutex.ReleaseMutex();
-//        }
 
 
 

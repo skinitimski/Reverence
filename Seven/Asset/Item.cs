@@ -31,7 +31,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         private class BattleUsageRecord
         {
-            public TargetType Target { get; set; }
+            public BattleTarget Target { get; set; }
             
             public LuaFunction Use { get; set; }
 
@@ -107,7 +107,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             {
                 BattleUsage = new BattleUsageRecord();
                 
-                BattleUsage.Target = (TargetType)Enum.Parse(typeof(TargetType), battle.SelectSingleNode("@target").Value);
+                BattleUsage.Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), battle.SelectSingleNode("@target").Value);
 
                 XmlNode intendedForEnemiesNode = battle.SelectSingleNode("@intendedForEnemies");
 
@@ -197,19 +197,19 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     switch (BattleUsage.Target)
                     {
-                        case TargetType.Combatant:
-                        case TargetType.Ally:
-                        case TargetType.Enemy:
+                        case BattleTarget.Combatant:
+                        case BattleTarget.Ally:
+                        case BattleTarget.Enemy:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.TargetSelector.Selected);
                             break;
 
-                        case TargetType.Group:
-                        case TargetType.Allies:
-                        case TargetType.Enemies:
+                        case BattleTarget.Group:
+                        case BattleTarget.Allies:
+                        case BattleTarget.Enemies:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.GroupSelector.Selected);
                             break;
 
-                        case TargetType.Area:
+                        case BattleTarget.Area:
                             BattleUsage.Use.Call(Seven.BattleState.Screen.AreaSelector.Selected);
                             break;
                     }
@@ -257,7 +257,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         public FieldTarget FieldTarget { get { return FieldUsage == null ? FieldTarget.None : FieldUsage.Target; } }
         
-        public TargetType BattleTarget { get { return BattleUsage == null ? TargetType.None : BattleUsage.Target; } }
+        public BattleTarget BattleTarget { get { return BattleUsage == null ? BattleTarget.None : BattleUsage.Target; } }
         
         private FieldUsageRecord FieldUsage { get; set; }
 

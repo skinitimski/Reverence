@@ -5,19 +5,25 @@ using System.Text;
 using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Spell
     {        
         #region Member Data
-        
-        private string _name;
-        private string _desc;
-        private int _cost;
-        private int _matp;
-        private int _order;
-        private Element[] _element;
+
+
+//            Fire
+//                Magical Attack
+//                    Formula: Magical
+//                    Pwr: 1/2x Base
+//                    MAt%: 100
+//                    Cost: 4 MP
+//                    Tar: All Tar/1 Tar
+//                    Elm: Fire
+
+
         
         #endregion Member Data
 
@@ -39,98 +45,83 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     continue;
                 }
+
+                Spell spell = new Spell(node);
                 
-                string name = node.SelectSingleNode("name").InnerText;
-                string id = Resource.CreateID(name);
-                string dispatch = node.SelectSingleNode("dispatch").InnerText;
-                string action = node.SelectSingleNode("action").InnerText;
-                if (dispatch == "")
-                {
-                    dispatch = "function () end";
-                }
-                if (action == "")
-                {
-                    action = "function (state) end";
-                }
-                
-                if (id == "????")
-                {
-                    Seven.Lua.DoString("dispatchqqqq" + " = " + dispatch);
-                    Seven.Lua.DoString("actionqqqq" + " = " + action);
-                }
-                else
-                {
-                    Seven.Lua.DoString("dispatch" + id + " = " + dispatch);
-                    Seven.Lua.DoString("action" + id + " = " + action);
-                }
-                
-                _table.Add(id, new Spell(node));
+                _table.Add(spell.ID, spell);
             }
             
+        }
+
+        private Spell()
+        {
+            Elements = new Element[0];
+            Type = AttackType.Magical;
+            TargetEnemiesFirst = true;
         }
         
         public Spell(XmlNode xml)
+            : this()
         {
-            _name = xml.SelectSingleNode("name").InnerText;
-            _desc = xml.SelectSingleNode("desc").InnerText;
-            _cost = Int32.Parse(xml.SelectSingleNode("cost").InnerText);
-            _matp = Int32.Parse(xml.SelectSingleNode("matp").InnerText);
-            _order = Int32.Parse(xml.SelectSingleNode("order").InnerText);
+            Name = xml.SelectSingleNode("name").InnerText;
+            Desc = xml.SelectSingleNode("desc").InnerText;
+            ID = Resource.CreateID(Name);
             
-            XmlNodeList nodes = xml.SelectSingleNode("elements").ChildNodes;
-            _element = new Element[nodes.Count];
+            Type = (AttackType)Enum.Parse(typeof(AttackType), xml.SelectSingleNode("type").InnerText);
+            Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), xml.SelectSingleNode("target").InnerText);
+            TargetEnemiesFirst = Boolean.Parse(xml.SelectSingleNode("targetEnemiesFirst").InnerText);
+            Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
+            Atkp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
+            MPCost = Int32.Parse(xml.SelectSingleNode("cost").InnerText);
+
+            Order = Int32.Parse(xml.SelectSingleNode("order").InnerText);
+
+
+
+            XmlNodeList elementNodes = xml.SelectSingleNode("elements").ChildNodes;
+
+            Element[] elements = new Element[elementNodes.Count];
             
-            for (int i = 0;i < _element.Length;i++)
+            for (int i = 0; i < elements.Length; i++)
             {
-                if (nodes[i].NodeType == XmlNodeType.Comment)
+                if (elementNodes[i].NodeType == XmlNodeType.Comment)
                 {
                     throw new GameDataException("Remove XML comment from spell element list goddammit!!");
                 }
-                
-                _element[i] = (Element)Enum.Parse(typeof(Element), nodes[i].InnerText);
+
+                elements[i] = (Element)Enum.Parse(typeof(Element), elementNodes[i].InnerText);
                 i++;
             }
         }
-        
-        
-        public void Dispatch()
+
+
+
+        public static Spell Get(string id)
         {
-            if (ID == "????")
-            {
-                Seven.Lua.GetFunction("dispatch" + "qqqq").Call();
-            }
-            else
-            {
-                Seven.Lua.GetFunction("dispatch" + ID).Call();
-            }
+            return _table[id];
         }
-        public void Action()
-        {
-            if (ID == "????")
-            {
-                //Seven.Lua.GetFunction("action" + "qqqq").Call(Seven.BattleState.ActiveAbility);
-            }
-            else
-            {
-                //Seven.Lua.GetFunction("action" + ID).Call(Seven.BattleState.ActiveAbility);
-            }
-        }
+        
+
         
         public static int Compare(Spell left, Spell right)
         {
-            return left._order.CompareTo(right._order);
+            return left.Order.CompareTo(right.Order);
         }
         
         
-        public string Name { get { return _name; } }
-        public string Desc { get { return _desc; } }
-        public string ID { get { return Resource.CreateID(_name == null ? "" : _name); } }
-        public Element[] Element { get { return _element; } }
-        public int Cost { get { return _cost; } }
-        public int Matp { get { return _matp; } }
-        public int Order { get { return _order; } }
+        public string Name { get; private set; }
+        public string Desc { get; private set; }
+        public string ID { get; private set; }
+        public IEnumerable<Element> Elements { get; private set; }           
+        public AttackType Type { get; private set; }        
+        public BattleTarget Target { get; private set; }        
+        public bool TargetEnemiesFirst { get; private set; }       
+        public bool CanBeAlled { get;private  set; }        
+        public int Power { get; private set; }       
+        public int Atkp { get; private set; }    
+        public int MPCost { get; private set; }
         
-        public static Dictionary<string, Spell> SpellTable { get { return _table; } }
+        public int Order { get; private set; }
     }
 }
 

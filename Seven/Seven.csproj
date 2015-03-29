@@ -163,8 +163,6 @@
     <Compile Include="Screen\BattleState\StatusBarRight.cs" />
     <Compile Include="Battle\BattleEvent.cs" />
     <Compile Include="Battle\Status.cs" />
-    <Compile Include="Battle\TargetGroup.cs" />
-    <Compile Include="Battle\TargetType.cs" />
     <Compile Include="Battle\Formula.cs" />
     <Compile Include="State\PostBattleState.cs" />
     <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
@@ -188,6 +186,8 @@
     <Compile Include="Screen\BattleState\DamageIcon.cs" />
     <Compile Include="State\LossState.cs" />
     <Compile Include="Screen\LossState\Prompt.cs" />
+    <Compile Include="Battle\BattleTarget.cs" />
+    <Compile Include="Battle\BattleTargetGroup.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

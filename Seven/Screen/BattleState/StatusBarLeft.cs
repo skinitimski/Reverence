@@ -38,17 +38,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             g.SetFontSize(28);
             
             
-            if (Seven.BattleState.Allies[0] == null)
+            if (Seven.BattleState.Allies[0] != null)
             {
                 DrawAllyStatus(g, Seven.BattleState.Allies[0], y0);
             }
             
-            if (Seven.BattleState.Allies[1] == null)
+            if (Seven.BattleState.Allies[1] != null)
             {
                 DrawAllyStatus(g, Seven.BattleState.Allies[1], y1);
             }
             
-            if (Seven.BattleState.Allies[2] == null)
+            if (Seven.BattleState.Allies[2] != null)
             {
                 DrawAllyStatus(g, Seven.BattleState.Allies[2], y2);
             }

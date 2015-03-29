@@ -2,7 +2,7 @@
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    public enum TargetType
+    public enum BattleTarget
     {
         None,
         Self,

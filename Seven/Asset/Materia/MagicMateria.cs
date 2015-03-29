@@ -24,7 +24,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 {
                     if (s != String.Empty)
                     {
-                        sp.Add(Spell.SpellTable[Resource.CreateID(s)]);
+                        sp.Add(Spell.Get(Resource.CreateID(s)));
                     }
                 }
 

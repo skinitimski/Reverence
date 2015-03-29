@@ -21,6 +21,20 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         {
         }
 
+        
+        public override void ControlHandle(Key k)
+        {
+            switch (k)
+            {
+                case Key.Circle:
+                    if (_first == -1) Seven.BattleState.Screen.DisableActionHook();
+                    break;
+            }
+
+            base.ControlHandle(k);
+        }
+
+
         public override void ActOnSelection()
         {
             if (_first != -1)

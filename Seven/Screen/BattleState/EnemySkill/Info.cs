@@ -50,7 +50,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
             if (!String.IsNullOrEmpty(s.ID))
             {
-                string cost = s.Cost.ToString();
+                string cost = s.MPCost.ToString();
                 Text.ShadowedText(g, "MP Req", X + x1, Y + y0);
 
                 row++;

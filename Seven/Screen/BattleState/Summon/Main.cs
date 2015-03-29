@@ -82,14 +82,21 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 case Key.Circle:
                     if (_summons[_option] != null)
                     {
-                    if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.Cost)
-                    {
-                        if (_first == -1 && _wsummon)
+                        if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.MPCost)
                         {
-                            Seven.BattleState.Screen.DisableActionHook();
+                            if (_first == -1 && _wsummon)
+                            {
+                                Seven.BattleState.Screen.DisableActionHook();
+                            }
+
+                            Spell spell = _summons[_option].Spell;
+
+                            Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
                         }
-                        _summons[_option].Spell.Dispatch();
-                    }
+                        else
+                        {
+                            // TODO: beep
+                        }
                     }
                     break;
             }
@@ -99,7 +106,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             if (_first != -1 || !_wsummon)
             {
-                Seven.BattleState.Commanding.UseMP(_summons[_option].Spell.Cost);
+                Seven.BattleState.Commanding.UseMP(_summons[_option].Spell.MPCost);
 
                 #region First
 

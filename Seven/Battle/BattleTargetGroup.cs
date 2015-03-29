@@ -2,7 +2,7 @@
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    public enum TargetGroup
+    public enum BattleTargetGroup
     {
         Allies,
         Enemies

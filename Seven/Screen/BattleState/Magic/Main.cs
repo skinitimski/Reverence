@@ -30,11 +30,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         private int _topRow;
         private int _totalRows = (MagicSpell.TOTAL_SPELLS / COLUMNS) + ((MagicSpell.TOTAL_SPELLS % COLUMNS == 0) ? 0 : 1);
         private readonly int _visibleRows = 3;
-
         private bool _wmagic;
         private int[] _first = new int[] { -1, -1 };
-
-
         private MagicSpell[,] _spells;
 
         public Main(IEnumerable<MagicSpell> spells, bool wmagic)
@@ -83,7 +80,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             foreach (int i in rowsToUse)
             {
                 for (int j = 0; j < COLUMNS; j++)
+                {
                     newSpells[r, j] = _spells[i, j];
+                }
                 r++;
             }
 
@@ -92,26 +91,41 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             _totalRows = rowsToUse.Count;
         }
 
-
-
-
         public override void ControlHandle(Key k)
         {
             switch (k)
             {
                 case Key.Up:
-                    if (_yopt > 0) _yopt--;
-                    if (_topRow > _yopt) _topRow--;
+                    if (_yopt > 0)
+                    {
+                        _yopt--;
+                    }
+                    if (_topRow > _yopt)
+                    {
+                        _topRow--;
+                    }
                     break;
                 case Key.Down:
-                    if (_yopt < _totalRows - 1) _yopt++;
-                    if (_topRow < _yopt - _visibleRows + 1) _topRow++;
+                    if (_yopt < _totalRows - 1)
+                    {
+                        _yopt++;
+                    }
+                    if (_topRow < _yopt - _visibleRows + 1)
+                    {
+                        _topRow++;
+                    }
                     break;
                 case Key.Left:
-                    if (_xopt > 0) _xopt--;
+                    if (_xopt > 0)
+                    {
+                        _xopt--;
+                    }
                     break;
                 case Key.Right:
-                    if (_xopt < COLUMNS - 1) _xopt++;
+                    if (_xopt < COLUMNS - 1)
+                    {
+                        _xopt++;
+                    }
                     break;
                 case Key.X:
                     Visible = false;
@@ -120,29 +134,41 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     break;
                 case Key.Circle:
                     if (_spells[_yopt, _xopt] != null)
+                    {
+                        Spell spell = _spells[_yopt, _xopt].Spell;
+
                         if (_wmagic)
                         {
                             if (_first[0] == -1)
                             {
                                 Seven.BattleState.Screen.DisableActionHook();
-                                if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Spell.Cost)
-                                    _spells[_yopt, _xopt].Spell.Dispatch();
+
+                                if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Spell.MPCost)
+                                {
+                                    Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
+                                }
                             }
                             else
                             {
-                                int mpAfterFirst = Seven.BattleState.Commanding.MP - _spells[_first[0], _first[1]].Spell.Cost;
-                                if (mpAfterFirst >= _spells[_yopt, _xopt].Spell.Cost)
-                                    _spells[_yopt, _xopt].Spell.Dispatch();
+                                int mpAfterFirst = Seven.BattleState.Commanding.MP - _spells[_first[0], _first[1]].Spell.MPCost;
+                                if (mpAfterFirst >= spell.MPCost)
+                                {
+                                    Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
+                                }
                             }
                         }
                         else
                         {
-                            if (Seven.BattleState.Commanding.MP >= _spells[_yopt, _xopt].Spell.Cost)
-                                _spells[_yopt, _xopt].Spell.Dispatch();
+                            if (Seven.BattleState.Commanding.MP >= spell.MPCost)
+                            {
+                                Seven.BattleState.Screen.GetSelection(spell.Target, spell.TargetEnemiesFirst);
+                            }
                         }
+                    }
                     break;
             }
         }
+
         public void ActOnSelection()
         {
 
@@ -153,8 +179,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                 if (_wmagic)
                 {
-                    Seven.BattleState.Commanding.UseMP(_spells[_first[0], _first[1]].Spell.Cost);
-                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.Cost);
+                    Seven.BattleState.Commanding.UseMP(_spells[_first[0], _first[1]].Spell.MPCost);
+                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.MPCost);
 
                     #region First
 
@@ -186,7 +212,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                 }
                 else
                 {
-                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.Cost);
+                    Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].Spell.MPCost);
 
 //                    state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
                     spell = _spells[_xopt, _yopt];
@@ -205,8 +231,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                 _first[1] = _yopt;
             }
         }
-
-
 
         protected override void DrawContents(Gdk.Drawable d)
         {
@@ -231,9 +255,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
 
             if (IsControl)
+            {
                 Shapes.RenderCursor(g,
                     X + x1 + cx + _xopt * xs,
                     Y + cy + (_yopt - _topRow + 1) * ys);
+            }
 
             Seven.BattleState.Screen.MagicInfo.Draw(d);
 
