@@ -88,6 +88,7 @@ namespace Atmosphere.Reverence.Seven.State
             //    EnemyList.Add(Enemy.GetRandomEnemy(Game.Random.Next(100, 250), Game.Random.Next(100, 300)));
             
             EnemyList = new List<Enemy>();
+
             EnemyList.Add(Enemy.CreateEnemy("mothslasher", 100, 100));
         }
         
@@ -372,7 +373,7 @@ namespace Atmosphere.Reverence.Seven.State
             
             if (Commanding != null)
             {
-                Shapes.RenderCursor(g, new Cairo.Color(.8, .8, 0), Commanding.X, Commanding.Y - 15);
+                Shapes.RenderInvertedTriangle(g, Colors.YELLOW, Commanding.X, Commanding.Y - 20, 20);
             }
 
             foreach (BattleIcon icon in _battleIcons)

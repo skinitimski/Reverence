@@ -12,6 +12,7 @@ namespace Atmosphere.Reverence.Graphics
         public static readonly Color WHITE = new Color(1, 1, 1);
         
         public static readonly Color GREEN = new Color(.1, .8, .1);
+        public static readonly Color YELLOW = new Color(.8, .8, 0);
         
         public static readonly Color TEXT_TEAL = new Color(.3, .8, .8);
         public static readonly Color TEXT_RED = new Color(0.8, 0, 0);

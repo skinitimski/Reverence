@@ -54,7 +54,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             if (IsControl)
             {
-                Shapes.RenderCursor(g, _targets[_option].X - 15, _targets[_option].Y);
+                Shapes.RenderCursor(g, _targets[_option].X - CURSOR_SPACING, _targets[_option].Y);
             }
             
             ((IDisposable)g.Target).Dispose();

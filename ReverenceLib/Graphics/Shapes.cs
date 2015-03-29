@@ -88,6 +88,21 @@ namespace Atmosphere.Reverence.Graphics
                 }
             }
         }
+
+        public static void RenderInvertedTriangle(Cairo.Context g, Cairo.Color c, double x, double y, int side)
+        {            
+            g.Save();
+            
+            g.Color = c;
+            g.MoveTo(x, y);
+            g.LineTo(x - side / 2, y - side);
+            g.LineTo(x + side / 2, y - side);
+            g.LineTo(x, y);
+            g.Fill();
+            
+            g.Restore();
+        }
+
         
         
         public static void RenderLine(Cairo.Context g, Cairo.Color c, double lw, double x0, double y0, double x1, double y1)

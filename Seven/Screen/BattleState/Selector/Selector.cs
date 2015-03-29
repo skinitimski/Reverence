@@ -12,6 +12,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal abstract class Selector : IController
     {
+        protected const int CURSOR_SPACING = 25;
+
         protected bool _isControl = false;
 
         public abstract void ControlHandle(Key k);

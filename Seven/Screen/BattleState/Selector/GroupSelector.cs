@@ -85,14 +85,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                         {
                             if (a != null)
                             {
-                                Shapes.RenderCursor(g, a.X - 15, a.Y);
+                                Shapes.RenderCursor(g, a.X - CURSOR_SPACING, a.Y);
                             }
                         }
                         break;
                     case BattleTargetGroup.Enemies:
                         foreach (Combatant e in Seven.BattleState.EnemyList)
                         {
-                            Shapes.RenderCursor(g, e.X - 15, e.Y);
+                            Shapes.RenderCursor(g, e.X - CURSOR_SPACING, e.Y);
                         }
                         break;
                 }
