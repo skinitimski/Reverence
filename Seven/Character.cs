@@ -16,6 +16,9 @@ namespace Atmosphere.Reverence.Seven
 {
     internal class Character
     {
+        public const int MAX_HP = 9999;
+        public const int MAX_MP = 999;
+
         public const int PROFILE_WIDTH = 120;
         public const int PROFILE_HEIGHT = 136;
         public const int PROFILE_WIDTH_SMALL = 89;
@@ -1049,6 +1052,7 @@ namespace Atmosphere.Reverence.Seven
             get
             {
                 int temp = _maxhp;
+
                 foreach (MateriaBase m in Weapon.Slots)
                 {
                     if (m != null)
@@ -1063,7 +1067,14 @@ namespace Atmosphere.Reverence.Seven
                         temp += temp * m.HPMod / 100;
                     }
                 }
+
                 temp += temp * HPPercentBonus / 100;
+                
+                if (temp > MAX_HP)
+                {
+                    temp = MAX_HP;
+                }
+
                 return temp;
             }
         }
@@ -1073,21 +1084,22 @@ namespace Atmosphere.Reverence.Seven
             get
             {
                 int temp = _maxmp;
-                foreach (MateriaBase m in Weapon.Slots)
+
+                foreach (MateriaBase m in Weapon.Slots.Union(Armor.Slots))
                 {
                     if (m != null)
                     {
                         temp += temp * m.MPMod / 100;
                     }
                 }
-                foreach (MateriaBase m in Armor.Slots)
-                {
-                    if (m != null)
-                    {
-                        temp += temp * m.MPMod / 100;
-                    }
-                }
+
                 temp += temp * MPPercentBonus / 100;
+
+                if (temp > MAX_MP)
+                {
+                    temp = MAX_MP;
+                }
+
                 return temp;
             }
         }
