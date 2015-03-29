@@ -65,7 +65,6 @@ namespace Atmosphere.Reverence
             
             public override void Draw(Gdk.Drawable d, int width, int height)
             {                
-                Gdk.GC gc = new Gdk.GC(d);
                 Cairo.Context g = Gdk.CairoHelper.Create(d);
 
                 g.MoveTo(0, 0);
@@ -206,8 +205,15 @@ namespace Atmosphere.Reverence
                         context.Stroke();
                     }
 #endif
-                    
-                    State.Draw(_pixmap, w, h);
+
+                    try
+                    {
+                        State.Draw(_pixmap, w, h);
+                    }
+                    catch (Exception e)
+                    {
+                        HandleFatalException(e, " experienced while attempting to run State.Draw()");
+                    }
                 }
                 
                 lock (_window)
@@ -492,7 +498,7 @@ namespace Atmosphere.Reverence
                     }
                     catch (Exception e)
                     {
-                        LogException(e);
+                        HandleFatalException(e);
                     }
                 
                     Gdk.Threads.Enter();
@@ -505,7 +511,7 @@ namespace Atmosphere.Reverence
                         }
                         catch (Exception e)
                         {
-                            LogException(e);
+                            HandleFatalException(e);
                         }
                         finally
                         {
@@ -542,9 +548,9 @@ namespace Atmosphere.Reverence
         }
 
 
-        private static void LogException(Exception e)
+        private void HandleFatalException(Exception e, string msg = " experienced")
         {            
-            Console.WriteLine("FATAL ERROR");
+            Console.WriteLine("FATAL ERROR" + msg);
 
             while (e != null)
             {                
@@ -552,6 +558,8 @@ namespace Atmosphere.Reverence
 
                 e = e.InnerException;
             }
+
+            _quit = true;
         }
 
 
