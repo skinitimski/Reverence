@@ -157,7 +157,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Attacks = new Dictionary<string, Attack>();
         }
         
-        private Enemy(XmlNode node, int x, int y, string designation)
+        private Enemy(XmlNode node, int x, int y, int e, string designation)
             : this()
         {            
             _name = node.SelectSingleNode("name").InnerText;
@@ -237,9 +237,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 AIMain = (LuaFunction)Seven.Lua.DoString(main).First();
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                throw new ImplementationException("Error loading enemy main AI script; enemy = " + Name, e);
+                throw new ImplementationException("Error loading enemy main AI script; enemy = " + Name, ex);
             }
 
 
@@ -252,20 +252,20 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             C_Timer = new Clock();
             V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep);
+            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep, e, false);
 
             _x = x;
             _y = y;
         }
 
-        public static Enemy CreateEnemy(string id, int x, int y, string designation = "")
+        public static Enemy CreateEnemy(string id, int x, int y, int e, string designation = "")
         {       
             if (!_table.ContainsKey(id))
             {
                 throw new GameDataException("No enemy defined with id = " + id);
             }
 
-            return new Enemy(_table[id], x, y, designation);
+            return new Enemy(_table[id], x, y, e, designation);
         }
 
 

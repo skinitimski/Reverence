@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             C_Timer = new Clock();
             V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep, e, true);
+            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep, e, false);
             
             _x = x;
             _y = y;

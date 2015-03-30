@@ -58,6 +58,17 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             ID = node.SelectSingleNode("@id").Value;
 
+            XmlNode typeNode = node.SelectSingleNode("@type");
+
+            if (typeNode != null)
+            {
+                Type = (FormationType)Enum.Parse(typeof(FormationType), typeNode.Value);
+            }
+            else
+            {
+                Type = FormationType.Normal;
+            }
+
             Dictionary<string, int> counts = new Dictionary<string, int>();
             
             foreach (XmlNode enemyNode in node.SelectNodes("enemy"))
@@ -101,17 +112,95 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public List<Enemy> GetEnemyList()
         {
+            int[] e = new int[Enemies.Count];
+            
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                e[i] = Seven.Party.Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+            }
+                        
+            switch (Type)
+            {                    
+                case FormationType.PreEmptive:
+                case FormationType.Side:
+                    
+                    for (int i = 0; i < Party.PARTY_SIZE; i++)
+                    {
+                        e[i] /= 8;
+                    }
+                    
+                    break;
+            }
+
             List<Enemy> enemies = new List<Enemy>();
 
-            foreach (EnemyRecord record in Enemies)
+            for (int i = 0; i < Enemies.Count; i++)
             {
-                enemies.Add(Enemy.CreateEnemy(record.ID, record.X, record.Y, record.Designation));
+                EnemyRecord record = Enemies[i];
+
+                enemies.Add(Enemy.CreateEnemy(record.ID, record.X, record.Y, e[i], record.Designation));
             }
 
             return enemies;
         }
+
+        public int[] GetAllyTurnTimersElapsed()
+        {
+            int[] e = new int[Party.PARTY_SIZE];
+            
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
+            {
+                if (Seven.Party[i] != null)
+                {
+                    e[i] = Seven.Party.Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+                }
+            }
+
+            switch (Type)
+            {
+                case FormationType.Normal:
+
+                    int max = e.Max();
+
+                    int increase = ((Combatant.TURN_TIMER_TIMEOUT * 87) / 100) - max;
+
+                    for (int i = 0; i < Party.PARTY_SIZE; i++)
+                    {
+                        e[i] += increase;
+                    }
+
+                    break;
+                    
+                case FormationType.PreEmptive:
+                case FormationType.Side:
+
+                    for (int i = 0; i < Party.PARTY_SIZE; i++)
+                    {
+                        e[i] = Combatant.TURN_TIMER_TIMEOUT - 1;
+                    }
+                    
+                    break;
+                    
+                case FormationType.Back:
+                case FormationType.Pincer:
+
+                    // This is NOT what TFerguson's guide says to do, I couldn't make
+                    //  sense of what he was saying. This is just the same as what happens
+                    //  to enemy timers in PreEmptive/Side attacks
+                    for (int i = 0; i < Party.PARTY_SIZE; i++)
+                    {
+                        e[i] /= 8;
+                    }
+                    
+                    break;
+            }
+
+            return e;
+        }
                 
         public string ID { get; private set; }
+
+        public FormationType Type { get; private set; }
 
         private List<EnemyRecord> Enemies { get; set; }
     }

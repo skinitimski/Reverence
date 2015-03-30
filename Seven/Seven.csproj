@@ -194,6 +194,7 @@
     <Compile Include="Screen\BattleState\MissIcon.cs" />
     <Compile Include="Screen\BattleState\BattleIcon.cs" />
     <Compile Include="Battle\Formation.cs" />
+    <Compile Include="Battle\FormationType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">

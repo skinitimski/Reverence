@@ -77,16 +77,16 @@ namespace Atmosphere.Reverence.Seven.State
             int xs = 30;
             int ys = 250 / Party.PARTY_SIZE;
 
+            int[] e = _formation.GetAllyTurnTimersElapsed();
+
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
                 if (Seven.Party[i] != null)
                 {
-                    int elapsed = Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
-
                     int x = x0 + (i * xs);
                     int y = y0 + (i * ys);
 
-                    Allies[i] = new Ally(Seven.Party[i], x, y, elapsed);
+                    Allies[i] = new Ally(Seven.Party[i], x, y, e[i]);
                 }
             }
 
@@ -96,7 +96,24 @@ namespace Atmosphere.Reverence.Seven.State
             }
 
             EnemyList = _formation.GetEnemyList();
+            
+            foreach (Ally ally in Allies)
+            {
+                ally.TurnTimer.Unpause();
+            }
+            
+            foreach (Enemy enemy in EnemyList)
+            {
+                enemy.TurnTimer.Unpause();
+            }
         }
+
+
+
+
+
+
+
         
         private bool IsReady(Ally a)
         {
