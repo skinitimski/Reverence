@@ -27,7 +27,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int RunMagicModifiers(int dam, ref bool restorative, Combatant target, Spell spell, SpellModifiers modifiers)
+        public static int RunMagicModifiers(int dam, ref bool restorative, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
         {
             dam = Sadness(dam, target);
             dam = Split(dam, modifiers);
@@ -35,7 +35,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = MPTurbo(dam, modifiers.MPTurboFactor);
             dam = RandomVariation(dam);
             dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, target, spell.Elements);
+            dam = RunElementalChecks(dam, ref restorative, target, elements);
             dam = UpperSanityCheck(dam);
 
             return dam;

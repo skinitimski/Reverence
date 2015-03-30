@@ -1,6 +1,22 @@
 <!-- ********* SPELLS ********* -->
 <spells>
-<!--
+
+    <!--
+    <spell>
+        <name>Cure</name>
+        <desc>Restores MP</desc>
+        <type>Magical</type>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <power>8</power>
+        <hitp>255</hitp>
+        <cost>5</cost>
+        <order>0</order>
+        <elements>
+            <element>Restorative</element>
+        </elements>
+        <allable>true</allable>
+    </spell>
     <spell>
         <name>Cure</name>
         <desc></desc>
@@ -140,148 +156,103 @@
         <action></action>
     </spell>
    -->
-     <spell>
-     <!--     
-Fire
-  Magical Attack
-  Formula: Magical
-  Pwr: 1/2x Base
-  MAt%: 100
-  Cost: 4 MP
-  Tar: All Tar/1 Tar
-  Elm: Fire
-  Attr: Reflectable
-     -->
+    <spell>
         <name>Fire</name>
         <desc>[Fire]-based magical attack</desc>
+        <order>9</order>
+        <type>Magical</type>
+        <cost>4</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula type="MagicalAttack">
+            <power>8</power>
+            <hitp>100</hitp>
+            <elements>
+                <element>Fire</element>
+            </elements>
+        </formula>
+    </spell>
+    <!--
+     <spell>
+        <name>Fire2</name>
+        <desc>[Fire]-based magical attack</desc>
+        <type>Magical</type>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>20</power>
+        <hitp>100</hitp>
+        <cost>22</cost>
+        <order>10</order>
+        <elements>
+            <element>Fire</element>
+        </elements>
+        <allable>true</allable>
+    </spell>
+     <spell>
+        <name>Fire3</name>
+        <desc>[Fire]-based magical attack</desc>
+        <type>Magical</type>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>64</power>
+        <hitp>100</hitp>
+        <cost>52</cost>
+        <order>11</order>
+        <elements>
+            <element>Fire</element>
+        </elements>
+        <allable>true</allable>
+    </spell>
+    -->
+    <!--
+     <spell>
+        <name>Ice</name>
+        <desc>[Ice]-based magical attack</desc>
         <type>Magical</type>
         <target>Combatant</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <power>8</power>
         <hitp>100</hitp>
         <cost>4</cost>
-        <order>9</order>
-        <elements>
-            <element>Fire</element>
-        </elements>
-            <allable>true</allable>
-    </spell>
-    <!--
-    <spell>
-        <name>Fire2</name>
-        <desc></desc>
-        <cost>22</cost>
-        <matp>100</matp>
-        <order>10</order>
-        <elements>
-            <element>Fire</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(20, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Fire3</name>
-        <desc></desc>
-        <cost>52</cost>
-        <matp>100</matp>
-        <order>11</order>
-        <elements>
-            <element>Fire</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(64, state, i) end
-
-            end
-            end
-        </action>
-    </spell>
-    <spell>
-        <name>Ice</name>
-        <desc></desc>
-        <cost>4</cost>
-        <matp>100</matp>
         <order>12</order>
         <elements>
             <element>Ice</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(8, state, i) end
-
-            end
-            end
-        </action>
+        <allable>true</allable>
     </spell>
-    <spell>
+     <spell>
         <name>Ice2</name>
-        <desc></desc>
+        <desc>[Ice]-based magical attack</desc>
+        <type>Magical</type>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>20</power>
+        <hitp>100</hitp>
         <cost>22</cost>
-        <matp>100</matp>
         <order>13</order>
         <elements>
             <element>Ice</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(20, state, i) end
-
-            end
-            end
-        </action>
+        <allable>true</allable>
     </spell>
-    <spell>
+     <spell>
         <name>Ice3</name>
-        <desc></desc>
+        <desc>[Fire]-based magical attack</desc>
+        <type>Magical</type>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>64</power>
+        <hitp>100</hitp>
         <cost>52</cost>
-        <matp>100</matp>
         <order>14</order>
         <elements>
             <element>Ice</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(64, state, i) end
-
-            end 
-            end 
-        </action>
+        <allable>true</allable>
     </spell>
+    -->
+    <!--
     <spell>
         <name>Bolt</name>
         <desc></desc>
@@ -1136,7 +1107,6 @@ Fire
         <action></action>
     </spell>
 -->
-
     <!-- Enemy Skill Spells -->
     <!--
     <spell>

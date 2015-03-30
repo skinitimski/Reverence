@@ -105,7 +105,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (canUse)
             {
-                BattleEvent e = new BattleEvent(this, () => UseSpell(this, targets, spell, modifiers));
+                BattleEvent e = new BattleEvent(this, () => spell.Cast(this, targets, modifiers));
                        
                 e.Dialogue = c => Name + " casts " + spell.Name;
                 e.ResetSourceTurnTimer = resetTurnTimer;
@@ -147,33 +147,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Seven.BattleState.AddMissIcon(target);
             }
         }
-        
-        private static void UseSpell(Combatant source, IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers)
-        {
-            foreach (Combatant target in targets)
-            {
-                if (Formula.MagicHit(source, target, spell.Atkp, spell.Elements))
-                {            
-                    bool restorative = false;
 
-                    int bd = Formula.MagicalBase(source);
-                    int dam = Formula.MagicalDamage(bd, spell.Power, target);
-            
-                    dam = Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
-            
-                    if (restorative)
-                    {
-                        dam = -dam;
-                    }
-                
-                    target.AcceptDamage(dam, AttackType.Magical);
-                }
-                else
-                {
-                    Seven.BattleState.AddMissIcon(target);
-                }
-            }
-        }
 
 
 

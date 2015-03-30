@@ -23,8 +23,8 @@
             <weapon>
                 <name>bustersword</name>
                 <materia>
-                    <orb id="gilplus" type="Independent" ap="0" slot="0" />
-                    <orb id="fire" type="Magic" ap="1400" slot="1" />
+                    <orb id="fire" type="Magic" ap="1" slot="0" />
+                    <orb id="fire" type="Magic" ap="1" slot="1" />
                 </materia>
             </weapon>
             <armor>
