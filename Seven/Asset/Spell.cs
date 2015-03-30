@@ -78,20 +78,16 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
 
-            XmlNodeList elementNodes = xml.SelectSingleNode("elements").ChildNodes;
+            XmlNodeList elementNodes = xml.SelectNodes("elements/element");
 
             Element[] elements = new Element[elementNodes.Count];
             
             for (int i = 0; i < elements.Length; i++)
             {
-                if (elementNodes[i].NodeType == XmlNodeType.Comment)
-                {
-                    throw new GameDataException("Remove XML comment from spell element list goddammit!!");
-                }
-
                 elements[i] = (Element)Enum.Parse(typeof(Element), elementNodes[i].InnerText);
-                i++;
             }
+
+            Elements = elements;
         }
 
 

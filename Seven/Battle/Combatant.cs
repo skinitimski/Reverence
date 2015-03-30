@@ -11,7 +11,7 @@ using Atmosphere.Reverence.Seven.Asset;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    public abstract class Combatant
+    internal abstract class Combatant
     {
         public const long SLEEP_DURATION = 30000; // 100 v-timer units
         public const long POISON_INTERVAL = 3000; // 10 v-timer units
@@ -87,14 +87,42 @@ namespace Atmosphere.Reverence.Seven.Battle
             Seven.BattleState.EnqueueAction(e);
         }
 
-        internal void UseSpell(IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers, bool resetTurnTimer = true)
+        public void UseSpell(IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers, bool resetTurnTimer = true)
         {
-            BattleEvent e = new BattleEvent(this, () => UseSpell(this, targets, spell, modifiers));
-                       
-            e.Dialogue = c => Name + " casts " + spell.Name;
-            e.ResetSourceTurnTimer = resetTurnTimer;
+            bool canUse = true;
             
-            Seven.BattleState.EnqueueAction(e);
+            if (!modifiers.CostsNothing)
+            {
+                if (MP >= spell.MPCost)
+                {
+                    UseMP(spell.MPCost);
+                }
+                else
+                {
+                    canUse = false;
+                }
+            }
+            
+            if (canUse)
+            {
+                BattleEvent e = new BattleEvent(this, () => UseSpell(this, targets, spell, modifiers));
+                       
+                e.Dialogue = c => Name + " casts " + spell.Name;
+                e.ResetSourceTurnTimer = resetTurnTimer;
+            
+                Seven.BattleState.EnqueueAction(e);
+            }
+            else
+            {
+                BattleEvent e = new BattleEvent(this, () => { });
+
+                string msg = "Not enough MP for " + Name + "!";
+
+                e.Dialogue = c => msg;
+                e.ResetSourceTurnTimer = resetTurnTimer;
+
+                Seven.BattleState.EnqueueAction(e);
+            }
         }
 
 
@@ -110,7 +138,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 int bd = Formula.PhysicalBase(source);
                 int dam = Formula.PhysicalDamage(bd, power, target);
 
-                Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
+                dam = Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
 
                 target.AcceptDamage(dam, AttackType.Physical);
             }
@@ -129,9 +157,9 @@ namespace Atmosphere.Reverence.Seven.Battle
                     bool restorative = false;
 
                     int bd = Formula.MagicalBase(source);
-                    int dam = Formula.MagicalDamage(bd, 4, target);
+                    int dam = Formula.MagicalDamage(bd, spell.Power, target);
             
-                    Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
+                    dam = Formula.RunMagicModifiers(dam, ref restorative, target, spell, modifiers);
             
                     if (restorative)
                     {

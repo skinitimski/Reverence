@@ -33,6 +33,7 @@ namespace Atmosphere.Reverence.Seven.State
 
         private Formation _formation;
 
+        private BattleEvent _victoryEvent;
                 
         #endregion
         
@@ -42,6 +43,7 @@ namespace Atmosphere.Reverence.Seven.State
         }
         
         public BattleState(string formationId)
+            : this()
         {
             Screen = new BattleScreen();
             
@@ -49,12 +51,18 @@ namespace Atmosphere.Reverence.Seven.State
             _battleIcons = new Queue<BattleIcon>();
             
             EventQueue = new Queue<BattleEvent>();
+            PriorityQueue = new Queue<BattleEvent>();
             
             Random = new Random();
             
             Items = new List<IInventoryItem>();
 
             _formation = Formation.Get(formationId);
+
+            
+            _victoryEvent = new BattleEvent(null, () => { });
+            _victoryEvent.ResetSourceTurnTimer = false;
+            _victoryEvent.Dialogue = c => "Victory!";
         }
         
         protected override void InternalInit()
@@ -113,9 +121,11 @@ namespace Atmosphere.Reverence.Seven.State
                 Seven.Instance.LoseGame();
             }
             
-            if (CheckForVictory())
+            if (!Victory && CheckForVictory())
             {
-                Seven.Instance.EndBattle();
+                Victory = true;
+
+                EnqueueAction(_victoryEvent, true);
             }
 
             SetControl();
@@ -189,16 +199,32 @@ namespace Atmosphere.Reverence.Seven.State
 //                    LastPartyAction = (AbilityState)ActiveAbility.Clone();
 //                }
 
+                    if (ActiveAbility == _victoryEvent)
+                    {
+                        Seven.Instance.EndBattle();
+                    }
+
                     ActiveAbility = null;
                     AbilityThread = null;
                 }
 
                 // Dequeue next ability if none is in progress
-                if (AbilityThread == null && EventQueue.Count > 0)
+                if (AbilityThread == null)
                 {
-                    ActiveAbility = EventQueue.Dequeue();
-                    AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
-                    AbilityThread.Start();
+                    if (PriorityQueue.Count > 0)
+                    {
+                        ActiveAbility = PriorityQueue.Dequeue();
+                    }
+                    else if (EventQueue.Count > 0)
+                    {
+                        ActiveAbility = EventQueue.Dequeue();
+                    }
+
+                    if (ActiveAbility != null)
+                    {
+                        AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
+                        AbilityThread.Start();
+                    }
                 }
             }
         }
@@ -280,15 +306,29 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         
-        public void EnqueueAction(BattleEvent a)
+        public void EnqueueAction(BattleEvent a, bool priority = false)
         {
             lock (EventQueue)
             {
-                EventQueue.Enqueue(a);
-
+                if (priority)
+                {
+                    PriorityQueue.Enqueue(a);
+                }
+                else
+                {
+                    EventQueue.Enqueue(a);
+                }
 #if DEBUG
-                Console.WriteLine("Added event to queue. Events (last-in first):");
+                Console.WriteLine("Added event to queue.");
+                Console.WriteLine("Priority events (last-in first):");
+                
+                foreach (BattleEvent s in PriorityQueue)
+                {
+                    Console.WriteLine(s.ToString());
+                }
 
+                Console.WriteLine("Events (last-in first):");
+                
                 foreach (BattleEvent s in EventQueue)
                 {
                     Console.WriteLine(s.ToString());
@@ -483,7 +523,8 @@ namespace Atmosphere.Reverence.Seven.State
         public BattleEvent LastPartyAbility { get; private set; }
         public Queue<BattleEvent> PendingAbilities { get; private set; }
         public BattleScreen Screen { get; private set; }
-        
+
+        private bool Victory { get; set; }
         public int Exp  { get; private set; }
         public int AP { get; private set; }
         public int Gil  { get; private set; }
@@ -494,6 +535,8 @@ namespace Atmosphere.Reverence.Seven.State
         public Random Random { get; private set; }
 
         public Queue<BattleEvent> EventQueue { get; private set; }
+
+        public Queue<BattleEvent> PriorityQueue { get; private set; }
         
         #endregion Properties
         

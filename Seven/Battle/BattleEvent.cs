@@ -68,7 +68,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" {0} : {1}{2}", typeof(BattleEvent).Name, GetStatus(), Environment.NewLine);
-            sb.AppendFormat("\tsource {0}", Source.Name);
+            sb.AppendFormat("\tsource {0}", Source == null ? "" : Source.Name);
             sb.AppendLine();
             return sb.ToString();
         }

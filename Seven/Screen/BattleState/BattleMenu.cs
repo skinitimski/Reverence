@@ -67,7 +67,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaBase m in a.Materia)
             {
-                if (m != null && m.Name == "W-Item")
+                if (m != null && m.ID == "witem")
                 {
                     _witem = true;
                 }
@@ -148,7 +148,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 o++;
                 foreach (MateriaBase m in a.Materia)
                 {
-                    if (m != null && m.Name == "W-Magic")
+                    if (m != null && m.ID == "wmagic")
                     {
                         _wmagic = true;
                     }
@@ -181,7 +181,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 o++;
                 foreach (MateriaBase m in a.Materia)
                 {
-                    if (m != null && m.Name == "W-Summon")
+                    if (m != null && m.ID == "wsummon")
                     {
                         _wsummon = true;
                     }
@@ -203,7 +203,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaBase m in a.Materia)
             {
-                if (m != null && m.Name == "Sense")
+                if (m != null && m.ID == "sense")
                 {
                     _senseOption = o;
                     o++;
@@ -385,7 +385,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _magicMenuOption && !Seven.BattleState.Commanding.Silence)
                     {
-                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
+                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
                     }
                     else if (_option == _enemySkillMenuOption && !Seven.BattleState.Commanding.Silence)
                     {

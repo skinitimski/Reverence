@@ -142,7 +142,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 matp = matp - matp * 3 / 10;
             }
 
-            if (Seven.BattleState.Random.Next(1, 101) > target.MDefp)
+            // Magic Defense Percent
+            if (Seven.BattleState.Random.Next(1, 101) < target.MDefp)
             {
                 return false;
             }

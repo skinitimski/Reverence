@@ -62,8 +62,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             if (FirstChoice != null)
             {
-                UseSpell(FirstChoice.X, FirstChoice.Y, false);
-                UseSpell(_xopt, _yopt);
+                UseSpell(FirstChoice.X, FirstChoice.Y, FirstChoice.Targets, false);
+                UseSpell(_xopt, _yopt, targets);
 
                 return true;
             }
@@ -87,15 +87,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             FirstChoice = null;
         }
         
-        protected virtual int CommandingAvailableMP
+        protected override int CommandingAvailableMP
         { 
             get
             {
-                int mp = Seven.BattleState.Commanding.MP;
+                int mp = base.CommandingAvailableMP;
 
                 if (FirstChoice != null)
                 {
-                    mp -= _spells[FirstChoice.X, FirstChoice.Y].Spell.MPCost;
+                    mp -= _spells[FirstChoice.Y, FirstChoice.X].Spell.MPCost;
                 }
 
                 return mp; 

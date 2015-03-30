@@ -11,6 +11,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool QuadraMagic { get; set; }
         public bool Alled { get; set; }
         public int MPTurboFactor { get; set; }
+        public bool CostsNothing { get; set; }
     }
 }
 
