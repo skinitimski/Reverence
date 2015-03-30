@@ -26,6 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
                     if (clear)
                     {
+                        Seven.BattleState.Commanding.WaitingToResolve = true;
                         Seven.BattleState.ClearControl();
                     }
                     else

@@ -35,7 +35,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 //                    }
 //                    break;
             }
-            if (CanTargetEither)
+            if (!CanTargetEither)
             {
                 return;
             }
@@ -49,8 +49,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     break;
                 default:
                     break;
-            }
-            
+            }            
             
             base.ControlHandle(k);
         }
@@ -88,8 +87,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public override void SetAsControl()
         {
             _isControl = true;
-            switch (DefaultSelection)
-            
+
+            switch (DefaultSelection)            
             {
                 case BattleTargetGroup.Allies:
                     _selectedGroup = BattleTargetGroup.Allies;

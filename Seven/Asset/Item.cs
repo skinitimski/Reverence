@@ -191,6 +191,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         [LuaFunctionCaller]
         public void UseInBattle(IEnumerable<Combatant> targets)
         {
+            targets.Count();
+
             if (CanUseInBattle)
             {                
                 try
@@ -206,7 +208,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         case BattleTarget.Group:
                         case BattleTarget.Allies:
                         case BattleTarget.Enemies:
-                            BattleUsage.Use.Call(targets);
+                            BattleUsage.Use.Call(targets.ToList());
                             break;
                     }
                 }
