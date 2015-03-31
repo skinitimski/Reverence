@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         protected int _xopt;
         protected int _yopt;
         private int _topRow;
-        private int _totalRows = (MagicSpell.TOTAL_SPELLS / COLUMNS) + ((MagicSpell.TOTAL_SPELLS % COLUMNS == 0) ? 0 : 1);
+        private int _totalRows = (Spell.MagicSpellCount / COLUMNS) + ((Spell.MagicSpellCount % COLUMNS == 0) ? 0 : 1);
         private readonly int _visibleRows = 3;
         protected MagicSpell[,] _spells;
 

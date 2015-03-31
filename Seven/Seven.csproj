@@ -113,7 +113,6 @@
     <Compile Include="Asset\Materia\SummonMateria.cs" />
     <Compile Include="Asset\Materia\SupportMateria.cs" />
     <Compile Include="Asset\Materia\EnemySkillMateria.cs" />
-    <Compile Include="Asset\Spell.cs" />
     <Compile Include="Asset\Item.cs" />
     <Compile Include="Screen\MenuState\Equip\Info.cs" />
     <Compile Include="Screen\MenuState\Equip\Label.cs" />
@@ -195,6 +194,8 @@
     <Compile Include="Screen\BattleState\BattleIcon.cs" />
     <Compile Include="Battle\Formation.cs" />
     <Compile Include="Battle\FormationType.cs" />
+    <Compile Include="Asset\Materia\MasterMagicMateria.cs" />
+    <Compile Include="Asset\Spell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
@@ -290,9 +291,6 @@
     <EmbeddedResource Include="Data\materia.xml">
       <LogicalName>data.materia.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\spells.xml">
-      <LogicalName>data.spells.xml</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Data\weapons.xml">
       <LogicalName>data.weapons.xml</LogicalName>
     </EmbeddedResource>
@@ -307,6 +305,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\formations.xml">
       <LogicalName>data.formations.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.summon.xml">
+      <LogicalName>data.spells.summon.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.magic.xml">
+      <LogicalName>data.spells.magic.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.enemyskill.xml">
+      <LogicalName>data.spells.enemyskill.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

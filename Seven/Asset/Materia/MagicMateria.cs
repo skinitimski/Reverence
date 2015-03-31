@@ -14,7 +14,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public override Color Color { get { return ORB_COLOR; } }
 
-        public List<Spell> GetSpells
+        public virtual List<Spell> GetSpells
         {
             get
             {
@@ -24,7 +24,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 {
                     if (s != String.Empty)
                     {
-                        sp.Add(Spell.Get(Resource.CreateID(s)));
+                        sp.Add(Spell.GetMagicSpell(Resource.CreateID(s)));
                     }
                 }
 

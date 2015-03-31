@@ -16,9 +16,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         #region Nested
 
-        public class MateriaRecord
+        internal class MateriaRecord
         {
-
             public int hpp;
             public int mpp;
             public int str;
@@ -33,18 +32,32 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
             public int[] tiers;
             public string[] abilities;
-
+            
             private MateriaRecord() 
             {
                 Name = String.Empty;
                 Desc = String.Empty;
                 
+                tiers = new int[1];
+                tiers[0] = 0;
+                
+                abilities = new string[0];
+                
                 DoAttach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
                 DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
             }
+            
+            public MateriaRecord(string name, string desc, string ability) 
+                : this()
+            {
+                Name = name;
+                Desc = desc;
+                ID = Resource.CreateID(Name);
+                abilities = new string[] { ability };
+            }
 
             public MateriaRecord(XmlNode node)
-                :this()
+                : this()
             {
                 Name = node.SelectSingleNode("name").InnerText;
                 Desc = node.SelectSingleNode("desc").InnerText;
@@ -61,26 +74,21 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 spr = node.SelectSingleNode("spr") != null ? Int32.Parse(node.SelectSingleNode("spr").InnerText) : 0;
                 lck = node.SelectSingleNode("lck") != null ? Int32.Parse(node.SelectSingleNode("lck").InnerText) : 0;
 
+                type = (MateriaType)Enum.Parse(typeof(MateriaType), node.SelectSingleNode("type").InnerText);
 
-                XmlNodeList tlist = node.SelectSingleNode("tiers").ChildNodes;
+                XmlNodeList tlist = node.SelectNodes("tiers/tier");
                 tiers = new int[tlist.Count];
                 int t = 0;
 
-                type = (MateriaType)Enum.Parse(typeof(MateriaType), node.SelectSingleNode("type").InnerText);
-
                 foreach (XmlNode child in tlist)
                 {
-                    if (child.NodeType == XmlNodeType.Comment)
-                        continue;
-
                     tiers[t] = Int32.Parse(child.InnerText);
                     t++;
                 }
 
                 order = Int32.Parse(node.SelectSingleNode("order").InnerText);
 
-                abilities = node.SelectSingleNode("abilities").InnerText.Split(
-                    new char[] { ',' }, StringSplitOptions.None);
+                abilities = node.SelectSingleNode("abilities").InnerText.Split(new char[] { ',' }, StringSplitOptions.None);
                 
                 
                 XmlNode attachNode = node.SelectSingleNode("attach");
@@ -145,6 +153,9 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
 
 
+        private MateriaBase()
+        {
+        }
                 
         protected MateriaBase(string name, int ap)
         {
@@ -196,30 +207,40 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                         break;
                 }
             }
+
+            _data.Add(MasterMagicMateria.MasterMagic.ID, MasterMagicMateria.MasterMagic);
         }
 
         public static MateriaBase Create(string id, int ap, MateriaType type)
         {
+            MateriaBase materia = null;
+
             if (id == "enemyskill")
             {
-                return new EnemySkillMateria(ap);
+                materia = new EnemySkillMateria(ap);
+            }
+            else if (id == MasterMagicMateria.MasterMagic.ID)
+            {
+                materia = new MasterMagicMateria();
+            }
+            else
+            {
+                switch (type)
+                {
+                    case MateriaType.Magic:
+                        return new MagicMateria(id, ap);
+                    case MateriaType.Support:
+                        return new SupportMateria(id, ap);
+                    case MateriaType.Command:
+                        return new CommandMateria(id, ap);
+                    case MateriaType.Independent:
+                        return new IndependentMateria(id, ap);
+                    case MateriaType.Summon:
+                        return new SummonMateria(id, ap);
+                }
             }
 
-            switch (type)
-            {
-                case MateriaType.Magic:
-                    return new MagicMateria(id, ap);
-                case MateriaType.Support:
-                    return new SupportMateria(id, ap);
-                case MateriaType.Command:
-                    return new CommandMateria(id, ap);
-                case MateriaType.Independent:
-                    return new IndependentMateria(id, ap);
-                case MateriaType.Summon:
-                    return new SummonMateria(id, ap);
-                default: 
-                    throw new ImplementationException("Materia type not supported.");
-            }
+            return materia;
         }
 
         #region Masters

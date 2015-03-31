@@ -8,13 +8,9 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         
         public EnemySkillMateria(int ap) : base("enemyskill", ap) 
         {
-            _ap = ap;
         }
-        public EnemySkillMateria() : base("enemyskill", 0) { }
-        
-        public override void AddAP(int delta)
-        {
-        }
+
+
         
         public void LearnSkill(int skill)
         {
@@ -26,10 +22,12 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             get
             {
                 Spell[] skills = new Spell[TOTAL_ENEMY_SKILLS];
+
                 for (int i = 0; i < TOTAL_ENEMY_SKILLS; i++)
                 {
-                    skills[i] = Spell.Get(Resource.CreateID(AllAbilities[i]));
+                    skills[i] = Spell.GetEnemySkillSpell(Resource.CreateID(AllAbilities[i]));
                 }
+
                 return skills;
             }
         }

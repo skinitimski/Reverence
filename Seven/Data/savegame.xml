@@ -512,8 +512,8 @@
         <accessory id="waterring" count="1" slot="416" />
     </inventory>
     <materiatory>
-        <orb id="fire" type="Magic" ap="1400" slot="0" />
-        <orb id="fire" type="Magic" ap="10000" slot="1" />
+        <orb id="mastermagic" type="Magic" ap="0" slot="0" />
+        <orb id="fire" type="Magic" ap="1400" slot="1" />
         <orb id="ice" type="Magic" ap="30000" slot="2" />
         <orb id="lightning" type="Magic" ap="20000" slot="3" />
         <orb id="restore" type="Magic" ap="1000" slot="5" />

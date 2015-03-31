@@ -1,0 +1,171 @@
+<spells>
+<!--
+    <spell>
+        <name>DeathBlow!!</name>
+        <desc>Summon Choco/Mog</desc>
+        <cost>14</cost>
+        <matp>255</matp>
+        <order>0</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Fat Chocobo</name>
+        <desc>Summon Choco/Mog</desc>
+        <cost>14</cost>
+        <matp>255</matp>
+        <order>0</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Diamond Dust</name>
+        <desc>Summon Shiva</desc>
+        <cost>32</cost>
+        <matp>255</matp>
+        <order>1</order>
+        <elements>
+            <element>Ice</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Hellfire</name>
+        <desc>Summon Ifrit</desc>
+        <cost>34</cost>
+        <matp>255</matp>
+        <order>2</order>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Judgement Bolt</name>
+        <desc>Summon Ramuh</desc>
+        <cost>40</cost>
+        <matp>255</matp>
+        <order>3</order>
+        <elements>
+            <element>Lightning</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Anger of the Land</name>
+        <desc>Summon Titan</desc>
+        <cost>46</cost>
+        <matp>255</matp>
+        <order>4</order>
+        <elements>
+            <element>Earth</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Steel Bladed Sword</name>
+        <desc>Summon Odin</desc>
+        <cost>80</cost>
+        <matp>255</matp>
+        <order>5</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Gunge Lance</name>
+        <desc>Summon Odin</desc>
+        <cost>80</cost>
+        <matp>255</matp>
+        <order>5</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Tidal Wave</name>
+        <desc>Summon Leviathan</desc>
+        <cost>78</cost>
+        <matp>255</matp>
+        <order>6</order>
+        <elements>
+            <element>Water</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Mega Flare</name>
+        <desc>Summon Bahamut</desc>
+        <cost>100</cost>
+        <matp>255</matp>
+        <order>7</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Tetra-Disaster</name>
+        <desc>Summon Kjata</desc>
+        <cost>110</cost>
+        <matp>255</matp>
+        <order>8</order>
+        <elements>
+            <element>Fire</element>
+            <element>Ice</element>
+            <element>Lightning</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Judgement</name>
+        <desc>Summon Alexander</desc>
+        <cost>120</cost>
+        <matp>255</matp>
+        <order>9</order>
+        <elements>
+            <element>Holy</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Phoenix Flame</name>
+        <desc>Summon Phoenix</desc>
+        <cost>180</cost>
+        <matp>255</matp>
+        <order>10</order>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Giga Flare</name>
+        <desc>Summon Neo Bahamut</desc>
+        <cost>140</cost>
+        <matp>255</matp>
+        <order>11</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Black Cauldron</name>
+        <desc>Summon Hades</desc>
+        <cost>150</cost>
+        <matp>255</matp>
+        <order>12</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Disintegration</name>
+        <desc>Summon Typhon</desc>
+        <cost>160</cost>
+        <matp>255</matp>
+        <order>13</order>
+        <elements>
+            <element>Fire</element>
+            <element>Ice</element>
+            <element>Lightning</element>
+            <element>Earth</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Tera Flare</name>
+        <desc>Summon Bahamut ZERO</desc>
+        <cost>180</cost>
+        <matp>255</matp>
+        <order>14</order>
+        <elements/>
+    </spell>
+    <spell>
+        <name>Ultimate End</name>
+        <desc>Summon Knights of Round</desc>
+        <cost>250</cost>
+        <matp>255</matp>
+        <order>15</order>
+        <elements/>
+    </spell>
+-->    
+</spells>

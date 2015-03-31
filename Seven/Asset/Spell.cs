@@ -28,14 +28,23 @@ namespace Atmosphere.Reverence.Seven.Asset
 
             public int Odds { get; set; }
         }
-        
-        private static Dictionary<string, Spell> _table;
-        
+
+        private static Dictionary<string, Spell> _magicSpells;
+        private static Dictionary<string, Spell> _summonSpells;
+        private static Dictionary<string, Spell> _enemySkillSpells;
+
         public static void LoadSpells()
         {
-            _table = new Dictionary<string, Spell>();
+            _magicSpells = LoadSpells("data.spells.magic.xml");
+            _summonSpells = LoadSpells("data.spells.summon.xml");
+            _enemySkillSpells = LoadSpells("data.spells.enemyskill.xml");
+        }
+
+        private static Dictionary<string, Spell> LoadSpells(string resource)
+        {
+            Dictionary<string, Spell> table = new Dictionary<string, Spell>();
             
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.spells.xml", typeof(Seven).Assembly);
+            XmlDocument gamedata = Resource.GetXmlFromResource(resource, typeof(Seven).Assembly);
             
             foreach (XmlNode node in gamedata.SelectNodes("/spells/spell"))
             {
@@ -43,12 +52,13 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     continue;
                 }
-
+                
                 Spell spell = new Spell(node);
                 
-                _table.Add(spell.ID, spell);
-            }
+                table.Add(spell.ID, spell);
+            } 
             
+            return table;
         }
 
         private Spell()
@@ -88,11 +98,6 @@ namespace Atmosphere.Reverence.Seven.Asset
                 DamageFormula = MagicalAttack;
             }
         }
-
-
-
-
-
         
         private int MagicalAttack(Combatant source, Combatant target, SpellModifiers modifiers)
         {                        
@@ -102,7 +107,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
             
             return dam;
-        }        
+        }
         
         private int Cure(Combatant source, Combatant target, SpellModifiers modifiers)
         {
@@ -150,13 +155,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             return dam;
         }
 
-
-
-
-
-
-
-
         private IEnumerable<Element> GetElements(XmlNodeList elementNodes)
         {
             foreach (XmlNode node in elementNodes)
@@ -179,23 +177,31 @@ namespace Atmosphere.Reverence.Seven.Asset
                 yield return change;
             }
         }
-
-
-
-
-
-
-        public static Spell Get(string id)
+        
+        public static Spell GetMagicSpell(string id)
         {
-            return _table[id];
+            return _magicSpells[id];
+        }
+
+        public static IEnumerable<Spell> GetMagicSpells()
+        {
+            return _magicSpells.Values.ToList();
+        }
+        
+        public static Spell GetSummonSpell(string id)
+        {
+            return _summonSpells[id];
+        }
+        
+        public static Spell GetEnemySkillSpell(string id)
+        {
+            return _enemySkillSpells[id];
         }
         
         public static int Compare(Spell left, Spell right)
         {
             return left.Order.CompareTo(right.Order);
         }
-
-
         
         public void Cast(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers)
         {
@@ -280,6 +286,9 @@ namespace Atmosphere.Reverence.Seven.Asset
         private IEnumerable<Element> Elements { get; set; }
 
         private IEnumerable<StatusChange> Statuses { get; set; }
+
+
+        public static int MagicSpellCount { get { return _magicSpells.Count; } }
     }
 }
 

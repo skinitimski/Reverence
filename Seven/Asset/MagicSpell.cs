@@ -6,8 +6,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class MagicSpell
     {
-        public const int TOTAL_SPELLS = 54;
-        
         private Spell _spell;
         private int _allCount;
         private int _qmagicCount;
@@ -27,11 +25,17 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             //_addedAbilities.Add(s.GetAbility());
             if (s.ID == "all")
+            {
                 _allCount = Math.Min(s.Level + 1, 5);
+            }
             if (s.ID == "quadramagic")
+            {
                 _qmagicCount = Math.Min(s.Level + 1, 5);
+            }
             if (s.ID == "mpturbo")
+            {
                 _mpTurboFactor = Math.Min(s.Level + 1, 5);
+            }
         }
         
         public static int Compare(MagicSpell left, MagicSpell right)
