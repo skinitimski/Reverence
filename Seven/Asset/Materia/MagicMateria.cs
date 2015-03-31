@@ -37,9 +37,9 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             {
                 List<string> abilities = new List<string>();
 
-                for (int i = 0; i < _abilities.Length; i++)
+                for (int i = 0; i < AllAbilities.Length; i++)
                 {
-                    if (Level >= i) abilities.Add(_abilities[i]);
+                    if (Level >= i) abilities.Add(AllAbilities[i]);
                 }
 
                 return abilities;

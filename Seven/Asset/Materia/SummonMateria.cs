@@ -18,7 +18,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         {
             get
             {
-                return Spell.Get(Resource.CreateID(_abilities[0]));
+                return Spell.Get(Resource.CreateID(AllAbilities[0]));
             }
         }
 
@@ -28,7 +28,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             {
                 List<string> abilities = new List<string>();
 
-                foreach (string s in _abilities) abilities.Add(s);
+                foreach (string s in AllAbilities) abilities.Add(s);
 
                 return abilities;
             }

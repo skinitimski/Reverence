@@ -42,7 +42,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 catch (Exception e)
                 {
-                    throw new ImplementationException("Error in accessory attach script; id = " + ID, e);
+                    throw new ImplementationException("Error in equipment attach script; id = " + ID, e);
                 }
             }
 
@@ -59,18 +59,32 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 catch (Exception e)
                 {
-                    throw new ImplementationException("Error in accessory detach script; id = " + ID, e);
+                    throw new ImplementationException("Error in equipment detach script; id = " + ID, e);
                 }
             }
         }
         
         public void Attach(Character c)
         {
-            DoAttach.Call(c);
+            try
+            {
+                DoAttach.Call(c);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error calling equipment attach script; id = " + ID, e);
+            }
         }
         public void Detach(Character c)
         {
-            DoDetach.Call(c);
+            try
+            {
+                DoDetach.Call(c);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error calling equipment detach script; id = " + ID, e);
+            }
         }
         
         public string Name { get; private set; }

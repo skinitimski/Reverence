@@ -20,13 +20,13 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             {
                 List<string> abilities = new List<string>();
 
-                if (Level >= _abilities.Length)
+                if (Level >= AllAbilities.Length)
                 {
-                    abilities.Add(_abilities[Level - 1]);
+                    abilities.Add(AllAbilities[Level - 1]);
                 }
                 else
                 {
-                    abilities.Add(_abilities[Level]);
+                    abilities.Add(AllAbilities[Level]);
                 }
 
                 return abilities;

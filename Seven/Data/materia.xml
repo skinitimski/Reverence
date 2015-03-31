@@ -930,8 +930,8 @@
         </tiers>
         <order>70</order>
         <abilities>Luck +10%,Luck +20%,Luck +30%,Luck +40%,Luck +50%</abilities>
-        <attach>function (c,l) c.LuckPercentBonus = c.LuckPercentBonus + (10 * l); end</attach>
-        <detach>function (c,l) c.LuckPercentBonus = c.LuckPercentBonus - (10 * l); end</detach>
+        <attach>c.LuckPercentBonus = c.LuckPercentBonus + (10 * l)</attach>
+        <detach>c.LuckPercentBonus = c.LuckPercentBonus - (10 * l)</detach>
     </materia>
     <materia>
         <name>Magic Plus</name>
@@ -954,8 +954,8 @@
         </tiers>
         <order>75</order>
         <abilities>Magic +10%,Magic +20%,Magic +30%,Magic +40%,Magic +50%</abilities>
-        <attach>function (c,l) c.MagicPercentBonus = c.MagicPercentBonus + (10 * l); end</attach>
-        <detach>function (c,l) c.MagicPercentBonus = c.MagicPercentBonus - (10 * l); end</detach>
+        <attach>c.MagicPercentBonus = c.MagicPercentBonus + (10 * l)</attach>
+        <detach>c.MagicPercentBonus = c.MagicPercentBonus - (10 * l)</detach>
     </materia>
     <materia>
         <name>Speed Plus</name>
@@ -978,8 +978,8 @@
         </tiers>
         <order>80</order>
         <abilities>Dex +10%,Dex +20%,Dex +30%,Dex +40%,Dex +50%</abilities>
-        <attach>function (c,l) c.DexterityPercentBonus = c.DexterityPercentBonus + (10 * l); end</attach>
-        <detach>function (c,l) c.DexterityPercentBonus = c.DexterityPercentBonus - (10 * l); end</detach>
+        <attach>c.DexterityPercentBonus = c.DexterityPercentBonus + (10 * l)</attach>
+        <detach>c.DexterityPercentBonus = c.DexterityPercentBonus - (10 * l)</detach>
     </materia>
     <materia>
         <name>HP Plus</name>
@@ -1002,8 +1002,8 @@
         </tiers>
         <order>85</order>
         <abilities>HP +10%,HP +20%,HP +30%,HP +40%,HP +50%</abilities>
-        <attach>function (c,l) c.HPPercentBonus = c.HPPercentBonus + (10 * l); end</attach>
-        <detach>function (c,l) c.HPPercentBonus = c.HPPercentBonus - (10 * l); end</detach>
+        <attach>c.HPPercentBonus = c.HPPercentBonus + (10 * l)</attach>
+        <detach>c.HPPercentBonus = c.HPPercentBonus - (10 * l)</detach>
     </materia>
     <materia>
         <name>MP Plus</name>
@@ -1026,8 +1026,8 @@
         </tiers>
         <order>85</order>
         <abilities>MP +10%,MP +20%,MP +30%,MP +40%,MP +50%</abilities>
-        <attach>function (c,l) c.MPPercentBonus = c.MPPercentBonus + (10 * l); end</attach>
-        <detach>function (c,l) c.MPPercentBonus = c.MPPercentBonus - (10 * l); end</detach>
+        <attach>c.MPPercentBonus = c.MPPercentBonus + (10 * l)</attach>
+        <detach>c.MPPercentBonus = c.MPPercentBonus - (10 * l)</detach>
     </materia>
 
 

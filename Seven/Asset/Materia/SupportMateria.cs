@@ -8,7 +8,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
     internal class SupportMateria : MateriaBase
     {
-        private static readonly Color ORB_COLOR = new Color(.2, .6, .1);
+        private static readonly Color ORB_COLOR = new Color(.0, .6, .8);
 
         public SupportMateria(string name, int ap) : base(name, ap) { }
 
@@ -19,7 +19,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             get
             {
                 List<string> abilities = new List<string>();
-                abilities.Add(_abilities[0]);
+                abilities.Add(AllAbilities[0]);
                 return abilities;
             }
         }
@@ -31,16 +31,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         protected override int TypeOrder { get { return 1; } }
         public override MateriaType Type { get { return MateriaType.Support; } }
-        
 
-        public override int StrengthMod { get { return 0; } }
-        public override int VitalityMod { get { return 0; } }
-        public override int DexterityMod { get { return 0; } }
-        public override int MagicMod { get { return 0; } }
-        public override int SpiritMod { get { return 0; } }
-        public override int LuckMod { get { return 0; } }
-        public override int HPMod { get { return 0; } }
-        public override int MPMod { get { return 0; } }
     }
 
 }

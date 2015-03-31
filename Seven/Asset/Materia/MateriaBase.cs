@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Xml;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Xml;
 using NLua;
 
 using Atmosphere.Reverence.Exceptions;
@@ -15,10 +16,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         #region Nested
 
-        public struct MateriaRecord
+        public class MateriaRecord
         {
-            private string _name;
-            private string _desc;
 
             public int hpp;
             public int mpp;
@@ -35,19 +34,33 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             public int[] tiers;
             public string[] abilities;
 
-            public MateriaRecord(XmlNode node)
+            private MateriaRecord() 
             {
-                _name = node.SelectSingleNode("name").InnerText;
-                _desc = node.SelectSingleNode("desc").InnerText;
+                Name = String.Empty;
+                Desc = String.Empty;
+                
+                DoAttach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
+                DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
+            }
 
-                hpp = Int32.Parse(node.SelectSingleNode("hpp").InnerText);
-                mpp = Int32.Parse(node.SelectSingleNode("mpp").InnerText);
-                str = Int32.Parse(node.SelectSingleNode("str").InnerText);
-                vit = Int32.Parse(node.SelectSingleNode("vit").InnerText);
-                dex = Int32.Parse(node.SelectSingleNode("dex").InnerText);
-                mag = Int32.Parse(node.SelectSingleNode("mag").InnerText);
-                spr = Int32.Parse(node.SelectSingleNode("spr").InnerText);
-                lck = Int32.Parse(node.SelectSingleNode("lck").InnerText);
+            public MateriaRecord(XmlNode node)
+                :this()
+            {
+                Name = node.SelectSingleNode("name").InnerText;
+                Desc = node.SelectSingleNode("desc").InnerText;
+
+                ID = Resource.CreateID(Name);
+
+                hpp = node.SelectSingleNode("hpp") != null ? Int32.Parse(node.SelectSingleNode("hpp").InnerText) : 0;
+                mpp = node.SelectSingleNode("mpp") != null ? Int32.Parse(node.SelectSingleNode("mpp").InnerText) : 0;
+
+                str = node.SelectSingleNode("str") != null ? Int32.Parse(node.SelectSingleNode("str").InnerText) : 0;
+                vit = node.SelectSingleNode("vit") != null ? Int32.Parse(node.SelectSingleNode("vit").InnerText) : 0;
+                dex = node.SelectSingleNode("dex") != null ? Int32.Parse(node.SelectSingleNode("dex").InnerText) : 0;
+                mag = node.SelectSingleNode("mag") != null ? Int32.Parse(node.SelectSingleNode("mag").InnerText) : 0;
+                spr = node.SelectSingleNode("spr") != null ? Int32.Parse(node.SelectSingleNode("spr").InnerText) : 0;
+                lck = node.SelectSingleNode("lck") != null ? Int32.Parse(node.SelectSingleNode("lck").InnerText) : 0;
+
 
                 XmlNodeList tlist = node.SelectSingleNode("tiers").ChildNodes;
                 tiers = new int[tlist.Count];
@@ -68,22 +81,51 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
                 abilities = node.SelectSingleNode("abilities").InnerText.Split(
                     new char[] { ',' }, StringSplitOptions.None);
-
+                
+                
                 XmlNode attachNode = node.SelectSingleNode("attach");
+                
                 if (attachNode != null)
                 {
-                    Seven.Lua.DoString("attach" + ID + " = " + attachNode.InnerText);
+                    string attach = node.SelectSingleNode("attach").InnerText;
+                    string attachFunction = String.Format("return function (c, l) {0} end", attach);
+                    
+                    try
+                    {
+                        DoAttach = (LuaFunction)Seven.Lua.DoString(attachFunction).First();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ImplementationException("Error in accessory attach script; id = " + ID, e);
+                    }
                 }
+                
                 XmlNode detachNode = node.SelectSingleNode("detach");
+                
                 if (detachNode != null)
                 {
-                    Seven.Lua.DoString("detach" + ID + " = " + detachNode.InnerText);
+                    string detach = node.SelectSingleNode("detach").InnerText;
+                    string detachFunction = String.Format("return function (c, l) {0} end", detach);
+                    
+                    try
+                    {
+                        DoDetach = (LuaFunction)Seven.Lua.DoString(detachFunction).First();
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ImplementationException("Error in accessory detach script; id = " + ID, e);
+                    }
                 }
             }
 
-            public string Name { get { return _name; } }
-            public string ID { get { return Resource.CreateID(_name); } }
-            public string Description { get { return _desc; } }
+            public string Name { get; private set; }
+            public string ID { get; private set; }
+            public string Desc { get; private set; }
+                     
+            
+            public LuaFunction DoAttach { get; private set; }
+            
+            public LuaFunction DoDetach { get; private set; }
 
         }
 
@@ -93,26 +135,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         #region Member Data
 
-        protected string _name;
-        protected string _desc;
-
         protected int _ap;
         protected int _level;
-
-        protected int _hpp;
-        protected int _mpp;
-        protected int _str;
-        protected int _vit;
-        protected int _dex;
-        protected int _mag;
-        protected int _spr;
-        protected int _lck;
-
-        protected int[] _tiers;
-
-        protected string[] _abilities;
-
-        protected int _order;
 
         protected static Dictionary<string, MateriaRecord> _data;
         private static Dictionary<string, MateriaBase> _masterTable;
@@ -120,28 +144,11 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         #endregion Member Data
 
 
-        public static MateriaBase EMPTY;
 
-        
+                
         protected MateriaBase(string name, int ap)
         {
-            MateriaRecord rec = _data[name];
-            _name = rec.Name;
-            _desc = rec.Description;
-            _hpp = rec.hpp;
-            _mpp = rec.mpp;
-            _str = rec.str;
-            _vit = rec.vit;
-            _dex = rec.dex;
-            _mag = rec.mag;
-            _spr = rec.spr;
-            _lck = rec.lck;
-
-            _tiers = rec.tiers;
-
-            _abilities = rec.abilities;
-
-            _order = rec.order;
+            Record = _data[name];
 
             _level = 0;
             _ap = 0;
@@ -166,7 +173,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
                 MateriaRecord rec = new MateriaRecord(node);
 
-                _data.Add(Resource.CreateID(rec.Name), rec);
+                _data.Add(rec.ID, rec);
 
                 int ap = _data[rec.ID].tiers[_data[rec.ID].tiers.Length - 1];
 
@@ -210,7 +217,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                     return new IndependentMateria(id, ap);
                 case MateriaType.Summon:
                     return new SummonMateria(id, ap);
-                default: throw new ImplementationException("Materia type not supported.");
+                default: 
+                    throw new ImplementationException("Materia type not supported.");
             }
         }
 
@@ -276,7 +284,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                     comparison = -1;
                 }
 
-                comparison = left._order.CompareTo(right._order);
+                comparison = left.Order.CompareTo(right.Order);
 
                 if (comparison == 0)
                 {
@@ -312,59 +320,74 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             _level++;
         }
 
+
         public virtual void Attach(Character c)
         {
-            c.StrengthBonus += _str;
-            c.VitalityBonus += _vit;
-            c.DexterityBonus += _dex;
-            c.MagicBonus += _mag;
-            c.SpiritBonus += _spr;
-            c.LuckBonus += _lck;
-
-            LuaFunction f = Seven.Lua.GetFunction("attach" + ID);
-
-            if (f != null) f.Call(c, Level + 1);
+            c.StrengthBonus += StrengthMod;
+            c.VitalityBonus += VitalityMod;
+            c.DexterityBonus += DexterityMod;
+            c.MagicBonus += MagicMod;
+            c.SpiritBonus += SpiritMod;
+            c.LuckBonus += LuckMod;
+            
+            try
+            {
+                Record.DoAttach.Call(c, Level + 1);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error calling materia attach script; id = " + ID, e);
+            }
         }
         public virtual void Detach(Character c)
         {
-            c.StrengthBonus -= _str;
-            c.VitalityBonus -= _vit;
-            c.DexterityBonus -= _dex;
-            c.MagicBonus -= _mag;
-            c.SpiritBonus -= _spr;
-            c.LuckBonus -= _lck;
-
-            LuaFunction f = Seven.Lua.GetFunction("detach" + ID);
-
-            if (f != null) f.Call(c, Level + 1);
+            c.StrengthBonus -= StrengthMod;
+            c.VitalityBonus -= VitalityMod;
+            c.DexterityBonus -= DexterityMod;
+            c.MagicBonus -= MagicMod;
+            c.SpiritBonus -= SpiritMod;
+            c.LuckBonus -= LuckMod;
+                                    
+            try
+            {
+                Record.DoDetach.Call(c, Level + 1);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error calling materia detach script; id = " + ID, e);
+            }
         }
 
 
         public abstract Cairo.Color Color { get; }
 
-        public string Name { get { return _name;} }
-        public string Description { get { return _desc; } }
-        public string ID { get { return Resource.CreateID(_name); } }
+        public string Name { get { return Record.Name;} }
+        public string Description { get { return Record.Desc; } }
+        public string ID { get { return Resource.CreateID(Name); } }
         public int AP { get { return _ap; } }
         public int Level { get { return _level; } }
-        public int[] Tiers { get { return _tiers; } }
+        public int[] Tiers { get { return Record.tiers; } }
         public bool Master { get { return _level == Tiers.Length - 1; } }
 
-        public virtual int StrengthMod { get { return _str; } }
-        public virtual int VitalityMod { get { return _vit; } }
-        public virtual int DexterityMod { get { return _dex; } }
-        public virtual int MagicMod { get { return _mag; } }
-        public virtual int SpiritMod { get { return _spr; } }
-        public virtual int LuckMod { get { return _lck; } }
-        public virtual int HPMod { get { return _hpp; } }
-        public virtual int MPMod { get { return _mpp; } }
+        public int StrengthMod { get { return Record.str; } }
+        public int VitalityMod { get { return Record.vit; } }
+        public int DexterityMod { get { return Record.dex; } }
+        public int MagicMod { get { return Record.mag; } }
+        public int SpiritMod { get { return Record.spr; } }
+        public int LuckMod { get { return Record.lck; } }
+        public int HPMod { get { return Record.hpp; } }
+        public int MPMod { get { return Record.mpp; } }
+
+        public int Order { get { return Record.order; } }
 
         public abstract MateriaType Type { get; }
 
         public abstract List<string> Abilities { get; }
-        public virtual string[] AllAbilities { get { return _abilities; } }
+        public virtual string[] AllAbilities { get { return Record.abilities; } }
 
         protected abstract int TypeOrder { get; }
+
+        private MateriaRecord Record { get; set; }
 	}
 
 
