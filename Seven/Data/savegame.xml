@@ -14,8 +14,8 @@
             <exp>610</exp>
             <hp>158</hp>
             <maxhp>314</maxhp>
-            <mp>33</mp>
-            <maxmp>54</maxmp>
+            <mp>500</mp>
+            <maxmp>500</maxmp>
             <limitlvl>1</limitlvl>
             <fury>true</fury>
             <sadness>false</sadness>
@@ -23,8 +23,8 @@
             <weapon>
                 <name>bustersword</name>
                 <materia>
-                    <orb id="fire" type="Magic" ap="1" slot="0" />
-                    <orb id="fire" type="Magic" ap="1" slot="1" />
+                    <orb id="contain" type="Magic" ap="1" slot="0" />
+                    <orb id="gravity" type="Magic" ap="1" slot="1" />
                 </materia>
             </weapon>
             <armor>

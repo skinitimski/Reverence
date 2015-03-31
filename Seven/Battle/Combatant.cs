@@ -131,14 +131,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         private static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
-            bool restorative = false;
-                        
             if (Formula.PhysicalHit(atkp, source, target, elements))
             {
                 int bd = Formula.PhysicalBase(source);
                 int dam = Formula.PhysicalDamage(bd, power, target);
 
-                dam = Formula.RunPhysicalModifiers(dam, ref restorative, source, target, elements);
+                dam = Formula.RunPhysicalModifiers(dam, source, target, elements);
 
                 target.AcceptDamage(dam, AttackType.Physical);
             }

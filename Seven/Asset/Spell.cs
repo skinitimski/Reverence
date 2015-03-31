@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Xml;
 
@@ -10,17 +11,32 @@ using Atmosphere.Reverence.Seven.Battle;
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Spell
-    {        
-        private delegate void Action(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers);
-
+    {  
         internal enum FormulaType
         {
             MagicalAttack,
+            Cure,
+            HPPercent,
+            MPPercent,
+        }
+
+        private class StatusChange
+        {
+            public enum Effect
+            {
+                Inflict,
+                Cure,
+                Toggle
+            }
+
+            public IEnumerable<Status> Statuses { get; set; }
+
+            public Effect ChangeType { get; set; }
+
+            public int Odds { get; set; }
         }
         
         private static Dictionary<string, Spell> _table;
-
-
         
         public static void LoadSpells()
         {
@@ -61,85 +77,85 @@ namespace Atmosphere.Reverence.Seven.Asset
             MPCost = Int32.Parse(xml.SelectSingleNode("cost").InnerText);
 
             Order = Int32.Parse(xml.SelectSingleNode("order").InnerText);
+            
+            Elements = GetElements(xml.SelectNodes("elements/element")).ToArray();
+            Statuses = GetStatusChanges(xml.SelectNodes("statusChange")).ToArray();
+            
+            Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
+            Hitp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
 
-
-
-
-            SetResolver(xml.SelectSingleNode("formula"));
-        }
-
-
-
-
-        private void SetResolver(XmlNode formulaNode)
-        {
-            FormulaType type = (FormulaType)Enum.Parse(typeof(FormulaType), formulaNode.SelectSingleNode("@type").Value);
+            FormulaType type = (FormulaType)Enum.Parse(typeof(FormulaType), xml.SelectSingleNode("formula").InnerText);
 
             switch (type)
             {
                 case FormulaType.MagicalAttack:
 
-                    /*
-                     * 
-                            <formula type="MagicalAttack">
-                                <power>8</power>
-                                <hitp>100</hitp>
-                                <cost>4</cost>
-                                <order>9</order>
-                                <elements>
-                                    <element>Fire</element>
-                                </elements>
-                            </formula>
-                     */
+                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
+                    {                        
+                        int bd = Formula.MagicalBase(source);
+                        int dam = Formula.MagicalDamage(bd, Power, target);
+                        
+                        dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
 
-                    int power = Int32.Parse(formulaNode.SelectSingleNode("power").InnerText);
-                    int hitp = Int32.Parse(formulaNode.SelectSingleNode("hitp").InnerText);
-                    
-                    IEnumerable<Element> elements = GetElements(formulaNode.SelectNodes("elements/element"));
-
-                    Resolve = delegate (Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers)
-                    {
-                        foreach (Combatant target in targets)
-                        {
-                            if (Formula.MagicHit(source, target, hitp, elements))
-                            {            
-                                bool restorative = false;
-                                
-                                int bd = Formula.MagicalBase(source);
-                                int dam = Formula.MagicalDamage(bd, power, target);
-                                
-                                dam = Formula.RunMagicModifiers(dam, ref restorative, target, elements, modifiers);
-                                
-                                if (restorative)
-                                {
-                                    dam = -dam;
-                                }
-                                
-                                target.AcceptDamage(dam, AttackType.Magical);
-                            }
-                            else
-                            {
-                                Seven.BattleState.AddMissIcon(target);
-                            }
-                        }
+                        return dam;
                     };
+
+                    break;
+
+                case FormulaType.Cure:
+
+                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
+                    {
+                        int bd = Formula.MagicalBase(source);
+                        int dam = bd + 22 * Power;
+                        
+                        dam = Formula.RunCureModifiers(dam, target, Elements, modifiers);
+                        
+                        return dam;
+                    };
+
+                    break;
+
+                case FormulaType.HPPercent:
+
+                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
+                    {
+                        int dam = target.HP * Power / 32;
+                        
+                        dam = Formula.QuadraMagic(dam, modifiers);
+                        
+                        return dam;
+                    };
+
                     break;
             }
         }
-
+        
         private IEnumerable<Element> GetElements(XmlNodeList elementNodes)
         {
-            Element[] elements = new Element[elementNodes.Count];
-            
-            for (int i = 0; i < elements.Length; i++)
+            foreach (XmlNode node in elementNodes)
             {
-                elements[i] = (Element)Enum.Parse(typeof(Element), elementNodes[i].InnerText);
+                yield return (Element)Enum.Parse(typeof(Element), node.InnerText);
             }
-            
-            return elements;
+        }
+        
+        private IEnumerable<StatusChange> GetStatusChanges(XmlNodeList inflictionNodes)
+        {
+            foreach (XmlNode node in inflictionNodes)
+            {
+                StatusChange change = new StatusChange
+                {
+                    Odds = Int32.Parse(node.SelectSingleNode("@odds").Value),
+                    ChangeType = (StatusChange.Effect)Enum.Parse(typeof(StatusChange.Effect), node.SelectSingleNode("@type").Value),
+                    Statuses = node.SelectSingleNode("@statuses").Value.Split(',').Select(s => (Status)Enum.Parse(typeof(Status), s))
+                };
+
+                yield return change;
+            }
         }
 
-          
+
+
 
 
 
@@ -147,11 +163,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             return _table[id];
         }
-
-
-
-
-
         
         public static int Compare(Spell left, Spell right)
         {
@@ -159,26 +170,90 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
 
 
-
         
         public void Cast(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers)
         {
-            Resolve(source, targets, modifiers);
+            foreach (Combatant target in targets)
+            {
+                if (Formula.MagicHit(source, target, Hitp, Elements))
+                {       
+                    if (Power > 0)
+                    {
+                        int dam = DamageFormula(source, target, modifiers);
+                        
+                        target.AcceptDamage(dam, Type);
+                    }
+                    
+                    foreach (StatusChange statusChange in Statuses)
+                    {
+                        if (Formula.StatusHit(source, target, statusChange.Odds, statusChange.Statuses, modifiers))
+                        {
+                            switch (statusChange.ChangeType)
+                            {
+                                case StatusChange.Effect.Cure:
+
+                                    foreach (Status status in statusChange.Statuses)
+                                    {
+                                        Console.WriteLine(status);
+                                        target.GetType().GetMethod("Cure" + status).Invoke(target, new object[0]);
+                                    }
+
+                                    break;
+
+                                case StatusChange.Effect.Inflict:
+
+                                    foreach (Status status in statusChange.Statuses)
+                                    {
+                                        Console.WriteLine(status);
+                                        
+                                        target.GetType().GetMethod("Inflict" + status).Invoke(target, new object[0]);
+                                    }
+
+                                    break;
+
+                                case StatusChange.Effect.Toggle:
+
+                                    throw new NotImplementedException("Haven't implemented status change toggle");
+
+                                    break;
+                            }
+                        }
+                    }       
+                }
+                else
+                {
+                    Seven.BattleState.AddMissIcon(target);
+                }
+            }
         }
         
-        
         public string Name { get; private set; }
+
         public string Desc { get; private set; }
-        public string ID { get; private set; }  
-        public AttackType Type { get; private set; }        
-        public BattleTarget Target { get; private set; }        
-        public bool TargetEnemiesFirst { get; private set; }       
-        public bool CanBeAlled { get;private  set; }        
+
+        public string ID { get; private set; }
+
+        public AttackType Type { get; private set; }
+
+        public BattleTarget Target { get; private set; }
+
+        public bool TargetEnemiesFirst { get; private set; }
+
+        public bool CanBeAlled { get; private  set; }
+
         public int MPCost { get; private set; }
         
         public int Order { get; private set; }
 
-        private Action Resolve { get; set; }
+        private DamageFormula DamageFormula { get; set; }
+        
+        private int Power { get; set; }
+
+        private int Hitp { get; set; }
+        
+        private IEnumerable<Element> Elements { get; set; }
+
+        private IEnumerable<StatusChange> Statuses { get; set; }
     }
 }
 

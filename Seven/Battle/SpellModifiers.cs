@@ -12,6 +12,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool Alled { get; set; }
         public int MPTurboFactor { get; set; }
         public bool CostsNothing { get; set; }
+        public bool NoSplit { get; set; }
     }
 }
 

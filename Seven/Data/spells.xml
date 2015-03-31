@@ -1,22 +1,6 @@
 <!-- ********* SPELLS ********* -->
 <spells>
-
     <!--
-    <spell>
-        <name>Cure</name>
-        <desc>Restores MP</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>false</targetEnemiesFirst>
-        <power>8</power>
-        <hitp>255</hitp>
-        <cost>5</cost>
-        <order>0</order>
-        <elements>
-            <element>Restorative</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
     <spell>
         <name>Cure</name>
         <desc></desc>
@@ -157,6 +141,22 @@
     </spell>
    -->
     <spell>
+        <name>Cure</name>
+        <desc>Restores MP</desc>
+        <order>0</order>
+        <type>Magical</type>
+        <cost>5</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>Cure</formula>
+        <power>5</power>
+        <hitp>255</hitp>
+        <elements>
+            <element>Restorative</element>
+        </elements>
+    </spell>
+    <spell>
         <name>Fire</name>
         <desc>[Fire]-based magical attack</desc>
         <order>9</order>
@@ -165,13 +165,48 @@
         <target>Combatant</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>true</allable>
-        <formula type="MagicalAttack">
-            <power>8</power>
-            <hitp>100</hitp>
-            <elements>
-                <element>Fire</element>
-            </elements>
-        </formula>
+        <formula>MagicalAttack</formula>
+        <power>8</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    
+    
+    <spell>
+        <name>Demi</name>
+        <desc>[Gravity]-based magical attack</desc>
+        <order>24</order>
+        <type>Magical</type>
+        <cost>14</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>HPPercent</formula>
+        <power>8</power>
+        <hitp>75</hitp>
+        <elements>
+            <element>Gravity</element>
+        </elements>
+    </spell>
+    
+    <spell>
+        <name>Freeze</name>
+        <desc>Strong [Ice]-based magical attack</desc>
+        <order>47</order>
+        <type>Magical</type>
+        <cost>82</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <formula>MagicalAttack</formula>
+        <power>95</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Ice</element>
+        </elements>
+        <statusChange type="Inflict" statuses="Stop" odds="68" />
     </spell>
     <!--
      <spell>

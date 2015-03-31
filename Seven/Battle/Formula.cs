@@ -8,9 +8,11 @@ using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
+    internal delegate int DamageFormula(Combatant source, Combatant target, SpellModifiers modifiers);
+
     internal static class Formula
     {
-        public static int RunPhysicalModifiers(int dam, ref bool restorative, Combatant source, Combatant target, IEnumerable<Element> elements)
+        public static int RunPhysicalModifiers(int dam, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
             dam = Formula.Critical(dam, source, target);
             dam = Formula.Berserk(dam, source);
@@ -21,23 +23,36 @@ namespace Atmosphere.Reverence.Seven.Battle
             dam = Formula.Mini(dam, source);
             dam = Formula.RandomVariation(dam);
             dam = Formula.LowerSanityCkeck(dam);
-            dam = Formula.RunElementalChecks(dam, ref restorative, target, elements);
+            dam = Formula.RunElementalChecks(dam, target, elements);
             dam = Formula.UpperSanityCheck(dam);
 
             return dam;
         }
-
-        public static int RunMagicModifiers(int dam, ref bool restorative, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
+        
+        public static int RunMagicModifiers(int dam, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
         {
             dam = Sadness(dam, target);
             dam = Split(dam, modifiers);
             dam = MBarrier(dam, target);
-            dam = MPTurbo(dam, modifiers.MPTurboFactor);
+            dam = MPTurbo(dam, modifiers);
             dam = RandomVariation(dam);
             dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, ref restorative, target, elements);
+            dam = RunElementalChecks(dam, target, elements);
             dam = UpperSanityCheck(dam);
 
+            return dam;
+        }
+        
+        public static int RunCureModifiers(int dam, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
+        {
+            dam = Split(dam, modifiers);
+            dam = MBarrier(dam, target);
+            dam = MPTurbo(dam, modifiers);
+            dam = RandomVariation(dam);
+            dam = LowerSanityCkeck(dam);
+            dam = RunElementalChecks(dam, target, elements);
+            dam = UpperSanityCheck(dam);
+            
             return dam;
         }
 
@@ -153,6 +168,40 @@ namespace Atmosphere.Reverence.Seven.Battle
             return Seven.BattleState.Random.Next(100) < hitp;
         }
 
+        public static bool StatusHit(Combatant source, Combatant target, int odds, IEnumerable<Status> statuses, SpellModifiers modifiers)
+        {
+            // auto hit conditions
+
+            if (odds >= 100)
+            {
+                return true;
+            }            
+            if (statuses.Count() == 1 && statuses.Contains(Status.Frog) && target.Frog)
+            {
+                return true;
+            }
+            if (statuses.Count() == 1 && statuses.Contains(Status.Small) && target.Small)
+            {
+                return true;
+            }
+            if (target is Ally && statuses.Any(s => new Status[] {
+                Status.Haste,
+                Status.Berserk,
+                Status.Shield
+            }.Contains(s)))
+            {
+                return true;
+            }
+
+            odds = MPTurbo(odds, modifiers);
+
+            odds = Split(odds, modifiers);
+
+            odds -= 1;
+
+            return Seven.BattleState.Random.Next(99) < odds;
+        }
+
         public static int Critical(int dam, Combatant source, Combatant target)
         {
             Combatant ee = target;
@@ -235,10 +284,21 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 dam = dam / 2;
             }
-            else if (modifiers.Alled)
+            else if (modifiers.Alled && !modifiers.NoSplit)
             {
                 dam = dam * 2 / 3;
             }
+
+            return dam;
+        }
+
+        public static int QuadraMagic(int dam, SpellModifiers modifiers)
+        {
+            if (modifiers.QuadraMagic)
+            {
+                dam = dam / 2;
+            }
+
             return dam;
         }
 
@@ -262,9 +322,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int MPTurbo(int dam, int mpTurboFactor)
+        public static int MPTurbo(int dam, SpellModifiers modifiers)
         {
-            dam = dam + (dam * 10 * mpTurboFactor) / 10;
+            dam = dam + (dam * 10 * modifiers.MPTurboFactor) / 10;
 
             return dam;
         }
@@ -286,9 +346,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int RunElementalChecks(int dam, ref bool restorative, Combatant target, IEnumerable<Element> attackElements)
+        public static int RunElementalChecks(int dam, Combatant target, IEnumerable<Element> attackElements)
         {
             bool checksDone = false;
+
+            if (attackElements.Contains(Element.Restorative))
+            {
+                dam = -dam;
+            }
 
             foreach (Element e in attackElements)
             {
@@ -306,7 +371,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 {
                     if (target.Absorbs(e))
                     {
-                        restorative = !restorative;
+                        dam = -dam;
                         checksDone = true;
                         break;
                     }
