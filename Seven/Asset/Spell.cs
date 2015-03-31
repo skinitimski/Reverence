@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -12,14 +13,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Spell
     {  
-        internal enum FormulaType
-        {
-            MagicalAttack,
-            Cure,
-            HPPercent,
-            MPPercent,
-        }
-
         private class StatusChange
         {
             public enum Effect
@@ -84,53 +77,80 @@ namespace Atmosphere.Reverence.Seven.Asset
             Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
             Hitp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
 
-            FormulaType type = (FormulaType)Enum.Parse(typeof(FormulaType), xml.SelectSingleNode("formula").InnerText);
+            string methodName = xml.SelectSingleNode("formula").InnerText;
 
-            switch (type)
-            {
-                case FormulaType.MagicalAttack:
+            DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, methodName);
+        }
 
-                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
-                    {                        
-                        int bd = Formula.MagicalBase(source);
-                        int dam = Formula.MagicalDamage(bd, Power, target);
-                        
-                        dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
 
-                        return dam;
-                    };
 
-                    break;
 
-                case FormulaType.Cure:
 
-                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
-                    {
-                        int bd = Formula.MagicalBase(source);
-                        int dam = bd + 22 * Power;
-                        
-                        dam = Formula.RunCureModifiers(dam, target, Elements, modifiers);
-                        
-                        return dam;
-                    };
-
-                    break;
-
-                case FormulaType.HPPercent:
-
-                    DamageFormula = delegate (Combatant source, Combatant target, SpellModifiers modifiers)
-                    {
-                        int dam = target.HP * Power / 32;
-                        
-                        dam = Formula.QuadraMagic(dam, modifiers);
-                        
-                        return dam;
-                    };
-
-                    break;
-            }
+        
+        private int MagicalAttack(Combatant source, Combatant target, SpellModifiers modifiers)
+        {                        
+            int bd = Formula.MagicalBase(source);
+            int dam = Formula.MagicalDamage(bd, Power, target);
+            
+            dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
+            
+            return dam;
         }
         
+        
+        private int Cure(Combatant source, Combatant target, SpellModifiers modifiers)
+        {
+            int bd = Formula.MagicalBase(source);
+            int dam = bd + 22 * Power;
+            
+            dam = Formula.RunCureModifiers(dam, target, Elements, modifiers);
+            
+            return dam;
+        }
+        
+        private int HPPercent(Combatant source, Combatant target, SpellModifiers modifiers)
+        {
+            int dam = target.HP * Power / 32;
+            
+            dam = Formula.QuadraMagic(dam, modifiers);
+            
+            return dam;
+        }
+        
+        private int MPPercent(Combatant source, Combatant target, SpellModifiers modifiers)
+        {
+            int dam = target.MP * Power / 32;
+            
+            dam = Formula.QuadraMagic(dam, modifiers);
+            
+            return dam;
+        }
+        
+        private int MaxHPPercent(Combatant source, Combatant target, SpellModifiers modifiers)
+        {
+            int dam = target.MaxHP * Power / 32;
+            
+            dam = Formula.QuadraMagic(dam, modifiers);
+            
+            return dam;
+        }
+        
+        private int MaxMPPercent(Combatant source, Combatant target, SpellModifiers modifiers)
+        {
+            int dam = target.MaxMP * Power / 32;
+            
+            dam = Formula.QuadraMagic(dam, modifiers);
+            
+            return dam;
+        }
+
+
+
+
+
+
+
+
         private IEnumerable<Element> GetElements(XmlNodeList elementNodes)
         {
             foreach (XmlNode node in elementNodes)
