@@ -20,13 +20,15 @@ namespace Atmosphere.Reverence
     {
         private Window _window;
         private Gdk.Pixmap _pixmap;
-        private readonly Cairo.Color _gridColor;
-        private int _anime;
+
         private bool _isDrawing;
         private int _oldWidth;
         private int _oldHeight;
         private bool _quit;
-
+        
+#if DRAWGRID
+        private readonly Cairo.Color _gridColor;
+#endif
 
 
 
@@ -120,7 +122,9 @@ namespace Atmosphere.Reverence
 
         protected Game()
         {
+#if DRAWGRID
             _gridColor = Config.Instance.Grid;
+#endif
 
             State = new InitialState();
             InitLua();
@@ -156,8 +160,6 @@ namespace Atmosphere.Reverence
         [GdkMethod()]
         private bool OnTimedDraw()
         {
-            _anime++;
-            
             bool draw = false;
             
             
