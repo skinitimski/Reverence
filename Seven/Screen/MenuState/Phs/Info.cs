@@ -34,32 +34,35 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         
         protected override void DrawContents(Gdk.Drawable d)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
-            g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
-            g.SetFontSize(24);
-            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
-            
-            #region Character
-            
-            Character c = Seven.MenuState.PhsList.Selection;
-            
-            if (c != null)
+            if (Seven.MenuState.PhsList.IsControl)
             {
-                Images.RenderProfileSmall(d, gc, X + xpic, Y + ypic, c);
+                Gdk.GC gc = new Gdk.GC(d);
+                Cairo.Context g = Gdk.CairoHelper.Create(d);
+            
+                g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
+                g.SetFontSize(24);
+            
+                TextExtents te;
+            
+                string lvl, hp, hpm, mp, mpm;
+            
+                #region Character
+            
+                Character c = Seven.MenuState.PhsList.Selection;
+            
+                if (c != null)
+                {
+                    Images.RenderProfileSmall(d, gc, X + xpic, Y + ypic, c);
 
-                Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_stats, Y + y_stats, false);
+                    Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_stats, Y + y_stats, false);
 
+                }
+                #endregion Character
+            
+            
+                ((IDisposable)g.Target).Dispose();
+                ((IDisposable)g).Dispose();
             }
-            #endregion Character
-            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
     }
 }
