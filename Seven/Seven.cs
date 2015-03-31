@@ -68,6 +68,8 @@ namespace Atmosphere.Reverence.Seven
             {
                 _postBattleState.Dispose();
             }
+            _party = null;
+            _clock = null;
         }
 
         protected override Atmosphere.Reverence.State GetInitialState()
@@ -75,7 +77,34 @@ namespace Atmosphere.Reverence.Seven
             return new InitialState();
         }
 
-        public void LoadSavedGame()
+        public void Reset()
+        {
+            Reset();
+        }
+
+        public void Quit()
+        {
+            base.Quit();
+        }
+
+
+
+        public void LoadNewGame()
+        {
+            _party = new Party();
+
+            _clock = new Clock();
+
+            _menuState = new MenuState();
+            _menuState.Init();
+
+            SetState(_menuState);
+        }
+
+
+
+
+        public void LoadSavedGame(int save)
         {
             XmlNode saveGame = Resource.GetXmlFromResource("data.savegame.xml", typeof(Seven).Assembly);
             saveGame = saveGame.SelectSingleNode("*");
@@ -144,6 +173,7 @@ namespace Atmosphere.Reverence.Seven
         {
             SetState(_menuState);
         }
+
 
         internal static GameState CurrentState { get { return Instance.State; } }
         

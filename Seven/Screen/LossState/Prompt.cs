@@ -43,15 +43,14 @@ namespace Atmosphere.Reverence.Seven.Screen.LossState
                     switch (option)
                     {
                         case 0:
-                            Seven.Instance.LoadSavedGame();
+                            Seven.Instance.Reset();
                             break;
                         case 1:
                             // No
+                            Seven.Instance.Quit();
                             break;
-                        default: break;
                     }
                     break;
-                default: break;
             }
         }
         protected override void DrawContents(Gdk.Drawable d)

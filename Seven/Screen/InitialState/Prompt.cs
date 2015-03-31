@@ -9,22 +9,30 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
     internal sealed class Prompt : ControlMenu
     {
         #region Layout
-        
-        const int x0 = 55; // yes
-        const int x1 = 26; // question
-        const int x2 = 180; // no
-        const int y0 = 50;
-        const int y1 = 100;
-        const int cx = 15;
-        const int cy = 15;
-        
+
+        const int x_prompt = 50;
+        const int x_options = 100;
+        const int x_cursor = x_options - 30;
+
+        const int y_prompt = 50;
+        const int y_option0 = y_prompt + y_spacing;
+        const int y_spacing = 50;
+
+        const int width = 325;
+        const int height = 400;
+
+        const int options = 4;
         
         #endregion Layout
         
-        private int option = 0;
+        private int _option = 0;
         
         public Prompt()
-            : base(265, 200, 270, 150)
+            : base(
+                Config.Instance.WindowWidth / 2 - width / 2,
+                Config.Instance.WindowHeight / 2 - height / 2,
+                width, 
+                height)
         {
             Visible = false;
         }
@@ -33,49 +41,48 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         {
             switch (k)
             {
-                case Key.Left:
-                    if (option > 0) option--;
+                case Key.Up:
+                    if (_option > 0) _option--;
                     break;
-                case Key.Right:
-                    if (option < 1) option++;
+                case Key.Down:
+                    if (_option < options - 1) _option++;
                     break;
                 case Key.Circle:
-                    switch (option)
+                    if (_option == 0)
                     {
-                        case 0:
-                            Seven.Instance.LoadSavedGame();
-                            break;
-                        case 1:
-                            // No
-                            break;
-                        default: break;
+                        Seven.Instance.LoadNewGame();
+                    }
+                    else
+                    {
+                        Seven.Instance.LoadSavedGame(_option - 1);
                     }
                     break;
                 default: break;
             }
         }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            switch (option)
-            {
-                case 0:
-                    Shapes.RenderCursor(g, X + x0 - cx, Y + y1 - cy); 
-                    break;
-                case 1:
-                    Shapes.RenderCursor(g, X + x2 - cx, Y + y1 - cy); 
-                    break;
-                default: break;
+
+            int y_cursor = y_option0 + y_spacing * _option;
+
+            Shapes.RenderCursor(g, X + x_cursor, Y + y_cursor);
+
+            Text.ShadowedText(g, "Which save data?", X + x_prompt, Y + y_prompt);
+
+            Text.ShadowedText(g, "New game", X + x_options, Y + y_option0);
+
+            for (int option = 1; option < options; option++)
+            {                
+                int save = option - 1;
+
+                Text.ShadowedText(g, "Save " + save.ToString(), X + x_options, Y + y_option0 + y_spacing * option);
             }
 
-            Text.ShadowedText(g, "Start new game?", X + x1, Y + y0);
-            Text.ShadowedText(g, "Yes", X + x0, Y + y1);
-            Text.ShadowedText(g, "No", X + x2, Y + y1);
-            
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
@@ -83,7 +90,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         public override void SetAsControl()
         {
             base.SetAsControl();
-            option = 1;
+            _option = 0;
             Visible = true;
         }
         

@@ -719,6 +719,18 @@
         <order>75</order>
         <abilities>Steal,Mug</abilities>
     </materia>
+    <materia>
+        <name>Throw</name>
+        <desc>Throw stuff at an opponent</desc>
+        <type>Command</type>
+        <tiers>
+            <tier>0</tier>
+            <tier>45000</tier>
+            <tier>65000</tier>
+        </tiers>
+        <order>100</order>
+        <abilities>Throw,Coin</abilities>
+    </materia>
 
 
 

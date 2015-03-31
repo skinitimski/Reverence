@@ -34,7 +34,6 @@ namespace Atmosphere.Reverence.Seven.State
         [GLib.ConnectBefore()]
         public override void KeyReleaseHandle(Key k)
         {
-            Screen.ControlHandle(k);
         }
         
         public override void RunIteration() { }
