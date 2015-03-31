@@ -11,26 +11,22 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
     {
         #region Layout
         
-        const int x1 = 30; // pic
-        const int x3 = 170; // name
-        const int x4 = x3 + 65; // lvl
-        const int x5 = x4 + 42; // hp
-        const int x6 = x5 + 65; // hpm
-        const int x7 = x3 + 110; // fury/sadness
-        const int cx = 15;
-        const int yp = 15;
+        const int x_pic = 30;
+
+        const int x_status = x_pic + Character.PROFILE_WIDTH + 15; 
+        const int x_cursor = x_pic - 15;
         
-        const int y0 = 60;
-        const int y1 = 210;
-        const int y2 = 360;
-        const int ya = 30;
-        const int yb = 55;
-        const int yc = 80;
+        const int y_firstRow = 60;
+
+        const int row_height = 150;  
+
+        const int y_displacement_cursor = 30;
+        const int y_displacement_pic = -35;
+
         
         #endregion Layout
         
-        private int option;
-        private int cy = y0;
+        private int option = 0;
 
         public Stats()
             : base(
@@ -65,13 +61,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                     Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsList);
                     break;
             }
-            switch (option)
-            {
-                case 0: cy = y0; break;
-                case 1: cy = y1; break;
-                case 2: cy = y2; break;
-                default: break;
-            }
         }
         
         protected override void DrawContents(Gdk.Drawable d)
@@ -82,29 +71,22 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
-            
-            if (Seven.Party[0] != null)
+
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                DrawCharacterStatus(d, gc, g, Seven.Party[0], y0);
-            }
-            
-            if (Seven.Party[1] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[1], y1);
-            }
-            
-            if (Seven.Party[2] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[2], y2);
-            }            
+                if (Seven.Party[i] != null)
+                {
+                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                }
+            }        
 
             if (IsControl)
             {
-                Shapes.RenderCursor(g, X + cx, Y + cy);
+                Shapes.RenderCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + option * row_height);
             }
             else
             {
-                Shapes.RenderBlinkingCursor(g, X + cx, Y + cy);
+                Shapes.RenderBlinkingCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + option * row_height);
             }
 
             
@@ -114,50 +96,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
         private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
         {            
-            TextExtents te;
-            
-            string lvl, hp, hpm, mp, mpm;
+            Images.RenderProfile(d, gc, X + x_pic, Y + y + y_displacement_pic, c);
 
-            Images.RenderProfile(d, gc, X + x1, Y + yp + y - y0, c);
-                
-            g.Color = Colors.TEXT_TEAL;
-            g.MoveTo(X + x3, Y + y + ya);
-            g.ShowText("LV");
-            g.MoveTo(X + x3, Y + y + yb);
-            g.ShowText("HP");
-            g.MoveTo(X + x3, Y + y + yc);
-            g.ShowText("MP");
-            g.Color = Colors.WHITE;
-                
-            Color namec = Colors.WHITE;
-
-            if (c.Death)
-            {
-                namec = Colors.TEXT_RED;
-            }
-            else if (c.NearDeath)
-            {
-                namec = Colors.TEXT_YELLOW;
-            }
-                
-            Text.ShadowedText(g, namec, c.Name, X + x3, Y + y);
-                
-            lvl = c.Level.ToString();
-            hp = c.HP.ToString() + "/";
-            hpm = c.MaxHP.ToString();
-            mp = c.MP.ToString() + "/";
-            mpm = c.MaxMP.ToString();
-                
-            te = g.TextExtents(lvl);
-            Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y + ya);
-            te = g.TextExtents(hp);
-            Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y + yb);
-            te = g.TextExtents(hpm);
-            Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y + yb);
-            te = g.TextExtents(mp);
-            Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y + yc);
-            te = g.TextExtents(mpm);
-            Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y + yc);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_status, Y + y, false);
         }
         
         public override void SetAsControl()

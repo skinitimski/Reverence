@@ -14,21 +14,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
     {   
         #region Layout
         
-        const int x1 = 10; // xpic
-        const int xs = x1 + Character.PROFILE_WIDTH + 10; // name
-        const int cx = 245;
-        const int y0 = 60;  // row 0
-        const int y1 = 210; // row 1
-        const int y2 = 360; // row 2
-        const int yp = 12;  // ypic
-        const int c0 = y0 - 8;             // cursor index 0
-        const int c1 = y0 - 8 + (y1 - y0); // cursor index 1
-        const int c2 = y0 - 8 + (y2 - y0); // cursor index 2 
+        const int x_pic = 15; // pic
         
+        const int x_status = x_pic + Character.PROFILE_WIDTH + 15; 
+        const int x_cursor = x_pic + Character.PROFILE_WIDTH + 115;
+        
+        const int y_firstRow = 48;
+        
+        const int row_height = 150;  
+        
+        const int y_displacement_cursor = 0;
+        const int y_displacement_pic = -35;
+
         #endregion
         
         private int option;
-        private int cy = y0 - 8;
 
         private GameItem _selectedItem;
         
@@ -96,21 +96,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
                     break;
             }
-
-            switch (option)
-            {
-                case 0:
-                    cy = c0;
-                    break;
-                case 1: 
-                    cy = c1; 
-                    break;
-                case 2: 
-                    cy = c2;  
-                    break;
-                default:
-                    break;
-            }
         }
         
         protected override void DrawContents(Gdk.Drawable d)
@@ -122,20 +107,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             g.SetFontSize(24);
 
             
-            if (Seven.Party[0] != null)
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                DrawCharacterStatus(d, gc, g, Seven.Party[0], y0);
-            }
-            
-            if (Seven.Party[1] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[1], y1);
-            }
-            
-            if (Seven.Party[2] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[2], y2);
-            }
+                if (Seven.Party[i] != null)
+                {
+                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                }
+            } 
 
             
             
@@ -144,12 +122,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                 switch (_selectedItem.FieldTarget)
                 {
                     case FieldTarget.Character:
-                        Shapes.RenderCursor(g, X + cx, Y + cy);
+                        Shapes.RenderCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + option * row_height);
                         break;
                     case FieldTarget.Party:
-                        Shapes.RenderBlinkingCursor(g, X + cx, Y + c0);
-                        Shapes.RenderBlinkingCursor(g, X + cx, Y + c1);
-                        Shapes.RenderBlinkingCursor(g, X + cx, Y + c2);
+                        for (int i = 0; i < Party.PARTY_SIZE; i++)
+                        {                            
+                            Shapes.RenderBlinkingCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + i * row_height);
+                        }
                         break;
                 }
             }
@@ -160,9 +139,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         
         private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
         {       
-            Images.RenderProfile(d, gc, X + x1, Y + yp + y - y0, c);
+            Images.RenderProfile(d, gc, X + x_pic, Y + y + y_displacement_pic, c);
 
-            Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + xs, Y + y);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_status, Y + y);
         }
 
 

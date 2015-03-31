@@ -10,23 +10,29 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
     internal sealed class Status : ControlMenu
     {
         #region Layout
-        
-        const int xp0 = 30; // pic
-        const int xp1 = 60; // pic back row
-        const int yp = 15; // ypic
 
-        const int cx = 18;
-        const int xs = xp1 + Character.PROFILE_WIDTH + 15; // status
-        const int y0 = yp + 35;  // row 0
-        const int y1 = y0 + 150; // row 1 
-        const int y2 = y1 + 150; // row 2
+        const int x_pic = 30; // pic
+        const int x_pic_backrow = x_pic + 30; // pic back row
+                
+        const int x_status = x_pic_backrow + Character.PROFILE_WIDTH + 15; 
+        const int x_cursor = x_pic - 15;
+        
+        const int y_firstRow = 50;
+        
+        const int row_height = 150;  
+        
+        const int y_displacement_cursor = 30;
+        const int y_displacement_pic = -35;
+        
+        #endregion
+
+
+
+
         
         private int option = 0;
         private int option_hold = -1;
-        private int cy = y0;
-        private int cy_h = 0;
-        
-        #endregion
+
 
         public Status()
             : base(
@@ -124,34 +130,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                 default:
                     break;
             }
-            switch (option)
-            {
-                case 0:
-                    cy = y0;
-                    break;
-                case 1:
-                    cy = y1;
-                    break;
-                case 2:
-                    cy = y2;
-                    break;
-                default:
-                    break;
-            }
-            switch (option_hold)
-            {
-                case 0:
-                    cy_h = y0;
-                    break;
-                case 1:
-                    cy_h = y1;
-                    break;
-                case 2:
-                    cy_h = y2;
-                    break;
-                default:
-                    break;
-            } 
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -163,32 +141,25 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             g.SetFontSize(24);
                       
 
-            if (Seven.Party[0] != null)
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                DrawCharacterStatus(d, gc, g, Seven.Party[0], y0);
-            }
-            
-            if (Seven.Party[1] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[1], y1);
-            }
-            
-            if (Seven.Party[2] != null)
-            {
-                DrawCharacterStatus(d, gc, g, Seven.Party[2], y2);
-            }
+                if (Seven.Party[i] != null)
+                {
+                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                }
+            } 
 
             
             if (IsControl)
             {
                 if (option_hold != -1)
                 {
-                    Shapes.RenderBlinkingCursor(g, Colors.GRAY_8, X + cx, Y + cy_h);
+                    Shapes.RenderBlinkingCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + option * row_height);
                 }
 
                 if (option != option_hold)
                 {
-                    Shapes.RenderCursor(g, X + cx, Y + cy);
+                    Shapes.RenderCursor(g, X + x_cursor, Y + y_firstRow + y_displacement_cursor + option * row_height);
                 }
             }
             
@@ -198,9 +169,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 
         private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
         {
-            Images.RenderProfile(d, gc, X + (c.BackRow ? xp1 : xp0), Y + yp + y - y0, c);
+            Images.RenderProfile(d, gc, X + (c.BackRow ? x_pic_backrow : x_pic), Y + y + y_displacement_pic, c);
             
-            Stats.RenderCharacterStatus(d, gc, g, c, X + xs, Y + y);
+            Stats.RenderCharacterStatus(d, gc, g, c, X + x_status, Y + y);
         }
         
         public override void SetAsControl()
