@@ -1,145 +1,5 @@
 <!-- ********* SPELLS ********* -->
 <spells>
-    <!--
-    <spell>
-        <name>Cure</name>
-        <desc></desc>
-        <cost>5</cost>
-        <matp>255</matp>
-        <order>0</order>
-        <elements>
-            <element>Restorative</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state) end
-            Combatant er = Seven.BattleState.ActiveAbility.Performer;
-            Combatant ee = Seven.BattleState.ActiveAbility.Target[0];
-
-            int bd = Formula.MagicalBase(er);
-            int dam = bd + 110;
-
-            // sadness
-            if (ee.Sadness)
-            dam = dam * 7 / 10;
-            // split
-            // barrier/mb
-            if (ee.MBarrier)
-            dam = dam / 2;
-            // mpturbo
-            // rnd
-            dam = dam * (3841 + Game.Random.Next(256)) / 4096;
-            if (dam == 0)
-            dam = 1;
-
-            dam = -dam;
-
-            ee.AcceptDamage(er, dam);
-        </action>
-    </spell>
-    <spell>
-        <name>Cure2</name>
-        <desc></desc>
-        <cost>24</cost>
-        <matp>255</matp>
-        <order>1</order>
-        <elements>
-            <element>Restorative</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Cure3</name>
-        <desc></desc>
-        <cost>64</cost>
-        <matp>255</matp>
-        <order>2</order>
-        <elements>
-            <element>Restorative</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Poisona</name>
-        <desc></desc>
-        <cost>3</cost>
-        <matp>255</matp>
-        <order>3</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Esuna</name>
-        <desc></desc>
-        <cost>15</cost>
-        <matp>255</matp>
-        <order>4</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Resist</name>
-        <desc></desc>
-        <cost>120</cost>
-        <matp>255</matp>
-        <order>5</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Life</name>
-        <desc></desc>
-        <cost>34</cost>
-        <matp>255</matp>
-        <order>6</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Allies, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Life2</name>
-        <desc></desc>
-        <cost>100</cost>
-        <matp>255</matp>
-        <order>7</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Allies, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Regen</name>
-        <desc></desc>
-        <cost>30</cost>
-        <matp>255</matp>
-        <order>8</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-   -->
     <spell>
         <name>Cure</name>
         <desc>Restores MP</desc>
@@ -157,6 +17,127 @@
         </elements>
     </spell>
     <spell>
+        <name>Cure2</name>
+        <desc>Restores MP</desc>
+        <order>1</order>
+        <type>Magical</type>
+        <cost>24</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>Cure</formula>
+        <power>35</power>
+        <hitp>255</hitp>
+        <elements>
+            <element>Restorative</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Cure3</name>
+        <desc>Restores MP</desc>
+        <order>2</order>
+        <type>Magical</type>
+        <cost>64</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>Cure</formula>
+        <power>130</power>
+        <hitp>255</hitp>
+        <elements>
+            <element>Restorative</element>
+        </elements>
+    </spell>  
+    
+    
+    
+    <spell>
+        <name>Poisona</name>
+        <desc>Cures [Poison]</desc>
+        <order>3</order>
+        <type>Magical</type>
+        <cost>3</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Cure" statuses="Poison" odds="100" />
+    </spell>
+    <spell>
+        <name>Esuna</name>
+        <desc>Cures negative status ailments</desc>
+        <order>4</order>
+        <type>Magical</type>
+        <cost>15</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Cure" statuses="Sleep,Poison,Sadness,Fury,Confusion,Silence,Frog,Small,Slownumb,Petrify,Berserk,Paralysed,Darkness" odds="100" />
+    </spell>    
+    <spell>
+        <name>Resist</name>
+        <desc>Inflicts [Resist]</desc>
+        <order>5</order>
+        <type>Magical</type>
+        <cost>120</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Resist" odds="100" />
+    </spell>
+    
+      
+      
+    <spell>
+        <name>Life</name>
+        <desc>Restores life</desc>
+        <order>6</order>
+        <type>Magical</type>
+        <cost>34</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>false</allable>
+        <formula>MaxHPPercent</formula>
+        <power>8</power>
+        <hitp>255</hitp>
+        <statusChange type="Cure" statuses="Death" odds="100" />
+    </spell>      
+    <spell>
+        <name>Life2</name>
+        <desc>Restores life</desc>
+        <order>7</order>
+        <type>Magical</type>
+        <cost>100</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>false</allable>
+        <formula>MaxHPPercent</formula>
+        <power>32</power>
+        <hitp>255</hitp>
+        <statusChange type="Cure" statuses="Death" odds="100" />
+    </spell>
+    <spell>
+        <name>Regen</name>
+        <desc>Inflicts [Regen]</desc>
+        <order>8</order>
+        <type>Magical</type>
+        <cost>30</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Regen" odds="100" />
+    </spell>
+    
+        
+    
+    <spell>
         <name>Fire</name>
         <desc>[Fire]-based magical attack</desc>
         <order>9</order>
@@ -165,13 +146,238 @@
         <target>Combatant</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>true</allable>
-        <formula>MagicalAttack</formula>
         <power>8</power>
         <hitp>100</hitp>
         <elements>
             <element>Fire</element>
         </elements>
     </spell>
+    <spell>
+        <name>Fire2</name>
+        <desc>[Fire]-based magical attack</desc>
+        <order>10</order>
+        <type>Magical</type>
+        <cost>22</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>10</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Fire3</name>
+        <desc>[Fire]-based magical attack</desc>
+        <order>11</order>
+        <type>Magical</type>
+        <cost>52</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>64</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Ice</name>
+        <desc>[Ice]-based magical attack</desc>
+        <order>12</order>
+        <type>Magical</type>
+        <cost>4</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>8</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Ice</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Ice2</name>
+        <desc>[Ice]-based magical attack</desc>
+        <order>13</order>
+        <type>Magical</type>
+        <cost>22</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>10</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Ice</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Ice3</name>
+        <desc>[Ice]-based magical attack</desc>
+        <order>14</order>
+        <type>Magical</type>
+        <cost>52</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>64</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Ice</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Bolt</name>
+        <desc>[Lightning]-based magical attack</desc>
+        <order>15</order>
+        <type>Magical</type>
+        <cost>4</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>8</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Lightning</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Bolt2</name>
+        <desc>[Lightning]-based magical attack</desc>
+        <order>16</order>
+        <type>Magical</type>
+        <cost>22</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>10</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Lightning</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Bolt3</name>
+        <desc>[Lightning]-based magical attack</desc>
+        <order>17</order>
+        <type>Magical</type>
+        <cost>52</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>64</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Lightning</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Quake</name>
+        <desc>[Earth]-based magical attack</desc>
+        <order>18</order>
+        <type>Magical</type>
+        <cost>6</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>11</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Earth</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Quake2</name>
+        <desc>[Earth]-based magical attack</desc>
+        <order>19</order>
+        <type>Magical</type>
+        <cost>28</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>24</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Earth</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Quake3</name>
+        <desc>[Earth]-based magical attack</desc>
+        <order>20</order>
+        <type>Magical</type>
+        <cost>68</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>70</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Earth</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Bio</name>
+        <desc>[Poison]-based magical attack</desc>
+        <order>21</order>
+        <type>Magical</type>
+        <cost>8</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>10</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Poison</element>
+        </elements>
+        <statusChange type="Inflict" statuses="Poison" odds="48" />
+    </spell>
+    <spell>
+        <name>Bio2</name>
+        <desc>[Poison]-based magical attack</desc>
+        <order>22</order>
+        <type>Magical</type>
+        <cost>36</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>21</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Poison</element>
+        </elements>
+        <statusChange type="Inflict" statuses="Poison" odds="48" />
+    </spell>
+    <spell>
+        <name>Bio3</name>
+        <desc>[Poison]-based magical attack</desc>
+        <order>23</order>
+        <type>Magical</type>
+        <cost>80</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>68</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Poison</element>
+        </elements>
+        <statusChange type="Inflict" statuses="Poison" odds="72" />
+    </spell>
+    
     
     
     <spell>
@@ -190,17 +396,303 @@
             <element>Gravity</element>
         </elements>
     </spell>
+    <spell>
+        <name>Demi2</name>
+        <desc>[Gravity]-based magical attack</desc>
+        <order>25</order>
+        <type>Magical</type>
+        <cost>33</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>HPPercent</formula>
+        <power>16</power>
+        <hitp>75</hitp>
+        <elements>
+            <element>Gravity</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Demi3</name>
+        <desc>[Gravity]-based magical attack</desc>
+        <order>26</order>
+        <type>Magical</type>
+        <cost>48</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <formula>HPPercent</formula>
+        <power>24</power>
+        <hitp>75</hitp>
+        <elements>
+            <element>Gravity</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Sleepel</name>
+        <desc>Inflicts [Sleep]</desc>
+        <order>27</order>
+        <type>Magical</type>
+        <cost>8</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Sleep" odds="72" />
+    </spell>
+    <spell>
+        <name>Confu</name>
+        <desc>Inflicts [Confusion]</desc>
+        <order>28</order>
+        <type>Magical</type>
+        <cost>18</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Confusion" odds="60" />
+    </spell>
+    <spell>
+        <name>Silence</name>
+        <desc>Inflicts [Silence]</desc>
+        <order>29</order>
+        <type>Magical</type>
+        <cost>24</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Silence" odds="60" />
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Mini</name>
+        <desc>Toggles [Small]</desc>
+        <order>30</order>
+        <type>Magical</type>
+        <cost>10</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Toggle" statuses="Small" odds="72" />
+    </spell>
+    <spell>
+        <name>Toad</name>
+        <desc>Toggles [Toad]</desc>
+        <order>31</order>
+        <type>Magical</type>
+        <cost>14</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Toggle" statuses="Toad" odds="72" />
+    </spell>
+    <spell>
+        <name>Berserk</name>
+        <desc>Inflicts [Berserk]</desc>
+        <order>32</order>
+        <type>Magical</type>
+        <cost>28</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Berserk" odds="80" />
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Haste</name>
+        <desc>Inflicts [Haste]</desc>
+        <order>33</order>
+        <type>Magical</type>
+        <cost>18</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Haste" odds="100" />
+    </spell>
+    <spell>
+        <name>Slow</name>
+        <desc>Inflicts [Slow]</desc>
+        <order>34</order>
+        <type>Magical</type>
+        <cost>20</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Slow" odds="100" />
+    </spell>
+    <spell>
+        <name>Stop</name>
+        <desc>Inflicts [Stop]</desc>
+        <order>35</order>
+        <type>Magical</type>
+        <cost>34</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Stop" odds="60" />
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Barrier</name>
+        <desc>Inflicts [Barrier]</desc>
+        <order>36</order>
+        <type>Magical</type>
+        <cost>16</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Barrier" odds="100" />
+    </spell>
+    <spell>
+        <name>MBarrier</name>
+        <desc>Inflicts [MBarrier]</desc>
+        <order>37</order>
+        <type>Magical</type>
+        <cost>24</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="MBarrier" odds="100" />
+    </spell>
+    <spell>
+        <name>Reflect</name>
+        <desc>Inflicts [Reflect]</desc>
+        <order>38</order>
+        <type>Magical</type>
+        <cost>30</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Reflect" odds="100" />
+    </spell>
+    
+    
+    
+    <spell>
+        <name>Escape</name>
+        <desc>???</desc>
+        <order>39</order>
+        <type>Magical</type>
+        <cost>16</cost>
+        <target>Allies</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>0</power>
+        <hitp>110</hitp>
+    </spell>
+    <spell>
+        <name>Remove</name>
+        <desc>Inflicts [MBarrier]</desc>
+        <order>40</order>
+        <type>Magical</type>
+        <cost>99</cost>
+        <target>Enemy</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Death" odds="100" />
+    </spell>
+    <spell>
+        <name>Wall</name>
+        <desc>Inflicts [Barrier/MBarrier]</desc>
+        <order>41</order>
+        <type>Magical</type>
+        <cost>58</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Barrier,MBarrier" odds="100" />
+    </spell>
+    
+    
+    
+    <spell>
+        <name>DeBarrier</name>
+        <desc>Cures [Barrier/MBarrier/Reflect/Shield]</desc>
+        <order>42</order>
+        <type>Magical</type>
+        <cost>12</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Cure" statuses="Barrier,MBarrier,Reflect,Shield" odds="100" />
+    </spell>
+    <spell>
+        <name>DeSpell</name>
+        <desc>Removes helpful statuses</desc>
+        <order>43</order>
+        <type>Magical</type>
+        <cost>20</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Cure" statuses="Haste,Slow,Stop,Regen,Barrier,MBarrier,Reflect,Shield,Death Force,Resist" odds="100" />
+    </spell>
+    <spell>
+        <name>Death</name>
+        <desc>Inflicts [Death]</desc>
+        <order>44</order>
+        <type>Magical</type>
+        <cost>30</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>true</allable>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Death" odds="100" />
+    </spell>
+    
+    
+    
+    
     
     <spell>
         <name>Freeze</name>
         <desc>Strong [Ice]-based magical attack</desc>
-        <order>47</order>
+        <order>45</order>
         <type>Magical</type>
         <cost>82</cost>
         <target>Combatant</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>false</allable>
-        <formula>MagicalAttack</formula>
         <power>95</power>
         <hitp>100</hitp>
         <elements>
@@ -208,734 +700,134 @@
         </elements>
         <statusChange type="Inflict" statuses="Stop" odds="68" />
     </spell>
-    <!--
-     <spell>
-        <name>Fire2</name>
-        <desc>[Fire]-based magical attack</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
-        <power>20</power>
-        <hitp>100</hitp>
-        <cost>22</cost>
-        <order>10</order>
-        <elements>
-            <element>Fire</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
-     <spell>
-        <name>Fire3</name>
-        <desc>[Fire]-based magical attack</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
-        <power>64</power>
-        <hitp>100</hitp>
-        <cost>52</cost>
-        <order>11</order>
-        <elements>
-            <element>Fire</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
-    -->
-    <!--
-     <spell>
-        <name>Ice</name>
-        <desc>[Ice]-based magical attack</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
-        <power>8</power>
-        <hitp>100</hitp>
-        <cost>4</cost>
-        <order>12</order>
-        <elements>
-            <element>Ice</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
-     <spell>
-        <name>Ice2</name>
-        <desc>[Ice]-based magical attack</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
-        <power>20</power>
-        <hitp>100</hitp>
-        <cost>22</cost>
-        <order>13</order>
-        <elements>
-            <element>Ice</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
-     <spell>
-        <name>Ice3</name>
-        <desc>[Fire]-based magical attack</desc>
-        <type>Magical</type>
-        <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
-        <power>64</power>
-        <hitp>100</hitp>
-        <cost>52</cost>
-        <order>14</order>
-        <elements>
-            <element>Ice</element>
-        </elements>
-        <allable>true</allable>
-    </spell>
-    -->
-    <!--
-    <spell>
-        <name>Bolt</name>
-        <desc></desc>
-        <cost>4</cost>
-        <matp>100</matp>
-        <order>15</order>
-        <elements>
-            <element>Lightning</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(8, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Bolt2</name>
-        <desc></desc>
-        <cost>22</cost>
-        <matp>100</matp>
-        <order>16</order>
-        <elements>
-            <element>Lightning</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(20, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Bolt3</name>
-        <desc></desc>
-        <cost>52</cost>
-        <matp>100</matp>
-        <order>17</order>
-        <elements>
-            <element>Lightning</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(64, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Quake</name>
-        <desc></desc>
-        <cost>6</cost>
-        <matp>100</matp>
-        <order>18</order>
-        <elements>
-            <element>Earth</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(11, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Quake2</name>
-        <desc></desc>
-        <cost>28</cost>
-        <matp>100</matp>
-        <order>19</order>
-        <elements>
-            <element>Earth</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(24, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Quake3</name>
-        <desc></desc>
-        <cost>68</cost>
-        <matp>100</matp>
-        <order>20</order>
-        <elements>
-            <element>Earth</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(70, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Bio</name>
-        <desc></desc>
-        <cost>8</cost>
-        <matp>100</matp>
-        <order>21</order>
-        <elements>
-            <element>Poison</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil 
-            then 
-            Formula:MagicSpell(10, state, i)
-            state.Target[i - 1]:InflictPoison()
-            end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Bio2</name>
-        <desc></desc>
-        <cost>36</cost>
-        <matp>100</matp>
-        <order>22</order>
-        <elements>
-            <element>Poison</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil
-            then
-            Formula:MagicSpell(21, state, i)
-            state.Target[i - 1]:InflictPoison()
-            end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Bio3</name>
-        <desc></desc>
-        <cost>80</cost>
-        <matp>100</matp>
-        <order>23</order>
-        <elements>
-            <element>Poison</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil
-            then
-            Formula:MagicSpell(68, state, i)
-            state.Target[i - 1]:InflictPoison()
-            end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Demi</name>
-        <desc></desc>
-        <cost>14</cost>
-        <matp>75</matp>
-        <order>24</order>
-        <elements>
-            <element>Gravity</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Demi2</name>
-        <desc></desc>
-        <cost>33</cost>
-        <matp>75</matp>
-        <order>25</order>
-        <elements>
-            <element>Gravity</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Demi3</name>
-        <desc></desc>
-        <cost>48</cost>
-        <matp>75</matp>
-        <order>26</order>
-        <elements>
-            <element>Gravity</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Sleepel</name>
-        <desc></desc>
-        <cost>8</cost>
-        <matp>100</matp>
-        <order>27</order>
-        <elements />
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Confu</name>
-        <desc></desc>
-        <cost>18</cost>
-        <matp>100</matp>
-        <order>28</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Silence</name>
-        <desc></desc>
-        <cost>24</cost>
-        <matp>100</matp>
-        <order>29</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Mini</name>
-        <desc></desc>
-        <cost>10</cost>
-        <matp>100</matp>
-        <order>30</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Toad</name>
-        <desc></desc>
-        <cost>14</cost>
-        <matp>100</matp>
-        <order>31</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Berserk</name>
-        <desc></desc>
-        <cost>28</cost>
-        <matp>100</matp>
-        <order>32</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Haste</name>
-        <desc></desc>
-        <cost>18</cost>
-        <matp>255</matp>
-        <order>33</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Slow</name>
-        <desc></desc>
-        <cost>20</cost>
-        <matp>255</matp>
-        <order>34</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Stop</name>
-        <desc></desc>
-        <cost>34</cost>
-        <matp>255</matp>
-        <order>35</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Barrier</name>
-        <desc></desc>
-        <cost>16</cost>
-        <matp>255</matp>
-        <order>36</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>MBarrier</name>
-        <desc></desc>
-        <cost>24</cost>
-        <matp>255</matp>
-        <order>37</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Reflect</name>
-        <desc></desc>
-        <cost>30</cost>
-        <matp>255</matp>
-        <order>38</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Wall</name>
-        <desc></desc>
-        <cost>58</cost>
-        <matp>100</matp>
-        <order>39</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>DeBarrier</name>
-        <desc></desc>
-        <cost>12</cost>
-        <matp>255</matp>
-        <order>40</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>DeSpell</name>
-        <desc></desc>
-        <cost>20</cost>
-        <matp>255</matp>
-        <order>41</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Death</name>
-        <desc></desc>
-        <cost>30</cost>
-        <matp>100</matp>
-        <order>42</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar, true) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Escape</name>
-        <desc></desc>
-        <cost>16</cost>
-        <matp>110</matp>
-        <order>43</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.Self) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Remove</name>
-        <desc></desc>
-        <cost>99</cost>
-        <matp>110</matp>
-        <order>44</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.AllTarNS) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Comet</name>
-        <desc></desc>
-        <cost>70</cost>
-        <matp>100</matp>
-        <order>45</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(80, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
-    <spell>
-        <name>Comet2</name>
-        <desc></desc>
-        <cost>110</cost>
-        <matp>100</matp>
-        <order>46</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.NTar) end
-        </dispatch>
-        <action></action>
-    </spell>
-    <spell>
-        <name>Freeze</name>
-        <desc></desc>
-        <cost>82</cost>
-        <matp>100</matp>
-        <order>47</order>
-        <elements>
-            <element>Ice</element>
-        </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(95, state, i) end
-
-            end 
-            end 
-        </action>
-    </spell>
     <spell>
         <name>Break</name>
-        <desc></desc>
+        <desc>Strong [Earth]-based magical attack</desc>
+        <order>46</order>
+        <type>Magical</type>
         <cost>86</cost>
-        <matp>100</matp>
-        <order>48</order>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>100</power>
+        <hitp>100</hitp>
         <elements>
             <element>Earth</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(100, state, i) end
-
-            end 
-            end 
-        </action>
+        <statusChange type="Inflict" statuses="Petrify" odds="32" />
     </spell>
     <spell>
         <name>Tornado</name>
-        <desc></desc>
+        <desc>Strong [Wind]-based magical attack</desc>
+        <order>47</order>
+        <type>Magical</type>
         <cost>90</cost>
-        <matp>100</matp>
-        <order>49</order>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>105</power>
+        <hitp>100</hitp>
         <elements>
             <element>Wind</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(105, state, i) end
-
-            end 
-            end 
-        </action>
+        <statusChange type="Inflict" statuses="Confusion" odds="32" />
     </spell>
+    
+    
+    
+    
     <spell>
-        <name>Flare</name>
-        <desc></desc>
-        <cost>100</cost>
-        <matp>100</matp>
-        <order>50</order>
+        <name>Comet</name>
+        <desc>Non-elemental magical attack</desc>
+        <order>48</order>
+        <type>Magical</type>
+        <cost>70</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>80</power>
+        <hitp>100</hitp>
         <elements>
             <element>Fire</element>
         </elements>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = false;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(115, state, i) end
-
-            end 
-            end 
-        </action>
     </spell>
     <spell>
-        <name>Full Cure</name>
-        <desc></desc>
-        <cost>99</cost>
-        <matp>255</matp>
+        <name>Comet2</name>
+        <desc>Non-elemental magical attack</desc>
+        <order>49</order>
+        <type>Magical</type>
+        <cost>110</cost>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <formula>MagicalAttack</formula>
+        <power>30</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    <spell>
+        <name>Flare</name>
+        <desc>Strong [Fire]-based magical attack</desc>
+        <order>50</order>
+        <type>Magical</type>
+        <cost>100</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>115</power>
+        <hitp>100</hitp>
+        <elements>
+            <element>Fire</element>
+        </elements>
+    </spell>
+    
+    
+    
+    <spell>
+        <name>FullCure</name>
+        <desc>Fully restores HP</desc>
         <order>51</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action></action>
+        <type>Magical</type>
+        <cost>99</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <formula>MaxHPPercent</formula>
+        <power>32</power>
+        <hitp>255</hitp>
+        <elements>
+            <element>Restorative</element>
+        </elements>
     </spell>
     <spell>
         <name>Shield</name>
-        <desc></desc>
-        <cost>180</cost>
-        <matp>255</matp>
+        <desc>Inflicts [Shield]</desc>
         <order>52</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.OneTar) end
-        </dispatch>
-        <action></action>
+        <type>Magical</type>
+        <cost>180</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Sheild" odds="100" />
     </spell>
     <spell>
         <name>Ultima</name>
-        <desc></desc>
-        <cost>130</cost>
-        <matp>100</matp>
+        <desc>Strong non-elemental attack</desc>
         <order>53</order>
-        <elements/>
-        <dispatch>
-            function () GetSelection(TargetGroup.Area, TargetType.AllTarNS) end
-        </dispatch>
-        <action>
-            function (state)
-            state.NoSplit = true;
-            for i = 1,state.Target.Length do
-
-            if state.Target[i - 1] ~= nil then Formula:MagicSpell(105, state, i) end
-
-            end 
-            end 
-        </action>
+        <type>Magical</type>
+        <cost>130</cost>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <allable>false</allable>
+        <power>105</power>
+        <hitp>100</hitp>
     </spell>
--->
+    
+    
     <!-- Summon Spells -->
     <!--
     <spell>

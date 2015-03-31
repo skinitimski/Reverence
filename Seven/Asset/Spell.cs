@@ -77,9 +77,16 @@ namespace Atmosphere.Reverence.Seven.Asset
             Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
             Hitp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
 
-            string methodName = xml.SelectSingleNode("formula").InnerText;
+            XmlNode formulaNode = xml.SelectSingleNode("formula");
 
-            DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, methodName);
+            if (formulaNode != null)
+            {
+                DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
+            }
+            else
+            {
+                DamageFormula = MagicalAttack;
+            }
         }
 
 
@@ -95,8 +102,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
             
             return dam;
-        }
-        
+        }        
         
         private int Cure(Combatant source, Combatant target, SpellModifiers modifiers)
         {
