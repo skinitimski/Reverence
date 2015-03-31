@@ -84,7 +84,6 @@ namespace Atmosphere.Reverence.Menu
 
         protected Menu(int x, int y, int w, int h, bool opaque)
         {
-
             _x = x;
             _y = y;
             _w = w;
@@ -112,35 +111,44 @@ namespace Atmosphere.Reverence.Menu
                 return;
             }
 
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
+            if (_w > 0 && _h > 0)
+            {
+                Gdk.GC gc = new Gdk.GC(d);
+                Cairo.Context g = Gdk.CairoHelper.Create(d);
 
-            d.DrawPixbuf(gc, _background, 0, 0, _x, _y, _w, _h, Gdk.RgbDither.None, 0, 0);
+                d.DrawPixbuf(gc, _background, 0, 0, _x, _y, _w, _h, Gdk.RgbDither.None, 0, 0);
 
-            int x0 = _x, x1 = _x + _w;
-            int y0 = _y, y1 = _y + _h;
+                int x0 = _x, x1 = _x + _w;
+                int y0 = _y, y1 = _y + _h;
 
-            g.MoveTo(x0 + 3, y0);
-            g.LineTo(x1 - 3, y0);
-            g.LineTo(x1, y0 + 3);
-            g.LineTo(x1, y1 - 3);
-            g.LineTo(x1 - 3, y1);
-            g.LineTo(x0 + 3, y1);
-            g.LineTo(x0, y1 - 3);
-            g.LineTo(x0, y0 + 3);
-            g.LineTo(x0 + 3, y0);
-            g.ClosePath();
-            g.LineWidth = 6;
-            g.Color = BorderColor;
-            g.Stroke();
+                g.MoveTo(x0 + 3, y0);
+                g.LineTo(x1 - 3, y0);
+                g.LineTo(x1, y0 + 3);
+                g.LineTo(x1, y1 - 3);
+                g.LineTo(x1 - 3, y1);
+                g.LineTo(x0 + 3, y1);
+                g.LineTo(x0, y1 - 3);
+                g.LineTo(x0, y0 + 3);
+                g.LineTo(x0 + 3, y0);
+                g.ClosePath();
+                g.LineWidth = 6;
+                g.Color = BorderColor;
+                g.Stroke();
 
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
+                ((IDisposable)g.Target).Dispose();
+                ((IDisposable)g).Dispose();
+            }
                                                                                          
             DrawContents(d);
         }
 
         protected abstract void DrawContents(Gdk.Drawable d);
+
+        protected void Move(int x, int y)
+        {
+            _x = x;
+            _y = y;
+        }
 
 
 
@@ -175,8 +183,11 @@ namespace Atmosphere.Reverence.Menu
             get { return _w; }
             set
             {
-                _w = value;
-                UpdateBackground();
+                if (value != _w)
+                {
+                    _w = value;
+                    UpdateBackground();
+                }
             }
         }
 
@@ -185,8 +196,11 @@ namespace Atmosphere.Reverence.Menu
             get { return _h; }
             set
             {
-                _h = value;
-                UpdateBackground();
+                if (value != _h)
+                {
+                    _h = value;
+                    UpdateBackground();
+                }
             }
         }
 

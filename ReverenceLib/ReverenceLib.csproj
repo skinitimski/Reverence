@@ -83,6 +83,7 @@
     <Compile Include="Attributes\LuaFunctionCaller.cs" />
     <Compile Include="Graphics\Colors.cs" />
     <Compile Include="Menu\MenuScreen.cs" />
+    <Compile Include="Time\TimedDialogue.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Data\config.xml">

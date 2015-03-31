@@ -14,8 +14,8 @@
             <exp>610</exp>
             <hp>158</hp>
             <maxhp>314</maxhp>
-            <mp>500</mp>
-            <maxmp>500</maxmp>
+            <mp>33</mp>
+            <maxmp>54</maxmp>
             <limitlvl>1</limitlvl>
             <fury>true</fury>
             <sadness>false</sadness>

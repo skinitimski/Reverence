@@ -51,7 +51,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                     if (option < 2) option++;
                     break;
                 case Key.X:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+
+                    if (Seven.Party[0] == null && Seven.Party[1] == null && Seven.Party[2] == null)
+                    {
+                        Seven.MenuState.ShowMessage(c => "No party!");
+                    }
+                    else
+                    {
+                        Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                    }
                     break;
                 case Key.Circle:
                     Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsList);

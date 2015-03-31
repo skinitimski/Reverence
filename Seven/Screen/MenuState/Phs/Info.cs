@@ -10,14 +10,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
     internal sealed class Info : Menu.Menu
     {
         #region Layout
+
+        const int xpic = 30;
+        const int ypic = 20;
         
-        const int x1 = 30; // pic
-        const int x3 = 170; // name
-        const int x4 = x3 + 65; // lvl
-        const int x5 = x4 + 42; // hp
-        const int x6 = x5 + 65; // hpm
-        
-        const int yp = 15;
+        const int x_stats = xpic + Character.PROFILE_WIDTH + 15;
+        const int y_stats = ypic + 20;
+
         const int y0 = 60;
         const int ya = 30;
         const int yb = 55;
@@ -51,46 +50,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             
             if (c != null)
             {
-                Images.RenderProfileSmall(d, gc, X + x1, Y + yp, c);
-                
-                g.Color = Colors.TEXT_TEAL;
-                g.MoveTo(X + x3, Y + y0 + ya);
-                g.ShowText("LV");
-                g.MoveTo(X + x3, Y + y0 + yb);
-                g.ShowText("HP");
-                g.MoveTo(X + x3, Y + y0 + yc);
-                g.ShowText("MP");
-                g.Color = Colors.WHITE;
-                
-                Color namec = Colors.WHITE;
+                Images.RenderProfileSmall(d, gc, X + xpic, Y + ypic, c);
 
-                if (c.Death)
-                {
-                    namec = Colors.TEXT_RED;
-                }
-                else if (c.NearDeath)
-                {
-                    namec = Colors.TEXT_YELLOW;
-                }
-                
-                Text.ShadowedText(g, namec, c.Name, X + x3, Y + y0);
-                
-                lvl = c.Level.ToString();
-                hp = c.HP.ToString() + "/";
-                hpm = c.MaxHP.ToString();
-                mp = c.MP.ToString() + "/";
-                mpm = c.MaxMP.ToString();
-                
-                te = g.TextExtents(lvl);
-                Text.ShadowedText(g, lvl, X + x4 - te.Width, Y + y0 + ya);
-                te = g.TextExtents(hp);
-                Text.ShadowedText(g, hp, X + x5 - te.Width, Y + y0 + yb);
-                te = g.TextExtents(hpm);
-                Text.ShadowedText(g, hpm, X + x6 - te.Width, Y + y0 + yb);
-                te = g.TextExtents(mp);
-                Text.ShadowedText(g, mp, X + x5 - te.Width, Y + y0 + yc);
-                te = g.TextExtents(mpm);
-                Text.ShadowedText(g, mpm, X + x6 - te.Width, Y + y0 + yc);
+                Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_stats, Y + y_stats, false);
+
             }
             #endregion Character
             

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 
 using Atmosphere.Reverence;
+using Atmosphere.Reverence.Time;
+using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Menu;
 using GameState = Atmosphere.Reverence.State;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
@@ -44,8 +46,7 @@ namespace Atmosphere.Reverence.Seven.State
             // 
             // ITEM
             //
-
-            
+                        
             ItemTop = new Screens.Item.Top();
             ItemStats = new Screens.Item.Stats();
             ItemList = new Screens.Item.List();
@@ -164,15 +165,26 @@ namespace Atmosphere.Reverence.Seven.State
             try
             {
                 ActiveLayer.Draw(d);
+
+                if (MessageBox != null)
+                {
+                    MessageBox.Draw(d);
+                }
             }
             catch (Exception e)
             {
+                throw new ImplementationException("Error drawing active menu layer.", e);
             }
         }
 
         [GLib.ConnectBefore()]
         public override void KeyPressHandle(Key k)
         {
+                if (MessageBox != null)
+                {
+                    return;
+                }
+
             switch (k)
             {
                 case Key.L1:
@@ -199,17 +211,20 @@ namespace Atmosphere.Reverence.Seven.State
 
             ActiveLayer.Control.ControlHandle(k);
         }
+
         [GLib.ConnectBefore()]
         public override void KeyReleaseHandle(Key k)
         {
-            switch (k)
-            {
-                default:
-                    break;
-            }
         }
 
-        public override void RunIteration() { }
+
+        public override void RunIteration()
+        {
+            if (MessageBox != null && MessageBox.Timer.IsUp)
+            {
+                MessageBox = null;
+            }
+        }
         
 
 
@@ -221,11 +236,19 @@ namespace Atmosphere.Reverence.Seven.State
         }
 
 
+        public void ShowMessage(TimedDialogue message)
+        {
+            MessageBox = new MessageBox(message);                
+        }
+
         
 
         protected override void InternalDispose() { }
 
 
+
+
+        private MessageBox MessageBox { get; set; }
 
 
 

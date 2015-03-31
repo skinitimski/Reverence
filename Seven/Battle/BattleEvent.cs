@@ -9,8 +9,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class BattleEvent : ICloneable
     {
-        public delegate string TimedDialogue(Clock c);
-
         private BattleEvent()
         {
             ActionTimer = new Timer(2000, 0, false);
