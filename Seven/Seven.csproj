@@ -75,6 +75,7 @@
     <Folder Include="Screen\PostBattleState\Victory\" />
     <Folder Include="Screen\InitialState\" />
     <Folder Include="Screen\LossState\" />
+    <Folder Include="Test\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Asset\Materia\MasterMagicMateria.cs" />
     <Compile Include="Asset\Spell.cs" />
     <Compile Include="Screen\MenuState\MessageBox.cs" />
+    <Compile Include="Test\LevelUpDemo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

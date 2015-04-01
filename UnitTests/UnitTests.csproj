@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Atmosphere.UnitTests</RootNamespace>
+    <RootNamespace>Atmosphere.Reverence.UnitTests</RootNamespace>
     <AssemblyName>UnitTests</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,14 +37,20 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="Seven\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test.Timer.cs" />
+    <Compile Include="Seven\Test.Character.LevelUp.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
       <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
       <Name>ReverenceLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Seven\Seven.csproj">
+      <Project>{164FDDDF-F2F8-4888-9347-8DB9C49F941C}</Project>
+      <Name>Seven</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
