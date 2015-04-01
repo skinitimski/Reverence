@@ -13,11 +13,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class AreaSelector : Selector
     {
-        private List<Combatant> _targets;
-        
         public AreaSelector()
         {
-            _targets = new List<Combatant>();
         }
 
         

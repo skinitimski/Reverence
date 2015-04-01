@@ -42,9 +42,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                 g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
                 g.SetFontSize(24);
             
-                TextExtents te;
-            
-                string lvl, hp, hpm, mp, mpm;
             
                 #region Character
             

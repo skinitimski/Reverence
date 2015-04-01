@@ -99,7 +99,10 @@ namespace Atmosphere.Reverence.Seven.State
             
             foreach (Ally ally in Allies)
             {
-                ally.TurnTimer.Unpause();
+                if (ally != null)
+                {
+                    ally.TurnTimer.Unpause();
+                }
             }
             
             foreach (Enemy enemy in EnemyList)

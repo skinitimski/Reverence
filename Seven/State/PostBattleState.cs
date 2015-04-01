@@ -17,7 +17,6 @@ namespace Atmosphere.Reverence.Seven.State
         private int[] Exp_multiplier;
         private int Gil_multiplier;
         private State _state;
-        private bool _done = false;
         private MenuScreen _screen;
 
 
