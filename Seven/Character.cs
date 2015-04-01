@@ -21,6 +21,8 @@ namespace Atmosphere.Reverence.Seven
         public const int MAX_HP = 9999;
         public const int MAX_MP = 999;
 
+        public const int MAX_LEVEL = 99;
+
         public const int PROFILE_WIDTH = 120;
         public const int PROFILE_HEIGHT = 136;
         public const int PROFILE_WIDTH_SMALL = 89;
@@ -527,7 +529,7 @@ namespace Atmosphere.Reverence.Seven
         /// <param name="gain">Amount of EXP points to gain.</param>
         public void GainExperience(int gain)
         {
-            while (_exp + gain >= NextLevel)
+            while (Level < MAX_LEVEL && _exp + gain >= NextLevel)
             {
                 LevelUp();
             }
@@ -980,7 +982,9 @@ namespace Atmosphere.Reverence.Seven
         {
             get
             {
-                int mod = Q(_level + 1);
+                int nextLevel = Math.Min(_level + 1, MAX_LEVEL);
+
+                int mod = Q(nextLevel);
                 int xp = 0;
                 for (int i = 1; i <= _level; i++)
                 {
