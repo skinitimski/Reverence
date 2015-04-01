@@ -106,7 +106,9 @@ namespace Atmosphere.Reverence.Seven
 
         public void LoadSavedGame(int save)
         {
-            XmlNode saveGame = Resource.GetXmlFromResource("data.savegame.xml", typeof(Seven).Assembly);
+            string savefile = String.Format("data.savegame{0}.xml", save);
+
+            XmlNode saveGame = Resource.GetXmlFromResource(savefile, typeof(Seven).Assembly);
             saveGame = saveGame.SelectSingleNode("*");
 
             _party = new Party(saveGame);

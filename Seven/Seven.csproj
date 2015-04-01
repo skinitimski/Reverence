@@ -265,9 +265,6 @@
     <EmbeddedResource Include="Data\Images\yuffie_small.JPG">
       <LogicalName>charsmall.yuffie.jpg</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\savegame.xml">
-      <LogicalName>data.savegame.xml</LogicalName>
-    </EmbeddedResource>
     <EmbeddedResource Include="Data\characters.xml">
       <LogicalName>data.characters.xml</LogicalName>
     </EmbeddedResource>
@@ -315,6 +312,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Data\spells.enemyskill.xml">
       <LogicalName>data.spells.enemyskill.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\savegame.1.xml">
+      <LogicalName>data.savegame1.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\savegame.0.xml">
+      <LogicalName>data.savegame0.xml</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

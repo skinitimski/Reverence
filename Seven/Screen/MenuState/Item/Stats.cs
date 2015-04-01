@@ -19,8 +19,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         const int x_status = x_pic + Character.PROFILE_WIDTH + 15; 
         const int x_cursor = x_pic + Character.PROFILE_WIDTH + 115;
         
-        const int y_firstRow = 48;
-        
+        const int y_firstRow = 48;        
         const int row_height = 150;  
         
         const int y_displacement_cursor = 0;

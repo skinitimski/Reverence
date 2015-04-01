@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         const int width = 325;
         const int height = 400;
 
-        const int options = 4;
+        const int options = 3;
         
         #endregion Layout
         
