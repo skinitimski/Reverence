@@ -11,11 +11,11 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Weapon : SlotHolder
     {
-        private static Dictionary<string, Weapon> _table;
+        private static readonly Dictionary<string, Weapon> _table;
 
 
         
-        public static void LoadWeapons()
+        static Weapon()
         {
             _table = new Dictionary<string, Weapon>();
             

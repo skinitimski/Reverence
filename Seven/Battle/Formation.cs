@@ -7,6 +7,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class Formation
     {       
+        private static readonly Random RANDOM;
+
         private static Dictionary<string, Formation> _table;
                 
 
@@ -29,8 +31,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
 
         
-        public static void LoadFormations()
+        static Formation()
         {
+            RANDOM = new Random();
+
             _table = new Dictionary<string, Formation>();
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.formations.xml", typeof(Seven).Assembly);
@@ -116,7 +120,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             for (int i = 0; i < Enemies.Count; i++)
             {
-                e[i] = Seven.Party.Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+                e[i] = RANDOM.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
             }
                         
             switch (Type)
@@ -152,7 +156,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 if (Seven.Party[i] != null)
                 {
-                    e[i] = Seven.Party.Random.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+                    e[i] = RANDOM.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
                 }
             }
 

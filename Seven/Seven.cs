@@ -40,18 +40,13 @@ namespace Atmosphere.Reverence.Seven
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
             LuaEnvironment.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
+            LuaEnvironment.DoString("Status = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Status\")");
+            LuaEnvironment.DoString("Party = luanet.import_type(\"Atmosphere.Reverence.Seven.Party\")");
         }
 
         protected override void Init()
         {
             LuaEnvironment[typeof(Seven).Name] = this;
-            Weapon.LoadWeapons();
-            Armor.LoadArmor();
-            Accessory.LoadAccessories();
-            Item.LoadItems();
-            MateriaBase.LoadMateria();
-            Spell.LoadSpells();
-            Formation.LoadFormations();
         }
 
         protected override void Cleanup()
@@ -68,6 +63,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 _postBattleState.Dispose();
             }
+
             _party = null;
             _clock = null;
         }
@@ -77,12 +73,12 @@ namespace Atmosphere.Reverence.Seven
             return new InitialState();
         }
 
-        public void Reset()
+        public new void Reset()
         {
             Reset();
         }
 
-        public void Quit()
+        public new void Quit()
         {
             base.Quit();
         }

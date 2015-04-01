@@ -21,10 +21,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             EMPTY = new Accessory();
             AccessoryTable = new Dictionary<string, Accessory>();
-        }
-        
-        public static void LoadAccessories()
-        {            
+
             XmlDocument gamedata = Resource.GetXmlFromResource("data.accessories.xml", typeof(Seven).Assembly);
             
             foreach (XmlNode node in gamedata.SelectNodes("//accessories/accessory"))

@@ -33,7 +33,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         private static Dictionary<string, Spell> _summonSpells;
         private static Dictionary<string, Spell> _enemySkillSpells;
 
-        public static void LoadSpells()
+        static Spell()
         {
             _magicSpells = LoadSpells("data.spells.magic.xml");
             _summonSpells = LoadSpells("data.spells.summon.xml");
@@ -246,8 +246,6 @@ namespace Atmosphere.Reverence.Seven.Asset
                                 case StatusChange.Effect.Toggle:
 
                                     throw new NotImplementedException("Haven't implemented status change toggle");
-
-                                    break;
                             }
                         }
                     }       

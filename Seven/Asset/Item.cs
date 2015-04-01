@@ -42,13 +42,10 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         static Item()
         {
-            EMPTY = new Item();
-        }
-        
-        public static void LoadItems()
-        {
             _table = new Dictionary<string, Item>();
-            
+
+            EMPTY = new Item();
+                        
             XmlDocument gamedata = Resource.GetXmlFromResource("data.items.xml", typeof(Seven).Assembly);
             
             foreach (XmlNode node in gamedata.SelectNodes("//items/item"))

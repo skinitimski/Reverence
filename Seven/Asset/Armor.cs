@@ -14,9 +14,9 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Armor : SlotHolder
     {
-        private static Dictionary<string, Armor> _table;
+        private static readonly Dictionary<string, Armor> _table;
         
-        public static void LoadArmor()
+        static Armor()
         {
             _table = new Dictionary<string, Armor>();
             

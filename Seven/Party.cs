@@ -25,7 +25,6 @@ namespace Atmosphere.Reverence.Seven
 
             _party[0] = Cloud;
 
-            Random = new Random();
             Materiatory = new Materiatory();
             Inventory = new Inventory();
             Reserves = new Character[3, 3];
@@ -53,8 +52,7 @@ namespace Atmosphere.Reverence.Seven
                     }
                 }
             }
-            
-            Random = new Random();
+
             Materiatory = new Materiatory(savegame);
             Inventory = new Inventory(savegame);
             Reserves = new Character[3, 3];
@@ -261,8 +259,6 @@ namespace Atmosphere.Reverence.Seven
         public Materiatory Materiatory { get; private set; }
 
         public int Gil { get; set; }
-
-        public Random Random { get; private set; }
 
         public int Size { get { return PARTY_SIZE; } }
 

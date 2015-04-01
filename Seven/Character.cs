@@ -16,6 +16,8 @@ namespace Atmosphere.Reverence.Seven
 {
     internal class Character
     {
+        private static readonly Random RANDOM;
+
         public const int MAX_HP = 9999;
         public const int MAX_MP = 999;
 
@@ -121,6 +123,8 @@ namespace Atmosphere.Reverence.Seven
         static Character()
         {
             InitTables();
+
+            RANDOM = new Random();
         }
         /// <summary>
         /// Initializes tables used in stat gains
@@ -546,7 +550,7 @@ namespace Atmosphere.Reverence.Seven
             
             #region Str, Vit, Mag, Spi, Dex
             
-            int diff_str = Seven.Party.Random.Next(1, 9) + Baseline(0) - _strength_base;
+            int diff_str = RANDOM.Next(1, 9) + Baseline(0) - _strength_base;
             if (diff_str < 0)
             {
                 diff_str = 0;
@@ -558,7 +562,7 @@ namespace Atmosphere.Reverence.Seven
             _strength_base += _diff_gain[diff_str];
             
             
-            int diff_vit = Seven.Party.Random.Next(1, 9) + Baseline(1) - _vitality_base;
+            int diff_vit = RANDOM.Next(1, 9) + Baseline(1) - _vitality_base;
             if (diff_vit < 0)
             {
                 diff_vit = 0;
@@ -570,7 +574,7 @@ namespace Atmosphere.Reverence.Seven
             _vitality_base += _diff_gain[diff_vit];
             
             
-            int diff_mag = Seven.Party.Random.Next(1, 9) + Baseline(2) - _magic_base;
+            int diff_mag = RANDOM.Next(1, 9) + Baseline(2) - _magic_base;
             if (diff_mag < 0)
             {
                 diff_mag = 0;
@@ -582,7 +586,7 @@ namespace Atmosphere.Reverence.Seven
             _magic_base += _diff_gain[diff_mag];
             
             
-            int diff_spi = Seven.Party.Random.Next(1, 9) + Baseline(3) - _spirit_base;
+            int diff_spi = RANDOM.Next(1, 9) + Baseline(3) - _spirit_base;
             if (diff_spi < 0)
             {
                 diff_spi = 0;
@@ -594,7 +598,7 @@ namespace Atmosphere.Reverence.Seven
             _spirit_base += _diff_gain[diff_spi];
             
             
-            int diff_dex = Seven.Party.Random.Next(1, 9) + Baseline(4) - _dexterity_base;
+            int diff_dex = RANDOM.Next(1, 9) + Baseline(4) - _dexterity_base;
             if (diff_dex < 0)
             {
                 diff_dex = 0;
@@ -611,7 +615,7 @@ namespace Atmosphere.Reverence.Seven
             int lb = LuckBase(_level);
             int lg = LuckGradient(_level);
             int luck_baseline = lb + (lg * _level / 100);
-            int diff_lck = Seven.Party.Random.Next(1, 9) + luck_baseline - _luck_base;
+            int diff_lck = RANDOM.Next(1, 9) + luck_baseline - _luck_base;
             if (diff_lck < 0)
             {
                 diff_lck = 0;
@@ -626,7 +630,7 @@ namespace Atmosphere.Reverence.Seven
             int hpb = HPBase(_level);
             int hpg = HPGradient(_level);
             int hp_baseline = hpb + (_level - 1) * hpg;
-            int diff_hp = Seven.Party.Random.Next(1, 9) + (100 * hp_baseline / _maxhp) - 100;
+            int diff_hp = RANDOM.Next(1, 9) + (100 * hp_baseline / _maxhp) - 100;
             if (diff_hp < 0)
             {
                 diff_hp = 0;
@@ -642,7 +646,7 @@ namespace Atmosphere.Reverence.Seven
             int mpb = MPBase(_level);
             int mpg = MPGradient(_level);
             int mp_baseline = mpb + ((_level - 1) * mpg / 10);
-            int diff_mp = Seven.Party.Random.Next(1, 9) + (100 * mp_baseline / _maxmp) - 100;
+            int diff_mp = RANDOM.Next(1, 9) + (100 * mp_baseline / _maxmp) - 100;
             if (diff_mp < 0)
             {
                 diff_mp = 0;

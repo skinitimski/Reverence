@@ -153,41 +153,28 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
 
 
-        private MateriaBase()
-        {
-        }
-                
-        protected MateriaBase(string name, int ap)
-        {
-            Record = _data[name];
 
-            _level = 0;
-            _ap = 0;
-
-            AddAP(ap);
-        }
-
-
-        public static void LoadMateria()
+        
+        static MateriaBase()
         {
             _masterTable = new Dictionary<string, MateriaBase>();
             _data = new Dictionary<string, MateriaRecord>();
-
+            
             XmlDocument gamedata = Resource.GetXmlFromResource("data.materia.xml", typeof(Seven).Assembly);
-
+            
             foreach (XmlNode node in gamedata.SelectNodes("//materiadata/materia"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {
                     continue;
                 }
-
+                
                 MateriaRecord rec = new MateriaRecord(node);
-
+                
                 _data.Add(rec.ID, rec);
-
+                
                 int ap = _data[rec.ID].tiers[_data[rec.ID].tiers.Length - 1];
-
+                
                 switch (rec.type)
                 {
                     case MateriaType.Magic:
@@ -207,9 +194,26 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                         break;
                 }
             }
-
+            
             _data.Add(MasterMagicMateria.MasterMagic.ID, MasterMagicMateria.MasterMagic);
         }
+
+
+        private MateriaBase()
+        {
+        }
+                
+        protected MateriaBase(string name, int ap)
+        {
+            Record = _data[name];
+
+            _level = 0;
+            _ap = 0;
+
+            AddAP(ap);
+        }
+
+
 
         public static MateriaBase Create(string id, int ap, MateriaType type)
         {
