@@ -62,7 +62,7 @@
       <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
       <Name>ReverenceLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\home\timski\vol\mono\FF7Emulator\Seven\Seven.csproj">
+    <ProjectReference Include="..\Seven\Seven.csproj">
       <Project>{164FDDDF-F2F8-4888-9347-8DB9C49F941C}</Project>
       <Name>Seven</Name>
     </ProjectReference>

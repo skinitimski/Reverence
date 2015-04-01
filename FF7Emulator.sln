@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverence", "Reverence\Reve
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverenceLib", "ReverenceLib\ReverenceLib.csproj", "{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "..\..\..\home\timski\vol\mono\FF7Emulator\Seven\Seven.csproj", "{164FDDDF-F2F8-4888-9347-8DB9C49F941C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "Seven\Seven.csproj", "{164FDDDF-F2F8-4888-9347-8DB9C49F941C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

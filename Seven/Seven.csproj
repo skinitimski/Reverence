@@ -199,7 +199,7 @@
     <Compile Include="Screen\MenuState\MessageBox.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\vol\mono\FF7Emulator\ReverenceLib\ReverenceLib.csproj">
+    <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
       <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
       <Name>ReverenceLib</Name>
     </ProjectReference>
