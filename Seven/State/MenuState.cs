@@ -135,23 +135,19 @@ namespace Atmosphere.Reverence.Seven.State
             PhsScreen = new MenuScreen(phsMenus, PhsStats);
             
             
-            
-
-            //                      
-            //            VictoryScreen = new MenuScreen(6, Victory.Label.Instance);
-            //            VictoryScreen._menus[0] = Victory.Label.Instance;
-            //            VictoryScreen._menus[1] = Victory.Exp.Instance;
-            //            VictoryScreen._menus[2] = Victory.AP.Instance;
-            //            VictoryScreen._menus[3] = Victory.Seven.MenuState.MateriaTop;
-            //            VictoryScreen._menus[4] = Victory.Middle.Instance;
-            //            VictoryScreen._menus[5] = Victory.Bottom.Instance;
             //
-            //            HoardScreen = new MenuScreen(5, Hoard.Label.Instance);
-            //            HoardScreen._menus[0] = Hoard.Label.Instance;
-            //            HoardScreen._menus[1] = Hoard.GilLeft.Instance;
-            //            HoardScreen._menus[2] = Hoard.GilRight.Instance;
-            //            HoardScreen._menus[3] = Hoard.ItemLeft.Instance;
-            //            HoardScreen._menus[4] = Hoard.ItemRight.Instance;
+            // SAVE
+            //
+
+            SavePrompt = new Screens.Save.Prompt();
+            SaveConfirm = new Screens.Save.Confirm();
+
+            List<GameMenu> saveMenus = new List<GameMenu>();
+            saveMenus.Add(new Screens.Save.Label());
+            saveMenus.Add(SavePrompt);
+            saveMenus.Add(SaveConfirm);
+
+            SaveScreen = new MenuScreen(saveMenus, SavePrompt);
 
             
             ActiveLayer = MainScreen;
@@ -266,6 +262,7 @@ namespace Atmosphere.Reverence.Seven.State
         public MenuScreen EquipScreen { get; private set; }
         public MenuScreen StatusScreen { get; private set; }
         public MenuScreen PhsScreen { get; private set; }
+        public MenuScreen SaveScreen { get; private set; }
         public MenuScreen VictoryScreen { get; private set; }
         public MenuScreen HoardScreen { get; private set; }
         
@@ -293,5 +290,8 @@ namespace Atmosphere.Reverence.Seven.State
         
         public Screens.Phs.List PhsList { get; private set; }
         public Screens.Phs.Stats PhsStats { get; private set; }
+
+        public Screens.Save.Prompt SavePrompt { get; private set; }
+        public Screens.Save.Confirm SaveConfirm { get; private set; }
     }
 }

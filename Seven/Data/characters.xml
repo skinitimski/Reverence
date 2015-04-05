@@ -377,11 +377,22 @@
         <backRow>false</backRow>
         <weapon>
             <name>masamune</name>
-            <materia/>
+            <materia>
+                <orb id="revive"  type="Magic"   ap="55000" slot="0" />
+                <orb id="restore" type="Magic"   ap="40000" slot="1" />
+                <orb id="fire"    type="Magic"   ap="35000" slot="2" />
+                <orb id="all"     type="Support" ap="35000" slot="3" />
+                <orb id="heal"    type="Magic"   ap="60000" slot="4" />
+            </materia>
         </weapon>
         <armor>
             <name>goldarmlet</name>
-            <materia/>
+            <materia>
+                <orb id="ice"       type="Magic"   ap="35000" slot="0" />
+                <orb id="all"       type="Support" ap="35000" slot="1" />
+                <orb id="lightning" type="Magic"   ap="35000" slot="2" />
+                <orb id="all"       type="Support" ap="35000" slot="3" />            
+            </materia>
         </armor>
         <accessory>touphring</accessory>
         <qvals>68,71,73,74,74,74,75,77</qvals>

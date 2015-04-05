@@ -69,13 +69,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                             Seven.MenuState.MainScreen.ChangeControl(Seven.MenuState.MainStatus);
                             break;
                         case Option.Config: // Config
-                            //MenuState.MainMenu.ChangeLayer(Screen._configScreen);
+                            //Seven.MenuState.ChangeLayer(Seven.MenuState.ConfigScreen);
                             break;
                         case Option.PHS: // PHS
                             Seven.MenuState.ChangeScreen(Seven.MenuState.PhsScreen);
                             break;
                         case Option.Save: // Save
-                            //MenuState.MainMenu.ChangeLayer(Screen._saveScreen);
+                            Seven.MenuState.ChangeScreen(Seven.MenuState.SaveScreen);
                             break;
                         default:
                             break;

@@ -4,7 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 
-namespace Atmosphere.Reverence.Seven.Screen.InitialState
+namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
 {  
     internal sealed class Prompt : ControlMenu
     {
@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         const int width = 325;
         const int height = 400;
 
-        const int options = Seven.SAVE_FILES + 1;
+        const int options = Seven.SAVE_FILES;
         
         #endregion Layout
         
@@ -36,7 +36,6 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
                 width, 
                 height)
         {
-            Visible = false;
         }
 
         public override void ControlHandle(Key k)
@@ -50,14 +49,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
                     if (_option < options - 1) _option++;
                     break;
                 case Key.Circle:
-                    if (_option == 0)
-                    {
-                        Seven.Instance.LoadNewGame();
-                    }
-                    else
-                    {
-                        Seven.Instance.LoadSavedGame(_option - 1);
-                    }
+                    Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SaveConfirm);
                     break;
                 default: break;
             }
@@ -74,15 +66,11 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
 
             Shapes.RenderCursor(g, X + x_cursor, Y + y_cursor);
 
-            Text.ShadowedText(g, "Which save data?", X + x_prompt, Y + y_prompt);
+            Text.ShadowedText(g, "Pick save file", X + x_prompt, Y + y_prompt);
 
-            Text.ShadowedText(g, "New game", X + x_options, Y + y_option0);
-
-            for (int option = 1; option < options; option++)
+            for (int option = 0; option < options; option++)
             {                
-                int save = option - 1;
-
-                Text.ShadowedText(g, "Save " + save.ToString(), X + x_options, Y + y_option0 + y_spacing * option);
+                Text.ShadowedText(g, "Save " + option, X + x_options, Y + y_option0 + y_spacing * option);
             }
 
             ((IDisposable)g.Target).Dispose();
@@ -93,13 +81,6 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         {
             base.SetAsControl();
             _option = 0;
-            Visible = true;
-        }
-        
-        public override void SetNotControl()
-        {
-            base.SetNotControl();
-            Visible = false;
         }
         
         

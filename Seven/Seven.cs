@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Xml;
 
 using NLua;
@@ -16,6 +17,11 @@ namespace Atmosphere.Reverence.Seven
 {
     public class Seven : Game
     {
+        public const int SAVE_FILES = 2;
+
+        private string _savePath = "/vol/mono/Reverence/Seven/Data";
+
+
         private Party _party;
         private MenuState _menuState;
         private BattleState _battleState;
@@ -102,10 +108,19 @@ namespace Atmosphere.Reverence.Seven
 
         public void LoadSavedGame(int save)
         {
-            string savefile = String.Format("data.savegame{0}.xml", save);
 
-            XmlNode saveGame = Resource.GetXmlFromResource(savefile, typeof(Seven).Assembly);
-            saveGame = saveGame.SelectSingleNode("*");
+            
+            XmlNode saveGame;
+
+//            string savefile = String.Format("data.savegame{0}.xml", save);
+//            saveGame = Resource.GetXmlFromResource(savefile, typeof(Seven).Assembly);
+//            saveGame = saveGame.SelectSingleNode("*");
+
+            string savefile = String.Format("savegame.{0}.xml", save);
+            XmlDocument doc = new XmlDocument();
+            doc.Load(Path.Combine(_savePath, savefile));
+            saveGame = doc.SelectSingleNode("*");
+
 
             _party = new Party(saveGame);
 

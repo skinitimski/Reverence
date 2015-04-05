@@ -76,6 +76,7 @@
     <Folder Include="Screen\InitialState\" />
     <Folder Include="Screen\LossState\" />
     <Folder Include="Test\" />
+    <Folder Include="Screen\MenuState\Save\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -199,6 +200,9 @@
     <Compile Include="Asset\Spell.cs" />
     <Compile Include="Screen\MenuState\MessageBox.cs" />
     <Compile Include="Test\LevelUpDemo.cs" />
+    <Compile Include="Screen\MenuState\Save\Label.cs" />
+    <Compile Include="Screen\MenuState\Save\Prompt.cs" />
+    <Compile Include="Screen\MenuState\Save\Confirm.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
@@ -315,11 +319,13 @@
     <EmbeddedResource Include="Data\spells.enemyskill.xml">
       <LogicalName>data.spells.enemyskill.xml</LogicalName>
     </EmbeddedResource>
-    <EmbeddedResource Include="Data\savegame.1.xml">
-      <LogicalName>data.savegame1.xml</LogicalName>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Data\savegame.0.xml">
-      <LogicalName>data.savegame0.xml</LogicalName>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\savegame.0.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\savegame.1.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

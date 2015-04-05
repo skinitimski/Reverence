@@ -3,270 +3,276 @@
     <characters>
         <Cloud>
             <stats>
-                <str>20</str>
-                <dex>6</dex>
-                <vit>16</vit>
-                <mag>19</mag>
-                <spi>17</spi>
-                <lck>14</lck>
-                <lvl>6</lvl>
+                <str>81</str>
+                <vit>70</vit>
+                <dex>48</dex>
+                <mag>79</mag>
+                <spi>71</spi>
+                <lck>25</lck>
+                <lvl>53</lvl>
             </stats>
-            <exp>610</exp>
-            <hp>158</hp>
-            <maxhp>314</maxhp>
-            <mp>33</mp>
-            <maxmp>54</maxmp>
+            <exp>356891</exp>
+            <hp>3976</hp>
+            <maxhp>4016</maxhp>
+            <mp>440</mp>
+            <maxmp>482</maxmp>
             <limitlvl>1</limitlvl>
-            <fury>true</fury>
+            <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
-                <name>bustersword</name>
+                <name>butterflyedge</name>
                 <materia>
-                    <orb id="contain" type="Magic" ap="1" slot="0" />
-                    <orb id="gravity" type="Magic" ap="1" slot="1" />
+                    <orb id="fire" type="Magic" ap="0" slot="0" />
+                    <orb id="ice" type="Magic" ap="0" slot="1" />
                 </materia>
             </weapon>
             <armor>
-                <name>aegisarmlet</name>
-                <materia>                    
-                    <orb id="sense" type="Command" ap="0" slot="0" />
-                    <orb id="witem" type="Command" ap="0" slot="1" />
-                </materia>
+                <name>diamondbangle</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
         </Cloud>
         <Tifa>
             <stats>
-                <str>8</str>
-                <dex>15</dex>
-                <vit>8</vit>
-                <mag>8</mag>
-                <spi>8</spi>
-                <lck>8</lck>
-                <lvl>6</lvl>
+                <str>65</str>
+                <vit>59</vit>
+                <dex>49</dex>
+                <mag>61</mag>
+                <spi>62</spi>
+                <lck>24</lck>
+                <lvl>46</lvl>
             </stats>
-            <exp>580</exp>
-            <hp>341</hp>
-            <maxhp>500</maxhp>
-            <mp>40</mp>
-            <maxmp>40</maxmp>
-            <limitlvl>1</limitlvl>
-            <fury>false</fury>
-            <sadness>true</sadness>
-            <backRow>false</backRow>
-            <weapon>
-                <name>leatherglove</name>
-                <materia/>
-            </weapon>
-            <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
-            </armor>
-            <accessory></accessory>
-        </Tifa>
-        <Barret>
-            <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
-            </stats>
-            <exp>149361</exp>
-            <hp>600</hp>
-            <maxhp>700</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>235461</exp>
+            <hp>2654</hp>
+            <maxhp>2973</maxhp>
+            <mp>370</mp>
+            <maxmp>375</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
-                <name>gatlinggun</name>
-                <materia/>
+                <name>platinumfist</name>
+                <materia />
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>adamanbangle</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
+        </Tifa>
+        <Barret>
+            <stats>
+                <str>64</str>
+                <vit>69</vit>
+                <dex>37</dex>
+                <mag>58</mag>
+                <spi>57</spi>
+                <lck>23</lck>
+                <lvl>44</lvl>
+            </stats>
+            <exp>211232</exp>
+            <hp>3219</hp>
+            <maxhp>3375</maxhp>
+            <mp>299</mp>
+            <maxmp>327</maxmp>
+            <limitlvl>1</limitlvl>
+            <fury>false</fury>
+            <sadness>false</sadness>
+            <backRow>false</backRow>
+            <weapon>
+                <name>drillarm</name>
+                <materia />
+            </weapon>
+            <armor>
+                <name>silverarmlet</name>
+                <materia />
+            </armor>
+            <accessory />
         </Barret>
         <Aeris>
             <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
+                <str>55</str>
+                <vit>61</vit>
+                <dex>43</dex>
+                <mag>79</mag>
+                <spi>75</spi>
+                <lck>24</lck>
+                <lvl>48</lvl>
             </stats>
-            <exp>201</exp>
-            <hp>198</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>264319</exp>
+            <hp>2898</hp>
+            <maxhp>3189</maxhp>
+            <mp>434</mp>
+            <maxmp>474</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>true</backRow>
             <weapon>
-                <name>guardstick</name>
-                <materia/>
+                <name>fairytale</name>
+                <materia />
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>diamondbangle</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
         </Aeris>
         <RedXIII>
             <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
+                <str>67</str>
+                <vit>62</vit>
+                <dex>54</dex>
+                <mag>60</mag>
+                <spi>63</spi>
+                <lck>24</lck>
+                <lvl>46</lvl>
             </stats>
-            <exp>176921</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>235461</exp>
+            <hp>3301</hp>
+            <maxhp>3302</maxhp>
+            <mp>372</mp>
+            <maxmp>384</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
-                <name>mythrilclip</name>
-                <materia/>
+                <name>seraphcomb</name>
+                <materia>
+                    <orb id="sense" type="Command" ap="0" slot="0" />
+                </materia>
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>diamondbangle</name>
+                <materia>
+                    <orb id="fire" type="Magic" ap="500" slot="0" />
+                    <orb id="all" type="Support" ap="0" slot="1" />
+                </materia>
             </armor>
-            <accessory></accessory>
+            <accessory />
         </RedXIII>
-        <Yuffie>
-            <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
-            </stats>
-            <exp>187492</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
-            <limitlvl>1</limitlvl>
-            <fury>false</fury>
-            <sadness>false</sadness>
-            <backRow>false</backRow>
-            <weapon>
-                <name>4pointshuriken</name>
-                <materia/>
-            </weapon>
-            <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
-            </armor>
-            <accessory></accessory>
-        </Yuffie>
         <CaitSith>
             <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
+                <str>55</str>
+                <vit>52</vit>
+                <dex>40</dex>
+                <mag>63</mag>
+                <spi>63</spi>
+                <lck>24</lck>
+                <lvl>43</lvl>
             </stats>
-            <exp>110100</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>191887</exp>
+            <hp>2828</hp>
+            <maxhp>3269</maxhp>
+            <mp>324</mp>
+            <maxmp>347</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
                 <name>yellowmphone</name>
-                <materia/>
+                <materia>
+                    <orb id="transform" type="Magic" ap="0" slot="0" />
+                </materia>
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>carbonbangle</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
         </CaitSith>
-        <Vincent>
+        <Yuffie>
             <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
+                <str>59</str>
+                <vit>56</vit>
+                <dex>51</dex>
+                <mag>61</mag>
+                <spi>57</spi>
+                <lck>26</lck>
+                <lvl>44</lvl>
             </stats>
-            <exp>1705673</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>208491</exp>
+            <hp>2595</hp>
+            <maxhp>2616</maxhp>
+            <mp>312</mp>
+            <maxmp>351</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
-                <name>quicksilver</name>
-                <materia/>
+                <name>windslash</name>
+                <materia>
+                    <orb id="throw" type="Command" ap="0" slot="0" />
+                </materia>
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>carbonbangle</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
+        </Yuffie>
+        <Vincent>
+            <stats>
+                <str>57</str>
+                <vit>55</vit>
+                <dex>43</dex>
+                <mag>64</mag>
+                <spi>68</spi>
+                <lck>26</lck>
+                <lvl>47</lvl>
+            </stats>
+            <exp>254675</exp>
+            <hp>2818</hp>
+            <maxhp>2892</maxhp>
+            <mp>378</mp>
+            <maxmp>404</maxmp>
+            <limitlvl>1</limitlvl>
+            <fury>false</fury>
+            <sadness>false</sadness>
+            <backRow>false</backRow>
+            <weapon>
+                <name>snipercr</name>
+                <materia />
+            </weapon>
+            <armor>
+                <name>goldarmlet</name>
+                <materia />
+            </armor>
+            <accessory />
         </Vincent>
         <Cid>
             <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
+                <str>65</str>
+                <vit>66</vit>
+                <dex>40</dex>
+                <mag>62</mag>
+                <spi>63</spi>
+                <lck>23</lck>
+                <lvl>47</lvl>
             </stats>
-            <exp>209801</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
+            <exp>254675</exp>
+            <hp>3123</hp>
+            <maxhp>3398</maxhp>
+            <mp>343</mp>
+            <maxmp>358</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
                 <name>spear</name>
-                <materia/>
+                <materia />
             </weapon>
             <armor>
-                <name>mythrilarmlet</name>
-                <materia/>
+                <name>goldarmlet</name>
+                <materia />
             </armor>
-            <accessory></accessory>
+            <accessory />
         </Cid>
         <Sephiroth>
             <stats>
@@ -280,21 +286,32 @@
             </stats>
             <!--<exp>320438</exp>-->
             <exp>315438</exp>
-            <hp>3264</hp>
-            <maxhp>3264</maxhp>
-            <mp>529</mp>
-            <maxmp>529</maxmp>
+        <hp>3840</hp>
+        <mp>460</mp>
+        <maxhp>3840</maxhp>
+        <maxmp>460</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
             <backRow>false</backRow>
             <weapon>
                 <name>masamune</name>
-                <materia/>
+                <materia>
+                    <orb id="revive" type="Magic" ap="55000" slot="0" />
+                    <orb id="restore" type="Magic" ap="40000" slot="1" />
+                    <orb id="fire" type="Magic" ap="35000" slot="2" />
+                    <orb id="all" type="Support" ap="35000" slot="3" />
+                    <orb id="heal" type="Magic" ap="60000" slot="4" />
+                </materia>
             </weapon>
             <armor>
                 <name>goldarmlet</name>
-                <materia/>
+                <materia>
+                    <orb id="ice" type="Magic" ap="35000" slot="0" />
+                    <orb id="all" type="Support" ap="35000" slot="1" />
+                    <orb id="lightning" type="Magic" ap="35000" slot="2" />
+                    <orb id="all" type="Support" ap="35000" slot="3" />
+                </materia>
             </armor>
             <accessory>touphring</accessory>
         </Sephiroth>
@@ -302,9 +319,9 @@
     <party>
         <slot0>Cloud</slot0>
         <slot1>Aeris</slot1>
-        <slot2>Tifa</slot2>
+        <slot2>RedXIII</slot2>
         <reserve>Barret</reserve>
-        <reserve>RedXIII</reserve>
+        <reserve>Tifa</reserve>
         <reserve>Yuffie</reserve>
         <reserve>CaitSith</reserve>
         <reserve>Vincent</reserve>
@@ -312,25 +329,24 @@
         <reserve>Sephiroth</reserve>
     </party>
     <inventory>
-        <item id="kill"         count="99" slot="0" />
-        <item id="potion"       count="2"  slot="1" />      
-        <item id="hipotion"     count="32" slot="2" />
-        <item id="xpotion"      count="15" slot="3" />
-        <item id="ether"        count="28" slot="4" />
-        <item id="turboether"   count="3"  slot="5" />
-        <item id="elixir"       count="5"  slot="6" />
-        <item id="megalixir"    count="3"  slot="7" />
-        <item id="phoenixdown"  count="11" slot="8" />
-        <item id="tent"         count="5"  slot="9" />
+        <item id="kill" count="99" slot="0" />
+        <item id="potion" count="2" slot="1" />
+        <item id="hipotion" count="32" slot="2" />
+        <item id="xpotion" count="15" slot="3" />
+        <item id="ether" count="28" slot="4" />
+        <item id="turboether" count="3" slot="5" />
+        <item id="elixir" count="5" slot="6" />
+        <item id="megalixir" count="3" slot="7" />
+        <item id="phoenixdown" count="11" slot="8" />
+        <item id="tent" count="5" slot="9" />
         <item id="tranquilizer" count="15" slot="11" />
-        <item id="hyper"        count="15" slot="12" />
-        <item id="powersource"  count="4"  slot="21" />
-        <item id="guardsource"  count="3"  slot="22" />
-        <item id="speedsource"  count="6"  slot="23" />
-        <item id="magicsource"  count="3"  slot="24" />
-        <item id="mindsource"   count="2"  slot="25" />
-        <item id="lucksource"   count="1"  slot="26" />
-      
+        <item id="hyper" count="15" slot="12" />
+        <item id="powersource" count="4" slot="21" />
+        <item id="guardsource" count="3" slot="22" />
+        <item id="speedsource" count="6" slot="23" />
+        <item id="magicsource" count="3" slot="24" />
+        <item id="mindsource" count="2" slot="25" />
+        <item id="lucksource" count="1" slot="26" />
         <!-- Weapons -->
         <weapon id="mythrilsaber" count="1" slot="100" />
         <weapon id="hardedge" count="1" slot="101" />
@@ -347,7 +363,6 @@
         <weapon id="heavenscloud" count="1" slot="112" />
         <weapon id="ragnarok" count="1" slot="113" />
         <weapon id="ultimaweapon" count="1" slot="114" />
-        
         <weapon id="metalknuckle" count="1" slot="115" />
         <weapon id="mythrilclaw" count="1" slot="116" />
         <weapon id="grandglove" count="1" slot="117" />
@@ -363,7 +378,6 @@
         <weapon id="masterfist" count="1" slot="127" />
         <weapon id="godshand" count="1" slot="128" />
         <weapon id="premiumheart" count="1" slot="129" />
-        
         <weapon id="assaultgun" count="1" slot="130" />
         <weapon id="cannonball" count="1" slot="131" />
         <weapon id="atomicscissors" count="1" slot="132" />
@@ -379,7 +393,6 @@
         <weapon id="pilebanger" count="1" slot="142" />
         <weapon id="maxray" count="1" slot="143" />
         <weapon id="missingscore" count="1" slot="144" />
-        
         <weapon id="guardstick" count="1" slot="145" />
         <weapon id="mythrilrod" count="1" slot="146" />
         <weapon id="fullmetalstaff" count="1" slot="147" />
@@ -391,7 +404,6 @@
         <weapon id="fairytale" count="1" slot="153" />
         <weapon id="umbrella" count="1" slot="154" />
         <weapon id="princessguard" count="1" slot="155" />
-        
         <weapon id="diamondpin" count="1" slot="156" />
         <weapon id="silverbarrette" count="1" slot="157" />
         <weapon id="goldbarrette" count="1" slot="158" />
@@ -405,7 +417,6 @@
         <weapon id="behemothhorn" count="1" slot="166" />
         <weapon id="springgunclip" count="1" slot="167" />
         <weapon id="limitedmoon" count="1" slot="168" />
-        
         <weapon id="boomerang" count="1" slot="169" />
         <weapon id="pinwheel" count="1" slot="170" />
         <weapon id="razorring" count="1" slot="171" />
@@ -419,7 +430,6 @@
         <weapon id="risingsun" count="1" slot="179" />
         <weapon id="oritsuru" count="1" slot="180" />
         <weapon id="conformer" count="1" slot="181" />
-        
         <weapon id="yellowmphone" count="1" slot="182" />
         <weapon id="greenmphone" count="1" slot="183" />
         <weapon id="bluemphone" count="1" slot="184" />
@@ -433,7 +443,6 @@
         <weapon id="battletrumpet" count="1" slot="192" />
         <weapon id="starlightphone" count="1" slot="193" />
         <weapon id="hpshout" count="1" slot="194" />
-        
         <weapon id="shotgun" count="1" slot="195" />
         <weapon id="shortbarrel" count="1" slot="196" />
         <weapon id="lariat" count="1" slot="197" />
@@ -446,7 +455,6 @@
         <weapon id="supershotst" count="1" slot="204" />
         <weapon id="outsider" count="1" slot="205" />
         <weapon id="deathpenalty" count="1" slot="206" />
-        
         <weapon id="slashlance" count="1" slot="207" />
         <weapon id="trident" count="1" slot="208" />
         <weapon id="mastax" count="1" slot="209" />
@@ -460,7 +468,6 @@
         <weapon id="flayer" count="1" slot="217" />
         <weapon id="spiritlance" count="1" slot="218" />
         <weapon id="venusgospel" count="1" slot="219" />
-        
         <!-- Armour -->
         <armor id="bronzebangle" count="3" slot="301" />
         <armor id="ironbangle" count="1" slot="302" />
@@ -537,12 +544,10 @@
         <orb id="shield" type="Magic" ap="11000" slot="34" />
         <orb id="ultima" type="Magic" ap="5000" slot="35" />
         <orb id="ultima" type="Magic" ap="4999" slot="36" />
-
         <orb id="hpabsorb" type="Support" ap="90000" slot="37" />
         <orb id="mpabsorb" type="Support" ap="100000" slot="38" />
         <orb id="quadramagic" type="Support" ap="90000" slot="39" />
         <orb id="all" type="Support" ap="10000" slot="40" />
-
         <orb id="wsummon" type="Command" ap="110000" slot="50" />
         <orb id="wmagic" type="Command" ap="200000" slot="51" />
         <orb id="witem" type="Command" ap="110000" slot="52" />
@@ -556,14 +561,12 @@
         <orb id="steal" type="Command" ap="49876" slot="60" />
         <orb id="steal" type="Command" ap="36111" slot="61" />
         <orb id="enemyskill" type="Command" ap="3548138" slot="62" />
-
         <orb id="underwater" type="Independent" ap="32000" slot="64" />
         <orb id="longrange" type="Independent" ap="32000" slot="65" />
         <orb id="magicplus" type="Independent" ap="41511" slot="66" />
         <orb id="luckplus" type="Independent" ap="22782" slot="67" />
         <orb id="speedplus" type="Independent" ap="50000" slot="68" />
         <orb id="speedplus" type="Independent" ap="0" slot="69" />
-
         <orb id="chocomog" type="Summon" ap="10000" slot="70" />
         <orb id="shiva" type="Summon" ap="10000" slot="71" />
         <orb id="ifrit" type="Summon" ap="10000" slot="72" />
@@ -580,7 +583,6 @@
         <orb id="typhon" type="Summon" ap="10000" slot="83" />
         <orb id="bahamutzero" type="Summon" ap="10000" slot="84" />
         <orb id="knightsofround" type="Summon" ap="10000" slot="85" />
-
         <orb id="hpplus" type="Independent" ap="12838" slot="100" />
         <orb id="hpplus" type="Independent" ap="23955" slot="101" />
         <orb id="hpplus" type="Independent" ap="50000" slot="102" />
@@ -591,4 +593,3 @@
     <time>41173000</time>
 </savegame>
 <!-- str <> vit <> dex <> mag <> spi <> lck <> lvl-->
-
