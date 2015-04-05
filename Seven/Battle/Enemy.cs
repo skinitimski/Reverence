@@ -362,7 +362,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             g.Fill();
             g.Fill();
 
-            Text.ShadowedText(g, Colors.WHITE, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
+            Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
         }
         
         

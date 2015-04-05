@@ -5,7 +5,9 @@ using System.Text;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
+using Cairo;
 
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 
@@ -791,5 +793,24 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public int X { get { return _x; } }
         public int Y { get { return _y; } }
+
+        public Color NameColor
+        {
+            get
+            { 
+                Color nameColor = Colors.WHITE;
+                
+                if (Death)
+                {
+                    nameColor = Colors.TEXT_RED;
+                }
+                else if (NearDeath)
+                {
+                    nameColor = Colors.YELLOW;
+                }
+
+                return nameColor;
+            }
+        }
     }
 }

@@ -6,6 +6,7 @@ using System.Threading;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
+using Cairo;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
@@ -310,8 +311,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
             g.Fill();
 
-
-            Text.ShadowedText(g, Colors.WHITE, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
+            Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
         }
         
         #endregion Methods
