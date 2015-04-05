@@ -76,6 +76,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public override void Reset()
         {
             base.Reset();
+
             FirstChoice = null;
         }
 

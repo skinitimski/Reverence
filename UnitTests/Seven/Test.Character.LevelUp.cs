@@ -13,7 +13,18 @@ namespace Atmosphere.UnitTests.Seven
         [Test]
         public void LevelUpTest()
         {
-            LevelUpDemo.GetCharacterStats("Cloud", 99);
+            string cloud = LevelUpDemo.GetCharacterStats("Cloud", 45);
+            string tifa = LevelUpDemo.GetCharacterStats("Tifa", 45);
+            string barret = LevelUpDemo.GetCharacterStats("Barret", 45);
+
+            string aeris = LevelUpDemo.GetCharacterStats("Aeris", 45);
+            string nanaki = LevelUpDemo.GetCharacterStats("RedXIII", 45);
+            string caitsith = LevelUpDemo.GetCharacterStats("CaitSith", 45);
+
+            string yuffie = LevelUpDemo.GetCharacterStats("Yuffie", 45);            
+            string vincent = LevelUpDemo.GetCharacterStats("Vincent", 45);
+            string cid = LevelUpDemo.GetCharacterStats("Cid", 45);
+            
         }
     }
 }

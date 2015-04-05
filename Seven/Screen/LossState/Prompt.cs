@@ -43,6 +43,7 @@ namespace Atmosphere.Reverence.Seven.Screen.LossState
                     switch (option)
                     {
                         case 0:
+                            // Yes
                             Seven.Instance.Reset();
                             break;
                         case 1:
