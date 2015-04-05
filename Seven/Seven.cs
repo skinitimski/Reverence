@@ -36,16 +36,16 @@ namespace Atmosphere.Reverence.Seven
         private Seven()
             : base()
         {
+        }
+
+        protected override void PrimeLua()
+        {            
             LuaEnvironment.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
             LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
             LuaEnvironment.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
             LuaEnvironment.DoString("Status = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Status\")");
             LuaEnvironment.DoString("Party = luanet.import_type(\"Atmosphere.Reverence.Seven.Party\")");
-        }
-
-        protected override void Init()
-        {
             LuaEnvironment[typeof(Seven).Name] = this;
         }
 
@@ -75,7 +75,7 @@ namespace Atmosphere.Reverence.Seven
 
         public new void Reset()
         {
-            Reset();
+            base.Reset();
         }
 
         public new void Quit()

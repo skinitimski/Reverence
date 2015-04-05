@@ -140,7 +140,11 @@ namespace Atmosphere.Reverence
             LuaEnvironment.DoString(@" import ('Systen.IO') ");
             LuaEnvironment.DoString(@" import ('Systen.Text') ");
             LuaEnvironment.DoString(@" import ('Systen.Text.RegularExpressions') ");
+
+            PrimeLua();
         }
+
+        protected abstract void PrimeLua();
 
 
 
@@ -414,8 +418,6 @@ namespace Atmosphere.Reverence
 
 
         protected abstract State GetInitialState();
-
-        protected abstract void Init();
         
         protected abstract void Cleanup();
 
@@ -462,11 +464,7 @@ namespace Atmosphere.Reverence
         }
 
         private void Go()
-        {
-            Init();
-
-
-            
+        {            
             try
             {
                 Application.Init();
