@@ -334,6 +334,21 @@ namespace Atmosphere.Reverence.Seven
 
             Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + Name.ToLower() + ".jpg");
             ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + Name.ToLower() + ".jpg");
+
+
+            // Sanity checks. Sometimes we'll load materia onto a save file which
+            //    causes the max to drop, but we don't otherwise modify the current
+            //    values. So we'll do that here.
+
+            if (_hp > _maxhp)
+            {
+                _hp = _maxhp;
+            }
+
+            if (_mp > _maxmp)
+            {
+                _mp = _maxmp;
+            }
         }
         
         
@@ -346,6 +361,7 @@ namespace Atmosphere.Reverence.Seven
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.Indent = true;
             settings.IndentChars = "    ";
+            settings.OmitXmlDeclaration = true;
 
             using (XmlWriter writer = XmlWriter.Create(s, settings))
             {
@@ -361,17 +377,17 @@ namespace Atmosphere.Reverence.Seven
                 writer.WriteEndElement();//stats
                 writer.WriteElementString("exp", _exp.ToString());
                 writer.WriteElementString("hp", _hp.ToString());
-                writer.WriteElementString("hpmax", _maxhp.ToString());
+                writer.WriteElementString("maxhp", _maxhp.ToString());
                 writer.WriteElementString("mp", _mp.ToString());
-                writer.WriteElementString("mpmax", _maxmp.ToString());
+                writer.WriteElementString("maxmp", _maxmp.ToString());
                 writer.WriteElementString("limitlvl", _limitlvl.ToString());
-                writer.WriteElementString("fury", Fury.ToString());
-                writer.WriteElementString("sadness", Sadness.ToString());
-                writer.WriteElementString("backRow", BackRow.ToString());
+                writer.WriteElementString("fury", Fury.ToString().ToLower());
+                writer.WriteElementString("sadness", Sadness.ToString().ToLower());
+                writer.WriteElementString("backRow", BackRow.ToString().ToLower());
 
 
                 writer.WriteStartElement("weapon");
-                writer.WriteElementString("name", Weapon.Name);
+                writer.WriteElementString("name", Weapon.ID);
                 writer.WriteStartElement("materia");
                 for (int i = 0; i < Weapon.Slots.Length; i++)
                 {
@@ -383,7 +399,7 @@ namespace Atmosphere.Reverence.Seven
                         writer.WriteAttributeString("id", m.ID);
                         writer.WriteAttributeString("type", m.Type.ToString());
                         writer.WriteAttributeString("ap", m.AP.ToString());
-                        writer.WriteAttributeString("slot", m.Type.ToString());
+                        writer.WriteAttributeString("slot", i.ToString());
                         writer.WriteEndElement();
                     }
                 }
@@ -392,7 +408,7 @@ namespace Atmosphere.Reverence.Seven
 
 
                 writer.WriteStartElement("armor");
-                writer.WriteElementString("name", Armor.Name);
+                writer.WriteElementString("name", Armor.ID);
                 writer.WriteStartElement("materia");
                 for (int i = 0; i < Armor.Slots.Length; i++)
                 {
@@ -404,7 +420,7 @@ namespace Atmosphere.Reverence.Seven
                         writer.WriteAttributeString("id", m.ID);
                         writer.WriteAttributeString("type", m.Type.ToString());
                         writer.WriteAttributeString("ap", m.AP.ToString());
-                        writer.WriteAttributeString("slot", m.Type.ToString());
+                        writer.WriteAttributeString("slot", i.ToString());
                         writer.WriteEndElement();
                     }
                 }
@@ -412,30 +428,10 @@ namespace Atmosphere.Reverence.Seven
                 writer.WriteEndElement();
 
 
-                writer.WriteElementString("accessory", Accessory.Name);
+                writer.WriteElementString("accessory", Accessory.ID);
                 
                 writer.WriteEndElement();
 
-
-                /**
-                 * 
-            <weapon>
-                <name>bustersword</name>
-                <materia>
-                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
-                    <orb id="wmagic" type="Command" ap="0" slot="1" />
-                </materia>
-            </weapon>
-            <armor>
-                <name>aegisarmlet</name>
-                <materia>
-                    <orb id="sense" type="Command" ap="0" slot="0" />
-                    <orb id="witem" type="Command" ap="0" slot="1" />
-                </materia>
-            </armor>
-            <accessory>
-            </accessory>
-                 */
             }
 
             return s.ToString();
