@@ -29,7 +29,6 @@ namespace Atmosphere.Reverence.Menu
             _menus = menus;
             _defaultControl = defaultControl;
             _control = defaultControl;
-            _control.SetAsControl();
         }
         
         public void Draw(Gdk.Drawable d)
