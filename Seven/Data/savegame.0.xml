@@ -157,36 +157,6 @@
             <accessory>
             </accessory>
         </RedXIII>
-        <Yuffie>
-            <stats>
-                <str>5</str>
-                <dex>5</dex>
-                <vit>5</vit>
-                <mag>5</mag>
-                <spi>5</spi>
-                <lck>5</lck>
-                <lvl>6</lvl>
-            </stats>
-            <exp>187492</exp>
-            <hp>300</hp>
-            <maxhp>350</maxhp>
-            <mp>30</mp>
-            <maxmp>30</maxmp>
-            <limitlvl>1</limitlvl>
-            <fury>false</fury>
-            <sadness>false</sadness>
-            <backRow>false</backRow>
-            <weapon>
-                <name>4pointshuriken</name>
-                <materia />
-            </weapon>
-            <armor>
-                <name>mythrilarmlet</name>
-                <materia />
-            </armor>
-            <accessory>
-            </accessory>
-        </Yuffie>
         <CaitSith>
             <stats>
                 <str>5</str>
@@ -217,6 +187,36 @@
             <accessory>
             </accessory>
         </CaitSith>
+        <Yuffie>
+            <stats>
+                <str>5</str>
+                <dex>5</dex>
+                <vit>5</vit>
+                <mag>5</mag>
+                <spi>5</spi>
+                <lck>5</lck>
+                <lvl>6</lvl>
+            </stats>
+            <exp>187492</exp>
+            <hp>300</hp>
+            <maxhp>350</maxhp>
+            <mp>30</mp>
+            <maxmp>30</maxmp>
+            <limitlvl>1</limitlvl>
+            <fury>false</fury>
+            <sadness>false</sadness>
+            <backRow>false</backRow>
+            <weapon>
+                <name>4pointshuriken</name>
+                <materia />
+            </weapon>
+            <armor>
+                <name>mythrilarmlet</name>
+                <materia />
+            </armor>
+            <accessory>
+            </accessory>
+        </Yuffie>
         <Vincent>
             <stats>
                 <str>5</str>
