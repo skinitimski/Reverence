@@ -353,88 +353,87 @@ namespace Atmosphere.Reverence.Seven
         
         
         #region Methods
-        
+
         public override string ToString()
         {
             StringBuilder s = new StringBuilder();
-
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.IndentChars = "    ";
-            settings.OmitXmlDeclaration = true;
-
-            using (XmlWriter writer = XmlWriter.Create(s, settings))
+                        
+            using (XmlWriter writer = XmlWriter.Create(s, Resource.XmlWriterSettings))
             {
-                writer.WriteStartElement(Name);
-                writer.WriteStartElement("stats");
-                writer.WriteElementString("str", _strength_base.ToString());
-                writer.WriteElementString("vit", _vitality_base.ToString());
-                writer.WriteElementString("dex", _dexterity_base.ToString());
-                writer.WriteElementString("mag", _magic_base.ToString());
-                writer.WriteElementString("spi", _spirit_base.ToString());
-                writer.WriteElementString("lck", _luck_base.ToString());
-                writer.WriteElementString("lvl", _level.ToString());
-                writer.WriteEndElement();//stats
-                writer.WriteElementString("exp", _exp.ToString());
-                writer.WriteElementString("hp", _hp.ToString());
-                writer.WriteElementString("maxhp", _maxhp.ToString());
-                writer.WriteElementString("mp", _mp.ToString());
-                writer.WriteElementString("maxmp", _maxmp.ToString());
-                writer.WriteElementString("limitlvl", _limitlvl.ToString());
-                writer.WriteElementString("fury", Fury.ToString().ToLower());
-                writer.WriteElementString("sadness", Sadness.ToString().ToLower());
-                writer.WriteElementString("backRow", BackRow.ToString().ToLower());
-
-
-                writer.WriteStartElement("weapon");
-                writer.WriteElementString("name", Weapon.ID);
-                writer.WriteStartElement("materia");
-                for (int i = 0; i < Weapon.Slots.Length; i++)
-                {
-                    MateriaBase m = Weapon.Slots[i];
-
-                    if (m != null)
-                    {
-                        writer.WriteStartElement("orb");
-                        writer.WriteAttributeString("id", m.ID);
-                        writer.WriteAttributeString("type", m.Type.ToString());
-                        writer.WriteAttributeString("ap", m.AP.ToString());
-                        writer.WriteAttributeString("slot", i.ToString());
-                        writer.WriteEndElement();
-                    }
-                }
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-
-
-                writer.WriteStartElement("armor");
-                writer.WriteElementString("name", Armor.ID);
-                writer.WriteStartElement("materia");
-                for (int i = 0; i < Armor.Slots.Length; i++)
-                {
-                    MateriaBase m = Armor.Slots[i];
-                                        
-                    if (m != null)
-                    {
-                        writer.WriteStartElement("orb");
-                        writer.WriteAttributeString("id", m.ID);
-                        writer.WriteAttributeString("type", m.Type.ToString());
-                        writer.WriteAttributeString("ap", m.AP.ToString());
-                        writer.WriteAttributeString("slot", i.ToString());
-                        writer.WriteEndElement();
-                    }
-                }
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-
-
-                writer.WriteElementString("accessory", Accessory.ID);
-                
-                writer.WriteEndElement();
-
+                WriteToXml(writer);
             }
 
             return s.ToString();
+        }
+        
+        public void WriteToXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(Name);
+            writer.WriteStartElement("stats");
+            writer.WriteElementString("str", _strength_base.ToString());
+            writer.WriteElementString("dex", _dexterity_base.ToString());
+            writer.WriteElementString("vit", _vitality_base.ToString());
+            writer.WriteElementString("mag", _magic_base.ToString());
+            writer.WriteElementString("spi", _spirit_base.ToString());
+            writer.WriteElementString("lck", _luck_base.ToString());
+            writer.WriteElementString("lvl", _level.ToString());
+            writer.WriteEndElement();//stats
+            writer.WriteElementString("exp", _exp.ToString());
+            writer.WriteElementString("hp", _hp.ToString());
+            writer.WriteElementString("mp", _mp.ToString());
+            writer.WriteElementString("maxhp", _maxhp.ToString());
+            writer.WriteElementString("maxmp", _maxmp.ToString());
+            writer.WriteElementString("limitlvl", _limitlvl.ToString());
+            writer.WriteElementString("fury", Fury.ToString().ToLower());
+            writer.WriteElementString("sadness", Sadness.ToString().ToLower());
+            writer.WriteElementString("backRow", BackRow.ToString().ToLower());
+
+
+            writer.WriteStartElement("weapon");
+            writer.WriteElementString("name", Weapon.ID);
+            writer.WriteStartElement("materia");
+            for (int i = 0; i < Weapon.Slots.Length; i++)
+            {
+                MateriaBase m = Weapon.Slots[i];
+
+                if (m != null)
+                {
+                    writer.WriteStartElement("orb");
+                    writer.WriteAttributeString("id", m.ID);
+                    writer.WriteAttributeString("type", m.Type.ToString());
+                    writer.WriteAttributeString("ap", m.AP.ToString());
+                    writer.WriteAttributeString("slot", i.ToString());
+                    writer.WriteEndElement();
+                }
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+
+
+            writer.WriteStartElement("armor");
+            writer.WriteElementString("name", Armor.ID);
+            writer.WriteStartElement("materia");
+            for (int i = 0; i < Armor.Slots.Length; i++)
+            {
+                MateriaBase m = Armor.Slots[i];
+                                    
+                if (m != null)
+                {
+                    writer.WriteStartElement("orb");
+                    writer.WriteAttributeString("id", m.ID);
+                    writer.WriteAttributeString("type", m.Type.ToString());
+                    writer.WriteAttributeString("ap", m.AP.ToString());
+                    writer.WriteAttributeString("slot", i.ToString());
+                    writer.WriteEndElement();
+                }
+            }
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+
+
+            writer.WriteElementString("accessory", Accessory.ID);
+            
+            writer.WriteEndElement();
         }
         
         

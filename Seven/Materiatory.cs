@@ -145,5 +145,11 @@ namespace Atmosphere.Reverence.Seven
             
 
         }
+        
+        public void WriteToXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(typeof(Materiatory).Name.ToLower());
+            writer.WriteEndElement(); // inventory;
+        }
     }
 }

@@ -97,11 +97,16 @@ namespace Atmosphere.Reverence.Seven
 
 
 
+        public void SaveGame(int save)
+        {
+            string savefile = String.Format("savegame.{0}.xml", save);
+            string path = Path.Combine(Configuration.SavePath, savefile);
+
+            _party.SaveToFile(path);
+        }
 
         public void LoadSavedGame(int save)
         {
-
-            
             XmlNode saveGame;
 
 //            string savefile = String.Format("data.savegame{0}.xml", save);
@@ -121,8 +126,6 @@ namespace Atmosphere.Reverence.Seven
             _menuState.Init();
 
             SetState(_menuState);
-
-            //BeginBattle();
         }
         
         public void BeginBattle()

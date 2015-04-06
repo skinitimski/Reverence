@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
@@ -208,6 +210,79 @@ namespace Atmosphere.Reverence.Seven
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+        public void SaveToFile(string path)
+        {
+            using (StreamWriter sw = new StreamWriter(path))
+            using (XmlWriter writer = XmlWriter.Create(sw, Resource.XmlWriterSettings))
+            {
+                writer.WriteStartElement("party");
+
+                writer.WriteStartElement("characters");
+                Cloud.WriteToXml(writer);
+                Tifa.WriteToXml(writer);
+                Barret.WriteToXml(writer);
+                Aeris.WriteToXml(writer);
+                RedXIII.WriteToXml(writer);
+                CaitSith.WriteToXml(writer);
+                Yuffie.WriteToXml(writer);
+                Vincent.WriteToXml(writer);
+                Cid.WriteToXml(writer);
+                Sephiroth.WriteToXml(writer);
+                writer.WriteEndElement(); // characters
+
+                for (int i = 0; i < PARTY_SIZE; i++)
+                {
+                    writer.WriteElementString("slot" + i, this[i].Name);
+                }
+
+                foreach (Character c in Reserves)
+                {
+                    if (c != null)
+                    {
+                        writer.WriteElementString("reserve", c.Name);
+                    }
+                }
+
+                Inventory.WriteToXml(writer);
+                Materiatory.WriteToXml(writer);
+
+                writer.WriteElementString("gil", Gil.ToString());
+                writer.WriteElementString("time", Clock.TotalMilliseconds.ToString());
+
+                writer.WriteStartElement("config");
+                writer.WriteStartElement("menu");
+
+                for (int i = 0; i < 4; i++)
+                {
+                    int r, g, b;
+
+                    Menu.Menu.GetCornerColor(i, out r, out g, out b);
+
+                    writer.WriteStartElement("corner" + i.ToString());
+                    writer.WriteAttributeString("r", r.ToString());
+                    writer.WriteAttributeString("g", g.ToString());
+                    writer.WriteAttributeString("b", b.ToString());
+                    writer.WriteEndElement(); // corner
+                }
+
+                writer.WriteEndElement(); // menu
+                writer.WriteEndElement(); // config
+                        
+                writer.WriteEndElement(); // party
+            }
+        }
 
 
 

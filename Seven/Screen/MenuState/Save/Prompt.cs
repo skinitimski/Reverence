@@ -26,8 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         const int options = Seven.SAVE_FILES;
         
         #endregion Layout
-        
-        private int _option = 0;
+
         
         public Prompt()
             : base(
@@ -43,10 +42,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
             switch (k)
             {
                 case Key.Up:
-                    if (_option > 0) _option--;
+                    if (Option > 0) Option--;
                     break;
                 case Key.Down:
-                    if (_option < options - 1) _option++;
+                    if (Option < options - 1) Option++;
                     break;
                 case Key.Circle:
                     Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SaveConfirm);
@@ -62,7 +61,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
-            int y_cursor = y_option0 + y_spacing * _option + y_displacement_cursor;
+            int y_cursor = y_option0 + y_spacing * Option + y_displacement_cursor;
 
             Shapes.RenderCursor(g, X + x_cursor, Y + y_cursor);
 
@@ -80,9 +79,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         public override void SetAsControl()
         {
             base.SetAsControl();
-            _option = 0;
+            Option = 0;
         }
         
+        public int Option { get; private set; }
         
         public override string Info
         { get { return ""; } }

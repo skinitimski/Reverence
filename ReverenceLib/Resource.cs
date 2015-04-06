@@ -8,6 +8,24 @@ namespace Atmosphere.Reverence
 {
     public static class Resource
     {        
+        public static readonly XmlWriterSettings XmlWriterSettings;
+
+        static Resource()
+        {
+            XmlWriterSettings = new XmlWriterSettings
+            {
+                Indent = true,
+                IndentChars = "    ",
+                OmitXmlDeclaration = true,
+                NewLineChars = Environment.NewLine
+            };
+        }
+
+
+
+
+
+
         public static XmlDocument GetXmlFromResource(string id, Assembly assembly)
         {
             XmlDocument doc = null;

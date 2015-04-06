@@ -315,5 +315,11 @@ namespace Atmosphere.Reverence.Seven
 
             DecreaseCount(slot);
         }
+
+        public void WriteToXml(XmlWriter writer)
+        {
+            writer.WriteStartElement(typeof(Inventory).Name.ToLower());
+            writer.WriteEndElement(); // inventory;
+        }
     }
 }

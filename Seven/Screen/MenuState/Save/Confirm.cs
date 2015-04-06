@@ -40,16 +40,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
                     if (option < 1) option++;
                     break;
                 case Key.Circle:
-                    switch (option)
+
+                    if (option == 0)
                     {
-                        case 0:
-                            // Save.
-                            break;
-                        case 1:
-                            Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);
-                            break;
-                        default: break;
+                        Seven.Instance.SaveGame(Seven.MenuState.SavePrompt.Option);
+                        Seven.MenuState.ShowMessage(c => "Saved!");
                     }
+
+                    Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);
+
                     break;
                 case Key.X:
                     Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);
