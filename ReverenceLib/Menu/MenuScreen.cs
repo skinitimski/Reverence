@@ -59,6 +59,14 @@ namespace Atmosphere.Reverence.Menu
         {
             ChangeControl(_defaultControl);
         }
+
+        public void UpdateBackground()
+        {
+            foreach (GameMenu m in _menus)
+            {
+                m.Visible = m.Visible;
+            }
+        }
         
         
         public IController Control { get { return _control; } }

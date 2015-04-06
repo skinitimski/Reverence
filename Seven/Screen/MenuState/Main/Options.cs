@@ -69,7 +69,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                             Seven.MenuState.MainScreen.ChangeControl(Seven.MenuState.MainStatus);
                             break;
                         case Option.Config: // Config
-                            //Seven.MenuState.ChangeLayer(Seven.MenuState.ConfigScreen);
+                            Seven.MenuState.ChangeScreen(Seven.MenuState.ConfigScreen);
                             break;
                         case Option.PHS: // PHS
                             Seven.MenuState.ChangeScreen(Seven.MenuState.PhsScreen);

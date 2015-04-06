@@ -78,6 +78,7 @@
     <Folder Include="Screen\LossState\" />
     <Folder Include="Test\" />
     <Folder Include="Screen\MenuState\Save\" />
+    <Folder Include="Screen\MenuState\Config\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -204,6 +205,10 @@
     <Compile Include="Screen\MenuState\Save\Label.cs" />
     <Compile Include="Screen\MenuState\Save\Prompt.cs" />
     <Compile Include="Screen\MenuState\Save\Confirm.cs" />
+    <Compile Include="Screen\MenuState\Config\Label.cs" />
+    <Compile Include="Screen\MenuState\Config\Info.cs" />
+    <Compile Include="Screen\MenuState\Config\Main.cs" />
+    <Compile Include="Screen\MenuState\Config\WindowColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

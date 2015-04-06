@@ -10,73 +10,92 @@ namespace Atmosphere.Reverence.Menu
 {
     public abstract class Menu
     {
-        protected Color border = new Color(0.8, 0.8, 0.8, 1);
-        protected Color borderTransparent = new Color(0.8, 0.8, 0.8, 0.6);
+        private static readonly Color border = new Color(0.8, 0.8, 0.8, 1);
+        private static readonly Color borderTransparent = new Color(0.8, 0.8, 0.8, 0.6);
+
+
+
+        private static readonly float[][] _corners = new float[][]
+        {
+            new float[] { 0.1f, 0.2f, 0.7f },
+            new float[] { 0.0f, 0.1f, 0.5f },
+            new float[] { 0.0f, 0.0f, 0.2f },
+            new float[] { 0.0f, 0.0f, 0.3f }
+        };
 
         #region Menu Colors
 
-        // top left
+        // top left         0       1
         // top right
         // bottom right
-        // bottom left
+        // bottom left      3       2
 
         #region Blues
-        public const float R0 = 0.1f;
-        public const float G0 = 0.2f;
-        public const float B0 = 0.7f;
-        public const float R1 = 0.0f;
-        public const float G1 = 0.1f;
-        public const float B1 = 0.5f;
-        public const float R2 = 0.0f;
-        public const float G2 = 0.0f;
-        public const float B2 = 0.2f;
-        public const float R3 = 0.0f;
-        public const float G3 = 0.0f;
-        public const float B3 = 0.3f;
+
+//        public const float R0 = 0.1f;
+//        public const float G0 = 0.2f;
+//        public const float B0 = 0.7f;
+//        public const float R1 = 0.0f;
+//        public const float G1 = 0.1f;
+//        public const float B1 = 0.5f;
+//        public const float R2 = 0.0f;
+//        public const float G2 = 0.0f;
+//        public const float B2 = 0.2f;
+//        public const float R3 = 0.0f;
+//        public const float G3 = 0.0f;
+//        public const float B3 = 0.3f;
+
         #endregion Blues
+
         #region Reds
-        //public const float R0 = 0.7f;
-        //public const float G0 = 0.2f;
-        //public const float B0 = 0.1f;
 
-        //public const float R1 = 0.5f;
-        //public const float G1 = 0.1f;
-        //public const float B1 = 0.0f;
+//        public const float R0 = 0.7f;
+//        public const float G0 = 0.2f;
+//        public const float B0 = 0.1f;
+//        public const float R1 = 0.5f;
+//        public const float G1 = 0.1f;
+//        public const float B1 = 0.0f;
+//        public const float R2 = 0.2f;
+//        public const float G2 = 0.0f;
+//        public const float B2 = 0.0f;
+//        public const float R3 = 0.3f;
+//        public const float G3 = 0.0f;
+//        public const float B3 = 0.0f;
 
-        //public const float R2 = 0.2f;
-        //public const float G2 = 0.0f;
-        //public const float B2 = 0.0f;
-
-        //public const float R3 = 0.3f;
-        //public const float G3 = 0.0f;
-        //public const float B3 = 0.0f;
         #endregion Reds
+
         #region Yellows
+
         //public const float R0 = 0.8f;
         //public const float G0 = 0.8f;
         //public const float B0 = 0.3f;
-
         //public const float R1 = 0.6f;
         //public const float G1 = 0.6f;
         //public const float B1 = 0.2f;
-
         //public const float R2 = 0.1f;
         //public const float G2 = 0.1f;
         //public const float B2 = 0.1f;
-
         //public const float R3 = 0.3f;
         //public const float G3 = 0.3f;
         //public const float B3 = 0.1f;
+
         #endregion Yellows
 
         #endregion Menu Colors
+
+
+
+
+
 
         int _x;
         int _y;
         int _w;
         int _h;
+        bool _visible;
         bool _opaque;
         Gdk.Pixbuf _background;
+
 
         protected Menu(int x, int y, int w, int h) : this(x, y, w, h, true)
         {
@@ -89,7 +108,7 @@ namespace Atmosphere.Reverence.Menu
             _w = w;
             _h = h;
             _opaque = opaque;
-            Visible = true;
+            _visible = true;
 
             BorderColor = opaque ? border : borderTransparent;
 
@@ -106,7 +125,7 @@ namespace Atmosphere.Reverence.Menu
 
         public void Draw(Gdk.Drawable d)
         {
-            if (!Visible)
+            if (!_visible)
             {
                 return;
             }
@@ -152,17 +171,52 @@ namespace Atmosphere.Reverence.Menu
 
 
 
+
+
+
+        public static void SetCornerColor(int corner, int rIndex, int gIndex, int bIndex)
+        {
+            _corners[corner][0] = rIndex * 0.1f;
+            _corners[corner][1] = gIndex * 0.1f;
+            _corners[corner][2] = bIndex * 0.1f;
+        }
+
+        public static void GetCornerColor(int corner, ref int rIndex, ref int gIndex, ref int bIndex)
+        {
+            if (rIndex < 0 || rIndex > 10)
+            {
+                throw new ArgumentException("Must be between 0 and 10 (inclusive)", "rIndex");
+            }
+            if (gIndex < 0 || gIndex > 10)
+            {
+                throw new ArgumentException("Must be between 0 and 10 (inclusive)", "gIndex");
+            }
+            if (bIndex < 0 || bIndex > 10)
+            {
+                throw new ArgumentException("Must be between 0 and 10 (inclusive)", "bIndex");
+            }
+
+            rIndex = (int)(_corners[corner][0] * 10);
+            gIndex = (int)(_corners[corner][1] * 10);
+            bIndex = (int)(_corners[corner][2] * 10);
+        }
+
+
+
+
+
+
         #region Properties
 
         #region Hidden
 
-        private ColoredPoint CP0 { get { return new ColoredPoint(0, 0, R0, G0, B0, _opaque ? 1 : .6f); } }
+        private ColoredPoint CP0 { get { return new ColoredPoint(0, 0, _corners[0][0], _corners[0][1], _corners[0][2], _opaque ? 1 : .6f); } }
 
-        private ColoredPoint CP1 { get { return new ColoredPoint(_w, 0, R1, G1, B1, _opaque ? 1 : .6f); } }
+        private ColoredPoint CP1 { get { return new ColoredPoint(_w, 0, _corners[1][0], _corners[1][1], _corners[1][2], _opaque ? 1 : .6f); } }
 
-        private ColoredPoint CP2 { get { return new ColoredPoint(_w, _h, R2, G2, B2, _opaque ? 1 : .6f); } }
+        private ColoredPoint CP2 { get { return new ColoredPoint(_w, _h, _corners[2][0], _corners[2][1], _corners[2][2], _opaque ? 1 : .6f); } }
 
-        private ColoredPoint CP3 { get { return new ColoredPoint(0, _h, R3, G3, B3, _opaque ? 1 : .6f); } }
+        private ColoredPoint CP3 { get { return new ColoredPoint(0, _h, _corners[3][0], _corners[3][1], _corners[3][2], _opaque ? 1 : .6f); } }
 
         private Color BorderColor { get; set; }
 
@@ -204,7 +258,22 @@ namespace Atmosphere.Reverence.Menu
             }
         }
 
-        public bool Visible { get; set; }
+        public bool Visible
+        {
+            get
+            {
+                return _visible;
+            }
+            set
+            {
+                _visible = value;
+
+                if (_visible)
+                {
+                    UpdateBackground();
+                }
+            }
+        }
 
         #endregion Public
 

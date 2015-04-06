@@ -116,7 +116,21 @@ namespace Atmosphere.Reverence.Seven.State
             statusMenus.Add(StatusLabel);
 
             StatusScreen = new MenuScreen(statusMenus, StatusLabel);
+            
+            
+            //
+            // CONFIG
+            //
+            
+            ConfigMain = new Screens.Config.Main();
+            
+            List<GameMenu> configMenus = new List<GameMenu>();
+            configMenus.Add(new Screens.Config.Info());
+            configMenus.Add(new Screens.Config.Label());
+            configMenus.Add(ConfigMain);
 
+            ConfigScreen = new MenuScreen(configMenus, ConfigMain);
+            
             
             //
             // PHS
@@ -237,6 +251,19 @@ namespace Atmosphere.Reverence.Seven.State
             MessageBox = new MessageBox(message);                
         }
 
+        public void UpdateAllBackgrounds()
+        {
+            MainScreen.UpdateBackground();
+            ItemScreen.UpdateBackground();
+            //MagicScreen.UpdateBackground();
+            MateriaScreen.UpdateBackground();
+            EquipScreen.UpdateBackground();
+            StatusScreen.UpdateBackground();
+            ConfigScreen.UpdateBackground();
+            PhsScreen.UpdateBackground();
+            SaveScreen.UpdateBackground();
+        }
+
         
 
         protected override void InternalDispose() { }
@@ -257,14 +284,14 @@ namespace Atmosphere.Reverence.Seven.State
         
         public MenuScreen MainScreen { get; private set; }
         public MenuScreen ItemScreen { get; private set; }
-        public MenuScreen MagicScreen { get; private set; }
+        //public MenuScreen MagicScreen { get; private set; }
         public MenuScreen MateriaScreen { get; private set; }
         public MenuScreen EquipScreen { get; private set; }
         public MenuScreen StatusScreen { get; private set; }
+        //public MenuScreen LimitScreen { get; private set; }
+        public MenuScreen ConfigScreen { get; private set; }
         public MenuScreen PhsScreen { get; private set; }
         public MenuScreen SaveScreen { get; private set; }
-        public MenuScreen VictoryScreen { get; private set; }
-        public MenuScreen HoardScreen { get; private set; }
         
         
         
@@ -287,6 +314,8 @@ namespace Atmosphere.Reverence.Seven.State
         public Screens.Status.Two StatusTwo { get; private set; }
         public Screens.Status.Three StatusThree { get; private set; }
         public Screens.Status.Label StatusLabel { get; private set; }
+
+        public Screens.Config.Main ConfigMain { get; private set; }
         
         public Screens.Phs.List PhsList { get; private set; }
         public Screens.Phs.Stats PhsStats { get; private set; }
