@@ -6,6 +6,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using NLua;
 
 using Cairo;
@@ -443,6 +444,8 @@ namespace Atmosphere.Reverence
         protected void Reset()
         {           
             Cleanup();
+                      
+            Configuration.ResetMenuColors();
 
             State = new InitialState(Configuration.SplashScreenColor);
             InitLua();
