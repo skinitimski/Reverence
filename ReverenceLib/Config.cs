@@ -36,6 +36,17 @@ namespace Atmosphere.Reverence
                 Double.Parse(Doc.SelectSingleNode("/config/window/gridColor/@r").Value),
                 Double.Parse(Doc.SelectSingleNode("/config/window/gridColor/@g").Value),
                 Double.Parse(Doc.SelectSingleNode("/config/window/gridColor/@b").Value));
+
+            for (int i = 0; i < 4; i++)
+            {
+                XmlNode cornerNode = Doc.SelectSingleNode("/config/window/menu/corner" + i);
+
+                int r = Int32.Parse(cornerNode.Attributes["r"].Value);
+                int g = Int32.Parse(cornerNode.Attributes["g"].Value);
+                int b = Int32.Parse(cornerNode.Attributes["b"].Value);
+
+                Menu.Menu.SetCornerColor(i, r, g, b);
+            }
         }
 
         public string WindowTitle { get; private set; }

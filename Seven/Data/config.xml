@@ -8,6 +8,13 @@
         <splashScreenColor r=".2" g=".4" b=".6" />
         <bgColor r=".1" g=".1" b=".1" />
         <gridColor r=".9" g=".9" b=".9" />
+        <menu>
+            <!-- blues -->
+            <corner0 r="1" g="2" b="7" />
+            <corner1 r="0" g="1" b="5" />
+            <corner2 r="0" g="0" b="2" />
+            <corner3 r="0" g="0" b="3" />
+        </menu>
     </window>
     <savePath>/vol/mono/Reverence/Seven/Data</savePath>
 </config>
