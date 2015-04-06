@@ -223,21 +223,27 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
         
-        public static IInventoryItem GetItem(string id, string type)
+        public static IInventoryItem GetItem(string id, InventoryItemType type)
         {
+            IInventoryItem item = null;
+
             switch (type)
             {
-                case "weapon":
-                    return Weapon.Get(id);
-                case "armor":
-                    return Armor.Get(id);
-                case "item":
-                    return ItemTable[id];
-                case "accessory":
-                    return Accessory.AccessoryTable[id];
-                default:
-                    throw new ArgumentException("Item type not valid: " + type, "type");
+                case InventoryItemType.item:
+                    item = ItemTable[id];
+                    break;
+                case InventoryItemType.weapon:
+                    item = Weapon.Get(id);
+                    break;
+                case InventoryItemType.armor:
+                    item = Armor.Get(id);
+                    break;
+                case InventoryItemType.accessory:
+                    item = Accessory.AccessoryTable[id];
+                    break;
             }
+
+            return item;
         }
 
         public string Name { get; private set; }

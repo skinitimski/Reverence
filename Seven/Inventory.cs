@@ -116,7 +116,7 @@ namespace Atmosphere.Reverence.Seven
                     continue;
                 }
                                
-                string type = node.Name;
+                InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), node.Name);
                 string id = node.Attributes["id"].Value;
                 int count = Int32.Parse(node.Attributes["count"].Value);
                 int slot = Int32.Parse(node.Attributes["slot"].Value);
@@ -319,6 +319,24 @@ namespace Atmosphere.Reverence.Seven
         public void WriteToXml(XmlWriter writer)
         {
             writer.WriteStartElement(typeof(Inventory).Name.ToLower());
+            foreach (Record record in _inventory)
+            {
+                if (!record.IsEmpty)
+                {
+                    //writer.WriteStartElement(record.Item.GetType().Name.
+
+
+                    /*
+                     * 
+                    <item id="lucksource" count="1" slot="26" />
+                        <!-- Weapons -->
+                            <weapon id="mythrilsaber" count="1" slot="100" />
+                            <weapon id="hardedge" count="1" slot="101" />
+                     */
+
+                }
+            }
+
             writer.WriteEndElement(); // inventory;
         }
     }

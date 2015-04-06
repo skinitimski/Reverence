@@ -47,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
         }
         
-        public ItemType Type { get { return ItemType.Accessory; } }
+        public InventoryItemType Type { get { return InventoryItemType.accessory; } }
 
 
     }

@@ -105,7 +105,6 @@
     <Compile Include="Asset\Accessory.cs" />
     <Compile Include="Asset\WeaponType.cs" />
     <Compile Include="Asset\Element.cs" />
-    <Compile Include="Asset\ItemType.cs" />
     <Compile Include="Asset\Growth.cs" />
     <Compile Include="Asset\Materia\MateriaBase.cs" />
     <Compile Include="Asset\Materia\MateriaType.cs" />
@@ -209,6 +208,7 @@
     <Compile Include="Screen\MenuState\Config\Info.cs" />
     <Compile Include="Screen\MenuState\Config\Main.cs" />
     <Compile Include="Screen\MenuState\Config\WindowColor.cs" />
+    <Compile Include="Asset\InventoryItemType.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

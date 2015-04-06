@@ -75,7 +75,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 XmlNode node = xml.DocumentElement;
                 
                 string id = node.Attributes["id"].Value;
-                string type = node.Attributes["type"].Value;
+                InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), node.Attributes["type"].Value);
                 _chance = Int32.Parse(node.Attributes["chance"].Value);
                 
                 _item = Asset.Item.GetItem(id, type);
@@ -217,7 +217,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 if (morph.Attributes["id"] != null)
                 {
                     string id = morph.Attributes["id"].Value;
-                    string type = morph.Attributes["type"].Value;
+                    
+                    InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), morph.Attributes["type"].Value);
                 
                     _morph = Item.GetItem(id, type);
                 }

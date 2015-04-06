@@ -109,13 +109,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             switch (Seven.MenuState.EquipTop.Option)
             {
                 case 0:
-                    Update(ItemType.Weapon);
+                    Update(InventoryItemType.weapon);
                     break;
                 case 1:
-                    Update(ItemType.Armor);
+                    Update(InventoryItemType.armor);
                     break;
                 case 2:
-                    Update(ItemType.Accessory);
+                    Update(InventoryItemType.accessory);
                     break;
             }
             if (_equipment.Count == 0)
@@ -132,17 +132,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             _topRow = 0;
         }
         
-        private void Update(ItemType it)
+        private void Update(InventoryItemType it)
         {
             switch (it)
             {
-                case ItemType.Weapon:
+                case InventoryItemType.weapon:
                     _equipment = Seven.Party.Inventory.GetWeaponsOfType(Seven.Party.Selected.Weapon.Wielder);
                     break;
-                case ItemType.Armor:
+                case InventoryItemType.armor:
                     _equipment = Seven.Party.Inventory.GetArmor(Seven.Party.Selected.Sex);
                     break;
-                case ItemType.Accessory:
+                case InventoryItemType.accessory:
                     _equipment = Seven.Party.Inventory.GetAccessories();
                     break;
                 default: break;

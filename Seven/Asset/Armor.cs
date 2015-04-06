@@ -108,7 +108,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         public int MagicDefensePercent { get; private set; }
 
-        public ItemType Type { get { return ItemType.Armor; } }
+        public InventoryItemType Type { get { return InventoryItemType.armor; } }
     }
 }
 

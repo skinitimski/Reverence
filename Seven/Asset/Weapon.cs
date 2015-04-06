@@ -146,7 +146,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         public WeaponType Wielder  { get; private set; }
 
-        public ItemType Type { get { return ItemType.Weapon; } }
+        public InventoryItemType Type { get { return InventoryItemType.weapon; } }
 
         public Element Element { get; private set; }
         
