@@ -149,7 +149,31 @@ namespace Atmosphere.Reverence.Seven
         public void WriteToXml(XmlWriter writer)
         {
             writer.WriteStartElement(typeof(Materiatory).Name.ToLower());
-            writer.WriteEndElement(); // inventory;
+
+            for (int i = 0; i < MATERIATORY_SIZE; i++)
+            {
+                MateriaBase materia = _materiatory[i];
+                if (materia != null)
+                {
+                    writer.WriteStartElement("orb");
+                    
+                    writer.WriteAttributeString("id", materia.ID);
+                    writer.WriteAttributeString("type", materia.Type.ToString());
+                    writer.WriteAttributeString("ap", materia.AP.ToString());
+                    writer.WriteAttributeString("slot", i.ToString());
+                    
+                    writer.WriteEndElement();
+
+                    /*
+        <orb id="fire" type="Magic" ap="1400" slot="1" />
+        <orb id="ice" type="Magic" ap="30000" slot="2" />
+        <orb id="lightning" type="Magic" ap="20000" slot="3" />
+                     * 
+                     */
+                }
+            }
+
+            writer.WriteEndElement(); // materiatory;
         }
     }
 }

@@ -319,21 +319,18 @@ namespace Atmosphere.Reverence.Seven
         public void WriteToXml(XmlWriter writer)
         {
             writer.WriteStartElement(typeof(Inventory).Name.ToLower());
+
             foreach (Record record in _inventory)
             {
                 if (!record.IsEmpty)
                 {
-                    //writer.WriteStartElement(record.Item.GetType().Name.
+                    writer.WriteStartElement(record.Item.GetType().Name.ToLower());
 
+                    writer.WriteAttributeString("id", record.Item.ID);
+                    writer.WriteAttributeString("count", record.Count.ToString());
+                    writer.WriteAttributeString("slot", record.Slot.ToString());
 
-                    /*
-                     * 
-                    <item id="lucksource" count="1" slot="26" />
-                        <!-- Weapons -->
-                            <weapon id="mythrilsaber" count="1" slot="100" />
-                            <weapon id="hardedge" count="1" slot="101" />
-                     */
-
+                    writer.WriteEndElement();
                 }
             }
 
