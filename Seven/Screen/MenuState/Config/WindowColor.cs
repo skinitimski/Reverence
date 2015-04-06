@@ -50,7 +50,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
                 this.corner = corner;
 
-                GetCornerColor(corner, ref rIndex, ref gIndex, ref bIndex);
+                GetCornerColor(corner, out rIndex, out gIndex, out bIndex);
                 
                 Owner = owner;
             }

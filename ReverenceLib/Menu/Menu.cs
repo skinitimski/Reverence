@@ -176,13 +176,6 @@ namespace Atmosphere.Reverence.Menu
 
         public static void SetCornerColor(int corner, int rIndex, int gIndex, int bIndex)
         {
-            _corners[corner][0] = rIndex * 0.1f;
-            _corners[corner][1] = gIndex * 0.1f;
-            _corners[corner][2] = bIndex * 0.1f;
-        }
-
-        public static void GetCornerColor(int corner, ref int rIndex, ref int gIndex, ref int bIndex)
-        {
             if (rIndex < 0 || rIndex > 10)
             {
                 throw new ArgumentException("Must be between 0 and 10 (inclusive)", "rIndex");
@@ -196,6 +189,13 @@ namespace Atmosphere.Reverence.Menu
                 throw new ArgumentException("Must be between 0 and 10 (inclusive)", "bIndex");
             }
 
+            _corners[corner][0] = rIndex * 0.1f;
+            _corners[corner][1] = gIndex * 0.1f;
+            _corners[corner][2] = bIndex * 0.1f;
+        }
+
+        public static void GetCornerColor(int corner, out int rIndex, out int gIndex, out int bIndex)
+        {
             rIndex = (int)(_corners[corner][0] * 10);
             gIndex = (int)(_corners[corner][1] * 10);
             bIndex = (int)(_corners[corner][2] * 10);
