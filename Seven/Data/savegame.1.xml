@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<savegame>
+<party>
     <characters>
         <Cloud>
             <stats>
@@ -316,7 +316,6 @@
             <accessory>touphring</accessory>
         </Sephiroth>
     </characters>
-    <party>
         <slot0>Cloud</slot0>
         <slot1>Aeris</slot1>
         <slot2>RedXIII</slot2>
@@ -327,7 +326,6 @@
         <reserve>Vincent</reserve>
         <reserve>Cid</reserve>
         <reserve>Sephiroth</reserve>
-    </party>
     <inventory>
         <item id="kill" count="99" slot="0" />
         <item id="potion" count="2" slot="1" />
@@ -591,5 +589,12 @@
     </materiatory>
     <gil>2200</gil>
     <time>41173000</time>
-</savegame>
-<!-- str <> vit <> dex <> mag <> spi <> lck <> lvl-->
+    <config>
+        <menu>
+            <corner0 r="7" g="2" b="1" />
+            <corner1 r="5" g="1" b="0" />
+            <corner2 r="2" g="0" b="0" />
+            <corner3 r="3" g="0" b="0" />
+        </menu>
+    </config>
+</party>

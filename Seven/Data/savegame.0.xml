@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<savegame>
+<party>
     <characters>
         <Cloud>
             <stats>
@@ -319,41 +319,35 @@
             <accessory>touphring</accessory>
         </Sephiroth>
     </characters>
-    <party>
-        <slot0>Cloud</slot0>
-        <slot1>Aeris</slot1>
-        <slot2>Tifa</slot2>
-        <reserve>Barret</reserve>
-        <reserve>RedXIII</reserve>
-        <reserve>Yuffie</reserve>
-        <reserve>CaitSith</reserve>
-        <reserve>Vincent</reserve>
-        <reserve>Cid</reserve>
-        <reserve>Sephiroth</reserve>
-    </party>
+    <slot0>Cloud</slot0>
+    <slot1>Aeris</slot1>
+    <slot2>Tifa</slot2>
+    <reserve>Barret</reserve>
+    <reserve>RedXIII</reserve>
+    <reserve>Yuffie</reserve>
+    <reserve>CaitSith</reserve>
+    <reserve>Vincent</reserve>
+    <reserve>Cid</reserve>
+    <reserve>Sephiroth</reserve>
     <inventory>
-    
-        <item id="kill"         count="99" slot="0" />
-        <item id="potion"       count="2"  slot="1" />      
-        <item id="hipotion"     count="32" slot="2" />
-        <item id="xpotion"      count="15" slot="3" />
-        <item id="ether"        count="28" slot="4" />
-        <item id="turboether"   count="3"  slot="5" />
-        <item id="elixir"       count="5"  slot="6" />
-        <item id="megalixir"    count="3"  slot="7" />
-        <item id="phoenixdown"  count="11" slot="8" />
-        <item id="tent"         count="5"  slot="9" />
-        
+        <item id="kill" count="99" slot="0" />
+        <item id="potion" count="2" slot="1" />
+        <item id="hipotion" count="32" slot="2" />
+        <item id="xpotion" count="15" slot="3" />
+        <item id="ether" count="28" slot="4" />
+        <item id="turboether" count="3" slot="5" />
+        <item id="elixir" count="5" slot="6" />
+        <item id="megalixir" count="3" slot="7" />
+        <item id="phoenixdown" count="11" slot="8" />
+        <item id="tent" count="5" slot="9" />
         <item id="tranquilizer" count="15" slot="11" />
-        <item id="hyper"        count="15" slot="12" />
-        <item id="powersource"  count="4"  slot="21" />
-        <item id="guardsource"  count="3"  slot="22" />
-        <item id="speedsource"  count="6"  slot="23" />
-        <item id="magicsource"  count="3"  slot="24" />
-        <item id="mindsource"   count="2"  slot="25" />
-        <item id="lucksource"   count="1"  slot="26" />
-    
-    
+        <item id="hyper" count="15" slot="12" />
+        <item id="powersource" count="4" slot="21" />
+        <item id="guardsource" count="3" slot="22" />
+        <item id="speedsource" count="6" slot="23" />
+        <item id="magicsource" count="3" slot="24" />
+        <item id="mindsource" count="2" slot="25" />
+        <item id="lucksource" count="1" slot="26" />
         <!-- Weapons -->
         <weapon id="mythrilsaber" count="1" slot="100" />
         <weapon id="hardedge" count="1" slot="101" />
@@ -598,5 +592,12 @@
     </materiatory>
     <gil>2200</gil>
     <time>41173000</time>
-</savegame>
-<!-- str <> vit <> dex <> mag <> spi <> lck <> lvl-->
+    <config>
+        <menu>        
+            <corner0 r="6" g="6" b="2" />
+            <corner1 r="4" g="4" b="2" />
+            <corner2 r="1" g="1" b="1" />
+            <corner3 r="3" g="3" b="1" />
+        </menu>
+    </config>
+</party>

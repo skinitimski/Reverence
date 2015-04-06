@@ -42,9 +42,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             g.SelectFontFace("Courier New", FontSlant.Normal, FontWeight.Bold);
             
             long s, m, h;
-            s = Seven.Clock.Seconds;
-            m = Seven.Clock.Minutes;
-            h = Seven.Clock.Hours;
+            s = Seven.Party.Clock.Seconds;
+            m = Seven.Party.Clock.Minutes;
+            h = Seven.Party.Clock.Hours;
             
             string time = String.Format("{0}{1}:{2}{3}:{4}{5}",
                                         h < 10 ? "0" : "", h,

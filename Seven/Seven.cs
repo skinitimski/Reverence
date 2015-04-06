@@ -24,7 +24,6 @@ namespace Atmosphere.Reverence.Seven
         private MenuState _menuState;
         private BattleState _battleState;
         private PostBattleState _postBattleState;
-        private Clock _clock;
 
 
 
@@ -66,7 +65,6 @@ namespace Atmosphere.Reverence.Seven
             }
 
             _party = null;
-            _clock = null;
         }
 
         protected override Atmosphere.Reverence.State GetInitialState()
@@ -90,7 +88,6 @@ namespace Atmosphere.Reverence.Seven
         {
             _party = new Party();
 
-            _clock = new Clock();
 
             _menuState = new MenuState();
             _menuState.Init();
@@ -119,8 +116,6 @@ namespace Atmosphere.Reverence.Seven
 
             _party = new Party(saveGame);
 
-            int time = Int32.Parse(saveGame.SelectSingleNode("./time").InnerText);
-            _clock = new Clock(Clock.TICKS_PER_MS, time, true);
 
             _menuState = new MenuState();
             _menuState.Init();
@@ -206,8 +201,6 @@ namespace Atmosphere.Reverence.Seven
         internal static PostBattleState PostBattleState { get { return Instance._postBattleState; } }
 
         internal static Party Party { get { return Instance._party; } }
-
-        internal static Clock Clock { get { return Instance._clock; } }
     }
 }
 

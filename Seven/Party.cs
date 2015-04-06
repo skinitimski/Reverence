@@ -19,6 +19,8 @@ namespace Atmosphere.Reverence.Seven
         
         public Party()
         {
+            Clock = new Clock();
+
             InitCharacters(CHARACTER_DATA);
 
             AddCharacters();
@@ -42,7 +44,7 @@ namespace Atmosphere.Reverence.Seven
 
             for (int k = 0; k <= 2; k++)
             {
-                XmlNode node = savegame.SelectSingleNode("./party/slot" + k.ToString());
+                XmlNode node = savegame.SelectSingleNode("./slot" + k.ToString());
 
                 if (node != null)
                 {
@@ -60,7 +62,7 @@ namespace Atmosphere.Reverence.Seven
             int i = 0;
             int j = 0;
             
-            foreach (XmlNode node in savegame.SelectNodes("./party/reserve"))
+            foreach (XmlNode node in savegame.SelectNodes("./reserve"))
             {
                 if (node.NodeType == XmlNodeType.Comment)
                 {
@@ -75,10 +77,26 @@ namespace Atmosphere.Reverence.Seven
                     i = 0;
                 }
             }
-            
+
             Gil = Int32.Parse(savegame.SelectSingleNode("./gil").InnerXml);
             
+            int time = Int32.Parse(savegame.SelectSingleNode("./time").InnerText);
+            Clock = new Clock(Clock.TICKS_PER_MS, time, true);
+            
             BattleSpeed = CalculateBattleSpeed();
+
+            
+
+            for (int a = 0; a < 4; a++)
+            {
+                XmlNode cornerNode = savegame.SelectSingleNode("./config/menu/corner" + a);
+                
+                int r = Int32.Parse(cornerNode.Attributes["r"].Value);
+                int g = Int32.Parse(cornerNode.Attributes["g"].Value);
+                int b = Int32.Parse(cornerNode.Attributes["b"].Value);
+                
+                Menu.Menu.SetCornerColor(a, r, g, b);
+            }
         }
 
         private void InitCharacters(XmlNode savegame, XmlNode gamedata)
@@ -261,6 +279,8 @@ namespace Atmosphere.Reverence.Seven
         public int Gil { get; set; }
 
         public int Size { get { return PARTY_SIZE; } }
+
+        public Clock Clock { get; private set; }
 
         
         /// <summary>If set to Clock.TICKS_PER_MS, realtime; if less, faster; if greater, slower</summary>
