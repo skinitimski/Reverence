@@ -25,10 +25,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         
         public Info()
             : base(
-                Config.Instance.WindowWidth * 3 / 4 + 12,
-                Config.Instance.WindowHeight * 7 / 10 + 20,
-                Config.Instance.WindowWidth / 4 - 17,
-                (Config.Instance.WindowHeight * 5 / 20) - 25)
+                Seven.Config.WindowWidth * 3 / 4 + 12,
+                Seven.Config.WindowHeight * 7 / 10 + 20,
+                Seven.Config.WindowWidth / 4 - 17,
+                (Seven.Config.WindowHeight * 5 / 20) - 25)
         {
             Visible = false;
         }

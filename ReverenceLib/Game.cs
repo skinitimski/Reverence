@@ -42,11 +42,11 @@ namespace Atmosphere.Reverence
 
             private double r, g, b;
 
-            public InitialState()
+            public InitialState(Color splashScreenColor)
             {
                 _timer = new Time.Timer(2000);
 
-                Color fullcolor = Config.Instance.SplashScreenColor;
+                Color fullcolor = splashScreenColor;
 
                 r = fullcolor.R;
                 g = fullcolor.G;
@@ -119,14 +119,18 @@ namespace Atmosphere.Reverence
 
 
 
+        private Game()
+        {
+        }
 
-        protected Game()
+        protected Game(string configPath)
         {
 #if DRAWGRID
             _gridColor = Config.Instance.Grid;
 #endif
+            Configuration = new Config(configPath);
 
-            State = new InitialState();
+            State = new InitialState(Configuration.SplashScreenColor);
             InitLua();
         }
 
@@ -440,7 +444,7 @@ namespace Atmosphere.Reverence
         {           
             Cleanup();
 
-            State = new InitialState();
+            State = new InitialState(Configuration.SplashScreenColor);
             InitLua();
 
             QueueInitialState();
@@ -469,8 +473,8 @@ namespace Atmosphere.Reverence
             {
                 Application.Init();
 
-                _window = new Window(Config.Instance.WindowTitle);
-                _window.SetDefaultSize(Config.Instance.WindowWidth, Config.Instance.WindowHeight);
+                _window = new Window(Configuration.WindowTitle);
+                _window.SetDefaultSize(Configuration.WindowWidth, Configuration.WindowHeight);
                 _window.DeleteEvent += OnWinDelete;
                 _window.KeyPressEvent += OnKeyPress;
                 _window.KeyReleaseEvent += OnKeyRelease;
@@ -478,11 +482,11 @@ namespace Atmosphere.Reverence
                 _window.ExposeEvent += OnExposed;
             
             
-                GLib.Timeout.Add(1000 / Config.Instance.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
+                GLib.Timeout.Add(1000 / Configuration.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
             
                 _window.ShowAll();
 
-                _pixmap = new Gdk.Pixmap(_window.GdkWindow, Config.Instance.WindowWidth, Config.Instance.WindowHeight, -1);
+                _pixmap = new Gdk.Pixmap(_window.GdkWindow, Configuration.WindowWidth, Configuration.WindowHeight, -1);
                 _window.AppPaintable = true;
                 _window.DoubleBuffered = false;
                          
@@ -567,6 +571,8 @@ namespace Atmosphere.Reverence
         protected State State { get; private set; }
 
         protected Lua LuaEnvironment { get; private set; }
+
+        protected Config Configuration { get; private set; }
 
     }
 }

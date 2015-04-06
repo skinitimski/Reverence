@@ -31,9 +31,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public ItemMenu()
             : base(
                 5,
-                Config.Instance.WindowHeight * 7 / 10 + 20,
-                Config.Instance.WindowWidth - 11,
-                (Config.Instance.WindowHeight * 5 / 20) - 25)
+                Seven.Config.WindowHeight * 7 / 10 + 20,
+                Seven.Config.WindowWidth - 11,
+                (Seven.Config.WindowHeight * 5 / 20) - 25)
         {
         }
 

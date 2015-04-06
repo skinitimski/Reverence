@@ -19,8 +19,6 @@ namespace Atmosphere.Reverence.Seven
     {
         public const int SAVE_FILES = 2;
 
-        private string _savePath = "/vol/mono/Reverence/Seven/Data";
-
 
         private Party _party;
         private MenuState _menuState;
@@ -30,17 +28,14 @@ namespace Atmosphere.Reverence.Seven
 
 
 
-        public static readonly Seven Instance;
+        internal static Seven Instance { get; private set; }
 
 
 
-        static Seven()
-        {
-            Instance = new Seven();
-        }
 
-        private Seven()
-            : base()
+
+        private Seven(string configPath)
+            : base(configPath)
         {
         }
 
@@ -118,7 +113,7 @@ namespace Atmosphere.Reverence.Seven
 
             string savefile = String.Format("savegame.{0}.xml", save);
             XmlDocument doc = new XmlDocument();
-            doc.Load(Path.Combine(_savePath, savefile));
+            doc.Load(Path.Combine(Configuration.SavePath, savefile));
             saveGame = doc.SelectSingleNode("*");
 
 
@@ -188,9 +183,21 @@ namespace Atmosphere.Reverence.Seven
         }
 
 
+
+
+
+        public static void Main(string[] args)
+        {
+            Instance = new Seven(args[0]);
+            Game.RunGame(Instance);
+        }
+
+
         internal static GameState CurrentState { get { return Instance.State; } }
         
         internal static Lua Lua { get { return Instance.LuaEnvironment; } }
+        
+        internal static Config Config { get { return Instance.Configuration; } }
         
         internal static MenuState MenuState { get { return Instance._menuState; } }
         

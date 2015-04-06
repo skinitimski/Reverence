@@ -11,9 +11,9 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         public VictoryMiddle()
             : base(
                 2,
-                Config.Instance.WindowHeight * 28 / 60,
-                Config.Instance.WindowWidth - 8,
-                Config.Instance.WindowHeight / 4 - 6)
+                Seven.Config.WindowHeight * 28 / 60,
+                Seven.Config.WindowWidth - 8,
+                Seven.Config.WindowHeight / 4 - 6)
         { }
         
         protected override int PartyIndex { get { return 1; } }

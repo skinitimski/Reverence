@@ -26,10 +26,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
         public Info()
             : base(
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 7 / 60,
-                Config.Instance.WindowWidth / 2 - 9,
-                Config.Instance.WindowHeight / 4)
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 7 / 60,
+                Seven.Config.WindowWidth / 2 - 9,
+                Seven.Config.WindowHeight / 4)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

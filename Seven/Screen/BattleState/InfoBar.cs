@@ -14,9 +14,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public InfoBar()
             : base(
                 5,
-                Config.Instance.WindowHeight * 6 / 10,
-                Config.Instance.WindowWidth - 10,
-                (Config.Instance.WindowHeight / 10) - 7,
+                Seven.Config.WindowHeight * 6 / 10,
+                Seven.Config.WindowWidth - 10,
+                (Seven.Config.WindowHeight / 10) - 7,
                 false)
         { }
 

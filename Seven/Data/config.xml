@@ -9,4 +9,5 @@
         <bgColor r=".1" g=".1" b=".1" />
         <gridColor r=".9" g=".9" b=".9" />
     </window>
+    <savePath>/vol/mono/Reverence/Seven/Data</savePath>
 </config>

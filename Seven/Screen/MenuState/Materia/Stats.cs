@@ -34,9 +34,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         public Stats()
             : base(
                 2,
-                Config.Instance.WindowHeight * 5 / 12,
-                Config.Instance.WindowWidth * 5 / 8,
-                Config.Instance.WindowHeight * 8 / 15)
+                Seven.Config.WindowHeight * 5 / 12,
+                Seven.Config.WindowWidth * 5 / 8,
+                Seven.Config.WindowHeight * 8 / 15)
         {
         }
 

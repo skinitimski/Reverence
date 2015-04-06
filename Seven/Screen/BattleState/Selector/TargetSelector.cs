@@ -79,7 +79,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             int y0 = _targets[_option].Y;
             
             // length (squared) of the screen's diagonal (largest fathomable distance)
-            int min = Config.Instance.WindowHeight * Config.Instance.WindowHeight + Config.Instance.WindowWidth * Config.Instance.WindowWidth; 
+            int min = Seven.Config.WindowHeight * Seven.Config.WindowHeight + Seven.Config.WindowWidth * Seven.Config.WindowWidth; 
             
             int pick = -1;
             for (int i = 0; i < _targets.Count; i++)

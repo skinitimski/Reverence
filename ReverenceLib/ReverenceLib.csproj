@@ -55,7 +55,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="Data\" />
     <Folder Include="Graphics\" />
     <Folder Include="Menu\" />
     <Folder Include="Exceptions\" />
@@ -84,10 +83,5 @@
     <Compile Include="Graphics\Colors.cs" />
     <Compile Include="Menu\MenuScreen.cs" />
     <Compile Include="Time\TimedDialogue.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Data\config.xml">
-      <LogicalName>data.config.xml</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

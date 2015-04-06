@@ -27,10 +27,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
         public List()
             : base(
-                Config.Instance.WindowWidth * 5 / 8,
-                Config.Instance.WindowHeight * 5 / 12,
-                Config.Instance.WindowWidth * 3 / 8 - 8,
-                Config.Instance.WindowHeight * 8 / 15)
+                Seven.Config.WindowWidth * 5 / 8,
+                Seven.Config.WindowHeight * 5 / 12,
+                Seven.Config.WindowWidth * 3 / 8 - 8,
+                Seven.Config.WindowHeight * 8 / 15)
         {
             _equipment = new List<Inventory.Record>();
         }

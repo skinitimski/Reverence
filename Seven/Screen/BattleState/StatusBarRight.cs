@@ -29,10 +29,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         public StatusBarRight()
             : base(
-                Config.Instance.WindowWidth * 2 / 5 + 12,
-                Config.Instance.WindowHeight * 7 / 10,
-                Config.Instance.WindowWidth * 3 / 5 - 17,
-                Config.Instance.WindowHeight * 5 / 20 - 5)
+                Seven.Config.WindowWidth * 2 / 5 + 12,
+                Seven.Config.WindowHeight * 7 / 10,
+                Seven.Config.WindowWidth * 3 / 5 - 17,
+                Seven.Config.WindowHeight * 5 / 20 - 5)
         {
         }
         

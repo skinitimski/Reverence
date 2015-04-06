@@ -17,10 +17,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 
         public Location()
             : base(
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 17 / 20 + 6,
-                Config.Instance.WindowWidth / 2 - 10,
-                Config.Instance.WindowHeight / 10)
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 17 / 20 + 6,
+                Seven.Config.WindowWidth / 2 - 10,
+                Seven.Config.WindowHeight / 10)
         { }
         
         

@@ -22,7 +22,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 
         public Arrange()
             : base(
-                Config.Instance.WindowWidth * 3 / 8,
+                Seven.Config.WindowWidth * 3 / 8,
                 150,
                 170,
                 140)

@@ -23,14 +23,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         
         private int option;
         private int topRow = 0;
-        private int x2 = Config.Instance.WindowWidth / 2 - 24; // count
+        private int x2 = Seven.Config.WindowWidth / 2 - 24; // count
 
         public List()
             : base(
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 11 / 60,
-                Config.Instance.WindowWidth / 2 - 9,
-                Config.Instance.WindowHeight * 23 / 30)
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 11 / 60,
+                Seven.Config.WindowWidth / 2 - 9,
+                Seven.Config.WindowHeight * 23 / 30)
         {
         }
         

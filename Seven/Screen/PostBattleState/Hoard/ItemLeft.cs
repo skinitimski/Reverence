@@ -28,9 +28,9 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         public ItemLeft()
             : base(
                 2,
-                Config.Instance.WindowHeight * 13 / 60,
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 3 / 4 - 6)
+                Seven.Config.WindowHeight * 13 / 60,
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 3 / 4 - 6)
         { 
         }
         public override void ControlHandle(Key k) 

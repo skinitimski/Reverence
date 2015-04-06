@@ -27,9 +27,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         public Selected()
             : base(
                 2,
-                Config.Instance.WindowHeight * 5 / 12,
-                Config.Instance.WindowWidth * 5 / 8,
-                Config.Instance.WindowHeight / 6)
+                Seven.Config.WindowHeight * 5 / 12,
+                Seven.Config.WindowWidth * 5 / 8,
+                Seven.Config.WindowHeight / 6)
         {
         }
         

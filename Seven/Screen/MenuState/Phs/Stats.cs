@@ -31,9 +31,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         public Stats()
             : base(
                 2,
-                Config.Instance.WindowHeight * 7 / 60,
-                Config.Instance.WindowWidth / 2 - 6,
-                Config.Instance.WindowHeight * 5 / 6)
+                Seven.Config.WindowHeight * 7 / 60,
+                Seven.Config.WindowWidth / 2 - 6,
+                Seven.Config.WindowHeight * 5 / 6)
         { }
         
         public override void ControlHandle(Key k)

@@ -14,10 +14,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
     {
         public EventBar()
             : base(
-                Config.Instance.WindowWidth / 16,
+                Seven.Config.WindowWidth / 16,
                 20,
-                Config.Instance.WindowWidth * 7 / 8,
-                Config.Instance.WindowHeight / 10)
+                Seven.Config.WindowWidth * 7 / 8,
+                Seven.Config.WindowHeight / 10)
         { }
 
         protected override void DrawContents(Gdk.Drawable d)

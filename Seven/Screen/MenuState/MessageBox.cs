@@ -42,8 +42,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
             Width = (int)te.Width + w_padding * 2;
             Height = (int)te.Height + h_padding * 2;
 
-            int x = Config.Instance.WindowWidth / 2 - Width / 2;
-            int y = Config.Instance.WindowHeight / 2 - Height / 2;
+            int x = Seven.Config.WindowWidth / 2 - Width / 2;
+            int y = Seven.Config.WindowHeight / 2 - Height / 2;
 
             Move(x, y);
 

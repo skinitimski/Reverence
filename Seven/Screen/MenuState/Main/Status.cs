@@ -37,9 +37,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         public Status()
             : base(
                 2,
-                Config.Instance.WindowHeight / 9,
-                Config.Instance.WindowWidth * 4 / 5,
-                Config.Instance.WindowHeight * 7 / 9)
+                Seven.Config.WindowHeight / 9,
+                Seven.Config.WindowWidth * 4 / 5,
+                Seven.Config.WindowHeight * 7 / 9)
         {
         }
         

@@ -31,8 +31,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         
         public Prompt()
             : base(
-                Config.Instance.WindowWidth / 2 - width / 2,
-                Config.Instance.WindowHeight / 2 - height / 2,
+                Seven.Config.WindowWidth / 2 - width / 2,
+                Seven.Config.WindowHeight / 2 - height / 2,
                 width, 
                 height)
         {

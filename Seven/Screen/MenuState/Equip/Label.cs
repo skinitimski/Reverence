@@ -10,10 +10,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
     {
         public Label()
             : base(
-                Config.Instance.WindowWidth * 5 / 6,
-                Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth / 6 - 10,
-                Config.Instance.WindowHeight / 15)
+                Seven.Config.WindowWidth * 5 / 6,
+                Seven.Config.WindowHeight / 20,
+                Seven.Config.WindowWidth / 6 - 10,
+                Seven.Config.WindowHeight / 15)
         { }
 
         protected override void DrawContents(Gdk.Drawable d)

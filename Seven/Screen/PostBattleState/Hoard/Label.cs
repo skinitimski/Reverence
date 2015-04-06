@@ -18,9 +18,9 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         public Label()
             : base(
                 2,
-                Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth - 10,
-                Config.Instance.WindowHeight / 12 - 6)
+                Seven.Config.WindowHeight / 20,
+                Seven.Config.WindowWidth - 10,
+                Seven.Config.WindowHeight / 12 - 6)
         { }
         public override void ControlHandle(Key k) { }
         protected override void DrawContents(Gdk.Drawable d)

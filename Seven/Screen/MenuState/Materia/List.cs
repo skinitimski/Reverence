@@ -26,10 +26,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         public List()
             : base(
-                Config.Instance.WindowWidth * 5 / 8,
-                Config.Instance.WindowHeight * 5 / 12,
-                Config.Instance.WindowWidth * 3 / 8 - 8,
-                Config.Instance.WindowHeight * 8 / 15)
+                Seven.Config.WindowWidth * 5 / 8,
+                Seven.Config.WindowHeight * 5 / 12,
+                Seven.Config.WindowWidth * 3 / 8 - 8,
+                Seven.Config.WindowHeight * 8 / 15)
         { }
         
         public override void ControlHandle(Key k)

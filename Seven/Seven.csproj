@@ -6,7 +6,7 @@
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{164FDDDF-F2F8-4888-9347-8DB9C49F941C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Atmosphere.Reverence.Seven</RootNamespace>
     <AssemblyName>Seven</AssemblyName>
   </PropertyGroup>
@@ -19,6 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
+    <Commandlineparameters>/vol/mono/Reverence/Seven/Data/config.xml</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -327,5 +328,6 @@
     <None Include="Data\savegame.1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Data\config.xml" />
   </ItemGroup>
 </Project>

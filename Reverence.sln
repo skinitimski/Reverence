@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reverence", "Reverence\Reverence.csproj", "{DF68106F-B25E-4E31-8EFF-ECF119A41A98}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverenceLib", "ReverenceLib\ReverenceLib.csproj", "{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "Seven\Seven.csproj", "{164FDDDF-F2F8-4888-9347-8DB9C49F941C}"
@@ -27,13 +25,9 @@ Global
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DF68106F-B25E-4E31-8EFF-ECF119A41A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Reverence\Reverence.csproj
+		StartupItem = Seven\Seven.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedHierarchical

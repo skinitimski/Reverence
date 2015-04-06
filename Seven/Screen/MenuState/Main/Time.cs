@@ -11,7 +11,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         #region Layout
         
         int x1 = 10;
-        int x2 = Config.Instance.WindowWidth / 4 - 10;
+        int x2 = Seven.Config.WindowWidth / 4 - 10;
         int y1 = 30;
         int y2 = 65;
         
@@ -19,10 +19,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 
         public Time()
             : base(
-                Config.Instance.WindowWidth * 3 / 4 - 10,
-                Config.Instance.WindowHeight * 7 / 10,
-                Config.Instance.WindowWidth / 4,
-                Config.Instance.WindowHeight * 3 / 20)
+                Seven.Config.WindowWidth * 3 / 4 - 10,
+                Seven.Config.WindowHeight * 7 / 10,
+                Seven.Config.WindowWidth / 4,
+                Seven.Config.WindowHeight * 3 / 20)
         { }
         
         

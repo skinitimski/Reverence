@@ -25,9 +25,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public StatusBarLeft()
             : base(
                 5,
-                Config.Instance.WindowHeight * 7 / 10,
-                Config.Instance.WindowWidth * 2 / 5,
-                (Config.Instance.WindowHeight * 5 / 20) - 5)
+                Seven.Config.WindowHeight * 7 / 10,
+                Seven.Config.WindowWidth * 2 / 5,
+                (Seven.Config.WindowHeight * 5 / 20) - 5)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

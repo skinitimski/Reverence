@@ -36,9 +36,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         public Main(IEnumerable<MagicSpell> spells)
             : base(
                 5,
-                Config.Instance.WindowHeight * 7 / 10 + 20,
-                Config.Instance.WindowWidth * 3 / 4,
-                (Config.Instance.WindowHeight * 5 / 20) - 25)
+                Seven.Config.WindowHeight * 7 / 10 + 20,
+                Seven.Config.WindowWidth * 3 / 4,
+                (Seven.Config.WindowHeight * 5 / 20) - 25)
         {
             _spells = new MagicSpell[_totalRows, COLUMNS];
 

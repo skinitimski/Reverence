@@ -27,10 +27,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
         public List()
             : base(
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 22 / 60,
-                Config.Instance.WindowWidth / 2 - 9,
-                Config.Instance.WindowHeight * 7 / 12)
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 22 / 60,
+                Seven.Config.WindowWidth / 2 - 9,
+                Seven.Config.WindowHeight * 7 / 12)
         { 
             _characters = new Character[3, 3];
         }

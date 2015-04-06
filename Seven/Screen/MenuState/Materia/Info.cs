@@ -11,9 +11,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         public  Info()
             : base(
                 2,
-                Config.Instance.WindowHeight * 7 / 20,
-                Config.Instance.WindowWidth - 10,
-                Config.Instance.WindowHeight / 15)
+                Seven.Config.WindowHeight * 7 / 20,
+                Seven.Config.WindowWidth - 10,
+                Seven.Config.WindowHeight / 15)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

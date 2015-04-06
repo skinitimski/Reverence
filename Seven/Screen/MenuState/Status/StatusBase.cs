@@ -18,9 +18,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         protected StatusBase()
             : base(
                 2,
-                Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth - 10,
-                Config.Instance.WindowHeight * 9 / 10)
+                Seven.Config.WindowHeight / 20,
+                Seven.Config.WindowWidth - 10,
+                Seven.Config.WindowHeight * 9 / 10)
         {
         }
 

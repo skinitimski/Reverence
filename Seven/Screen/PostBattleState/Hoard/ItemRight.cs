@@ -20,10 +20,10 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         
         public ItemRight()
             : base(
-                Config.Instance.WindowWidth / 2,
-                Config.Instance.WindowHeight * 13 / 60,
-                Config.Instance.WindowWidth / 2 - 8,
-                Config.Instance.WindowHeight * 3 / 4 - 6)
+                Seven.Config.WindowWidth / 2,
+                Seven.Config.WindowHeight * 13 / 60,
+                Seven.Config.WindowWidth / 2 - 8,
+                Seven.Config.WindowHeight * 3 / 4 - 6)
         { }
         protected override void DrawContents(Gdk.Drawable d)
         {

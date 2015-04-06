@@ -10,10 +10,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
     {
         public Label()
             : base(
-                Config.Instance.WindowWidth * 3 / 4,
-                Config.Instance.WindowHeight / 20,
-                Config.Instance.WindowWidth / 4 - 10,
-                Config.Instance.WindowHeight / 15)
+                Seven.Config.WindowWidth * 3 / 4,
+                Seven.Config.WindowHeight / 20,
+                Seven.Config.WindowWidth / 4 - 10,
+                Seven.Config.WindowHeight / 15)
         { }
 
         public override void ControlHandle(Key k)
