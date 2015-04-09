@@ -24,8 +24,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         #region Member Data
                 
         private Character _c;
-        private List<MagicSpell> _magicSpells;
-        private List<Summon> _summons;
+        private List<MagicMenuEntry> _magicSpells;
+        private List<SummonMenuEntry> _summons;
                 
         #endregion Member Data
 
@@ -69,14 +69,23 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 MagicMenu = null;
             }
-            
-            SummonMenu = new Screens.Summon.Main(Summons, BattleMenu.WSummon);
+
+            if (BattleMenu.WSummon)
+            {
+                SummonMenu = new Screens.Summon.WSummon(Summons);
+            }
+            else
+            {
+                SummonMenu = new Screens.Summon.Main(Summons);
+            }
+
             if (!SummonMenu.IsValid)
             {
                 SummonMenu = null;
             }
             
             EnemySkillMateria m = new EnemySkillMateria(GetEnemySkillMask());
+
             if (m.AP > 0)
             {
                 EnemySkillMenu = new Screens.EnemySkill.Main(m);
@@ -88,153 +97,132 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        private void GetMagicSpells(SlotHolder sh, List<MagicSpell> list)
+        private void GetMagicSpells(SlotHolder sh, List<MagicMenuEntry> list)
         {
+            // First, add all the new magic spells.
+            foreach (MateriaOrb m in sh.Slots)
+            {
+                if (m is MagicMateria)
+                {
+                    foreach (Spell s in ((MagicMateria)m).GetSpells)
+                    {
+                        if (!list.Any(x => x.ID == m.Name))
+                        {
+                            list.Add(new MagicMenuEntry(s));
+                        }
+                    }
+                }
+            }
+
             for (int i = 0; i < sh.Links; i++)
             {
-                MateriaBase left = sh.Slots[i * 2];
-                MateriaBase right = sh.Slots[(i * 2) + 1];
+                MateriaOrb left = sh.Slots[i * 2];
+                MateriaOrb right = sh.Slots[(i * 2) + 1];
                 
                 if (left is MagicMateria && right is SupportMateria)
                 {
-                    MateriaBase temp = left;
+                    MateriaOrb temp = left;
                     left = right;
                     right = temp;
                 }
+
                 if (right is MagicMateria && left is SupportMateria)
                 {
                     foreach (Spell s in ((MagicMateria)right).GetSpells)
                     {
-                        bool replace = false;
                         for (int j = 0; j < list.Count; j++)
                         {
                             if (list[j].ID == s.ID)
                             {
-                                replace = true;
-                                MagicSpell ms = list[j];
-                                ms.AddAbility((SupportMateria)left);
-                                list[j] = ms;
+                                list[j].AddAbility((SupportMateria)left);
                             }
                         }
-                        if (!replace)
-                        {
-                            MagicSpell t = new MagicSpell(s);
-                            t.AddAbility((SupportMateria)left);
-                            list.Add(t);
-                        }
                     }
-                }
-                else
-                {
-                    if (right is MagicMateria)
-                    {
-                        foreach (Spell s in ((MagicMateria)right).GetSpells)
-                            list.Add(new MagicSpell(s));
-                    }
-                    if (left is MagicMateria)
-                    {
-                        foreach (Spell s in ((MagicMateria)left).GetSpells)
-                            list.Add(new MagicSpell(s));
-                    }
-                }
-            }
-            for (int j = sh.Links * 2; j < sh.Slots.Length; j++)
-            {
-                MateriaBase m = sh.Slots[j];
-                if (m is MagicMateria)
-                {
-                    foreach (Spell s in ((MagicMateria)m).GetSpells)
-                        list.Add(new MagicSpell(s));
                 }
             }
         }
 
         private void GetMagicSpells()
         {
-            List<MagicSpell> spells = new List<MagicSpell>();
+            List<MagicMenuEntry> spells = new List<MagicMenuEntry>();
             
             GetMagicSpells(Weapon, spells);
             GetMagicSpells(Armor, spells);
             
-            spells.Sort(MagicSpell.Compare);
+            spells.Sort(MagicMenuEntry.Compare);
             _magicSpells = spells;
         }
         
-        private void GetSummons(SlotHolder sh, List<Summon> list)
-        {
+        private void GetSummons(SlotHolder sh, List<SummonMenuEntry> list)
+        {    
+            // First, add all the new summons.
+            foreach (MateriaOrb m in sh.Slots)
+            {
+                if (m is SummonMateria)
+                {
+                    if (!list.Any(x => x.Name == m.Name))
+                    {
+                        foreach (Spell s in ((SummonMateria)m).GetSpells)
+                        {
+                            list.Add(new SummonMenuEntry(m.Name, s));
+                        }
+                    }
+                }
+            }
+
+            // Then, go through and attach any support abilities
             for (int i = 0; i < sh.Links; i++)
             {
-                MateriaBase left = sh.Slots[i * 2];
-                MateriaBase right = sh.Slots[(i * 2) + 1];
-                
+                MateriaOrb left = sh.Slots[i * 2];
+                MateriaOrb right = sh.Slots[(i * 2) + 1];
+
+                // If we have a summon-support pair, swap 'em
                 if (left is SummonMateria && right is SupportMateria)
                 {
-                    MateriaBase temp = left;
+                    MateriaOrb temp = left;
                     left = right;
                     right = temp;
                 }
+
+                // Now if we have a support-summon pair (and, inclusively, if we previously had
+                //     a summon-support pair), match 'em up
                 if (right is SummonMateria && left is SupportMateria)
                 {
-                    bool replace = false;
                     for (int j = 0; j < list.Count; j++)
                     {
                         if (list[j].Name == right.Name)
                         {
-                            replace = true;
-                            Summon ss = list[j];
-                            ss.AddAbility((SupportMateria)left);
-                            list[j] = ss;
+                            list[j].AddAbility((SupportMateria)left);
                         }
                     }
-                    if (!replace)
-                    {
-                        Summon t = new Summon(right.Name, ((SummonMateria)right));
-                        t.AddAbility((SupportMateria)left);
-                        list.Add(t);
-                    }
-                }
-                else
-                {
-                    if (right is SummonMateria)
-                    {
-                        list.Add(new Summon(right.Name, ((SummonMateria)right)));
-                    }
-                    if (left is SummonMateria)
-                    {
-                        list.Add(new Summon(left.Name, ((SummonMateria)left)));
-                    }
-                }
-            }
-            for (int j = sh.Links * 2; j < sh.Slots.Length; j++)
-            {
-                MateriaBase m = sh.Slots[j];
-                if (m is SummonMateria)
-                {
-                    list.Add(new Summon(m.Name, (SummonMateria)m));
                 }
             }
         }
 
         private void GetSummons()
         {
-            List<Summon> summons = new List<Summon>();
+            List<SummonMenuEntry> summons = new List<SummonMenuEntry>();
             
             GetSummons(Weapon, summons);
             
             GetSummons(Armor, summons);
             
-            summons.Sort(Summon.Compare);
+            summons.Sort(SummonMenuEntry.Compare);
             _summons = summons;
         }
         
         private int GetEnemySkillMask()
         {
             int ap = 0;
-            foreach (MateriaBase m in Materia)
+
+            foreach (MateriaOrb m in Materia)
+            {
                 if (m is EnemySkillMateria)
                 {
                     ap = ap | m.AP;
                 }
+            }
+
             return ap;
         }
         
@@ -645,7 +633,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 }
                 else
                 {
-                    foreach (MateriaBase m in Materia)
+                    foreach (MateriaOrb m in Materia)
                     {
                         if (m != null && m.ID == "longrange")
                         {
@@ -675,9 +663,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed || Imprisoned; } }
         
-        public List<MagicSpell> MagicSpells { get { return _magicSpells; } }
+        public List<MagicMenuEntry> MagicSpells { get { return _magicSpells; } }
 
-        public List<Summon> Summons { get { return _summons; } }
+        public List<SummonMenuEntry> Summons { get { return _summons; } }
         
         public BattleMenu BattleMenu { get; private set; }
 
@@ -691,7 +679,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public Armor Armor { get { return _c.Armor; } }
 
-        public IEnumerable<MateriaBase> Materia { get { return _c.Materia; } }
+        public IEnumerable<MateriaOrb> Materia { get { return _c.Materia; } }
         
         #endregion Properties
         

@@ -19,7 +19,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         protected SlotHolder(XmlNode node)
             : base(node)
         {            
-            Slots = new MateriaBase[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
+            Slots = new MateriaOrb[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
             Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
             
             if (Links > Slots.Length / 2)
@@ -35,7 +35,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         public Growth Growth { get; private set; }
         
-        public MateriaBase[] Slots  { get; private set; }
+        public MateriaOrb[] Slots  { get; private set; }
         
         public int Links  { get; private set; }
     }

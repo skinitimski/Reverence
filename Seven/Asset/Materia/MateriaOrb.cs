@@ -11,12 +11,12 @@ using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-	internal abstract class MateriaBase
+	internal abstract class MateriaOrb
     {
 
         #region Nested
 
-        internal class MateriaRecord
+        private class MateriaDefinition
         {
             public int hpp;
             public int mpp;
@@ -33,7 +33,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             public int[] tiers;
             public string[] abilities;
             
-            private MateriaRecord() 
+            private MateriaDefinition() 
             {
                 Name = String.Empty;
                 Desc = String.Empty;
@@ -47,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
             }
             
-            public MateriaRecord(string name, string desc, string ability) 
+            public MateriaDefinition(string name, string desc, string ability) 
                 : this()
             {
                 Name = name;
@@ -56,7 +56,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 abilities = new string[] { ability };
             }
 
-            public MateriaRecord(XmlNode node)
+            public MateriaDefinition(XmlNode node)
                 : this()
             {
                 Name = node.SelectSingleNode("name").InnerText;
@@ -136,29 +136,80 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             public LuaFunction DoDetach { get; private set; }
 
         }
+        
+        
+        private class MasterMagicMateria : MagicMateria
+        {        
+            internal static readonly MateriaOrb.MateriaDefinition MasterMagic;
+            
+            static MasterMagicMateria()
+            {
+                MasterMagic = new MateriaOrb.MateriaDefinition("Master Magic", "Equips all magical spells", "All Magic");
+            }
+            
+            public MasterMagicMateria() : base(MasterMagic.ID, 0) { }
+            
+            
+            public override List<Spell> GetSpells
+            {
+                get
+                {
+                    List<Spell> sp = new List<Spell>();
+                    
+                    foreach (Spell s in Spell.GetMagicSpells())
+                    {
+                        sp.Add(s);
+                    }
+                    
+                    return sp;
+                }
+            }
+        }
+        
+        
+        private class MasterSummonMateria : SummonMateria
+        {        
+            internal static readonly MateriaOrb.MateriaDefinition MasterMagic;
+            
+            static MasterSummonMateria()
+            {
+                MasterMagic = new MateriaOrb.MateriaDefinition("Master Summon", "Equips all summons", "All Summons");
+            }
+            
+            public MasterSummonMateria() : base(MasterMagic.ID, 0) { }
+            
+            
+            public override List<Spell> GetSpells
+            {
+                get
+                {
+                    List<Spell> sp = new List<Spell>();
+                    
+                    foreach (Spell s in Spell.GetSummonSpells())
+                    {
+                        sp.Add(s);
+                    }
+                    
+                    return sp;
+                }
+            }
+        }
 
         #endregion
 
 
 
-        #region Member Data
 
-        protected int _ap;
-        protected int _level;
+        private static Dictionary<string, MateriaDefinition> _data;
 
-        protected static Dictionary<string, MateriaRecord> _data;
-        private static Dictionary<string, MateriaBase> _masterTable;
-
-        #endregion Member Data
 
 
 
 
         
-        static MateriaBase()
+        static MateriaOrb()
         {
-            _masterTable = new Dictionary<string, MateriaBase>();
-            _data = new Dictionary<string, MateriaRecord>();
+            _data = new Dictionary<string, MateriaDefinition>();
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.materia.xml", typeof(Seven).Assembly);
             
@@ -169,55 +220,34 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                     continue;
                 }
                 
-                MateriaRecord rec = new MateriaRecord(node);
+                MateriaDefinition rec = new MateriaDefinition(node);
                 
                 _data.Add(rec.ID, rec);
-                
-                int ap = _data[rec.ID].tiers[_data[rec.ID].tiers.Length - 1];
-                
-                switch (rec.type)
-                {
-                    case MateriaType.Magic:
-                        AddMaster(new MagicMateria(rec.ID, ap));
-                        break;
-                    case MateriaType.Support:
-                        AddMaster(new SupportMateria(rec.ID, ap));
-                        break;
-                    case MateriaType.Command:
-                        AddMaster(new CommandMateria(rec.ID, ap));
-                        break;
-                    case MateriaType.Independent:
-                        AddMaster(new IndependentMateria(rec.ID, ap));
-                        break;
-                    case MateriaType.Summon:
-                        AddMaster(new SummonMateria(rec.ID, ap));
-                        break;
-                }
             }
             
             _data.Add(MasterMagicMateria.MasterMagic.ID, MasterMagicMateria.MasterMagic);
         }
 
 
-        private MateriaBase()
+        private MateriaOrb()
         {
         }
                 
-        protected MateriaBase(string name, int ap)
+        protected MateriaOrb(string name, int ap)
         {
             Record = _data[name];
 
-            _level = 0;
-            _ap = 0;
+            Level = 0;
+            AP = 0;
 
             AddAP(ap);
         }
 
 
 
-        public static MateriaBase Create(string id, int ap, MateriaType type)
+        public static MateriaOrb Create(string id, int ap, MateriaType type)
         {
-            MateriaBase materia = null;
+            MateriaOrb materia = null;
 
             if (id == "enemyskill")
             {
@@ -247,24 +277,9 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             return materia;
         }
 
-        #region Masters
 
 
-        private static void AddMaster(MateriaBase m)
-        {
-            _masterTable.Add(m.Name, m);
-        }
-
-        public static MateriaBase GetMaster(string name)
-        {
-            return _masterTable[name];
-        }
-
-        #endregion Masters
-
-
-
-        public static int CompareByType(MateriaBase left, MateriaBase right)
+        public static int CompareByType(MateriaOrb left, MateriaOrb right)
         {
             // Why aren't we seeing nulls?
 
@@ -290,7 +305,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             return comparison;
         }
 
-        public static int CompareByOrder(MateriaBase left, MateriaBase right)
+        public static int CompareByOrder(MateriaOrb left, MateriaOrb right)
         {
             int comparison = 0;
 
@@ -322,14 +337,14 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 
         public virtual void AddAP(int delta)
         {
-            _ap += delta;
+            AP += delta;
 
             // check for master
             //   master materia still builds ap at an unbounded rate
             //   but cannot level up any more
             if (Master) return;
 
-            while (_ap >= Tiers[_level + 1])
+            while (AP >= Tiers[Level + 1])
             {
                 LevelUp();
 
@@ -342,7 +357,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         private void LevelUp()
         {
-            _level++;
+            Level++;
         }
 
 
@@ -389,10 +404,10 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         public string Name { get { return Record.Name;} }
         public string Description { get { return Record.Desc; } }
         public string ID { get { return Resource.CreateID(Name); } }
-        public int AP { get { return _ap; } }
-        public int Level { get { return _level; } }
+        public int AP { get; protected set; }
+        public int Level { get; private set; }
         public int[] Tiers { get { return Record.tiers; } }
-        public bool Master { get { return _level == Tiers.Length - 1; } }
+        public bool Master { get { return Level == Tiers.Length - 1; } }
 
         public int StrengthMod { get { return Record.str; } }
         public int VitalityMod { get { return Record.vit; } }
@@ -408,11 +423,12 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         public abstract MateriaType Type { get; }
 
         public abstract List<string> Abilities { get; }
+
         public virtual string[] AllAbilities { get { return Record.abilities; } }
 
         protected abstract int TypeOrder { get; }
 
-        private MateriaRecord Record { get; set; }
+        private MateriaDefinition Record { get; set; }
 	}
 
 

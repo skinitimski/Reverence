@@ -123,7 +123,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     {
                         break;
                     }
-                    MateriaBase orb;
+                    MateriaOrb orb;
                     switch (optionY)
                     {
                         case 0:
@@ -259,7 +259,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             }
         }
 
-        public MateriaBase Selection
+        public MateriaOrb Selection
         {
             get
             {

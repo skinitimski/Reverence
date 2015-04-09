@@ -6,13 +6,17 @@ using Cairo;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-    internal class IndependentMateria : MateriaBase
+    internal class IndependentMateria : MateriaOrb
     {
         private static readonly Color ORB_COLOR = new Color(.8, .0, .8);
 
         public IndependentMateria(string name, int ap) : base(name, ap) { }
 
         public override Color Color { get { return ORB_COLOR; } }
+        
+        protected override int TypeOrder { get { return 3; } }
+
+        public override MateriaType Type { get { return MateriaType.Independent; } }
 
         public override List<string> Abilities
         {
@@ -32,9 +36,6 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 return abilities;
             }
         }
-
-        protected override int TypeOrder { get { return 3; } }
-        public override MateriaType Type { get { return MateriaType.Independent; } }
 
     }
 

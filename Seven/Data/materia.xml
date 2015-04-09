@@ -1064,7 +1064,7 @@
             <tier>35000</tier>
         </tiers>
         <order>90</order>
-        <abilities>Deathblow!!,Fat Chocobo</abilities>
+        <abilities>Deathblow!!</abilities>
     </materia>
     <materia>
         <name>Shiva</name>
@@ -1174,7 +1174,7 @@
             <tier>90000</tier>
         </tiers>
         <order>65</order>
-        <abilities>Steel Bladed Sword,Gunge Lance</abilities>
+        <abilities>Steel Bladed Sword</abilities>
     </materia>
     <materia>
         <name>Leviathan</name>

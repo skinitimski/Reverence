@@ -36,10 +36,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
             int x_spacing;
 
+
             int corner;
-            int rIndex;
-            int gIndex;
-            int bIndex;
+            int[] indicies = new int[3];
+            int[] indicies_orig = new int[3];
 
             int option_y;
 
@@ -50,7 +50,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
                 this.corner = corner;
 
-                GetCornerColor(corner, out rIndex, out gIndex, out bIndex);
+                GetCornerColor(corner, out indicies[0], out indicies[1], out indicies[2]);
+                GetCornerColor(corner, out indicies_orig[0], out indicies_orig[1], out indicies_orig[2]);
                 
                 Owner = owner;
             }
@@ -72,43 +73,31 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                         }
                         break;
                     case Key.Left: 
-                        switch (option_y)
+                        if (indicies[option_y] > 0)
                         {
-                            case 0:
-                                rIndex--;
-                                break;
-                            case 1:
-                                gIndex--;
-                                break;
-                            case 2:
-                                bIndex--;
-                                break;
+                            indicies[option_y]--;
                         }
                         break;
                     case Key.Right: 
-                        switch (option_y)
+                        if (indicies[option_y] < 10)
                         {
-                            case 0:
-                                rIndex++;
-                                break;
-                            case 1:
-                                gIndex++;
-                                break;
-                            case 2:
-                                bIndex++;
-                                break;
+                            indicies[option_y]++;
                         }
                         break;
                     case Key.X:
-                        Menu.Menu.SetCornerColor(corner, rIndex, gIndex, bIndex);
-                        Seven.MenuState.UpdateAllBackgrounds();
+                        Menu.Menu.SetCornerColor(corner, indicies_orig[0], indicies_orig[1], indicies_orig[2]);
                         Owner.ReturnFromSubMenu();
                         break;
                     case Key.Circle:
+                        Seven.MenuState.UpdateAllBackgrounds();
+                        Owner.ReturnFromSubMenu();
                         break;
                     default:
                         break;
                 }
+                
+                Menu.Menu.SetCornerColor(corner, indicies[0], indicies[1], indicies[2]);
+                Visible = Visible;
             }
             
             protected override void DrawContents(Gdk.Drawable d)
@@ -122,9 +111,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
                 for (int i = 0; i < 11; i++)
                 {
-                    cr = i == rIndex ? Colors.WHITE : Colors.GRAY_4;
-                    cg = i == gIndex ? Colors.WHITE : Colors.GRAY_4;
-                    cb = i == bIndex ? Colors.WHITE : Colors.GRAY_4;
+                    cr = i == indicies[0] ? Colors.WHITE : Colors.GRAY_4;
+                    cg = i ==  indicies[1] ? Colors.WHITE : Colors.GRAY_4;
+                    cb = i ==  indicies[2] ? Colors.WHITE : Colors.GRAY_4;
 
                     int x = X + x0 + x_spacing * (i + 1);
                     

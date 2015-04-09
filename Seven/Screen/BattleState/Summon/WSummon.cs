@@ -10,18 +10,17 @@ using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
-namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
+namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {       
-    internal class WMagic : Main
+    internal class WSummon : Main
     {        
         private class Choice
         {
-            public int X;
-            public int Y;
+            public int Option;
             public IEnumerable<Combatant> Targets;
         }
         
-        public WMagic(IEnumerable<MagicMenuEntry> spells)
+        public WSummon(IEnumerable<SummonMenuEntry> spells)
             : base(spells)
         {
         }
@@ -36,9 +35,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                     if (FirstChoice != null)
                     {
-                        if (_spells[_yopt, _xopt] != null)
+                        if (_summons[_option] != null)
                         {
-                            Spell spell = _spells[_yopt, _xopt].Spell;
+                            Spell spell = _summons[_option].Spell;
                         
                             if (CommandingAvailableMP < spell.MPCost)
                             {
@@ -62,8 +61,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             if (FirstChoice != null)
             {
-                UseSpell(FirstChoice.X, FirstChoice.Y, FirstChoice.Targets, false);
-                UseSpell(_xopt, _yopt, targets);
+                UseSpell(FirstChoice.Option, FirstChoice.Targets, false);
+                UseSpell(_option, targets);
 
                 return true;
             }
@@ -71,8 +70,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             {
                 FirstChoice = new Choice
                 {
-                    X = _xopt,
-                    Y = _yopt,
+                    Option = _option,
                     Targets = targets
                 };
 
@@ -95,7 +93,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                 if (FirstChoice != null)
                 {
-                    mp -= _spells[FirstChoice.Y, FirstChoice.X].Spell.MPCost;
+                    mp -= _summons[FirstChoice.Option].Spell.MPCost;
                 }
 
                 return mp; 

@@ -106,7 +106,6 @@
     <Compile Include="Asset\WeaponType.cs" />
     <Compile Include="Asset\Element.cs" />
     <Compile Include="Asset\Growth.cs" />
-    <Compile Include="Asset\Materia\MateriaBase.cs" />
     <Compile Include="Asset\Materia\MateriaType.cs" />
     <Compile Include="Materiatory.cs" />
     <Compile Include="Inventory.cs" />
@@ -144,8 +143,6 @@
     <Compile Include="State\BattleState.cs" />
     <Compile Include="Battle\Enemy.cs" />
     <Compile Include="Battle\Combatant.cs" />
-    <Compile Include="Asset\MagicSpell.cs" />
-    <Compile Include="Asset\Summon.cs" />
     <Compile Include="Screen\BattleState\BattleMenu.cs" />
     <Compile Include="Screen\BattleState\BattleScreen.cs" />
     <Compile Include="Screen\BattleState\EventBar.cs" />
@@ -197,7 +194,6 @@
     <Compile Include="Screen\BattleState\BattleIcon.cs" />
     <Compile Include="Battle\Formation.cs" />
     <Compile Include="Battle\FormationType.cs" />
-    <Compile Include="Asset\Materia\MasterMagicMateria.cs" />
     <Compile Include="Asset\Spell.cs" />
     <Compile Include="Screen\MenuState\MessageBox.cs" />
     <Compile Include="Test\LevelUpDemo.cs" />
@@ -209,6 +205,10 @@
     <Compile Include="Screen\MenuState\Config\Main.cs" />
     <Compile Include="Screen\MenuState\Config\WindowColor.cs" />
     <Compile Include="Asset\InventoryItemType.cs" />
+    <Compile Include="Screen\BattleState\Summon\WSummon.cs" />
+    <Compile Include="Asset\Materia\MateriaOrb.cs" />
+    <Compile Include="Battle\SummonMenuEntry.cs" />
+    <Compile Include="Battle\MagicMenuEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

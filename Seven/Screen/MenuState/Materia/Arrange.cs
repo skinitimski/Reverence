@@ -50,7 +50,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         case 2:
                             for (int i = 0; i < Seven.Party.Selected.Weapon.Slots.Length; i++)
                             {
-                                MateriaBase orb = Seven.Party.Selected.Weapon.Slots[i];
+                                MateriaOrb orb = Seven.Party.Selected.Weapon.Slots[i];
                                 if (orb != null)
                                 {
                                     Seven.Party.Selected.Weapon.Slots[i] = null;
@@ -60,7 +60,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                             }
                             for (int j = 0; j < Seven.Party.Selected.Armor.Slots.Length; j++)
                             {
-                                MateriaBase orb = Seven.Party.Selected.Armor.Slots[j];
+                                MateriaOrb orb = Seven.Party.Selected.Armor.Slots[j];
                                 if (orb != null)
                                 {
                                     Seven.Party.Selected.Armor.Slots[j] = null;

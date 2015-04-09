@@ -193,6 +193,11 @@ namespace Atmosphere.Reverence.Seven.Asset
             return _summonSpells[id];
         }
         
+        public static IEnumerable<Spell> GetSummonSpells()
+        {
+            return _summonSpells.Values.ToList();
+        }
+        
         public static Spell GetEnemySkillSpell(string id)
         {
             return _enemySkillSpells[id];
@@ -287,6 +292,11 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
         public static int MagicSpellCount { get { return _magicSpells.Count; } }
+        
+        public static int SummonCount { get { return _summonSpells.Count; } }
+        
+        public static int EnemySkillCount { get { return _enemySkillSpells.Count; } }
+
     }
 }
 

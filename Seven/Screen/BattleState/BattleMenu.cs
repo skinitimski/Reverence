@@ -9,7 +9,6 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
-using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
@@ -65,7 +64,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Item Menu
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null && m.ID == "witem")
                 {
@@ -82,7 +81,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             int o = 0;
 
             #region Attack
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null)
                 {
@@ -138,7 +137,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Magic Menu
             int c = 0;
-            foreach (MagicSpell s in a.MagicSpells)
+            foreach (MagicMenuEntry s in a.MagicSpells)
             {
                 c++;
             }
@@ -146,7 +145,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 _magicMenuOption = o;
                 o++;
-                foreach (MateriaBase m in a.Materia)
+                foreach (MateriaOrb m in a.Materia)
                 {
                     if (m != null && m.ID == "wmagic")
                     {
@@ -170,7 +169,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Summon Menu
             c = 0;
 
-            foreach (SummonSpell s in a.Summons)
+            foreach (SummonMenuEntry s in a.Summons)
             {
                 c++;
             }
@@ -179,7 +178,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 _summonMenuOption = o;
                 o++;
-                foreach (MateriaBase m in a.Materia)
+                foreach (MateriaOrb m in a.Materia)
                 {
                     if (m != null && m.ID == "wsummon")
                     {
@@ -201,7 +200,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Sense
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null && m.ID == "sense")
                 {
@@ -224,7 +223,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Enemy Skill
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             { 
                 if (m != null && m.ID == "enemyskill")
                 {
@@ -246,7 +245,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Mime
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null && m.ID == "mime")
                 {
@@ -269,7 +268,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Deathblow
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null && m.ID == "deathblow")
                 {
@@ -291,7 +290,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Steal
 
-            foreach (MateriaBase m in a.Materia)
+            foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null && m.ID == "steal")
                 {
@@ -393,7 +392,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _summonMenuOption && !Seven.BattleState.Commanding.Silence)
                     {
-                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
+                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
                     }
                     else if (_option == _senseOption)
                     {

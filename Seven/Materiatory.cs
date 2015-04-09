@@ -9,11 +9,11 @@ namespace Atmosphere.Reverence.Seven
     internal class Materiatory
     {
         public const int MATERIATORY_SIZE = 200;
-        private MateriaBase[] _materiatory;
+        private MateriaOrb[] _materiatory;
 
         public Materiatory()
         {
-            _materiatory = new MateriaBase[MATERIATORY_SIZE];
+            _materiatory = new MateriaOrb[MATERIATORY_SIZE];
         }
         
         public Materiatory(XmlNode savegame)
@@ -31,21 +31,21 @@ namespace Atmosphere.Reverence.Seven
                 int ap = Int32.Parse(node.Attributes ["ap"].Value);
                 int slot = Int32.Parse(node.Attributes ["slot"].Value);
                 
-                _materiatory [slot] = MateriaBase.Create(id, ap, type);
+                _materiatory [slot] = MateriaOrb.Create(id, ap, type);
             }
         }
         
-        public MateriaBase Get(int slot)
+        public MateriaOrb Get(int slot)
         {
             return _materiatory [slot];
         }
         
-        public void Put(MateriaBase orb, int slot)
+        public void Put(MateriaOrb orb, int slot)
         {
             _materiatory [slot] = orb;
         }
 
-        public void Put(MateriaBase orb)
+        public void Put(MateriaOrb orb)
         {
             int i = 0;
             
@@ -59,7 +59,7 @@ namespace Atmosphere.Reverence.Seven
 
         public void Sort()
         {
-            Array.Sort<MateriaBase>(_materiatory, MateriaBase.CompareByType);
+            Array.Sort<MateriaOrb>(_materiatory, MateriaOrb.CompareByType);
 
             // HACK. We want nulls at the end, but for some reason they're not
             // getting passed to the comparison.
@@ -69,8 +69,8 @@ namespace Atmosphere.Reverence.Seven
                 q++;
             }
 
-            MateriaBase[] tempNull = new MateriaBase[q];
-            MateriaBase[] tempNotNull = new MateriaBase[MATERIATORY_SIZE - q];
+            MateriaOrb[] tempNull = new MateriaOrb[q];
+            MateriaOrb[] tempNotNull = new MateriaOrb[MATERIATORY_SIZE - q];
             Array.Copy(_materiatory, 0, tempNull, 0, q);
             Array.Copy(_materiatory, q, tempNotNull, 0, MATERIATORY_SIZE - q);
             Array.Copy(tempNull, 0, _materiatory, MATERIATORY_SIZE - q, q);
@@ -86,9 +86,9 @@ namespace Atmosphere.Reverence.Seven
                 a++;
             }
 
-            MateriaBase[] tempMagic = new MateriaBase[a];
+            MateriaOrb[] tempMagic = new MateriaOrb[a];
             Array.Copy(_materiatory, 0, tempMagic, 0, a);
-            Array.Sort<MateriaBase>(tempMagic, MateriaBase.CompareByOrder);
+            Array.Sort<MateriaOrb>(tempMagic, MateriaOrb.CompareByOrder);
             Array.Copy(tempMagic, 0, _materiatory, 0, a);
             
             
@@ -99,9 +99,9 @@ namespace Atmosphere.Reverence.Seven
                 b++;                
             }
 
-            MateriaBase[] tempSupport = new MateriaBase[b - a];
+            MateriaOrb[] tempSupport = new MateriaOrb[b - a];
             Array.Copy(_materiatory, a, tempSupport, 0, b - a);
-            Array.Sort<MateriaBase>(tempSupport, MateriaBase.CompareByOrder);
+            Array.Sort<MateriaOrb>(tempSupport, MateriaOrb.CompareByOrder);
             Array.Copy(tempSupport, 0, _materiatory, a, b - a);
 
 
@@ -112,9 +112,9 @@ namespace Atmosphere.Reverence.Seven
                 c++;
             }
 
-            MateriaBase[] tempCommand = new MateriaBase[c - b];
+            MateriaOrb[] tempCommand = new MateriaOrb[c - b];
             Array.Copy(_materiatory, b, tempCommand, 0, c - b);
-            Array.Sort<MateriaBase>(tempCommand, MateriaBase.CompareByOrder);
+            Array.Sort<MateriaOrb>(tempCommand, MateriaOrb.CompareByOrder);
             Array.Copy(tempCommand, 0, _materiatory, b, c - b);
 
 
@@ -125,9 +125,9 @@ namespace Atmosphere.Reverence.Seven
                 d++;
             }
 
-            MateriaBase[] tempIndependent = new MateriaBase[d - c];
+            MateriaOrb[] tempIndependent = new MateriaOrb[d - c];
             Array.Copy(_materiatory, c, tempIndependent, 0, d - c);
-            Array.Sort<MateriaBase>(tempIndependent, MateriaBase.CompareByOrder);
+            Array.Sort<MateriaOrb>(tempIndependent, MateriaOrb.CompareByOrder);
             Array.Copy(tempIndependent, 0, _materiatory, c, d - c);
 
 
@@ -138,9 +138,9 @@ namespace Atmosphere.Reverence.Seven
                 e++;
             }
 
-            MateriaBase[] tempSummon = new MateriaBase[e - d];
+            MateriaOrb[] tempSummon = new MateriaOrb[e - d];
             Array.Copy(_materiatory, d, tempSummon, 0, e - d);
-            Array.Sort<MateriaBase>(tempSummon, MateriaBase.CompareByOrder);
+            Array.Sort<MateriaOrb>(tempSummon, MateriaOrb.CompareByOrder);
             Array.Copy(tempSummon, 0, _materiatory, d, e - d);
             
 
@@ -152,7 +152,7 @@ namespace Atmosphere.Reverence.Seven
 
             for (int i = 0; i < MATERIATORY_SIZE; i++)
             {
-                MateriaBase materia = _materiatory[i];
+                MateriaOrb materia = _materiatory[i];
                 if (materia != null)
                 {
                     writer.WriteStartElement("orb");

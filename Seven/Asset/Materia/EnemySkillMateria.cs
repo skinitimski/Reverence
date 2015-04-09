@@ -14,7 +14,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         
         public void LearnSkill(int skill)
         {
-            _ap = _ap & (1 << skill);
+            AP = AP & (1 << skill);
         }
         
         public Spell[] EnemySkills

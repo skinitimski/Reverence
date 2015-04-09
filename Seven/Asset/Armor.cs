@@ -67,7 +67,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
         
-        public void AttachMateria(MateriaBase orb, int slot)
+        public void AttachMateria(MateriaOrb orb, int slot)
         {
             if (slot >= Slots.Length)
             {
@@ -81,7 +81,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             for (int i = 0; i < before.Slots.Length; i++)
             {
-                MateriaBase m = before.Slots[i];
+                MateriaOrb m = before.Slots[i];
 
                 if (m != null)
                 {

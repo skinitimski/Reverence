@@ -6,7 +6,7 @@ using Cairo;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-    internal class SummonMateria : MateriaBase
+    internal class SummonMateria : MateriaOrb
     {
         private static readonly Color ORB_COLOR = new Color(.9, 0, 0);
 
@@ -14,28 +14,26 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public override Cairo.Color Color { get { return ORB_COLOR; } }
 
-        public Spell Spell
-        {
-            get
-            {
-                return Spell.GetSummonSpell(Resource.CreateID(AllAbilities[0]));
-            }
-        }
+        protected override int TypeOrder { get { return 4; } }
+
+        public override MateriaType Type { get { return MateriaType.Summon; } }
 
         public override List<string> Abilities
         {
             get
             {
-                List<string> abilities = new List<string>();
-
-                foreach (string s in AllAbilities) abilities.Add(s);
-
-                return abilities;
+                return new List<string> { AllAbilities.First() };
             }
         }
-
-        protected override int TypeOrder { get { return 4; } }
-        public override MateriaType Type { get { return MateriaType.Summon; } }
+        
+        public virtual List<Spell> GetSpells
+        {
+            get
+            {
+                return Abilities.Select(x => Spell.GetSummonSpell(Resource.CreateID(x))).ToList();
+            }
+        }
+        
         public int Shots { get { return Level + 1; } }
     }
 

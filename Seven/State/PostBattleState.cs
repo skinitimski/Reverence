@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 if (Seven.Party[i] != null)
                 {
-                    foreach (MateriaBase m in Seven.Party[i].Materia)
+                    foreach (MateriaOrb m in Seven.Party[i].Materia)
                     {
                         if (m != null)
                         {
@@ -104,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 if (battle.Allies[i] != null)
                 {
-                    foreach (MateriaBase m in battle.Allies[i].Materia)
+                    foreach (MateriaOrb m in battle.Allies[i].Materia)
                     {
                         if (m != null)
                         {
@@ -250,7 +250,7 @@ namespace Atmosphere.Reverence.Seven.State
                 {
                     Character c = Seven.Party[i];
                     c.GainExperience(Exp * Exp_multiplier[i] / 100);
-                    foreach (MateriaBase m in c.Materia)
+                    foreach (MateriaOrb m in c.Materia)
                     {
                         if (m != null)
                         {

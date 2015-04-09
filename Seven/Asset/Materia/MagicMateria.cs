@@ -6,48 +6,33 @@ using Cairo;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-    internal class MagicMateria : MateriaBase
+    internal class MagicMateria : MateriaOrb
     {
         private static readonly Color ORB_COLOR = new Color(0, .7, .05);
 
         public MagicMateria(string name, int ap) : base(Resource.CreateID(name), ap) { }
 
         public override Color Color { get { return ORB_COLOR; } }
+        
+        protected override int TypeOrder { get { return 0; } }
+        
+        public override MateriaType Type { get { return MateriaType.Magic; } }
 
-        public virtual List<Spell> GetSpells
-        {
-            get
-            {
-                List<Spell> sp = new List<Spell>();
-
-                foreach (string s in Abilities)
-                {
-                    if (s != String.Empty)
-                    {
-                        sp.Add(Spell.GetMagicSpell(Resource.CreateID(s)));
-                    }
-                }
-
-                return sp;
-            }
-        }
         public override List<string> Abilities
         {
             get
             {
-                List<string> abilities = new List<string>();
-
-                for (int i = 0; i < AllAbilities.Length; i++)
-                {
-                    if (Level >= i) abilities.Add(AllAbilities[i]);
-                }
-
-                return abilities;
+                return AllAbilities.TakeWhile((s, i) => i <= Level).ToList();
             }
         }
-
-        protected override int TypeOrder { get { return 0; } }
-        public override MateriaType Type { get { return MateriaType.Magic; } }
+        
+        public virtual List<Spell> GetSpells
+        {
+            get
+            {
+                return Abilities.Select(x => Spell.GetMagicSpell(Resource.CreateID(x))).ToList();
+            }
+        }
     }
 
 

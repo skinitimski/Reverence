@@ -42,7 +42,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             
             TextExtents te;
             
-            MagicSpell s = Seven.BattleState.Commanding.MagicMenu.Selected;
+            MagicMenuEntry s = Seven.BattleState.Commanding.MagicMenu.Selected;
             
             int row = 0;
             

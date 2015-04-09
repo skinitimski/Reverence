@@ -290,7 +290,7 @@ namespace Atmosphere.Reverence.Seven
                     throw new SaveStateException("Materia orb assigned to slot that doesnt exist on weapon.");
                 }
                 
-                _weapon.Slots[slot] = MateriaBase.Create(id, ap, type);
+                _weapon.Slots[slot] = MateriaOrb.Create(id, ap, type);
             }
             
             _armor = Armor.Get(savexml.SelectSingleNode("./armor/name").InnerText);
@@ -306,7 +306,7 @@ namespace Atmosphere.Reverence.Seven
                     throw new SaveStateException("Materia orb assigned to slot that doesnt exist on armor.");
                 }
                 
-                _armor.Slots[slot] = MateriaBase.Create(id, ap, type);
+                _armor.Slots[slot] = MateriaOrb.Create(id, ap, type);
             }
             
             string acc = savexml.SelectSingleNode("./accessory").InnerText;
@@ -394,7 +394,7 @@ namespace Atmosphere.Reverence.Seven
             writer.WriteStartElement("materia");
             for (int i = 0; i < Weapon.Slots.Length; i++)
             {
-                MateriaBase m = Weapon.Slots[i];
+                MateriaOrb m = Weapon.Slots[i];
 
                 if (m != null)
                 {
@@ -415,7 +415,7 @@ namespace Atmosphere.Reverence.Seven
             writer.WriteStartElement("materia");
             for (int i = 0; i < Armor.Slots.Length; i++)
             {
-                MateriaBase m = Armor.Slots[i];
+                MateriaOrb m = Armor.Slots[i];
                                     
                 if (m != null)
                 {
@@ -1140,14 +1140,14 @@ namespace Atmosphere.Reverence.Seven
             {
                 int temp = _maxhp;
 
-                foreach (MateriaBase m in Weapon.Slots)
+                foreach (MateriaOrb m in Weapon.Slots)
                 {
                     if (m != null)
                     {
                         temp += temp * m.HPMod / 100;
                     }
                 }
-                foreach (MateriaBase m in Armor.Slots)
+                foreach (MateriaOrb m in Armor.Slots)
                 {
                     if (m != null)
                     {
@@ -1172,7 +1172,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 int temp = _maxmp;
 
-                foreach (MateriaBase m in Weapon.Slots.Union(Armor.Slots))
+                foreach (MateriaOrb m in Weapon.Slots.Union(Armor.Slots))
                 {
                     if (m != null)
                     {
@@ -1245,7 +1245,7 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
-        public IEnumerable<MateriaBase> Materia { get { return Weapon.Slots.Union(Armor.Slots); } }
+        public IEnumerable<MateriaOrb> Materia { get { return Weapon.Slots.Union(Armor.Slots); } }
         
         public string Name { get; private set; }
 

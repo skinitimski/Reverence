@@ -61,8 +61,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaPrompt);
                         break;
                     }
-                    MateriaBase neworb = Seven.Party.Materiatory.Get(option);
-                    MateriaBase oldorb;
+                    MateriaOrb neworb = Seven.Party.Materiatory.Get(option);
+                    MateriaOrb oldorb;
                     switch (Seven.MenuState.MateriaTop.OptionY)
                     {
                         case 0:
@@ -106,7 +106,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 
                 for (int i = topRow; i < j; i++)
                 {
-                    MateriaBase orb = Seven.Party.Materiatory.Get(i);
+                    MateriaOrb orb = Seven.Party.Materiatory.Get(i);
                     if (orb != null)
                     {
                         Shapes.RenderCircle(g, Colors.WHITE, 9, X + x1, Y + cy + (i - topRow) * y);
@@ -130,7 +130,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         {
             get
             {
-                MateriaBase o = Seven.Party.Materiatory.Get(option);
+                MateriaOrb o = Seven.Party.Materiatory.Get(option);
                 return (o == null) ? "" : o.Description;
             }
         }
@@ -140,7 +140,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             get { return trashing; }
             set { trashing = value; }
         }
-        public MateriaBase Selection
+        public MateriaOrb Selection
         {
             get
             {

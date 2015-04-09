@@ -31,18 +31,18 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         private int _topRow;
         private int _totalRows = (Spell.MagicSpellCount / COLUMNS) + ((Spell.MagicSpellCount % COLUMNS == 0) ? 0 : 1);
         private readonly int _visibleRows = 3;
-        protected MagicSpell[,] _spells;
+        protected MagicMenuEntry[,] _spells;
 
-        public Main(IEnumerable<MagicSpell> spells)
+        public Main(IEnumerable<MagicMenuEntry> spells)
             : base(
                 5,
                 Seven.Config.WindowHeight * 7 / 10 + 20,
                 Seven.Config.WindowWidth * 3 / 4,
                 (Seven.Config.WindowHeight * 5 / 20) - 25)
         {
-            _spells = new MagicSpell[_totalRows, COLUMNS];
+            _spells = new MagicMenuEntry[_totalRows, COLUMNS];
 
-            foreach (MagicSpell s in spells)
+            foreach (MagicMenuEntry s in spells)
             {
                 _spells[s.Spell.Order / COLUMNS, s.Spell.Order % COLUMNS] = s;
             }
@@ -71,7 +71,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             }
 
 
-            MagicSpell[,] newSpells = new MagicSpell[rowsToUse.Count, COLUMNS];
+            MagicMenuEntry[,] newSpells = new MagicMenuEntry[rowsToUse.Count, COLUMNS];
 
             r = 0;
             foreach (int i in rowsToUse)
@@ -172,7 +172,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             {
                 for (int a = 0; a < COLUMNS; a++)
                 {
-                    MagicSpell spell = _spells[b, a];
+                    MagicMenuEntry spell = _spells[b, a];
 
                     if (spell != null)
                     {
@@ -217,7 +217,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         public override string Info
         { get { return Selected == null ? "" : Selected.Spell.Desc; } }
 
-        public MagicSpell Selected { get { return _spells[_yopt, _xopt]; } }
+        public MagicMenuEntry Selected { get { return _spells[_yopt, _xopt]; } }
 
         protected virtual int CommandingAvailableMP { get { return Seven.BattleState.Commanding.MP; } }
     }

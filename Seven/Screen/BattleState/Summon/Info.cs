@@ -5,8 +5,8 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
-using SummonSpell = Atmosphere.Reverence.Seven.Asset.Summon;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {
@@ -42,7 +42,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             
             TextExtents te;
             
-            SummonSpell s = Seven.BattleState.Commanding.SummonMenu.Selected;
+            SummonMenuEntry s = Seven.BattleState.Commanding.SummonMenu.Selected;
             
             int row = 0;
             

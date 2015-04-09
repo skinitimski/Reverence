@@ -4,7 +4,7 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
-    internal class MagicSpell
+    internal class MagicMenuEntry
     {
         private Spell _spell;
         private int _allCount;
@@ -12,7 +12,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         private int _mpTurboFactor;
         //private List<AddedAbility> _addedAbilities;
         
-        public MagicSpell(Spell s)
+        public MagicMenuEntry(Spell s)
         {
             _spell = s;
             _allCount = 0;
@@ -38,7 +38,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
         
-        public static int Compare(MagicSpell left, MagicSpell right)
+        public static int Compare(MagicMenuEntry left, MagicMenuEntry right)
         {
             return Spell.Compare(left.Spell, right.Spell);
         }
@@ -48,7 +48,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         public int QMagicCount { get { return _qmagicCount; } }
         public int MPTurboFactor { get { return _mpTurboFactor; } }
         public string ID { get { return _spell.ID; } }
-        //public List<AddedAbility> AddedAbility { get { return _addedAbilities; } }
     }
 }
 
