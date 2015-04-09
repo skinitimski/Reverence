@@ -11,23 +11,37 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal abstract class SlotHolder : Equipment
     {
-        protected SlotHolder()
-            : base()
-        {
+        protected class SlotHolderData : Equipment.EquipmentData
+        {   
+            public SlotHolderData(XmlNode node)
+                : base(node)
+            {     
+                Slots = Int32.Parse(node.SelectSingleNode("slots").InnerText);
+                Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
+                
+                if (Links > Slots / 2)
+                {
+                    throw new GameDataException("Materia pairs greater than number of slots; id = " + ID);
+                }
+                
+                Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
+            }       
+            
+            
+            
+            public Growth Growth { get; private set; }
+            
+            public int Slots  { get; private set; }
+            
+            public int Links  { get; private set; }
         }
 
-        protected SlotHolder(XmlNode node)
-            : base(node)
+        protected SlotHolder(SlotHolderData data)
+            : base(data)
         {            
-            Slots = new MateriaOrb[Int32.Parse(node.SelectSingleNode("slots").InnerText)];
-            Links = Int32.Parse(node.SelectSingleNode("links").InnerText);
-            
-            if (Links > Slots.Length / 2)
-            {
-                throw new GameDataException("Materia pairs greater than number of slots");
-            }
-            
-            Growth = (Growth)Enum.Parse(typeof(Growth), node.SelectSingleNode("growth").InnerText);
+            Slots = new MateriaOrb[data.Slots];
+            Links = data.Links;
+            Growth = data.Growth;
         }
 
 
@@ -35,7 +49,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         public Growth Growth { get; private set; }
         
-        public MateriaOrb[] Slots  { get; private set; }
+        public MateriaOrb[] Slots { get; private set; }
         
         public int Links  { get; private set; }
     }

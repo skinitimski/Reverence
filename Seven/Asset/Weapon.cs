@@ -11,13 +11,46 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Weapon : SlotHolder
     {
-        private static readonly Dictionary<string, Weapon> _table;
+        private static readonly Dictionary<string, WeaponData> _table;
+
+
+        private class WeaponData : SlotHolder.SlotHolderData
+        {
+            public WeaponData(XmlNode node)
+                : base(node)
+            {     
+                Attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
+                AttackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
+                Magic = Int32.Parse(node.SelectSingleNode("mag").InnerText);
+                CriticalPercent = Int32.Parse(node.SelectSingleNode("critp").InnerText);
+                LongRange = Boolean.Parse(node.SelectSingleNode("longrange").InnerText);
+                
+                Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
+                Wielder = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
+            }
+            
+            public string Description { get; private set; }
+                        
+            public int Attack { get; private set; }
+            
+            public int AttackPercent  { get; private set; }
+            
+            public int Magic  { get; private set; }
+            
+            public int CriticalPercent  { get; private set; }
+            
+            public bool LongRange { get; private set; }
+            
+            public WeaponType Wielder { get; private set; }
+            
+            public Element Element { get; private set; }
+        }
 
 
         
         static Weapon()
         {
-            _table = new Dictionary<string, Weapon>();
+            _table = new Dictionary<string, WeaponData>();
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.weapons.xml", typeof(Seven).Assembly);
             
@@ -28,35 +61,32 @@ namespace Atmosphere.Reverence.Seven.Asset
                     continue;
                 }
 
-                Weapon weapon = new Weapon(node);
+                WeaponData weapon = new WeaponData(node);
                 
                 _table.Add(weapon.ID, weapon);
             }
         }
 
-        private Weapon()
-            : base()
-        {
-        }
 
-        private Weapon(XmlNode node)
-            : base(node)
+
+        private Weapon(WeaponData data)
+            : base(data)
         {     
-            Attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
-            AttackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
-            Magic = Int32.Parse(node.SelectSingleNode("mag").InnerText);
-            CriticalPercent = Int32.Parse(node.SelectSingleNode("critp").InnerText);
-            LongRange = Boolean.Parse(node.SelectSingleNode("longrange").InnerText);
+            Attack = data.Attack;
+            AttackPercent = data.AttackPercent;
+            Magic = data.Magic;
+            CriticalPercent = data.CriticalPercent;
+            LongRange = data.LongRange;
             
-            Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
-            Wielder = (WeaponType)Enum.Parse(typeof(WeaponType), node.SelectSingleNode("type").InnerText);
+            Element = data.Element;
+            Wielder = data.Wielder;
         }
 
 
 
         public static Weapon Get(string id)
         {
-            return _table[id];
+            return new Weapon(_table[id]);
         }
 
 

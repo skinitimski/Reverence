@@ -239,7 +239,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     item = Armor.Get(id);
                     break;
                 case InventoryItemType.accessory:
-                    item = Accessory.AccessoryTable[id];
+                    item = Accessory.Get(id);
                     break;
             }
 

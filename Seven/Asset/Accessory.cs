@@ -13,14 +13,15 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Accessory : Equipment
     {        
-        public static readonly Dictionary<string, Accessory> AccessoryTable;
-
+        private static readonly Dictionary<string, Equipment.EquipmentData> _table;
+        
         public static readonly Accessory EMPTY;
 
         static Accessory()
         {
-            EMPTY = new Accessory();
-            AccessoryTable = new Dictionary<string, Accessory>();
+            EMPTY = new Accessory(Equipment.EquipmentData.EMPTY);
+
+            _table = new Dictionary<string, Equipment.EquipmentData>();
 
             XmlDocument gamedata = Resource.GetXmlFromResource("data.accessories.xml", typeof(Seven).Assembly);
             
@@ -31,25 +32,26 @@ namespace Atmosphere.Reverence.Seven.Asset
                     continue;
                 }
                 
-                Accessory a = new Accessory(node);
+                Equipment.EquipmentData a = new Equipment.EquipmentData(node);
                 
-                AccessoryTable.Add(a.ID, a);
+                _table.Add(a.ID, a);
             }
         }
 
-        private Accessory()
-            : base()
-        {
-        }
 
-        private Accessory(XmlNode node)
-            : base(node)
+        private Accessory(Equipment.EquipmentData data)
+            : base(data)
         {
         }
         
+        
+        public static Accessory Get(string id)
+        {
+            return new Accessory(_table[id]);
+        }
+
+
         public InventoryItemType Type { get { return InventoryItemType.accessory; } }
-
-
     }
 }
 

@@ -14,11 +14,32 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Armor : SlotHolder
     {
-        private static readonly Dictionary<string, Armor> _table;
+        private static readonly Dictionary<string, ArmorData> _table;
+
+
+        private class ArmorData : SlotHolder.SlotHolderData
+        {
+            public ArmorData(XmlNode node)
+                : base(node)
+            {
+                Defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
+                DefensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
+                MagicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
+                MagicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
+            }
+
+            public int Defense { get; private set; }
+            
+            public int DefensePercent { get; private set; }
+            
+            public int MagicDefense { get; private set; }
+            
+            public int MagicDefensePercent { get; private set; }
+        }
         
         static Armor()
         {
-            _table = new Dictionary<string, Armor>();
+            _table = new Dictionary<string, ArmorData>();
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.armour.xml", typeof(Seven).Assembly);
             
@@ -29,30 +50,27 @@ namespace Atmosphere.Reverence.Seven.Asset
                     continue;
                 }
 
-                Armor armor = new Armor(node);
+                ArmorData armor = new ArmorData(node);
 
                 _table.Add(armor.ID, armor);
             }
         }
 
-        private Armor()
-            : base()
-        {
-        }
+
         
-        private Armor(XmlNode node)
-            : base(node)
+        private Armor(ArmorData data)
+            : base(data)
         {
-            Defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
-            DefensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
-            MagicDefense = Int32.Parse(node.SelectSingleNode("mdf").InnerText);
-            MagicDefensePercent = Int32.Parse(node.SelectSingleNode("mdfp").InnerText);
+            Defense = data.Defense;
+            DefensePercent = data.DefensePercent;
+            MagicDefense = data.MagicDefense;
+            MagicDefensePercent = data.MagicDefensePercent;
         }
 
         
         public static Armor Get(string id)
         {
-            return _table[id];
+            return new Armor(_table[id]);
         }
 
 

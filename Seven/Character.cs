@@ -310,7 +310,7 @@ namespace Atmosphere.Reverence.Seven
             }
             
             string acc = savexml.SelectSingleNode("./accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.AccessoryTable[acc];
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.Get(acc);
             
             
             // Q-Values
