@@ -208,7 +208,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         
         public void SelectEnemies()
         {
-            GroupSelector.SelectOnlyAllies();
+            GroupSelector.SelectOnlyEnemies();
             
             SelectGroup();
         }

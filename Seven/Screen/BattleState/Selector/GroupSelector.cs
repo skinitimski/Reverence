@@ -35,21 +35,20 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 //                    }
 //                    break;
             }
-            if (!CanTargetEither)
+            if (CanTargetEither)
             {
-                return;
+                switch (k)
+                {
+                    case Key.Left:
+                        _selectedGroup = BattleTargetGroup.Enemies;
+                        break;
+                    case Key.Right:
+                        _selectedGroup = BattleTargetGroup.Allies;
+                        break;
+                    default:
+                        break;
+                }   
             }
-            switch (k)
-            {
-                case Key.Left:
-                    _selectedGroup = BattleTargetGroup.Enemies;
-                    break;
-                case Key.Right:
-                    _selectedGroup = BattleTargetGroup.Allies;
-                    break;
-                default:
-                    break;
-            }            
             
             base.ControlHandle(k);
         }
