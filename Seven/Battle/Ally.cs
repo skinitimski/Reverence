@@ -491,7 +491,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int MagicAttack(Character c)
         {
-            return c.Magic;
+            return c.Magic + c.Weapon.Magic;
         }
 
         public static int MagicDefense(Character c)
