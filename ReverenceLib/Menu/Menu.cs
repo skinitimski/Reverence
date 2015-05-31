@@ -96,6 +96,10 @@ namespace Atmosphere.Reverence.Menu
         bool _opaque;
         Gdk.Pixbuf _background;
 
+        private Menu()
+        {
+        }
+
 
         protected Menu(int x, int y, int w, int h) : this(x, y, w, h, true)
         {
