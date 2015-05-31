@@ -27,12 +27,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         const string SLASH = "/";
 
-        public StatusBarRight()
+        public StatusBarRight(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 2 / 5 + 12,
-                Seven.Config.WindowHeight * 7 / 10,
-                Seven.Config.WindowWidth * 3 / 5 - 17,
-                Seven.Config.WindowHeight * 5 / 20 - 5)
+                screenState.Width * 2 / 5 + 12,
+                screenState.Height * 7 / 10,
+                screenState.Width * 3 / 5 - 17,
+                screenState.Height * 5 / 20 - 5)
         {
         }
         

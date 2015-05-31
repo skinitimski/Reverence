@@ -15,12 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         const int ys = 28;
 #endregion
         
-        public VictoryAP()
+        public VictoryAP(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 2 / 15,
-                Seven.Config.WindowWidth / 2 - 8,
-                Seven.Config.WindowHeight / 12 - 6)
+                screenState.Width / 2,
+                screenState.Height * 2 / 15,
+                screenState.Width / 2 - 8,
+                screenState.Height / 12 - 6)
         { }
         protected override void DrawContents(Gdk.Drawable d)
         {

@@ -83,5 +83,6 @@
     <Compile Include="Graphics\Colors.cs" />
     <Compile Include="Menu\MenuScreen.cs" />
     <Compile Include="Time\TimedDialogue.cs" />
+    <Compile Include="Menu\ScreenState.cs" />
   </ItemGroup>
 </Project>

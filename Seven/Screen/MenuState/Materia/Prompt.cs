@@ -23,11 +23,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         private int option = 0;
         
-        public Prompt()
+        public Prompt(Menu.ScreenState screenState)
             : base(265, 200, 270, 150)
         {
             Visible = false;
         }
+
         public override void ControlHandle(Key k)
         {
             switch (k)

@@ -10,6 +10,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
@@ -53,47 +54,50 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             GetMagicSpells();
             GetSummons();
-            
-            BattleMenu = new BattleMenu(this);
+                        
+            if (HP == 0)
+            {
+                InflictDeath();
+            }
+        }
 
+        internal void InitMenu(ScreenState state)
+        {
+            BattleMenu = new BattleMenu(this, state);
+            
             if (BattleMenu.WMagic)
             {
-                MagicMenu = new Screens.Magic.WMagic(MagicSpells);
+                MagicMenu = new Screens.Magic.WMagic(MagicSpells, state);
             }
             else
             {
-                MagicMenu = new Screens.Magic.Main(MagicSpells);
+                MagicMenu = new Screens.Magic.Main(MagicSpells, state);
             }
-
+            
             if (!MagicMenu.IsValid)
             {
                 MagicMenu = null;
             }
-
+            
             if (BattleMenu.WSummon)
             {
-                SummonMenu = new Screens.Summon.WSummon(Summons);
+                SummonMenu = new Screens.Summon.WSummon(Summons, state);
             }
             else
             {
-                SummonMenu = new Screens.Summon.Main(Summons);
+                SummonMenu = new Screens.Summon.Main(Summons, state);
             }
-
+            
             if (!SummonMenu.IsValid)
             {
                 SummonMenu = null;
             }
             
             EnemySkillMateria m = new EnemySkillMateria(GetEnemySkillMask());
-
+            
             if (m.AP > 0)
             {
-                EnemySkillMenu = new Screens.EnemySkill.Main(m);
-            }
-            
-            if (HP == 0)
-            {
-                InflictDeath();
+                EnemySkillMenu = new Screens.EnemySkill.Main(m, state);
             }
         }
         

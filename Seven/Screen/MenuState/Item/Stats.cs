@@ -31,12 +31,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
         private GameItem _selectedItem;
         
-        public Stats()
+        public Stats(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 11 / 60,
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 23 / 30)
+                screenState.Height * 11 / 60,
+                screenState.Width / 2,
+                screenState.Height * 23 / 30)
         {
         }
 

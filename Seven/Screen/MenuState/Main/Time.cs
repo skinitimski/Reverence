@@ -11,19 +11,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         #region Layout
         
         int x1 = 10;
-        int x2 = Seven.Config.WindowWidth / 4 - 10;
+        int x2;
         int y1 = 30;
         int y2 = 65;
         
         #endregion
 
-        public Time()
+        public Time(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 3 / 4 - 10,
-                Seven.Config.WindowHeight * 7 / 10,
-                Seven.Config.WindowWidth / 4,
-                Seven.Config.WindowHeight * 3 / 20)
-        { }
+                screenState.Width * 3 / 4 - 10,
+                screenState.Height * 7 / 10,
+                screenState.Width / 4,
+                screenState.Height * 3 / 20)
+        {
+            x2 = screenState.Width / 4 - 10;
+        }
         
         
         protected override void DrawContents(Gdk.Drawable d)

@@ -22,12 +22,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         
         #endregion Layout
 
-        public StatusBarLeft()
+        public StatusBarLeft(Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 7 / 10,
-                Seven.Config.WindowWidth * 2 / 5,
-                (Seven.Config.WindowHeight * 5 / 20) - 5)
+                screenState.Height * 7 / 10,
+                screenState.Width * 2 / 5,
+                (screenState.Height * 5 / 20) - 5)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

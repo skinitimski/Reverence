@@ -8,12 +8,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 {      
     internal sealed class Top : Menu.Menu
     {
-        public Top()
+        public Top(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight / 15)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height / 15)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

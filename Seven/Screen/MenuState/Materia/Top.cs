@@ -42,12 +42,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         private int cx = x_slots;
         private int cy = cy0;
 
-        public Top()
+        public Top(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight * 3 / 10 - 6)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height * 3 / 10 - 6)
         {
         }
         

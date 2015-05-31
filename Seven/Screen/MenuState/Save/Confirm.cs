@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         
         private int option = 0;
         
-        public Confirm()
+        public Confirm(Menu.ScreenState screenState)
             : base(265, 200, 270, 150)
         {
             Visible = false;

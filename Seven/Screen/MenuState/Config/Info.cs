@@ -8,12 +8,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 {
     internal sealed class Info : Menu.Menu
     {
-        public Info()
+        public Info(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight / 15)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height / 15)
         {
         }
         

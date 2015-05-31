@@ -28,10 +28,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         #endregion Layout
 
         
-        public Prompt()
+        public Prompt(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2 - width / 2,
-                Seven.Config.WindowHeight / 2 - height / 2,
+                screenState.Width / 2 - width / 2,
+                screenState.Height / 2 - height / 2,
                 width, 
                 height)
         {

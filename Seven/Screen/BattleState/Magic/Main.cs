@@ -33,12 +33,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         private readonly int _visibleRows = 3;
         protected MagicMenuEntry[,] _spells;
 
-        public Main(IEnumerable<MagicMenuEntry> spells)
+        public Main(IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 7 / 10 + 20,
-                Seven.Config.WindowWidth * 3 / 4,
-                (Seven.Config.WindowHeight * 5 / 20) - 25)
+                screenState.Height * 7 / 10 + 20,
+                screenState.Width * 3 / 4,
+                (screenState.Height * 5 / 20) - 25)
         {
             _spells = new MagicMenuEntry[_totalRows, COLUMNS];
 

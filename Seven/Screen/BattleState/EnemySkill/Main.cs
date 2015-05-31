@@ -36,12 +36,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         /// <summary>Spells: row, column.</summary>
         private Spell[,] _spells;
         
-        public Main(EnemySkillMateria esm)
+        public Main(EnemySkillMateria esm, Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 7 / 10 + 20,
-                Seven.Config.WindowWidth * 3 / 4,
-                (Seven.Config.WindowHeight * 5 / 20) - 25)
+                screenState.Height * 7 / 10 + 20,
+                screenState.Width * 3 / 4,
+                (screenState.Height * 5 / 20) - 25)
         {
             _spells = new Spell[_totalRows, COLUMNS];
             

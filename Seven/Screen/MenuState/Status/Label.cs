@@ -8,12 +8,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
     internal sealed class Label : ControlMenu
     {
-        public Label()
+        public Label(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 3 / 4,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth / 4 - 10,
-                Seven.Config.WindowHeight / 15)
+                screenState.Width * 3 / 4,
+                screenState.Height / 20,
+                screenState.Width / 4 - 10,
+                screenState.Height / 15)
         { }
 
         public override void ControlHandle(Key k)

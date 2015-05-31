@@ -22,12 +22,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         
 #endregion
 
-        public Stats()
+        public Stats(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 7 / 12,
-                Seven.Config.WindowWidth * 5 / 8,
-                Seven.Config.WindowHeight * 11 / 30)
+                screenState.Height * 7 / 12,
+                screenState.Width * 5 / 8,
+                screenState.Height * 11 / 30)
         { 
         }
 

@@ -23,12 +23,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         
         #endregion Layout
         
-        public Info()
+        public Info(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 3 / 4 + 12,
-                Seven.Config.WindowHeight * 7 / 10 + 20,
-                Seven.Config.WindowWidth / 4 - 17,
-                (Seven.Config.WindowHeight * 5 / 20) - 25)
+                screenState.Width * 3 / 4 + 12,
+                screenState.Height * 7 / 10 + 20,
+                screenState.Width / 4 - 17,
+                (screenState.Height * 5 / 20) - 25)
         {
             Visible = false;
         }

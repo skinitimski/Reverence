@@ -28,12 +28,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         protected int _topRow;
         protected readonly int _rows = 3;
 
-        public ItemMenu()
+        public ItemMenu(Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 7 / 10 + 20,
-                Seven.Config.WindowWidth - 11,
-                (Seven.Config.WindowHeight * 5 / 20) - 25)
+                screenState.Height * 7 / 10 + 20,
+                screenState.Width - 11,
+                (screenState.Height * 5 / 20) - 25)
         {
         }
 

@@ -23,8 +23,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int yc = yb + 25; //    "
 
 
-        public Three()
-            : base()
+        public Three(Menu.ScreenState screenState)
+            : base(screenState)
         {
             Visible = false;
         }
@@ -40,7 +40,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             
             TextExtents te;
             
-            
+
             #region Character Status
             
             DrawCharacterStatus(d, gc, g);

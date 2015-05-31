@@ -15,12 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         const int ys = 28;
 #endregion
         
-        public HoardGilRight()
+        public HoardGilRight(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 2 / 15,
-                Seven.Config.WindowWidth / 2 - 8,
-                Seven.Config.WindowHeight / 12 - 6)
+                screenState.Width / 2,
+                screenState.Height * 2 / 15,
+                screenState.Width / 2 - 8,
+                screenState.Height / 12 - 6)
         { }
         protected override void DrawContents(Gdk.Drawable d)
         {

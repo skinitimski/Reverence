@@ -13,6 +13,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Asset;
@@ -44,9 +45,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         public BattleState(string formationId)
             : this()
-        {
-            Screen = new BattleScreen();
-            
+        {            
             _turnQueue = new Queue<Ally>();
             _battleIcons = new Queue<BattleIcon>();
             
@@ -67,6 +66,14 @@ namespace Atmosphere.Reverence.Seven.State
         
         protected override void InternalInit()
         {
+            ScreenState state = new ScreenState
+            {
+                Width = Seven.Config.WindowWidth,
+                Height = Seven.Config.WindowHeight
+            };
+            
+            Screen = new BattleScreen(state);
+
             BattleClock = new Clock(Seven.Party.BattleSpeed);
                        
             Allies = new Ally[Party.PARTY_SIZE];
@@ -87,6 +94,7 @@ namespace Atmosphere.Reverence.Seven.State
                     int y = y0 + (i * ys);
 
                     Allies[i] = new Ally(Seven.Party[i], x, y, e[i]);
+                    Allies[i].InitMenu(state);
                 }
             }
 

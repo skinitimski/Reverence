@@ -34,12 +34,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         private int option_hold = -1;
 
 
-        public Status()
+        public Status(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 9,
-                Seven.Config.WindowWidth * 4 / 5,
-                Seven.Config.WindowHeight * 7 / 9)
+                screenState.Height / 9,
+                screenState.Width * 4 / 5,
+                screenState.Height * 7 / 9)
         {
         }
         

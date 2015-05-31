@@ -20,8 +20,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             public IEnumerable<Combatant> Targets;
         }
         
-        public WSummon(IEnumerable<SummonMenuEntry> spells)
-            : base(spells)
+        public WSummon(IEnumerable<SummonMenuEntry> spells, Menu.ScreenState screenState)
+            : base(spells, screenState)
         {
         }
         

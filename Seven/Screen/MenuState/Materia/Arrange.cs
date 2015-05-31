@@ -20,9 +20,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         private int option = 0;
 
-        public Arrange()
+        public Arrange(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 3 / 8,
+                screenState.Width * 3 / 8,
                 150,
                 170,
                 140)

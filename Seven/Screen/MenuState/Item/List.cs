@@ -23,15 +23,16 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         
         private int option;
         private int topRow = 0;
-        private int x2 = Seven.Config.WindowWidth / 2 - 24; // count
+        private int x2;         // count
 
-        public List()
+        public List(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 11 / 60,
-                Seven.Config.WindowWidth / 2 - 9,
-                Seven.Config.WindowHeight * 23 / 30)
+                screenState.Width / 2,
+                screenState.Height * 11 / 60,
+                screenState.Width / 2 - 9,
+                screenState.Height * 23 / 30)
         {
+            x2 = screenState.Width / 2 - 24; // count
         }
         
         public override void ControlHandle(Key k)

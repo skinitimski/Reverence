@@ -29,12 +29,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         private readonly int _visibleRows = 3;
         protected SummonMenuEntry[] _summons;
 
-        public Main(IEnumerable<SummonMenuEntry> summons)
+        public Main(IEnumerable<SummonMenuEntry> summons, Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 7 / 10 + 20,
-                Seven.Config.WindowWidth * 3 / 4,
-                (Seven.Config.WindowHeight * 5 / 20) - 25)
+                screenState.Height * 7 / 10 + 20,
+                screenState.Width * 3 / 4,
+                (screenState.Height * 5 / 20) - 25)
         {
             _summons = new SummonMenuEntry[_totalRows];
 

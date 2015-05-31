@@ -12,12 +12,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class EventBar : GameMenu
     {
-        public EventBar()
+        public EventBar(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 16,
+                screenState.Width / 16,
                 20,
-                Seven.Config.WindowWidth * 7 / 8,
-                Seven.Config.WindowHeight / 10)
+                screenState.Width * 7 / 8,
+                screenState.Height / 10)
         { }
 
         protected override void DrawContents(Gdk.Drawable d)

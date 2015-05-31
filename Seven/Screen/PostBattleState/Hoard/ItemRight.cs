@@ -18,12 +18,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         
 #endregion
         
-        public ItemRight()
+        public ItemRight(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 13 / 60,
-                Seven.Config.WindowWidth / 2 - 8,
-                Seven.Config.WindowHeight * 3 / 4 - 6)
+                screenState.Width / 2,
+                screenState.Height * 13 / 60,
+                screenState.Width / 2 - 8,
+                screenState.Height * 3 / 4 - 6)
         { }
         protected override void DrawContents(Gdk.Drawable d)
         {

@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         const int y0 = 5;
         const int cx = 20;
         const int cy = 28;
-        private readonly int xs = Seven.Config.WindowWidth / 5; // W
+        private readonly int xs; // W
 
         #endregion Layout
 
@@ -49,13 +49,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private int _columns;
         private readonly int _rows = 4;
 
-        public BattleMenu(Ally a)
+        public BattleMenu(Ally a, Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 4,
-                Seven.Config.WindowHeight * 7 / 10 + 10,
-                Seven.Config.WindowWidth / 5,
-                Seven.Config.WindowHeight * 5 / 20 - 6)
+                screenState.Width / 4,
+                screenState.Height * 7 / 10 + 10,
+                screenState.Width / 5,
+                screenState.Height * 5 / 20 - 6)
         {
+            xs = screenState.Width / 5;
 
             Visible = false;
 

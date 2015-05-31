@@ -11,12 +11,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class InfoBar : GameMenu
     {
-        public InfoBar()
+        public InfoBar(Menu.ScreenState screenState)
             : base(
                 5,
-                Seven.Config.WindowHeight * 6 / 10,
-                Seven.Config.WindowWidth - 10,
-                (Seven.Config.WindowHeight / 10) - 7,
+                screenState.Height * 6 / 10,
+                screenState.Width - 10,
+                (screenState.Height / 10) - 7,
                 false)
         { }
 

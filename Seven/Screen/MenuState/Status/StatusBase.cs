@@ -15,12 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int x_status = xpic + Character.PROFILE_WIDTH + 15;
         const int y_status = ypic + 35;
         
-        protected StatusBase()
+        protected StatusBase(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight * 9 / 10)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height * 9 / 10)
         {
         }
 

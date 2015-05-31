@@ -178,28 +178,34 @@ namespace Atmosphere.Reverence.Seven.State
 
         protected override void InternalInit()
         {
-            Screens.Victory.VictoryLabel victoryLabel = new Screens.Victory.VictoryLabel();
+            ScreenState state = new ScreenState
+            {
+                Width = Seven.Config.WindowWidth,
+                Height = Seven.Config.WindowHeight
+            };
+
+            Screens.Victory.VictoryLabel victoryLabel = new Screens.Victory.VictoryLabel(state);
 
             List<GameMenu> victoryMenus = new List<GameMenu>();
             victoryMenus.Add(victoryLabel);
-            victoryMenus.Add(new Screens.Victory.VictoryEXP());
-            victoryMenus.Add(new Screens.Victory.VictoryAP());
-            victoryMenus.Add(new Screens.Victory.VictoryTop());
-            victoryMenus.Add(new Screens.Victory.VictoryMiddle());
-            victoryMenus.Add(new Screens.Victory.Bottom());
+            victoryMenus.Add(new Screens.Victory.VictoryEXP(state));
+            victoryMenus.Add(new Screens.Victory.VictoryAP(state));
+            victoryMenus.Add(new Screens.Victory.VictoryTop(state));
+            victoryMenus.Add(new Screens.Victory.VictoryMiddle(state));
+            victoryMenus.Add(new Screens.Victory.Bottom(state));
 
             VictoryScreen = new MenuScreen(victoryMenus, victoryLabel);
 
 
-            Screens.Hoard.Label hoardLabel = new Screens.Hoard.Label();
-            HoardItemLeft = new Screens.Hoard.ItemLeft();
+            Screens.Hoard.Label hoardLabel = new Screens.Hoard.Label(state);
+            HoardItemLeft = new Screens.Hoard.ItemLeft(state);
             
             List<GameMenu> hoardMenus = new List<GameMenu>();
             hoardMenus.Add(hoardLabel);
-            hoardMenus.Add(new Screens.Hoard.GilLeft());
-            hoardMenus.Add(new Screens.Hoard.HoardGilRight());
+            hoardMenus.Add(new Screens.Hoard.GilLeft(state));
+            hoardMenus.Add(new Screens.Hoard.HoardGilRight(state));
             hoardMenus.Add(HoardItemLeft);
-            hoardMenus.Add(new Screens.Hoard.ItemRight());
+            hoardMenus.Add(new Screens.Hoard.ItemRight(state));
 
             HoardScreen = new MenuScreen(hoardMenus, hoardLabel);
 

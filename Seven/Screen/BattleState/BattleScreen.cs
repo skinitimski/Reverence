@@ -24,21 +24,21 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-        public BattleScreen()
+        public BattleScreen(ScreenState state)
         {
-            StatusBarLeft = new Screens.StatusBarLeft();
-            StatusBarRight = new Screens.StatusBarRight();
-            InfoBar = new Screens.InfoBar();
-            EventBar = new Screens.EventBar();
-            ItemMenu = new Screens.ItemMenu();
-            WItemMenu = new Screens.WItemMenu();
+            StatusBarLeft = new Screens.StatusBarLeft(state);
+            StatusBarRight = new Screens.StatusBarRight(state);
+            InfoBar = new Screens.InfoBar(state);
+            EventBar = new Screens.EventBar(state);
+            ItemMenu = new Screens.ItemMenu(state);
+            WItemMenu = new Screens.WItemMenu(state);
 
             
-            MagicInfo = new Screens.Magic.Info();  
-            EnemySkillInfo = new Screens.EnemySkill.Info();  
-            SummonMenuInfo = new Screens.Summon.Info();  
+            MagicInfo = new Screens.Magic.Info(state);  
+            EnemySkillInfo = new Screens.EnemySkill.Info(state);  
+            SummonMenuInfo = new Screens.Summon.Info(state);  
             
-            SelfSelector = new Screens.Selector.SelfSelector ();
+            SelfSelector = new Screens.Selector.SelfSelector();
             TargetSelector = new Screens.Selector.TargetSelector();
             GroupSelector = new Screens.Selector.GroupSelector();
             AreaSelector = new Screens.Selector.AreaSelector();

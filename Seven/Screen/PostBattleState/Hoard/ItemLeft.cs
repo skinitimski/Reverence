@@ -25,12 +25,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         private List<Inventory.Record> _taken;
         bool _takeEverything = false;
         
-        public ItemLeft()
+        public ItemLeft(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 13 / 60,
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 3 / 4 - 6)
+                screenState.Height * 13 / 60,
+                screenState.Width / 2,
+                screenState.Height * 3 / 4 - 6)
         { 
         }
         public override void ControlHandle(Key k) 

@@ -1,5 +1,6 @@
 using System;
 
+using Atmosphere.Reverence.Menu;
 using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Screen.InitialState;
 
@@ -17,7 +18,13 @@ namespace Atmosphere.Reverence.Seven.State
 
         protected override void InternalInit()
         {
-            Screen = new Prompt();
+            ScreenState state = new ScreenState
+            {
+                Width = Seven.Config.WindowWidth,
+                Height = Seven.Config.WindowHeight
+            };
+
+            Screen = new Prompt(state);
         }
         
         public override void Draw(Gdk.Drawable d, int width, int height)

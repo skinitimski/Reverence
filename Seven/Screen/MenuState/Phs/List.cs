@@ -25,12 +25,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         private int optionX;
         private int optionY;
 
-        public List()
+        public List(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 22 / 60,
-                Seven.Config.WindowWidth / 2 - 9,
-                Seven.Config.WindowHeight * 7 / 12)
+                screenState.Width / 2,
+                screenState.Height * 22 / 60,
+                screenState.Width / 2 - 9,
+                screenState.Height * 7 / 12)
         { 
             _characters = new Character[3, 3];
         }

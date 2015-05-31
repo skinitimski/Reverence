@@ -22,8 +22,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
 
 
-        public WItemMenu()
-            : base()
+        public WItemMenu(Menu.ScreenState screenState)
+            : base(screenState)
         {
         }
         

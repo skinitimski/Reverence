@@ -24,12 +24,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         
         #endregion Layout
 
-        public Info()
+        public Info(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 7 / 60,
-                Seven.Config.WindowWidth / 2 - 9,
-                Seven.Config.WindowHeight / 4)
+                screenState.Width / 2,
+                screenState.Height * 7 / 60,
+                screenState.Width / 2 - 9,
+                screenState.Height / 4)
         { }
         
         protected override void DrawContents(Gdk.Drawable d)

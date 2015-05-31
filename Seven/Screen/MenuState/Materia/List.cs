@@ -24,12 +24,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         private int topRow = 0;
         private bool trashing = false;
         
-        public List()
+        public List(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth * 5 / 8,
-                Seven.Config.WindowHeight * 5 / 12,
-                Seven.Config.WindowWidth * 3 / 8 - 8,
-                Seven.Config.WindowHeight * 8 / 15)
+                screenState.Width * 5 / 8,
+                screenState.Height * 5 / 12,
+                screenState.Width * 3 / 8 - 8,
+                screenState.Height * 8 / 15)
         { }
         
         public override void ControlHandle(Key k)

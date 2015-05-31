@@ -15,12 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         
         #endregion
 
-        public Location()
+        public Location(Menu.ScreenState screenState)
             : base(
-                Seven.Config.WindowWidth / 2,
-                Seven.Config.WindowHeight * 17 / 20 + 6,
-                Seven.Config.WindowWidth / 2 - 10,
-                Seven.Config.WindowHeight / 10)
+                screenState.Width / 2,
+                screenState.Height * 17 / 20 + 6,
+                screenState.Width / 2 - 10,
+                screenState.Height / 10)
         { }
         
         

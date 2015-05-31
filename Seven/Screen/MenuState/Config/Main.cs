@@ -43,12 +43,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         private int option = 0;
 
 
-        public Main()
+        public Main(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 7 / 60,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight * 5 / 6)
+                screenState.Height * 7 / 60,
+                screenState.Width - 10,
+                screenState.Height * 5 / 6)
         {
             int wc_x = x_options + 300;
             int wc_y = Y + 15;

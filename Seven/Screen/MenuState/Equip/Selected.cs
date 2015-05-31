@@ -24,12 +24,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
         #endregion
 
-        public Selected()
+        public Selected(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 5 / 12,
-                Seven.Config.WindowWidth * 5 / 8,
-                Seven.Config.WindowHeight / 6)
+                screenState.Height * 5 / 12,
+                screenState.Width * 5 / 8,
+                screenState.Height / 6)
         {
         }
         

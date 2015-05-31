@@ -15,12 +15,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         
         #endregion Layout
         
-        public VictoryLabel()
+        public VictoryLabel(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight / 12 - 6)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height / 12 - 6)
         { }
                 public override void ControlHandle(Key k) { switch (k) { default: break; } }
         protected override void DrawContents(Gdk.Drawable d)

@@ -28,12 +28,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         
         private int option = 0;
 
-        public Stats()
+        public Stats(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight * 7 / 60,
-                Seven.Config.WindowWidth / 2 - 6,
-                Seven.Config.WindowHeight * 5 / 6)
+                screenState.Height * 7 / 60,
+                screenState.Width / 2 - 6,
+                screenState.Height * 5 / 6)
         { }
         
         public override void ControlHandle(Key k)

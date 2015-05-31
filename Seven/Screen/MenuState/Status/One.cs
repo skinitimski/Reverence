@@ -33,8 +33,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
 
 
-        public One()
-            : base()
+        public One(Menu.ScreenState screenState)
+            : base(screenState)
         {
             Visible = true;
         }

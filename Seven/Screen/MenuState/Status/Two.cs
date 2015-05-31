@@ -22,8 +22,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int stop = 120;
                 
 
-        public Two()
-            : base()
+        public Two(Menu.ScreenState screenState)
+            : base(screenState)
         {
             Visible = false;
         }

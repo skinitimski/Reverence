@@ -25,12 +25,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         private int option = 0;
         
         
-        public Top()
+        public Top(Menu.ScreenState screenState)
             : base(
                 2,
-                Seven.Config.WindowHeight / 20,
-                Seven.Config.WindowWidth - 10,
-                Seven.Config.WindowHeight / 15)
+                screenState.Height / 20,
+                screenState.Width - 10,
+                screenState.Height / 15)
         { }
         
         public override void ControlHandle(Key k)
