@@ -5,6 +5,11 @@
         <enemy id="punchingbag" x="100" y="275" row="1" />        
     </formation>
     <formation id="debug1">
+        <enemy id="goldmine"    x="135" y="125" row="0" />
+        <enemy id="punchingbag" x="100" y="200" row="1" />  
+        <enemy id="goldmine"    x="135" y="275" row="0" />     
+    </formation>
+    <formation id="shinraTower.a">
         <enemy id="mothslasher" x="100" y="175" row="0" />
         <enemy id="mothslasher" x="100" y="250" row="0" />        
     </formation>

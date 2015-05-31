@@ -32,6 +32,37 @@
         </ai>
     </enemy>
     <enemy>
+        <name>Gold Mine</name>
+        <lvl>10</lvl>
+        <hp>240</hp>
+        <mp>0</mp>
+        <exp>10000</exp>
+        <ap>1000</ap>
+        <gil>12345</gil>
+        <atk>15</atk>
+        <def>4</def>
+        <defp>8</defp>
+        <dex>50</dex>
+        <mat>0</mat>
+        <mdf>40</mdf>
+        <lck>0</lck>
+        <attacks>
+            <attack id="Jingle Jangle">
+                <type>Physical</type>
+                <power>2</power>
+                <atkp>80</atkp>
+                <target>Combatant</target>
+                <element>Punch</element>
+            </attack>
+        </attacks>
+        <ai>
+            <main>
+                a = chooseRandomAlly()                
+                self:UseAttack("Punch", a)
+            </main>
+        </ai>
+    </enemy>
+    <enemy>
         <name>Moth Slasher</name>
         <lvl>13</lvl>
         <hp>260</hp>

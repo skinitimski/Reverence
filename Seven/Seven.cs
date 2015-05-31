@@ -25,6 +25,8 @@ namespace Atmosphere.Reverence.Seven
         private BattleState _battleState;
         private PostBattleState _postBattleState;
 
+        private Random _random = new Random();
+
 
 
         internal static Seven Instance { get; private set; }
@@ -130,7 +132,9 @@ namespace Atmosphere.Reverence.Seven
         
         public void BeginBattle()
         {
-            _battleState = new BattleState("debug0");
+            int i = _random.Next(2);
+
+            _battleState = new BattleState("debug" + i);
             _battleState.Init();
 
             LuaEnvironment[typeof(BattleState).Name] = _battleState;
