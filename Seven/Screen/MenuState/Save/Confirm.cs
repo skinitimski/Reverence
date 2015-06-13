@@ -44,7 +44,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
                     if (option == 0)
                     {
                         Seven.Instance.SaveGame(Seven.MenuState.SavePrompt.Option);
-                        Seven.MenuState.ShowMessage(c => "Saved!");
+                        Seven.Instance.ShowMessage(c => "Saved!");
                     }
 
                     Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);

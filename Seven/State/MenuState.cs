@@ -181,11 +181,6 @@ namespace Atmosphere.Reverence.Seven.State
             try
             {
                 ActiveLayer.Draw(d);
-
-                if (MessageBox != null)
-                {
-                    MessageBox.Draw(d);
-                }
             }
             catch (Exception e)
             {
@@ -196,11 +191,6 @@ namespace Atmosphere.Reverence.Seven.State
         [GLib.ConnectBefore()]
         public override void KeyPressHandle(Key k)
         {
-                if (MessageBox != null)
-                {
-                    return;
-                }
-
             switch (k)
             {
                 case Key.L1:
@@ -236,10 +226,6 @@ namespace Atmosphere.Reverence.Seven.State
 
         public override void RunIteration()
         {
-            if (MessageBox != null && MessageBox.Timer.IsUp)
-            {
-                MessageBox = null;
-            }
         }
         
 
@@ -252,10 +238,6 @@ namespace Atmosphere.Reverence.Seven.State
         }
 
 
-        public void ShowMessage(TimedDialogue message)
-        {
-            MessageBox = new MessageBox(message);                
-        }
 
         public void UpdateAllBackgrounds()
         {
@@ -276,8 +258,6 @@ namespace Atmosphere.Reverence.Seven.State
 
 
 
-
-        private MessageBox MessageBox { get; set; }
 
 
 

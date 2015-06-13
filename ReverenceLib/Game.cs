@@ -13,6 +13,7 @@ using Cairo;
 using Gtk;
 
 using Atmosphere.Reverence.Attributes;
+using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 
 namespace Atmosphere.Reverence
@@ -219,6 +220,11 @@ namespace Atmosphere.Reverence
 
                     try
                     {
+                        
+                        if (MessageBox != null)
+                        {
+                            MessageBox.Draw(_pixmap);
+                        }
                         State.Draw(_pixmap, w, h);
                     }
                     catch (Exception e)
@@ -233,10 +239,9 @@ namespace Atmosphere.Reverence
                 }
             }
             
-            
-            int width, height;
-            _window.GetSize(out width, out height);
-            _window.QueueDrawArea(0, 0, width, height);
+
+            _window.GetSize(out _oldWidth, out _oldHeight);
+            _window.QueueDrawArea(0, 0, _oldWidth, _oldHeight);
             return true;
         }
         
@@ -283,6 +288,11 @@ namespace Atmosphere.Reverence
 #if DEBUG
             Console.WriteLine("Pressed  {0}", args.Event.Key.ToString());
 #endif
+            if (MessageBox != null)
+            {
+                return;
+            }
+
             #region Switch
             switch (args.Event.Key)
             {
@@ -350,6 +360,11 @@ namespace Atmosphere.Reverence
 #if DEBUG
             Console.WriteLine("Released {0}", args.Event.Key.ToString());
 #endif
+            if (MessageBox != null)
+            {
+                return;
+            }
+
             #region Switch
             switch (args.Event.Key)
             {
@@ -501,6 +516,11 @@ namespace Atmosphere.Reverence
                 {
                     try
                     {
+                        if (MessageBox != null && MessageBox.Timer.IsUp)
+                        {
+                            MessageBox = null;
+                        }
+
                         State.RunIteration();
                     }
                     catch (Exception e)
@@ -568,7 +588,17 @@ namespace Atmosphere.Reverence
 
             _quit = true;
         }
+        
+        public void ShowMessage(TimedDialogue message)
+        {
+            ScreenState screenState = new ScreenState
+            {
+                Width = _oldWidth,
+                Height = _oldHeight
+            };
 
+            MessageBox = new MessageBox(screenState, message);            
+        }
 
         
         protected State State { get; private set; }
@@ -576,6 +606,7 @@ namespace Atmosphere.Reverence
         protected Lua LuaEnvironment { get; private set; }
 
         protected Config Configuration { get; private set; }
-
+        
+        private MessageBox MessageBox { get; set; }
     }
 }

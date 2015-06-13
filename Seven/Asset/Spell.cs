@@ -4,15 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Thread = System.Threading.Thread;
 using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Screen.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Spell
     {  
+        private Random _random = new Random();
+
         private class StatusChange
         {
             public enum Effect
@@ -86,6 +91,10 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
             Hitp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
+
+            XmlNode hitsNode = xml.SelectSingleNode("hits");
+
+            Hits = hitsNode == null ? 1 : Int32.Parse(hitsNode.InnerText);
 
             XmlNode formulaNode = xml.SelectSingleNode("formula");
 
@@ -207,8 +216,79 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             return left.Order.CompareTo(right.Order);
         }
+
         
-        public void Cast(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers)
+        public void Use(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers, bool resetTurnTimer = true)
+        {
+            int pause = 1500;
+            int spell_duration = BattleIcon.ANIMATION_DURATION;
+            if (Hits > 1) spell_duration = spell_duration * 2 / 3;
+            int duration = pause + spell_duration * Hits;
+            
+            bool canUse = true;
+            
+            if (!modifiers.CostsNothing)
+            {
+                if (source.MP >= MPCost)
+                {
+                    source.UseMP(MPCost);
+                }
+                else
+                {
+                    canUse = false;
+                }
+            }
+            
+            if (canUse)
+            {                       
+                string msg = source.Name + " casts " + Name;
+                
+                TimedActionContext context = new TimedActionContext(
+                    delegate(Timer t) 
+                    { 
+                        Thread.Sleep(pause); 
+
+                        for (int hit = 0; hit < Hits; hit++)
+                        {
+                            if (Hits > 1 && Plural)
+                            {
+                                int index = _random.Next(targets.Count());
+                                Combatant newTarget = targets.ToList()[index];
+                                Cast(source, new List<Combatant>{ newTarget }, modifiers);
+                            }
+                            else
+                            {
+                                Cast(source, targets, modifiers);
+                            }
+
+                            Thread.Sleep(spell_duration);
+                        }
+
+                        if (Hits > 1) Thread.Sleep(spell_duration / 3);
+                    },
+                    duration, 
+                    c => msg);
+                
+                BattleEvent e = new BattleEvent(source, context);
+                
+                e.ResetSourceTurnTimer = resetTurnTimer;
+                
+                Seven.BattleState.EnqueueAction(e);
+            }
+            else
+            {   
+                string msg = "Not enough MP for " + Name + "!";
+                
+                TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => msg);
+                
+                BattleEvent e = new BattleEvent(source, context);
+                e.ResetSourceTurnTimer = resetTurnTimer;
+                
+                Seven.BattleState.EnqueueAction(e);
+            }
+        }
+        
+        private void Cast(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers)
         {
             foreach (Combatant target in targets)
             {
@@ -279,6 +359,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         public int MPCost { get; private set; }
         
         public int Order { get; private set; }
+        
+        private int Hits { get;  set; }
 
         private DamageFormula DamageFormula { get; set; }
         
@@ -289,6 +371,8 @@ namespace Atmosphere.Reverence.Seven.Asset
         private IEnumerable<Element> Elements { get; set; }
 
         private IEnumerable<StatusChange> Statuses { get; set; }
+
+        private bool Plural { get { return Target == BattleTarget.AlliesPlural || Target == BattleTarget.EnemiesPlural || Target == BattleTarget.GroupPlural; } }
 
 
         public static int MagicSpellCount { get { return _magicSpells.Count; } }

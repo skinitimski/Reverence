@@ -11,19 +11,17 @@ namespace Atmosphere.Reverence.Seven.Battle
     {
         private BattleEvent()
         {
-            ActionTimer = new Timer(2000, 0, false);
             ResetSourceTurnTimer = true;
-            Dialogue = c => String.Empty;
         }
         
-        public BattleEvent(Combatant source, Action action)
+        public BattleEvent(Combatant source, TimedActionContext context)
             : this()
         {
             Source = source;
-            Action = action;
+            Context = context;
         }
         
-        /// <summary>Creates a deep clone of this AbilityState.</summary>
+        /// <summary>Creates a deep clone of this <see cref="BattleEvent" />.</summary>
         /// <returns>A new deep clone</returns>
         public object Clone()
         {
@@ -32,22 +30,14 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             // Deep objects
             state.Source = Source;
-            state.Action = Action;
-            state.ActionTimer = new Timer(2000, 0, false);
+            state.Context = Context;
             
             return state;
         }
         
         public void DoAction()
         {
-            Action();
-            ActionTimer.Unpause();
-            
-            // used to simulate realtime animation! haha
-            while (!ActionTimer.IsUp)
-            {
-                System.Threading.Thread.Sleep(100);
-            }
+            Context.DoAction();
 
             if (ResetSourceTurnTimer)
             {
@@ -59,7 +49,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public string GetStatus()
         {
-            return Dialogue(ActionTimer);
+            return Context.GetStatus();
         }
         
         public override string ToString()
@@ -74,12 +64,11 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        public TimedDialogue Dialogue { get; set; }
+
 
         public Combatant Source { get; private set; }
-        public Action Action { get; private set; }
-        private Timer ActionTimer { get; set; }
-        
+        public TimedActionContext Context { get; private set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="Atmosphere.Reverence.Seven.Battle.BattleEvent"/>
         /// should reset the turn timer of its source when it completes its action. Defaults to true.

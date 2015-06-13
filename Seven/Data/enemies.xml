@@ -15,6 +15,9 @@
         <mat>0</mat>
         <mdf>0</mdf>
         <lck>0</lck>
+        <steal>
+            <item id="potion" type="item" chance="8"/>
+        </steal>
         <attacks>
             <attack id="Bump">
                 <type>Physical</type>
@@ -46,6 +49,9 @@
         <mat>0</mat>
         <mdf>40</mdf>
         <lck>0</lck>
+        <steal>
+            <item id="circlet" type="accessory" chance="128"/>
+        </steal>
         <attacks>
             <attack id="Jingle Jangle">
                 <type>Physical</type>
@@ -58,7 +64,7 @@
         <ai>
             <main>
                 a = chooseRandomAlly()                
-                self:UseAttack("Punch", a)
+                self:UseAttack("Jingle Jangle", a)
             </main>
         </ai>
     </enemy>

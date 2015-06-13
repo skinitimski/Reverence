@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thread = System.Threading.Thread;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
@@ -10,6 +11,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Screen.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
@@ -72,7 +74,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         protected void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements, bool resetTurnTimer = true, string msg = " attacks")
         {
-            BattleEvent e = new BattleEvent(this, () => PhysicalAttack(power, atkp, this, target, elements));
+            int pause = 800;
+            int attack_duration = BattleIcon.ANIMATION_DURATION;
+            int duration = pause + attack_duration;
 
             if (Confusion)
             {
@@ -83,54 +87,30 @@ namespace Atmosphere.Reverence.Seven.Battle
                 msg += " (berserk)";
             }
 
-            e.Dialogue = c => Name + msg;
+            msg = Name + msg;
+
+            TimedActionContext context = new TimedActionContext(
+                delegate(Timer t)
+                { 
+                    Thread.Sleep(pause); 
+                    PhysicalAttack(power, atkp, this, target, elements); 
+                    Thread.Sleep(duration);
+                },
+                duration,
+                c => msg);
+
+
+            BattleEvent e = new BattleEvent(this, context);
             e.ResetSourceTurnTimer = resetTurnTimer;
 
             Seven.BattleState.EnqueueAction(e);
         }
 
-        public void UseSpell(IEnumerable<Combatant> targets, Spell spell, SpellModifiers modifiers, bool resetTurnTimer = true)
-        {
-            bool canUse = true;
-            
-            if (!modifiers.CostsNothing)
-            {
-                if (MP >= spell.MPCost)
-                {
-                    UseMP(spell.MPCost);
-                }
-                else
-                {
-                    canUse = false;
-                }
-            }
-            
-            if (canUse)
-            {
-                BattleEvent e = new BattleEvent(this, () => spell.Cast(this, targets, modifiers));
-                       
-                e.Dialogue = c => Name + " casts " + spell.Name;
-                e.ResetSourceTurnTimer = resetTurnTimer;
-            
-                Seven.BattleState.EnqueueAction(e);
-            }
-            else
-            {
-                BattleEvent e = new BattleEvent(this, () => { });
-
-                string msg = "Not enough MP for " + Name + "!";
-
-                e.Dialogue = c => msg;
-                e.ResetSourceTurnTimer = resetTurnTimer;
-
-                Seven.BattleState.EnqueueAction(e);
-            }
-        }
 
 
 
 
-        
+
         private static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
             if (Formula.PhysicalHit(atkp, source, target, elements))
@@ -710,7 +690,9 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract bool Voids(Element e);
         public abstract bool Absorbs(Element e);
         public abstract bool Immune(Status s);
-        
+
+        public abstract IList<Element> Weaknesses { get; }
+
         
         
         

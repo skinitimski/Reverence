@@ -543,25 +543,31 @@ namespace Atmosphere.Reverence.Seven.Battle
             return _immune.Contains(s);
         }
         
-        public void StealItem(Ally thief)
+        public IInventoryItem StealItem(Ally thief)
         {
-            int diff = 40 + Level - thief.Level;
-            int stealMod = 512 * diff / 100;
-            
-            foreach (EnemyItem item in _steal)
+            IInventoryItem stolen = null;
+
+            if (HasItems)
             {
-                int chance = item.Chance * stealMod / 256;
-                int r = Seven.BattleState.Random.Next(64);
-                if (r <= chance)
+                int diff = 40 + Level - thief.Level;
+                int stealMod = 512 * diff / 100;
+            
+                foreach (EnemyItem item in _steal)
                 {
-                    Seven.Party.Inventory.AddToInventory(item.Item);
-                    _steal.Clear();
-                    return;
+                    int chance = item.Chance * stealMod / 256;
+                    int r = Seven.BattleState.Random.Next(64);
+
+                    if (r <= chance)
+                    {
+                        stolen = item.Item;
+                        Seven.Party.Inventory.AddToInventory(item.Item);
+                        _steal.Clear();
+                        break;
+                    }
                 }
             }
-            //if (_steal.Count == 0)
-            //    ; // Nothing to steal
-            //else ; // Couldn't steal anything
+
+            return stolen;
         }
 
         public IInventoryItem WinItem()
@@ -687,6 +693,16 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Properties
+
+        public bool HasItems { get { return _steal.Count > 0; } }
+
+        public override IList<Element> Weaknesses
+        {
+            get
+            {
+                return _weak.ToList();
+            }
+        }
         
         public override int Level { get { return _level; } }
         

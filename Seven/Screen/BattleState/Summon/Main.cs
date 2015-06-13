@@ -104,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             Spell spell = _summons[option].Spell;
             
-            Seven.BattleState.Commanding.UseSpell(targets, spell, new SpellModifiers(), releaseAlly);
+            spell.Use(Seven.BattleState.Commanding, targets, new SpellModifiers(), releaseAlly);
         }
 
         protected override void DrawContents(Gdk.Drawable d)

@@ -147,12 +147,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     Seven.BattleState.Screen.SelectEnemy();
                     break;
                 case BattleTarget.Group:
+                case BattleTarget.GroupPlural:
                     Seven.BattleState.Screen.SelectEitherGroup(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
                     break;
                 case BattleTarget.Allies:
+                case BattleTarget.AlliesPlural:
                     Seven.BattleState.Screen.SelectAllies();
                     break;
                 case BattleTarget.Enemies:
+                case BattleTarget.EnemiesPlural:
                     Seven.BattleState.Screen.SelectEnemies();
                     break;
                 case BattleTarget.Area:

@@ -195,7 +195,6 @@
     <Compile Include="Battle\Formation.cs" />
     <Compile Include="Battle\FormationType.cs" />
     <Compile Include="Asset\Spell.cs" />
-    <Compile Include="Screen\MenuState\MessageBox.cs" />
     <Compile Include="Test\LevelUpDemo.cs" />
     <Compile Include="Screen\MenuState\Save\Label.cs" />
     <Compile Include="Screen\MenuState\Save\Prompt.cs" />

@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Thread = System.Threading.Thread;
 using System.IO;
 using System.Linq;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Battle;
@@ -409,7 +411,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _stealOption || _option == _mugOption)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.Combatant);
+                        Seven.BattleState.Screen.SelectEnemy();
                     }
                     else if (_option == _itemMenuOption)
                     {
@@ -477,9 +479,62 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = targets.First();
 
-                BattleEvent e = new BattleEvent(performer, () => target.Sense());
+                List<String> messages = new List<String>();
+
+                messages.Add(target.Name + " Lvl: " + target.Level);
+                messages.Add(String.Format("HP: {0}/{1} MP: {2}/{3}", target.HP, + target.MaxHP , + target.MP, + target.MaxMP));
+
+                foreach (Element element in target.Weaknesses)
+                {
+                    string description = element.ToString();
+
+                    switch (element)
+                    {
+                        case Element.Restorative:
+                            description = "holy power";
+                            break;
+                    }
+
+                    messages.Add("Weak against " + description + ".");
+                }
+
+
+                int pause = 1000;
+                int message_duration = 1500; // TODO: config value
+                int dialogue_duration = messages.Count * message_duration;
+                int duration = pause + dialogue_duration;
                 
-                e.Dialogue = c => target.ToString();
+                TimedDialogue dialogue = delegate(Clock c)
+                {
+                    long elapsed = c.TotalMilliseconds;
+                    string info = null;
+                    
+                    if (elapsed < pause)
+                    {
+                        info = performer.Name + " senses " + target.Name;
+                    }
+                    else
+                    {
+                        elapsed -= pause;
+
+                        int index = (int)elapsed / message_duration;
+
+                        if (index >= messages.Count) index = messages.Count - 1;
+
+                        info = messages[index]; 
+                    }
+                    
+                    return info;
+                };
+
+                TimedActionContext context = new TimedActionContext(
+                    delegate(Timer t) { Thread.Sleep(pause); target.Sense(); Thread.Sleep(dialogue_duration); },
+                    duration,
+                    dialogue);
+
+
+                BattleEvent e = new BattleEvent(performer, context);
+
                 
                 Seven.BattleState.EnqueueAction(e);
             }
@@ -535,9 +590,61 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = targets.First();
 
-                BattleEvent e = new BattleEvent(performer, () => ((Enemy)target).StealItem(performer));
+                Enemy enemy = (Enemy)target;
+
+                IInventoryItem stolen = null;
+
+                bool canSteal = enemy.HasItems;
+
+                int pause = 1000;
+                int steal_duration = 2000;
+                int duration = pause + steal_duration;
                 
-                e.Dialogue = c => target.ToString() + " being theived";
+                TimedDialogue dialogue = delegate(Clock c)
+                {
+                    long elapsed = c.TotalMilliseconds;
+                    string info = null;
+                    
+                    if (elapsed < pause)
+                    {
+                        info = performer.Name + " steals from " + target.Name;
+                    }
+                    else
+                    {
+                        if (canSteal)
+                        {
+                            if (stolen != null)
+                            {
+                                // TODO: this doesn't work
+                                info = "Stole " + stolen.Name + "!";
+                            }
+                            else
+                            {
+                                info = "Couldn't steal anything...";
+                            }
+                        }
+                        else
+                        {
+                            info = "Nothing to steal.";
+                        }
+                    }
+                    
+                    return info;
+                };
+                
+                TimedActionContext context = new TimedActionContext(
+                    delegate(Timer t) { 
+                        Thread.Sleep(pause); 
+                        stolen = ((Enemy)target).StealItem(performer);
+                        Thread.Sleep(steal_duration);
+                    },
+                    duration,
+                    dialogue);
+
+
+                
+                
+                BattleEvent e = new BattleEvent(performer, context);
                 
                 Seven.BattleState.EnqueueAction(e);
             }

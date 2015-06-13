@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
+using Thread = System.Threading.Thread;
+using ThreadStart = System.Threading.ThreadStart;
 using System.IO;
 using System.Xml;
 using System.Xml.XPath;
@@ -55,13 +56,8 @@ namespace Atmosphere.Reverence.Seven.State
             Random = new Random();
             
             Items = new List<IInventoryItem>();
-
-            _formation = Formation.Get(formationId);
-
             
-            _victoryEvent = new BattleEvent(null, () => { });
-            _victoryEvent.ResetSourceTurnTimer = false;
-            _victoryEvent.Dialogue = c => "Victory!";
+            _formation = Formation.Get(formationId);
         }
         
         protected override void InternalInit()
@@ -71,7 +67,9 @@ namespace Atmosphere.Reverence.Seven.State
                 Width = Seven.Config.WindowWidth,
                 Height = Seven.Config.WindowHeight
             };
-            
+                        
+            _victoryEvent = CreateVictoryEvent();
+
             Screen = new BattleScreen(state);
 
             BattleClock = new Clock(Seven.Party.BattleSpeed);
@@ -119,7 +117,17 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
 
+        private static BattleEvent CreateVictoryEvent()
+        {
+            int duration = 4000;
 
+            TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => "Victory!");
+
+            BattleEvent victoryEvent = new BattleEvent(null, context);
+            victoryEvent.ResetSourceTurnTimer = false;
+
+            return victoryEvent;
+        }
 
 
 
@@ -558,7 +566,7 @@ namespace Atmosphere.Reverence.Seven.State
         public int Gil  { get; private set; }
         public List<IInventoryItem> Items { get; private set; }
 
-        public Thread AbilityThread { get; private set; }
+        public System.Threading.Thread AbilityThread { get; private set; }
 
         public Random Random { get; private set; }
 

@@ -301,20 +301,6 @@ namespace Atmosphere.Reverence.Seven
             
             return used;
         }
-        
-        public void UseItemInBattle(int slot, IEnumerable<Combatant> targets)
-        {
-            IInventoryItem item = _inventory[slot].Item;
-            
-            if (!item.CanUseInBattle)
-            {
-                throw new ImplementationException("Tried to use an item in battle that can't be used in battle.");
-            }
-
-            ((Item)item).UseInBattle(targets);
-
-            DecreaseCount(slot);
-        }
 
         public void WriteToXml(XmlWriter writer)
         {

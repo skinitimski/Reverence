@@ -26,8 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         const int options = Seven.SAVE_FILES + 1;
         
         #endregion Layout
-        
-        private int _option = 0;
+
         
         public Prompt(Menu.ScreenState screenState)
             : base(
@@ -44,19 +43,26 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
             switch (k)
             {
                 case Key.Up:
-                    if (_option > 0) _option--;
+                    if (Option > 0) Option--;
                     break;
                 case Key.Down:
-                    if (_option < options - 1) _option++;
+                    if (Option < options - 1) Option++;
                     break;
                 case Key.Circle:
-                    if (_option == 0)
+                    if (Option == 0)
                     {
                         Seven.Instance.LoadNewGame();
                     }
                     else
                     {
-                        Seven.Instance.LoadSavedGame(_option - 1);
+                        if (Seven.Instance.CanLoadSavedGame(Option - 1))
+                        {
+                            Seven.Instance.LoadSavedGame(Option - 1);
+                        }
+                        else
+                        {
+
+                        }
                     }
                     break;
                 default: break;
@@ -70,7 +76,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
-            int y_cursor = y_option0 + y_spacing * _option + y_displacement_cursor;
+            int y_cursor = y_option0 + y_spacing * Option + y_displacement_cursor;
 
             Shapes.RenderCursor(g, X + x_cursor, Y + y_cursor);
 
@@ -92,7 +98,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         public override void SetAsControl()
         {
             base.SetAsControl();
-            _option = 0;
+            Option = 0;
             Visible = true;
         }
         
@@ -101,7 +107,8 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
             base.SetNotControl();
             Visible = false;
         }
-        
+                
+        public int Option { get; private set; }        
         
         public override string Info
         { get { return ""; } }

@@ -2,12 +2,11 @@ using System;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
-using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 
-namespace Atmosphere.Reverence.Seven.Screen.MenuState
+namespace Atmosphere.Reverence.Menu
 {
-    internal sealed class MessageBox : Menu.Menu
+    internal sealed class MessageBox : Menu
     {
         public const int TIMEOUT = 1000;
 
@@ -15,14 +14,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
         const int w_padding = 100;
         const int h_padding = 50;
 
-        public MessageBox(TimedDialogue message)
-            : this(message, TIMEOUT)
+        public MessageBox(ScreenState screenState, TimedDialogue message)
+            : this(screenState, message, TIMEOUT)
         { 
         }
 
-        public MessageBox(TimedDialogue message, int timeout)
+        public MessageBox(ScreenState screenState, TimedDialogue message, int timeout)
             : base(0, 0, 0, 0)
         { 
+            ScreenState = screenState;
             Message = message;
             Timer = new Timer(timeout);
         }
@@ -42,8 +42,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
             Width = (int)te.Width + w_padding * 2;
             Height = (int)te.Height + h_padding * 2;
 
-            int x = Seven.Config.WindowWidth / 2 - Width / 2;
-            int y = Seven.Config.WindowHeight / 2 - Height / 2;
+            int x = ScreenState.Width / 2 - Width / 2;
+            int y = ScreenState.Height / 2 - Height / 2;
 
             Move(x, y);
 
@@ -62,6 +62,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState
         public Timer Timer { get; private set; }
 
         private TimedDialogue Message { get; set; }
+
+        /// <remarks>
+        /// this could potentially be updated in the future
+        /// </remarks>            
+        private ScreenState ScreenState { get; set; }
     }
 }
 

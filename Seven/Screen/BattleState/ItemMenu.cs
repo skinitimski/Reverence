@@ -2,10 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Thread = System.Threading.Thread;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
@@ -80,13 +82,28 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         protected void UseItem(int slot, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, new Action(() =>  Seven.Party.Inventory.UseItemInBattle(slot, targets)));
-
+            int duration = 2000;
+            IInventoryItem item = Seven.Party.Inventory.GetItem(slot);
+            
             string userName = Seven.BattleState.Commanding.Name;
             string itemName = Seven.Party.Inventory.GetItem(slot).Name;
 
+            TimedActionContext context = new TimedActionContext(
+                delegate(Timer timer) 
+                {                
+                ((Item)item).UseInBattle(targets);
+                Thread.Sleep(duration);
+                Seven.Party.Inventory.DecreaseCount(slot);
+                },
+                duration,
+            c => userName + " uses item " + itemName
+                );
+
+
+            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, context);
+
+
             e.ResetSourceTurnTimer = releaseAlly;
-            e.Dialogue = c => userName + " uses item " + itemName;
             
             Seven.BattleState.EnqueueAction(e);
         }

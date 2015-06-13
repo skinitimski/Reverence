@@ -560,6 +560,14 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Properties
+
+        public override IList<Element> Weaknesses
+        {
+            get
+            {
+                return new List<Element>();
+            }
+        }
         
         public override int Atk { get { return Attack(_c) + (AttackMod * Attack(_c) / 100); } }
 

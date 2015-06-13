@@ -107,18 +107,16 @@ namespace Atmosphere.Reverence.Seven
             _party.SaveToFile(path);
         }
 
+        public bool CanLoadSavedGame(int save)
+        {
+            return File.Exists(GetSaveFilePath(save));
+        }
+
         public void LoadSavedGame(int save)
         {
-            XmlNode saveGame;
-
-//            string savefile = String.Format("data.savegame{0}.xml", save);
-//            saveGame = Resource.GetXmlFromResource(savefile, typeof(Seven).Assembly);
-//            saveGame = saveGame.SelectSingleNode("*");
-
-            string savefile = String.Format("savegame.{0}.xml", save);
             XmlDocument doc = new XmlDocument();
-            doc.Load(Path.Combine(Configuration.SavePath, savefile));
-            saveGame = doc.SelectSingleNode("*");
+            doc.Load(Path.Combine(Configuration.SavePath, GetSaveFilePath(save)));
+            XmlNode saveGame = doc.SelectSingleNode("*");
 
 
             _party = new Party(saveGame);
@@ -128,6 +126,15 @@ namespace Atmosphere.Reverence.Seven
             _menuState.Init();
 
             SetState(_menuState);
+        }
+
+        private String GetSaveFilePath(int save)
+        {
+            string savefile = String.Format("savegame.{0}.xml", save);
+            
+            savefile =Path.Combine(Configuration.SavePath, savefile);
+
+            return savefile;
         }
         
         public void BeginBattle()

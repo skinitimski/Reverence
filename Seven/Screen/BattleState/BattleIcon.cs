@@ -9,8 +9,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal abstract class BattleIcon
     {
-        private const int TIMEOUT_MS = 1500;
-        private const int Q1 = TIMEOUT_MS / 4;
+        public const int ANIMATION_DURATION = 1500;
+        private const int Q1 = ANIMATION_DURATION / 4;
         private const int Q2 = Q1 * 2;
         private const int Q3 = Q1 * 3;
         
@@ -27,7 +27,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             Y = receiver.Y;
 
             Color = Colors.WHITE;
-            AnimationTimer = new Timer(TIMEOUT_MS);
+            AnimationTimer = new Timer(ANIMATION_DURATION);
         }
         
         public void Draw(Gdk.Drawable d)
@@ -67,8 +67,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 d = MIN - ((t - Q3) / STEPS_ABOVE);
             }
-            
-            
+                        
             return d;
         }
 

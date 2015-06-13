@@ -84,5 +84,8 @@
     <Compile Include="Menu\MenuScreen.cs" />
     <Compile Include="Time\TimedDialogue.cs" />
     <Compile Include="Menu\ScreenState.cs" />
+    <Compile Include="Time\TimedAction.cs" />
+    <Compile Include="Menu\MessageBox.cs" />
+    <Compile Include="Time\TimedActionContext.cs" />
   </ItemGroup>
 </Project>

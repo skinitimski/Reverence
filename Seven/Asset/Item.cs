@@ -201,10 +201,13 @@ namespace Atmosphere.Reverence.Seven.Asset
                         case BattleTarget.Enemy:
                             BattleUsage.Use.Call(targets.First());
                             break;
-
+                            
                         case BattleTarget.Group:
+                        case BattleTarget.GroupPlural:
                         case BattleTarget.Allies:
+                        case BattleTarget.AlliesPlural:
                         case BattleTarget.Enemies:
+                        case BattleTarget.EnemiesPlural:
                             BattleUsage.Use.Call(targets.ToList());
                             break;
                     }

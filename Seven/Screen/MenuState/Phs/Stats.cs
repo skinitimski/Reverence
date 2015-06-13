@@ -50,7 +50,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
                     if (Seven.Party[0] == null && Seven.Party[1] == null && Seven.Party[2] == null)
                     {
-                        Seven.MenuState.ShowMessage(c => "No party!");
+                        Seven.Instance.ShowMessage(c => "No party!");
                     }
                     else
                     {

@@ -756,12 +756,13 @@
         <order>49</order>
         <type>Magical</type>
         <cost>110</cost>
-        <target>Group</target>
+        <target>GroupPlural</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>false</allable>
         <formula>MagicalAttack</formula>
         <power>30</power>
         <hitp>100</hitp>
+        <hits>4</hits>
         <elements>
             <element>Fire</element>
         </elements>
