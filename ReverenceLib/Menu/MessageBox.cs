@@ -8,14 +8,14 @@ namespace Atmosphere.Reverence.Menu
 {
     internal sealed class MessageBox : Menu
     {
-        public const int TIMEOUT = 1000;
+        public const int DEFAULT_TIMEOUT = 1000;
 
 
         const int w_padding = 100;
         const int h_padding = 50;
 
         public MessageBox(ScreenState screenState, TimedDialogue message)
-            : this(screenState, message, TIMEOUT)
+            : this(screenState, message, DEFAULT_TIMEOUT)
         { 
         }
 

@@ -220,12 +220,12 @@ namespace Atmosphere.Reverence
 
                     try
                     {
-                        
+                        State.Draw(_pixmap, w, h);
+
                         if (MessageBox != null)
                         {
                             MessageBox.Draw(_pixmap);
                         }
-                        State.Draw(_pixmap, w, h);
                     }
                     catch (Exception e)
                     {
@@ -499,6 +499,8 @@ namespace Atmosphere.Reverence
                 _window.ConfigureEvent += OnWinConfigure;
                 _window.ExposeEvent += OnExposed;
             
+                _oldWidth = Configuration.WindowWidth;
+                _oldHeight = Configuration.WindowHeight;
             
                 GLib.Timeout.Add(1000 / Configuration.RefreshRate, new GLib.TimeoutHandler(OnTimedDraw));
             
@@ -589,15 +591,15 @@ namespace Atmosphere.Reverence
             _quit = true;
         }
         
-        public void ShowMessage(TimedDialogue message)
+        public void ShowMessage(TimedDialogue message, int timeout = MessageBox.DEFAULT_TIMEOUT)
         {
             ScreenState screenState = new ScreenState
             {
                 Width = _oldWidth,
                 Height = _oldHeight
             };
-
-            MessageBox = new MessageBox(screenState, message);            
+            
+            MessageBox = new MessageBox(screenState, message, timeout);            
         }
 
         
