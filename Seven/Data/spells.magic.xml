@@ -792,7 +792,7 @@
         <type>Magical</type>
         <cost>99</cost>
         <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
         <allable>false</allable>
         <formula>MaxHPPercent</formula>
         <power>32</power>
@@ -808,11 +808,11 @@
         <type>Magical</type>
         <cost>180</cost>
         <target>Combatant</target>
-        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
         <allable>false</allable>
         <power>0</power>
         <hitp>255</hitp>
-        <statusChange type="Inflict" statuses="Sheild" odds="100" />
+        <statusChange type="Inflict" statuses="Shield" odds="100" />
     </spell>
     <spell>
         <name>Ultima</name>
