@@ -80,13 +80,13 @@ namespace Atmosphere.Reverence.Time
             {
                 int pe = 0;
 
-                if (TotalMilliseconds > _timeoutMs)
+                if (IsUp)
                 {
                     pe = 100;
                 }
                 else
                 {
-                    pe = (int)((TotalMilliseconds * 100L) / _timeoutMs);
+                    pe = (int)((GetTotalElapsedTicks() * 100L) / _timeout);
                 }
 
                 return pe;
