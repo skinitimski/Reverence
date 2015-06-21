@@ -11,7 +11,7 @@ namespace Atmosphere.UnitTests.Seven
     [TestFixture]
     public partial class CharacterTest
     {
-        [Test]
+//        [Test]
         public void LevelUpTest()
         {
             string cloud = LevelUpDemo.GetCharacterStats("Cloud", 53);

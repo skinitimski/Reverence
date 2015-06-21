@@ -581,8 +581,11 @@ namespace Atmosphere.Reverence
         {            
             Console.WriteLine("FATAL ERROR" + msg);
 
+            int depth = 0;
+
             while (e != null)
             {                
+                Console.WriteLine("Depth: " + depth++);
                 Console.WriteLine("{0}: {1}{2}{3}", e.GetType().Name, e.Message, Environment.NewLine, e.StackTrace);
 
                 e = e.InnerException;

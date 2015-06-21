@@ -22,7 +22,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         Pincer,
         
         /// <summary>
-        /// Enemies are attacked from behind by allies.
+        /// Enemies are attacked from both sides by allies.
         /// </summary>
         Side,
     }
