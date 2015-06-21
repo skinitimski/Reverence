@@ -76,6 +76,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                                 break;
                         }
                     }
+                    else
+                    {
+                        Seven.Instance.ShowMessage(c => "!");
+                    }
 
                     break;
                 default:

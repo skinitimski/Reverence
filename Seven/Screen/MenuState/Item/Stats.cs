@@ -77,7 +77,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
                     if (_selectedItem.FieldTarget == FieldTarget.Character && Seven.Party.Selected == null)
                     {
-                        // TODO: beep
+                        Seven.Instance.ShowMessage(c => "!");
                         break;
                     }
 
@@ -90,7 +90,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     }
                     else
                     {
-                        // beep
+                        Seven.Instance.ShowMessage(c => "!");
                     }
 
                     break;

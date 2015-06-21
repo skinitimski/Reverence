@@ -138,6 +138,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         {
                             Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
+                        else
+                        {
+                            Seven.Instance.ShowMessage(c => "!", 500);
+                        }
                     }
                     break;
             }

@@ -78,15 +78,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 case Key.Circle:
                     if (_summons[_option] != null)
                     {
-                        if (Seven.BattleState.Commanding.MP >= _summons[_option].Spell.MPCost)
-                        {
-                            Spell spell = _summons[_option].Spell;
+                        Spell spell = Selected.Spell;
 
+                        if (CommandingAvailableMP >= spell.MPCost)
+                        {
                             Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                         else
                         {
-                            // TODO: beep
+                            Seven.Instance.ShowMessage(c => "!", 500);
                         }
                     }
                     break;
