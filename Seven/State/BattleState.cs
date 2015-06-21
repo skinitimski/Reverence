@@ -288,7 +288,8 @@ namespace Atmosphere.Reverence.Seven.State
                 if (e.TurnTimer.IsUp && !e.WaitingToResolve)
                 {
                     e.WaitingToResolve = true;
-                    e.RunAIMain();
+
+                    e.TakeTurn();
                 }
             }
         }
@@ -546,6 +547,8 @@ namespace Atmosphere.Reverence.Seven.State
                 e.Dispose();
             }
         }
+
+
         
         
         

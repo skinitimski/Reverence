@@ -19,3 +19,13 @@ function chooseRandomAlly()
     return BattleState.Allies[i]
     
 end
+
+
+function chooseRandomEnemy()
+    
+    local n = BattleState.EnemyList.Count
+    local i = math.random(n) - 1 --Seven.BattleState.Random:Next(3)
+    
+    return BattleState.EnemyList[i]
+    
+end

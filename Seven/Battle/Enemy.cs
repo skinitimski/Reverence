@@ -242,10 +242,27 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 throw new ImplementationException("Error loading enemy main AI script; enemy = " + Name, ex);
             }
-
-
-
-
+            
+            
+            string confuAttack = node.SelectSingleNode("ai/confuAttack").InnerText;
+            
+            if (!Attacks.ContainsKey(confuAttack))
+            {
+                throw new GameDataException("Specified confu attack '{0}' is not configured; enemy = {1}", confuAttack, Name);
+            }
+            
+            AIConfu = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
+            
+            
+            string berserkAttack = node.SelectSingleNode("ai/berserkAttack").InnerText;
+            
+            if (!Attacks.ContainsKey(berserkAttack))
+            {
+                throw new GameDataException("Specified berserk attack '{0}' is not configured; enemy = {1}", berserkAttack, Name);
+            }
+            
+            AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
+           
             
             
             int vStep = Seven.Party.BattleSpeed;
@@ -266,7 +283,18 @@ namespace Atmosphere.Reverence.Seven.Battle
                 throw new GameDataException("No enemy defined with id = " + id);
             }
 
-            return new Enemy(_table[id], x, y, e, designation);
+            Enemy enemy = null;
+
+            try
+            {
+                enemy = new Enemy(_table[id], x, y, e, designation);
+            }
+            catch (Exception ex)
+            {
+                throw new GameDataException("Error creating enemy with id = " + id, ex);
+            }
+
+            return enemy;
         }
 
 
@@ -364,12 +392,72 @@ namespace Atmosphere.Reverence.Seven.Battle
             g.Fill();
 
             Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
+#if DEBUG
+            string extraInfo = String.Format("{0}/{1} {2}/{3} {4}%", HP, MaxHP, MP, MaxMP, TurnTimer.PercentElapsed);
+            Text.ShadowedText(g, Colors.WHITE, extraInfo, X + iconSize, Y + 20, Text.MONOSPACE_FONT, 18);
+
+            StringBuilder statuses = new StringBuilder();
+
+            if (Death) { statuses.Append("Death, "); }
+            if (NearDeath) { statuses.Append("NearDeath, "); }
+            if (Sadness) { statuses.Append("Sadness, "); }
+            if (Fury) { statuses.Append("Fury, "); }
+            if (Sleep) { statuses.Append("Sleep, "); }
+            if (Poison) { statuses.Append("Poison, "); }
+            if (Confusion) { statuses.Append("Confusion, "); }
+            if (Silence) { statuses.Append("Silence, "); }
+            if (Haste) { statuses.Append("Haste, "); }
+            if (Slow) { statuses.Append("Slow, "); }
+            if (Stop) { statuses.Append("Stop, "); }
+            if (Frog) { statuses.Append("Frog, "); }
+            if (Small) { statuses.Append("Small, "); }
+            if (SlowNumb) { statuses.Append("SlowNumb, "); }
+            if (Petrify) { statuses.Append("Petrify, "); }
+            if (Regen) { statuses.Append("Regen, "); }
+            if (Barrier) { statuses.Append("Barrier, "); }
+            if (MBarrier) { statuses.Append("MBarrier, "); }
+            if (Reflect) { statuses.Append("Reflect, "); }
+            if (Shield) { statuses.Append("Shield, "); }
+            if (DeathSentence) { statuses.Append("DeathSentence, "); }
+            if (Manipulate) { statuses.Append("Manipulate, "); }
+            if (Berserk) { statuses.Append("Berserk, "); }
+            if (Peerless) { statuses.Append("Peerless, "); }
+            if (Paralysed) { statuses.Append("Paralysed, "); }
+            if (Darkness) { statuses.Append("Darkness, "); }
+            if (Seizure) { statuses.Append("Seizure, "); }
+            if (DeathForce) { statuses.Append("DeathForce, "); }
+            if (Resist) { statuses.Append("Resist, "); }
+            if (LuckyGirl) { statuses.Append("LuckyGirl, "); }
+            if (Imprisoned) { statuses.Append("Imprisoned, "); }
+
+            if (statuses.Length > 0)
+            {
+                statuses.Length -= 2;
+                Text.ShadowedText(g, Colors.WHITE, statuses.ToString(), X + iconSize, Y + 40, Text.MONOSPACE_FONT, 18);
+            }
+#endif
+        }
+
+
+        public void TakeTurn()
+        {
+            if (Confusion)
+            {
+                RunAIConfu();
+            }
+            else if (Berserk)
+            {
+                RunAIBerserk();
+            }
+            else
+            {
+                RunAIMain();
+            }
         }
         
-        
         #region AI
-
-        public void RunAIMain()
+        
+        private void RunAIMain()
         {
             try
             {
@@ -378,6 +466,30 @@ namespace Atmosphere.Reverence.Seven.Battle
             catch (Exception e)
             {
                 throw new ImplementationException("Error in Enemy AI Main script, enemy = " + Name, e);
+            }
+        }
+        
+        private void RunAIConfu()
+        {
+            try
+            {
+                AIConfu.Call(this);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error in Enemy AI Confu script, enemy = " + Name, e);
+            }
+        }
+        
+        private void RunAIBerserk()
+        {
+            try
+            {
+                AIBerserk.Call(this);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error in Enemy AI Berserk script, enemy = " + Name, e);
             }
         }
 
