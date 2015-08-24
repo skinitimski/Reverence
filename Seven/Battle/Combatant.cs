@@ -51,7 +51,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         protected long _seizureTimeEnd = -1;
 
 
-        
+
+
+        protected Combatant(int x, int y)
+        {            
+            _x = x;
+            _y = y;
+        }
         
         
         
@@ -204,6 +210,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 _seizureTimeInt = V_Timer.TotalMilliseconds;
             }
         }
+
+        protected abstract int GetTurnTimerStep(int vStep);
         
         protected void DoubleTimers()
         {
@@ -217,10 +225,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             V_Timer.HalveSpeed();
             ReLinkTimers();
         }
+
         protected void ReLinkTimers()
         {
-            //TurnTimer.TicksPer = Seven.Party.TurnTimerSpeed(this, V_Timer.TicksPer);
+            TurnTimer.TicksPer = GetTurnTimerStep(V_Timer.TicksPer);
         }
+
         protected void PauseTimers()
         {
             C_Timer.Pause();

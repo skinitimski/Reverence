@@ -141,10 +141,10 @@ namespace Atmosphere.Reverence.Seven.Battle
                 _table.Add(Resource.CreateID(name), node);
             }
         }
-
-        private Enemy()
-            : base()
-        {
+        
+        private Enemy(XmlNode node, int x, int y, int e, string designation)
+            : base(x, y)
+        {         
             _weak = new List<Element>();
             _halve = new List<Element>();
             _void = new List<Element>();
@@ -153,13 +153,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             _win = new List<EnemyItem>();
             _steal = new List<EnemyItem>();
-
+            
             Attacks = new Dictionary<string, Attack>();
-        }
-        
-        private Enemy(XmlNode node, int x, int y, int e, string designation)
-            : this()
-        {            
+
             _name = node.SelectSingleNode("name").InnerText;
             _attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
             _defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
@@ -262,18 +258,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
-           
-            
+
             
             int vStep = Seven.Party.BattleSpeed;
-            int tStep = Dexterity * vStep / Seven.Party.NormalSpeed();
             
             C_Timer = new Clock();
             V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep, e, false);
-
-            _x = x;
-            _y = y;
+            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
         }
 
         public static Enemy CreateEnemy(string id, int x, int y, int e, string designation = "")
@@ -436,6 +427,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Text.ShadowedText(g, Colors.WHITE, statuses.ToString(), X + iconSize, Y + 40, Text.MONOSPACE_FONT, 18);
             }
 #endif
+        }
+
+        protected override int GetTurnTimerStep(int vStep)
+        {
+            return Dexterity * vStep / Seven.Party.NormalSpeed();
         }
 
 

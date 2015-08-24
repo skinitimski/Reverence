@@ -217,6 +217,7 @@ namespace Atmosphere.Reverence.Time
         public int TicksPer
         {
             get { return _ticksPerUnit; }
+            set { _ticksPerUnit = value; }
         }
         
         /// <summary>

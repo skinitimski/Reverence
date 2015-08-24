@@ -30,28 +30,12 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
         #endregion Member Data
 
-        private Ally()
-            : base()
-        {
-        }
         
         public Ally(Character c, int x, int y, int e)
-            : this()
+            : base(x, y)
         {
             _c = c;
-            
-            //_abilityState = new AbilityState();
-
-            int vStep = Seven.Party.BattleSpeed;
-            int tStep = (Dexterity + 50) * vStep / Seven.Party.NormalSpeed();
-            
-            C_Timer = new Clock();
-            V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, tStep, e, false);
-            
-            _x = x;
-            _y = y;
-            
+                        
             GetMagicSpells();
             GetSummons();
                         
@@ -59,6 +43,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 InflictDeath();
             }
+
+            int vStep = Seven.Party.BattleSpeed;
+            
+            C_Timer = new Clock();
+            V_Timer = new Clock(vStep);
+            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
         }
 
         internal void InitMenu(ScreenState state)
@@ -322,8 +312,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-
-
+        protected override int GetTurnTimerStep(int vStep)
+        {
+            return (Dexterity + 50) * vStep / Seven.Party.NormalSpeed();
+        }
 
 
 
