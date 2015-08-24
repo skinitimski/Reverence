@@ -60,7 +60,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             DrawCharacterStatus(d, gc, g);
 
             exp = Seven.Party.Selected.Exp.ToString();
-            next = Seven.Party.Selected.ToNextLevel.ToString();
+            next = Seven.Party.Selected.ExpToNextLevel.ToString();
             llvl = Seven.Party.Selected.LimitLevel.ToString();
 
             Text.ShadowedText(g, "Exp:", X + x8, Y + ya);

@@ -22,6 +22,7 @@ namespace Atmosphere.Reverence.Seven
         public const int MAX_MP = 999;
 
         public const int MAX_LEVEL = 99;
+        public const int MIN_LEVEL = 1;
 
         public const int PROFILE_WIDTH = 120;
         public const int PROFILE_HEIGHT = 136;
@@ -608,7 +609,7 @@ namespace Atmosphere.Reverence.Seven
         /// <param name="gain">Amount of EXP points to gain.</param>
         public void GainExperience(int gain)
         {
-            while (Level < MAX_LEVEL && _exp + gain >= NextLevel)
+            while (Level < MAX_LEVEL && _exp + gain >= ExpNextLevel)
             {
                 LevelUp();
             }
@@ -996,6 +997,31 @@ namespace Atmosphere.Reverence.Seven
         {
             LuckBonus++;
         }
+
+
+
+        
+        public int TotalExpForLevel(int level)
+        {    
+            int exp = 0;
+            
+            if (level > MIN_LEVEL)
+            {
+                if (level > MAX_LEVEL)
+                {
+                    level = MAX_LEVEL;
+                }
+                
+                int mod = Q(level);
+                
+                for (int i = MIN_LEVEL; i <= level - 1; i++)
+                {
+                    exp = exp + (mod * i * i / 10);
+                }
+            }
+            
+            return exp;
+        }
         
         #endregion Methods
         
@@ -1055,27 +1081,31 @@ namespace Atmosphere.Reverence.Seven
         public int Exp { get { return _exp; } }
 
         /// <summary>
-        /// Returns the TOTAL experience required to get to the next level
+        /// Returns the TOTAL experience required to get to the CURRENT level
         /// </summary>
-        public int NextLevel
+        public int ExpNextLevel
         {
             get
             {
-                int nextLevel = Math.Min(_level + 1, MAX_LEVEL);
-
-                int mod = Q(nextLevel);
-                int xp = 0;
-                for (int i = 1; i <= _level; i++)
-                {
-                    xp = xp + (mod * i * i / 10);
-                }
-                return xp;
+                return TotalExpForLevel(_level + 1);
             }
         }
+        
+        /// <summary>
+        /// Returns the TOTAL experience required to get to the CURRENT level
+        /// </summary>
+        public int ExpCurrentLevel
+        {
+            get
+            {
+                return TotalExpForLevel(_level);
+            }
+        }
+        
         /// <summary>
         /// Returns the REMAINING experience required to get to the next level
         /// </summary>
-        public int ToNextLevel { get { return NextLevel - _exp; } }
+        public int ExpToNextLevel { get { return ExpNextLevel - _exp; } }
 
         public bool HPFull { get { return HP == MaxHP; } }
         

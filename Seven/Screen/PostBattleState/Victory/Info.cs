@@ -64,7 +64,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
                 te = g.TextExtents(exp);
                 Text.ShadowedText(g, exp, X + x5 - te.Width, Y + y0);
                 
-                string expNext = c.ToNextLevel.ToString() + "p";
+                string expNext = c.ExpToNextLevel.ToString() + "p";
                 te = g.TextExtents(expNext);
                 Text.ShadowedText(g, expNext, X + x5 - te.Width, Y + y1);
             }

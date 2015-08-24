@@ -195,6 +195,22 @@ namespace Atmosphere.Reverence.Seven
 
 
 
+        
+#if DEBUG
+        public void TestPostBattleState()
+        {
+            int exp = 50000;
+            int ap = 1500;
+            int gil = 100000;
+
+            _postBattleState = new PostBattleState(exp, ap, gil, new System.Collections.Generic.List<IInventoryItem>());
+            _postBattleState.Init();
+            SetState(_postBattleState);
+        }
+#endif
+
+
+
         public static void Main(string[] args)
         {
             Instance = new Seven(args[0]);

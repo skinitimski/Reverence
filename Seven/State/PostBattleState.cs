@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Menu;
@@ -18,7 +19,8 @@ namespace Atmosphere.Reverence.Seven.State
         private int Gil_multiplier;
         private State _state;
         private MenuScreen _screen;
-
+        private bool _stopGivingExp;
+        private readonly object _sync = new Object();
 
         #region Nested
         private enum State
@@ -30,8 +32,9 @@ namespace Atmosphere.Reverence.Seven.State
         }
         #endregion
 
-#if DEBUG
-        public PostBattleState(int exp, int ap, int gil, List<IInventoryItem> items)
+
+
+        internal PostBattleState(int exp, int ap, int gil, List<IInventoryItem> items)
         {
             Exp = exp;
             AP = ap;
@@ -88,64 +91,11 @@ namespace Atmosphere.Reverence.Seven.State
 
             _state = State.BeforeGain;
         }
-#endif
 
 
         public PostBattleState(BattleState battle)
+            : this(battle.Exp, battle.AP, battle.Gil, battle.Items)
         {
-            Exp = battle.Exp;
-            AP = battle.AP;
-            Gil = battle.Gil;
-            Items = new List<Inventory.Record>();
-
-            Exp_multiplier = new int[] { 100, 100, 100 };
-
-            for (int i = 0; i < 3; i++)
-            {
-                if (battle.Allies[i] != null)
-                {
-                    foreach (MateriaOrb m in battle.Allies[i].Materia)
-                    {
-                        if (m != null)
-                        {
-                            if (m.ID == "gilplus")
-                            {
-                                switch (m.Level)
-                                {
-                                    case 0:
-                                        Gil_multiplier += 50;
-                                        break;
-                                    case 1:
-                                        Gil_multiplier += 100;
-                                        break;
-                                    case 2:
-                                        Gil_multiplier += 200;
-                                        break;
-                                }
-                            }
-                            if (m.ID == "expplus")
-                            {
-                                switch (m.Level)
-                                {
-                                    case 0:
-                                        Exp_multiplier[i] += 50;
-                                        break;
-                                    case 1:
-                                        Exp_multiplier[i] += 75;
-                                        break;
-                                    case 2:
-                                        Exp_multiplier[i] += 100;
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            CollectItems(battle.Items);
-
-            _state = State.BeforeGain;
         }
 
         private void CollectItems(List<IInventoryItem> items)
@@ -230,6 +180,16 @@ namespace Atmosphere.Reverence.Seven.State
                     _state = State.AfterGain;
                     break;
                 case State.AfterGain:
+
+                    lock (_sync)
+                    {
+                        _stopGivingExp = true;
+                    }
+                    
+                    Give.Join();
+                    Give = null;
+
+
                     _screen = HoardScreen;
                     HoardScreen.ChangeControl(HoardItemLeft);
                     _state = State.BeforeGive;
@@ -250,12 +210,14 @@ namespace Atmosphere.Reverence.Seven.State
 
         private void GiveExperience()
         {
-            for (int i = 0; i < 3; i++)
+            // Give AP to each materia orb attached to 
+            // each character in the party
+            for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                Character c = Seven.Party[i];
+
+                if (c != null)
                 {
-                    Character c = Seven.Party[i];
-                    c.GainExperience(Exp * Exp_multiplier[i] / 100);
                     foreach (MateriaOrb m in c.Materia)
                     {
                         if (m != null)
@@ -265,6 +227,9 @@ namespace Atmosphere.Reverence.Seven.State
                     }
                 }
             }
+
+            // Each character not in the party gets half the
+            // EXP that the others get (and no AP)
             foreach (Character c in Seven.Party.Reserves)
             {
                 if (c != null)
@@ -272,6 +237,89 @@ namespace Atmosphere.Reverence.Seven.State
                     c.GainExperience(Exp / 2);
                 }
             }
+
+            // Experience is given in chunks such that the progress bars fill
+            // at a constant rate. This means we dole out less exp per period
+            // at lower levels, and more exp per period at higher levels.
+
+            Give = new Thread(() =>
+            {
+                int[] exp = new int[Party.PARTY_SIZE];
+                int[] expGained = new int[Party.PARTY_SIZE];
+
+                int refreshPeriod = (1000 / (int)Seven.Config.RefreshRate);
+                int msPerBarFill = 3000;
+                int periodsPerBarFill = msPerBarFill / refreshPeriod;
+
+                for (int i = 0; i < Party.PARTY_SIZE; i++)
+                {
+                    Character c = Seven.Party[i];
+                    
+                    if (c != null && !c.Death)
+                    {
+                        exp[i] = Exp * Exp_multiplier[i] / 100;
+                    }
+                }
+
+
+                while (true)
+                {
+                    lock (_sync)
+                    {
+                        if (_stopGivingExp)
+                        {
+                            for (int i = 0; i < Party.PARTY_SIZE; i++)
+                            {    
+                                Character c = Seven.Party[i];
+                                
+                                if (c != null && !c.Death)
+                                {                            
+                                    int expLeft = (exp[i] - expGained[i]);
+                                    c.GainExperience(expLeft); 
+                                }                       
+                            }
+
+                            break;
+                        }
+                    }
+
+                    bool allDone = true;
+                    
+                    for (int i = 0; i < Party.PARTY_SIZE; i++)
+                    {
+                        if (expGained[i] < exp[i])
+                        {
+                            Character c = Seven.Party[i];
+
+                            if (c != null && !c.Death)
+                            {
+                                int expForLevel = c.ExpNextLevel - c.ExpCurrentLevel;
+
+                                int expChunk = expForLevel / periodsPerBarFill;
+
+                                if (expGained[i] + expChunk > exp[i])
+                                {
+                                    expChunk = exp[i] - expGained[i];
+                                }
+
+                                expGained[i] += expChunk;
+                                Seven.Party[i].GainExperience(expChunk);
+                            }
+                            
+                            allDone = false;
+                        }
+                    }
+
+                    if (allDone)
+                    {
+                        break;
+                    }
+
+                    System.Threading.Thread.Sleep(refreshPeriod);
+                }
+            });
+
+            Give.Start();
         }
 
         private void GiveGil()
@@ -281,7 +329,16 @@ namespace Atmosphere.Reverence.Seven.State
 
         protected override void InternalDispose()
         {
-            
+            if (Give != null)
+            {
+                lock (_sync)
+                {
+                    _stopGivingExp = true;
+                }
+
+                Give.Join();
+                Give = null;
+            }
         }
 
         public int Exp { get; private set; }
@@ -297,5 +354,7 @@ namespace Atmosphere.Reverence.Seven.State
         public MenuScreen HoardScreen { get; private set; }
 
         public Screens.Hoard.ItemLeft HoardItemLeft { get; private set; }
+
+        private Thread Give { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace Atmosphere.Reverence.Seven.Test
 
             while (c.Level < level)
             {
-                c.GainExperience(c.ToNextLevel + 10);
+                c.GainExperience(c.ExpToNextLevel + 10);
             }
 
             return c.ToString();
