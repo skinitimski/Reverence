@@ -325,6 +325,7 @@ namespace Atmosphere.Reverence.Seven.State
         private void GiveGil()
         {
             Seven.Party.Gil += Gil * Gil_multiplier / 100;
+            Gil -= Gil;
         }
 
         protected override void InternalDispose()

@@ -17,7 +17,7 @@ namespace Atmosphere.Reverence.Seven
 {
     public class Seven : Game
     {
-        public const int SAVE_FILES = 2;
+        public const int SAVE_FILES = 5;
 
 
         private Party _party;
