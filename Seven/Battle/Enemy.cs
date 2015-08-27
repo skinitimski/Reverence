@@ -373,13 +373,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Draw(Cairo.Context g)
         {
-            Cairo.Color iconColor = Colors.GRAY_8;
+            Cairo.Color iconColor = Colors.ALLY_BLUE;
             
             int iconSize = 20;
 
             g.Color = iconColor;
             g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
-            g.Fill();
             g.Fill();
 
             Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);

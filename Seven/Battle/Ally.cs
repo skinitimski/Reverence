@@ -276,7 +276,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Draw(Cairo.Context g)
         {
-            Cairo.Color iconColor = Colors.GRAY_8;
+            Cairo.Color iconColor = Colors.ENEMY_RED;
 
             if (Sleep)
             {

@@ -18,6 +18,9 @@ namespace Atmosphere.Reverence.Graphics
         public static readonly Color TEXT_RED = new Color(0.8, 0, 0);
         public static readonly Color TEXT_YELLOW = new Color(.8, .8, 0);
         public static readonly Color TEXT_MAGENTA = new Color(.7, 0, .7);
+
+        public static readonly Color ENEMY_RED = new Color(1.0, 0.6, 0.6);
+        public static readonly Color ALLY_BLUE = new Color(0.6, 0.6, 1.0);
     }
 }
 
