@@ -42,13 +42,30 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
             switch (k)
             {
                 case Key.Up:
-                    if (Option > 0) Option--;
+                    if (Option > 0)
+                    {
+                        Option--;
+                    }
+                    else
+                    {
+                        Option = options - 1;
+                    }
                     break;
                 case Key.Down:
-                    if (Option < options - 1) Option++;
+                    if (Option < options - 1)
+                    {
+                        Option++;
+                    }
+                    else
+                    {
+                        Option = 0;
+                    }
                     break;
                 case Key.Circle:
                     Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SaveConfirm);
+                    break;
+                case Key.X:
+                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
                     break;
                 default: break;
             }

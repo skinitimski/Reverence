@@ -1,20 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
 <party>
     <characters>
         <Cloud>
             <stats>
                 <str>81</str>
-                <vit>70</vit>
                 <dex>48</dex>
+                <vit>70</vit>
                 <mag>79</mag>
                 <spi>71</spi>
                 <lck>25</lck>
                 <lvl>53</lvl>
             </stats>
-            <exp>356891</exp>
+            <exp>376891</exp>
             <hp>3976</hp>
+            <mp>310</mp>
             <maxhp>4016</maxhp>
-            <mp>440</mp>
             <maxmp>482</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -23,8 +22,8 @@
             <weapon>
                 <name>butterflyedge</name>
                 <materia>
-                    <orb id="fire" type="Magic" ap="0" slot="0" />
-                    <orb id="ice" type="Magic" ap="0" slot="1" />
+                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
+                    <orb id="ice" type="Magic" ap="2000" slot="1" />
                 </materia>
             </weapon>
             <armor>
@@ -36,17 +35,17 @@
         <Tifa>
             <stats>
                 <str>65</str>
-                <vit>59</vit>
                 <dex>49</dex>
+                <vit>59</vit>
                 <mag>61</mag>
                 <spi>62</spi>
                 <lck>24</lck>
                 <lvl>46</lvl>
             </stats>
-            <exp>235461</exp>
+            <exp>245461</exp>
             <hp>2654</hp>
-            <maxhp>2973</maxhp>
             <mp>370</mp>
+            <maxhp>2973</maxhp>
             <maxmp>375</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -65,17 +64,17 @@
         <Barret>
             <stats>
                 <str>64</str>
-                <vit>69</vit>
                 <dex>37</dex>
+                <vit>69</vit>
                 <mag>58</mag>
                 <spi>57</spi>
                 <lck>23</lck>
                 <lvl>44</lvl>
             </stats>
-            <exp>211232</exp>
+            <exp>221232</exp>
             <hp>3219</hp>
-            <maxhp>3375</maxhp>
             <mp>299</mp>
+            <maxhp>3375</maxhp>
             <maxmp>327</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -93,19 +92,19 @@
         </Barret>
         <Aeris>
             <stats>
-                <str>55</str>
-                <vit>61</vit>
+                <str>56</str>
                 <dex>43</dex>
+                <vit>61</vit>
                 <mag>79</mag>
-                <spi>75</spi>
+                <spi>76</spi>
                 <lck>24</lck>
-                <lvl>48</lvl>
+                <lvl>49</lvl>
             </stats>
-            <exp>264319</exp>
+            <exp>284319</exp>
             <hp>2898</hp>
-            <maxhp>3189</maxhp>
             <mp>434</mp>
-            <maxmp>474</maxmp>
+            <maxhp>3246</maxhp>
+            <maxmp>487</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
@@ -122,19 +121,19 @@
         </Aeris>
         <RedXIII>
             <stats>
-                <str>67</str>
-                <vit>62</vit>
+                <str>69</str>
                 <dex>54</dex>
-                <mag>60</mag>
+                <vit>63</vit>
+                <mag>61</mag>
                 <spi>63</spi>
                 <lck>24</lck>
-                <lvl>46</lvl>
+                <lvl>47</lvl>
             </stats>
-            <exp>235461</exp>
-            <hp>3301</hp>
-            <maxhp>3302</maxhp>
+            <exp>255461</exp>
+            <hp>3232</hp>
             <mp>372</mp>
-            <maxmp>384</maxmp>
+            <maxhp>3428</maxhp>
+            <maxmp>393</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
@@ -142,14 +141,14 @@
             <weapon>
                 <name>seraphcomb</name>
                 <materia>
-                    <orb id="sense" type="Command" ap="0" slot="0" />
+                    <orb id="sense" type="Command" ap="2000" slot="0" />
                 </materia>
             </weapon>
             <armor>
                 <name>diamondbangle</name>
                 <materia>
-                    <orb id="fire" type="Magic" ap="500" slot="0" />
-                    <orb id="all" type="Support" ap="0" slot="1" />
+                    <orb id="fire" type="Magic" ap="2500" slot="0" />
+                    <orb id="all" type="Support" ap="2000" slot="1" />
                 </materia>
             </armor>
             <accessory />
@@ -157,17 +156,17 @@
         <CaitSith>
             <stats>
                 <str>55</str>
-                <vit>52</vit>
                 <dex>40</dex>
+                <vit>52</vit>
                 <mag>63</mag>
                 <spi>63</spi>
                 <lck>24</lck>
                 <lvl>43</lvl>
             </stats>
-            <exp>191887</exp>
+            <exp>201887</exp>
             <hp>2828</hp>
-            <maxhp>3269</maxhp>
             <mp>324</mp>
+            <maxhp>3269</maxhp>
             <maxmp>347</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -188,17 +187,17 @@
         <Yuffie>
             <stats>
                 <str>59</str>
-                <vit>56</vit>
                 <dex>51</dex>
+                <vit>56</vit>
                 <mag>61</mag>
                 <spi>57</spi>
                 <lck>26</lck>
                 <lvl>44</lvl>
             </stats>
-            <exp>208491</exp>
+            <exp>218491</exp>
             <hp>2595</hp>
-            <maxhp>2616</maxhp>
             <mp>312</mp>
+            <maxhp>2616</maxhp>
             <maxmp>351</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -219,17 +218,17 @@
         <Vincent>
             <stats>
                 <str>57</str>
-                <vit>55</vit>
                 <dex>43</dex>
+                <vit>55</vit>
                 <mag>64</mag>
                 <spi>68</spi>
                 <lck>26</lck>
                 <lvl>47</lvl>
             </stats>
-            <exp>254675</exp>
+            <exp>264675</exp>
             <hp>2818</hp>
-            <maxhp>2892</maxhp>
             <mp>378</mp>
+            <maxhp>2892</maxhp>
             <maxmp>404</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -248,17 +247,17 @@
         <Cid>
             <stats>
                 <str>65</str>
-                <vit>66</vit>
                 <dex>40</dex>
+                <vit>66</vit>
                 <mag>62</mag>
                 <spi>63</spi>
                 <lck>23</lck>
                 <lvl>47</lvl>
             </stats>
-            <exp>254675</exp>
+            <exp>264675</exp>
             <hp>3123</hp>
-            <maxhp>3398</maxhp>
             <mp>343</mp>
+            <maxhp>3398</maxhp>
             <maxmp>358</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
@@ -279,17 +278,16 @@
                 <str>85</str>
                 <dex>65</dex>
                 <vit>72</vit>
-                <mag>68</mag>
-                <spi>70</spi>
+                <mag>71</mag>
+                <spi>73</spi>
                 <lck>46</lck>
-                <lvl>50</lvl>
+                <lvl>51</lvl>
             </stats>
-            <!--<exp>320438</exp>-->
-            <exp>315438</exp>
-        <hp>3840</hp>
-        <mp>460</mp>
-        <maxhp>3840</maxhp>
-        <maxmp>460</maxmp>
+            <exp>325438</exp>
+            <hp>3840</hp>
+            <mp>460</mp>
+            <maxhp>3912</maxhp>
+            <maxmp>468</maxmp>
             <limitlvl>1</limitlvl>
             <fury>false</fury>
             <sadness>false</sadness>
@@ -316,16 +314,16 @@
             <accessory>touphring</accessory>
         </Sephiroth>
     </characters>
-        <slot0>Cloud</slot0>
-        <slot1>Aeris</slot1>
-        <slot2>RedXIII</slot2>
-        <reserve>Barret</reserve>
-        <reserve>Tifa</reserve>
-        <reserve>Yuffie</reserve>
-        <reserve>CaitSith</reserve>
-        <reserve>Vincent</reserve>
-        <reserve>Cid</reserve>
-        <reserve>Sephiroth</reserve>
+    <slot0>Cloud</slot0>
+    <slot1>Aeris</slot1>
+    <slot2>RedXIII</slot2>
+    <reserve>Barret</reserve>
+    <reserve>Tifa</reserve>
+    <reserve>Yuffie</reserve>
+    <reserve>CaitSith</reserve>
+    <reserve>Vincent</reserve>
+    <reserve>Cid</reserve>
+    <reserve>Sephiroth</reserve>
     <inventory>
         <item id="kill" count="99" slot="0" />
         <item id="potion" count="2" slot="1" />
@@ -345,7 +343,6 @@
         <item id="magicsource" count="3" slot="24" />
         <item id="mindsource" count="2" slot="25" />
         <item id="lucksource" count="1" slot="26" />
-        <!-- Weapons -->
         <weapon id="mythrilsaber" count="1" slot="100" />
         <weapon id="hardedge" count="1" slot="101" />
         <weapon id="butterflyedge" count="1" slot="102" />
@@ -466,7 +463,6 @@
         <weapon id="flayer" count="1" slot="217" />
         <weapon id="spiritlance" count="1" slot="218" />
         <weapon id="venusgospel" count="1" slot="219" />
-        <!-- Armour -->
         <armor id="bronzebangle" count="3" slot="301" />
         <armor id="ironbangle" count="1" slot="302" />
         <armor id="titanbangle" count="1" slot="303" />
@@ -499,7 +495,6 @@
         <armor id="ziedrich" count="1" slot="330" />
         <armor id="preciouswatch" count="1" slot="331" />
         <armor id="chocobracelet" count="1" slot="332" />
-        <!-- Accessories -->
         <accessory id="powerwrist" count="1" slot="401" />
         <accessory id="protectvest" count="1" slot="402" />
         <accessory id="chocofeather" count="1" slot="403" />
@@ -517,7 +512,7 @@
         <accessory id="waterring" count="1" slot="416" />
     </inventory>
     <materiatory>
-        <orb id="mastermagic" type="Magic" ap="0" slot="0" />
+        <orb id="fire" type="Magic" ap="2000" slot="0" />
         <orb id="fire" type="Magic" ap="1400" slot="1" />
         <orb id="ice" type="Magic" ap="30000" slot="2" />
         <orb id="lightning" type="Magic" ap="20000" slot="3" />
@@ -587,14 +582,14 @@
         <orb id="mpplus" type="Independent" ap="9944" slot="103" />
         <orb id="mpplus" type="Independent" ap="45121" slot="104" />
     </materiatory>
-    <gil>2200</gil>
-    <time>41173000</time>
+    <gil>26890</gil>
+    <time>41359984</time>
     <config>
         <menu>
-            <corner0 r="7" g="2" b="1" />
-            <corner1 r="5" g="1" b="0" />
-            <corner2 r="2" g="0" b="0" />
-            <corner3 r="3" g="0" b="0" />
+            <corner0 r="1" g="6" b="2" />
+            <corner1 r="0" g="5" b="1" />
+            <corner2 r="0" g="2" b="0" />
+            <corner3 r="0" g="3" b="0" />
         </menu>
     </config>
 </party>

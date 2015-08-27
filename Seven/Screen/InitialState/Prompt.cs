@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         const int y_displacement_cursor = -10;
 
         const int width = 325;
-        const int height = 400;
+        const int height = 450;
 
         const int options = Seven.SAVE_FILES + 1;
         
@@ -43,10 +43,24 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
             switch (k)
             {
                 case Key.Up:
-                    if (Option > 0) Option--;
+                    if (Option > 0) 
+                    {
+                        Option--;
+                    }
+                    else
+                    {
+                        Option = options - 1;
+                    }
                     break;
                 case Key.Down:
-                    if (Option < options - 1) Option++;
+                    if (Option < options - 1) 
+                    {
+                        Option++;
+                    }
+                    else
+                    {
+                        Option = 0;
+                    }
                     break;
                 case Key.Circle:
                     if (Option == 0)
@@ -84,11 +98,9 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
 
             Text.ShadowedText(g, "New game", X + x_options, Y + y_option0);
 
-            for (int option = 1; option < options; option++)
+            for (int option = 0; option < options - 1; option++)
             {                
-                int save = option - 1;
-
-                Text.ShadowedText(g, "Save " + save.ToString(), X + x_options, Y + y_option0 + y_spacing * option);
+                Text.ShadowedText(g, "Save " + option.ToString(), X + x_options, Y + y_option0 + y_spacing * (option + 1));
             }
 
             ((IDisposable)g.Target).Dispose();

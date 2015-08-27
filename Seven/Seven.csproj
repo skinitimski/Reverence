@@ -342,5 +342,6 @@
     <None Include="Data\savegame.4.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Data\savegame.5.xml" />
   </ItemGroup>
 </Project>
