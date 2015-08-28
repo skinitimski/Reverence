@@ -21,8 +21,11 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
                 screenState.Height / 20,
                 screenState.Width - 10,
                 screenState.Height / 12 - 6)
-        { }
-                public override void ControlHandle(Key k) { switch (k) { default: break; } }
+        { 
+        }
+
+        public override void ControlHandle(Key k) { }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);

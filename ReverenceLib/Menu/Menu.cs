@@ -8,7 +8,7 @@ using Atmosphere.Reverence.Graphics;
 
 namespace Atmosphere.Reverence.Menu
 {
-    public abstract class Menu
+    public abstract class Menu : IDisposable
     {
         private static readonly Color border = new Color(0.8, 0.8, 0.8, 1);
         private static readonly Color borderTransparent = new Color(0.8, 0.8, 0.8, 0.6);
@@ -173,9 +173,11 @@ namespace Atmosphere.Reverence.Menu
             _y = y;
         }
 
-
-
-
+        
+        
+        public virtual void Dispose()
+        {
+        }
 
 
         public static void SetCornerColor(int corner, int rIndex, int gIndex, int bIndex)
@@ -204,8 +206,6 @@ namespace Atmosphere.Reverence.Menu
             gIndex = (int)(_corners[corner][1] * 10);
             bIndex = (int)(_corners[corner][2] * 10);
         }
-
-
 
 
 

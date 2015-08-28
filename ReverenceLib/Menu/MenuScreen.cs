@@ -5,7 +5,7 @@ using GameMenu = Atmosphere.Reverence.Menu.Menu;
 
 namespace Atmosphere.Reverence.Menu
 {
-    public sealed class MenuScreen
+    public sealed class MenuScreen : IDisposable
     {
         private IEnumerable<GameMenu> _menus;
         private IController _defaultControl;
@@ -64,6 +64,14 @@ namespace Atmosphere.Reverence.Menu
             foreach (GameMenu m in _menus)
             {
                 m.Visible = m.Visible;
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (Menu menu in _menus)
+            {
+                menu.Dispose();
             }
         }
         

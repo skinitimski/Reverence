@@ -25,10 +25,9 @@ namespace Atmosphere.Reverence.Seven.State
         #region Nested
         private enum State
         {
-            BeforeGain,
-            AfterGain,
-            BeforeGive,
-            AfterGive
+            BeforeGainExp,
+            AfterGainExp,
+            HoardScreen
         }
         #endregion
 
@@ -89,7 +88,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             CollectItems(items);
 
-            _state = State.BeforeGain;
+            _state = State.BeforeGainExp;
         }
 
 
@@ -148,7 +147,7 @@ namespace Atmosphere.Reverence.Seven.State
 
 
             Screens.Hoard.Label hoardLabel = new Screens.Hoard.Label(state);
-            HoardItemLeft = new Screens.Hoard.ItemLeft(state);
+            HoardItemLeft = new Screens.Hoard.ItemLeft(state, Gil);
             
             List<GameMenu> hoardMenus = new List<GameMenu>();
             hoardMenus.Add(hoardLabel);
@@ -175,31 +174,31 @@ namespace Atmosphere.Reverence.Seven.State
         {
             switch (_state)
             {
-                case State.BeforeGain:
-                    GiveExperience();
-                    _state = State.AfterGain;
+                case State.BeforeGainExp:
+                    GiveExp();
+                    _state = State.AfterGainExp;
                     break;
-                case State.AfterGain:
+
+                case State.AfterGainExp:
 
                     lock (_sync)
                     {
                         _stopGivingExp = true;
                     }
                     
-                    Give.Join();
-                    Give = null;
-
+                    GiveExpAnimation.Join();
+                    GiveExpAnimation = null;
 
                     _screen = HoardScreen;
-                    HoardScreen.ChangeControl(HoardItemLeft);
-                    _state = State.BeforeGive;
+                    _screen.ChangeControl(HoardItemLeft);
+                    _state = State.HoardScreen;
+
                     break;
-                case State.BeforeGive:
-                    GiveGil();
-                    _state = State.AfterGive;
-                    break;
-                case State.AfterGive:
+
+                case State.HoardScreen:
+
                     _screen.Control.ControlHandle(k);
+
                     break;
             }
         }
@@ -208,7 +207,7 @@ namespace Atmosphere.Reverence.Seven.State
         {
         }
 
-        private void GiveExperience()
+        private void GiveExp()
         {
             // Give AP to each materia orb attached to 
             // each character in the party
@@ -242,12 +241,12 @@ namespace Atmosphere.Reverence.Seven.State
             // at a constant rate. This means we dole out less exp per period
             // at lower levels, and more exp per period at higher levels.
 
-            Give = new Thread(() =>
+            GiveExpAnimation = new Thread(() =>
             {
                 int[] exp = new int[Party.PARTY_SIZE];
                 int[] expGained = new int[Party.PARTY_SIZE];
 
-                int refreshPeriod = (1000 / (int)Seven.Config.RefreshRate);
+                int refreshPeriod = Seven.Config.RefreshPeriod;
                 int msPerBarFill = 3000;
                 int periodsPerBarFill = msPerBarFill / refreshPeriod;
 
@@ -319,26 +318,20 @@ namespace Atmosphere.Reverence.Seven.State
                 }
             });
 
-            Give.Start();
-        }
-
-        private void GiveGil()
-        {
-            Seven.Party.Gil += Gil * Gil_multiplier / 100;
-            Gil -= Gil;
+            GiveExpAnimation.Start();
         }
 
         protected override void InternalDispose()
         {
-            if (Give != null)
+            if (GiveExpAnimation != null)
             {
                 lock (_sync)
                 {
                     _stopGivingExp = true;
                 }
-
-                Give.Join();
-                Give = null;
+                
+                GiveExpAnimation.Join();
+                GiveExpAnimation = null;
             }
         }
 
@@ -346,7 +339,7 @@ namespace Atmosphere.Reverence.Seven.State
 
         public int AP { get; private set; }
 
-        public int Gil { get; private set; }
+        public int Gil { get; set; }
 
         public List<Inventory.Record> Items { get; private set; }
         
@@ -356,6 +349,6 @@ namespace Atmosphere.Reverence.Seven.State
 
         public Screens.Hoard.ItemLeft HoardItemLeft { get; private set; }
 
-        private Thread Give { get; set; }
+        private Thread GiveExpAnimation { get; set; }
     }
 }

@@ -36,6 +36,8 @@ namespace Atmosphere.Reverence.Seven.State
         private Formation _formation;
 
         private BattleEvent _victoryEvent;
+
+        private bool _victory = true;
                 
         #endregion
         
@@ -482,7 +484,7 @@ namespace Atmosphere.Reverence.Seven.State
                     break;
             }
 
-            if (Commanding != null)
+            if (Commanding != null && !Victory)
             {
                 Screen.Control.ControlHandle(k);
             }

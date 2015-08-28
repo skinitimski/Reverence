@@ -65,8 +65,10 @@ namespace Atmosphere.Reverence
         public int WindowWidth { get; private set; }
         
         public int WindowHeight { get; private set; }
-
+        
         public uint RefreshRate { get; private set; }
+        
+        public int RefreshPeriod { get { return 1000 / (int)RefreshRate; } }
         
         public Color SplashScreenColor { get; private set; }
         
