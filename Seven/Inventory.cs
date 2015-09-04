@@ -281,6 +281,22 @@ namespace Atmosphere.Reverence.Seven
         public void Sort()
         {
             Array.Sort<Record>(_inventory);
+
+            // HACK. We want nulls at the end, but for some reason they're not
+            // getting passed to the comparison.
+            int q = 0;
+            while (_inventory[q].IsEmpty)
+            {
+                q++;
+            }
+            
+            Record[] tempNull = new Record[q];
+            Record[] tempNotNull = new Record[INVENTORY_SIZE - q];
+            Array.Copy(_inventory, 0, tempNull, 0, q);
+            Array.Copy(_inventory, q, tempNotNull, 0, INVENTORY_SIZE - q);
+            Array.Copy(tempNull, 0, _inventory, INVENTORY_SIZE - q, q);
+            Array.Copy(tempNotNull, 0, _inventory, 0, INVENTORY_SIZE - q);
+            // END HACK
         }
         
         public bool UseItemInField(int slot)
