@@ -14,6 +14,7 @@ using Atmosphere.Reverence.Seven.Asset.Materia;
 using Screens = Atmosphere.Reverence.Seven.Screen.PostBattleState;
 using LevelUp = Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory.LevelUp;
 using Mastered = Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory.Mastered;
+using MateriaLevelUp = Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory.MateriaLevelUp;
 
 namespace Atmosphere.Reverence.Seven.State
 {
@@ -48,6 +49,7 @@ namespace Atmosphere.Reverence.Seven.State
             Items = new List<Inventory.Record>();
 
             LevelUp = new LevelUp[Party.PARTY_SIZE];
+            MateriaLevelUp = new MateriaLevelUp[Party.PARTY_SIZE];
 
             Exp_multiplier = new int[] { 100, 100, 100 };
             Gil_multiplier = 100;
@@ -158,12 +160,19 @@ namespace Atmosphere.Reverence.Seven.State
             Mastered = new Mastered(state);
             Mastered.Visible = false;
             victoryMenus.Add(Mastered);
-
+            
             for (int i = 0; i < LevelUp.Length; i++)
             {
                 LevelUp[i] = new LevelUp(state, i);
                 LevelUp[i].Visible = false;
                 victoryMenus.Add(LevelUp[i]);
+            }
+            
+            for (int i = 0; i < MateriaLevelUp.Length; i++)
+            {
+                MateriaLevelUp[i] = new MateriaLevelUp(state, i);
+                MateriaLevelUp[i].Visible = false;
+                victoryMenus.Add(MateriaLevelUp[i]);
             }
 
             VictoryScreen = new MenuScreen(victoryMenus, victoryLabel);
@@ -187,11 +196,19 @@ namespace Atmosphere.Reverence.Seven.State
 
         public override void RunIteration()
         {            
-            for (int i = 0; i < Party.PARTY_SIZE; i++)
+            for (int i = 0; i < LevelUp.Length; i++)
             {
                 if (LevelUp[i].Visible && LevelUp[i].IsDone)
                 {
                     LevelUp[i].Visible = false;
+                }
+            }  
+
+            for (int i = 0; i < MateriaLevelUp.Length; i++)
+            {
+                if (MateriaLevelUp[i].Visible && MateriaLevelUp[i].IsDone)
+                {
+                    MateriaLevelUp[i].Visible = false;
                 }
             }
 
@@ -256,10 +273,13 @@ namespace Atmosphere.Reverence.Seven.State
             // Give AP to each materia orb attached to 
             // each character in the party
 
+            List<MateriaOrb>[] leveledUp = new List<MateriaOrb>[Party.PARTY_SIZE];
             List<MateriaOrb> newMasters = new List<MateriaOrb>();
 
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
+                leveledUp[i] = new List<MateriaOrb>();
+
                 Character c = Seven.Party[i];
 
                 if (c != null)
@@ -274,7 +294,7 @@ namespace Atmosphere.Reverence.Seven.State
 
                             if (m.Level > level)
                             {
-                                // add a level menu thing
+                                leveledUp[i].Add(m);
                             }
 
                             if (m.Master)
@@ -387,6 +407,14 @@ namespace Atmosphere.Reverence.Seven.State
                 Mastered.Show(newMasters);
             }
 
+            for (int i = 0; i < leveledUp.Length; i++)
+            {
+                if (leveledUp[i].Count > 0)
+                {
+                    MateriaLevelUp[i].Show(leveledUp[i]);
+                }
+            }
+
             GiveExpAnimation.Start();
         }
 
@@ -421,8 +449,9 @@ namespace Atmosphere.Reverence.Seven.State
         public Screens.Hoard.ItemLeft HoardItemLeft { get; private set; }
 
         private Thread GiveExpAnimation { get; set; }
-
+        
         private LevelUp[] LevelUp { get; set; }
+        private MateriaLevelUp[] MateriaLevelUp { get; set; }
 
         private Mastered Mastered { get; set; }
     }

@@ -210,6 +210,8 @@
     <Compile Include="Battle\MagicMenuEntry.cs" />
     <Compile Include="Screen\PostBattleState\Victory\LevelUp.cs" />
     <Compile Include="Screen\PostBattleState\Victory\Mastered.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\MateriaLevelUp.cs" />
+    <Compile Include="Screen\PostBattleState\Victory\MateriaInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
