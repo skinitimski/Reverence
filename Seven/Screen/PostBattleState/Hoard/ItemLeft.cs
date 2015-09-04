@@ -266,9 +266,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             {
                 _stopGivingGil = true;
             }
-            
-            GiveGilAnimation.Join();
-            GiveGilAnimation = null;
+
+            if (GiveGilAnimation != null)
+            {
+                GiveGilAnimation.Join();
+                GiveGilAnimation = null;
+            }
         }
 
         public override string Info { get { return ""; } }
