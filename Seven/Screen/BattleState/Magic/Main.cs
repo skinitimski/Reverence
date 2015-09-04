@@ -204,7 +204,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         public override void Reset()
         {
-            _topRow = 0;
+            //_topRow = 0;
+            //_yopt = 0;
+            //_xopt = 0;
             Visible = false;
             Seven.BattleState.Screen.MagicInfo.Visible = false;
         }
