@@ -282,7 +282,7 @@ namespace Atmosphere.Reverence.Seven.State
 
                 Character c = Seven.Party[i];
 
-                if (c != null)
+                if (c != null && !c.Death)
                 {
                     foreach (MateriaOrb m in c.Materia)
                     {

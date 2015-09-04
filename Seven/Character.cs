@@ -345,10 +345,19 @@ namespace Atmosphere.Reverence.Seven
             {
                 _hp = _maxhp;
             }
+            else if (_hp <= 0)
+            {
+                _hp = 0;
+                InflictDeath();
+            }
 
             if (_mp > _maxmp)
             {
                 _mp = _maxmp;
+            }
+            else if (_mp < 0)
+            {
+                _mp = 0;
             }
         }
         

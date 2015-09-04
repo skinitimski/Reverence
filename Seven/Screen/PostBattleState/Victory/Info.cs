@@ -41,32 +41,36 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             
             Character c = Seven.Party[PartyIndex];
 
+            Color textColor = c.Death ? Colors.TEXT_RED : Colors.WHITE;
+
+
+
             if (c != null)
             {
                 Images.RenderProfile(d, gc, X + xpic, Y + ypic, c);
                 
-                Text.ShadowedText(g, c.Name, X + x1, Y + y0);
-                Text.ShadowedText(g, "Level:", X + x2, Y + y1);
+                Text.ShadowedText(g, textColor, c.Name, X + x1, Y + y0);
+                Text.ShadowedText(g, textColor, "Level:", X + x2, Y + y1);
                 
                 string lvl = c.Level.ToString();
                 te = g.TextExtents(lvl);
-                Text.ShadowedText(g, lvl, X + x3 - te.Width, Y + y1);
+                Text.ShadowedText(g, textColor, lvl, X + x3 - te.Width, Y + y1);
                 
                 string temp = "Exp:";
                 te = g.TextExtents(temp);
-                Text.ShadowedText(g, temp, X + x4 - te.Width, Y + y0);
+                Text.ShadowedText(g, textColor, temp, X + x4 - te.Width, Y + y0);
                 
                 temp = "For level up:";
                 te = g.TextExtents(temp);
-                Text.ShadowedText(g, temp, X + x4 - te.Width, Y + y1);
+                Text.ShadowedText(g, textColor, temp, X + x4 - te.Width, Y + y1);
                 
                 string exp = c.Exp.ToString() + "p";
                 te = g.TextExtents(exp);
-                Text.ShadowedText(g, exp, X + x5 - te.Width, Y + y0);
+                Text.ShadowedText(g, textColor, exp, X + x5 - te.Width, Y + y0);
                 
                 string expNext = c.ExpToNextLevel.ToString() + "p";
                 te = g.TextExtents(expNext);
-                Text.ShadowedText(g, expNext, X + x5 - te.Width, Y + y1);
+                Text.ShadowedText(g, textColor, expNext, X + x5 - te.Width, Y + y1);
             }
             
             

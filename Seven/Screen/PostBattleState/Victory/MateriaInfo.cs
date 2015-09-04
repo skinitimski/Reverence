@@ -80,6 +80,10 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
                     {
                         index = MateriaList.Count - 1;
                     }
+                    else if (index < 0)
+                    {
+                        index = 0;
+                    }
                     
                     active = MateriaList[index];
                 }
