@@ -71,12 +71,12 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             get
             {
                 MateriaOrb active = null;
-                
+                                
                 if (MateriaList != null && MateriaList.Count > 0)
                 {
                     int index = (int)AnimationTimer.TotalMilliseconds / MillisecondsPerMateria;
                     
-                    if (index > MateriaList.Count)
+                    if (index >= MateriaList.Count)
                     {
                         index = MateriaList.Count - 1;
                     }

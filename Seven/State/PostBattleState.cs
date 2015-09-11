@@ -380,7 +380,7 @@ namespace Atmosphere.Reverence.Seven.State
                                     expChunk = exp[i] - expGained[i];
                                 }
 
-                                if (c.Exp + expChunk > c.ExpNextLevel)
+                                if (c.Exp + expChunk >= c.ExpNextLevel)
                                 {
                                     LevelUp[i].Show();
                                 }
