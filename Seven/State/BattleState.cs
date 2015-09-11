@@ -34,8 +34,9 @@ namespace Atmosphere.Reverence.Seven.State
         private bool _holdingSquare;
 
         private Formation _formation;
-
+        
         private BattleEvent _victoryEvent;
+        private BattleEvent _lossEvent;
 
         private bool _victory = true;
                 
@@ -71,6 +72,7 @@ namespace Atmosphere.Reverence.Seven.State
             };
                         
             _victoryEvent = CreateVictoryEvent();
+            _lossEvent = CreateLossEvent();
 
             Screen = new BattleScreen(state);
 
@@ -118,17 +120,29 @@ namespace Atmosphere.Reverence.Seven.State
                 enemy.TurnTimer.Unpause();
             }
         }
-
+        
         private static BattleEvent CreateVictoryEvent()
         {
             int duration = 4000;
-
+            
             TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => "Victory!");
-
+            
             BattleEvent victoryEvent = new BattleEvent(null, context);
             victoryEvent.ResetSourceTurnTimer = false;
-
+            
             return victoryEvent;
+        }
+        
+        private static BattleEvent CreateLossEvent()
+        {
+            int duration = 4000;
+            
+            TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => "Annihilated!");
+            
+            BattleEvent lossEvent = new BattleEvent(null, context);
+            lossEvent.ResetSourceTurnTimer = false;
+            
+            return lossEvent;
         }
 
 
@@ -154,12 +168,14 @@ namespace Atmosphere.Reverence.Seven.State
         
         public override void RunIteration()
         {
-            if (CheckForLoss())
+            if (!Loss && CheckForLoss())
             {
-                Seven.Instance.LoseGame();
+                Loss = true;
+
+                EnqueueAction(_lossEvent, true);
             }
             
-            if (!Victory && CheckForVictory())
+            if (!Loss && !Victory && CheckForVictory())
             {
                 Victory = true;
 
@@ -242,6 +258,11 @@ namespace Atmosphere.Reverence.Seven.State
                         Seven.Instance.EndBattle();
                     }
 
+                    if (ActiveAbility == _lossEvent)
+                    {
+                        Seven.Instance.LoseGame();
+                    }
+
                     ActiveAbility = null;
                     AbilityThread = null;
                 }
@@ -285,13 +306,16 @@ namespace Atmosphere.Reverence.Seven.State
         
         private void CheckEnemyTurnTimers()
         {
-            foreach (Enemy e in EnemyList)
+            if (!Loss)
             {
-                if (e.TurnTimer.IsUp && !e.WaitingToResolve)
+                foreach (Enemy e in EnemyList)
                 {
-                    e.WaitingToResolve = true;
+                    if (e.TurnTimer.IsUp && !e.WaitingToResolve)
+                    {
+                        e.WaitingToResolve = true;
 
-                    e.TakeTurn();
+                        e.TakeTurn();
+                    }
                 }
             }
         }
@@ -338,7 +362,17 @@ namespace Atmosphere.Reverence.Seven.State
 
         private bool CheckForLoss()
         {
-            return !Allies.Any(a => !a.IsDead);
+            bool loss = true;
+
+            for (int i = 0; i < Allies.Length; i++)
+            {
+                if (Allies[i] != null && !Allies[i].IsDead)
+                {
+                    loss = false;
+                }
+            }
+
+            return loss;
         }
         
         
@@ -564,8 +598,9 @@ namespace Atmosphere.Reverence.Seven.State
         public BattleEvent LastPartyAbility { get; private set; }
         public Queue<BattleEvent> PendingAbilities { get; private set; }
         public BattleScreen Screen { get; private set; }
-
+        
         private bool Victory { get; set; }
+        private bool Loss { get; set; }
         public int Exp  { get; private set; }
         public int AP { get; private set; }
         public int Gil  { get; private set; }
