@@ -307,17 +307,19 @@ namespace Atmosphere.Reverence.Seven.Battle
                     CureConfusion();
                 }
             }
-
-            _hp -= delta;
-
-            if (_hp < 0)
+                        
+            int hp = _hp - delta;
+            
+            if (hp < 0)
             {
-                _hp = 0;
+                hp = 0;
             }
-            else if (_hp > _maxhp)
+            else if (hp >= _maxhp)
             {
-                _hp = _maxhp;
+                hp = _maxhp;
             }
+
+            _hp = hp;
 
             if (HP == 0)
             {
