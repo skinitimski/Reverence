@@ -190,7 +190,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (DeathSentence && C_Timer.TotalMilliseconds - _deathsentenceTime >= DEATHSENTENCE_DURATION)
             {
                 CureDeathSentence();
-                //InflictDeath();
+                InflictDeath();
             }
             
             
