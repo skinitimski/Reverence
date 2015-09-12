@@ -416,11 +416,18 @@ namespace Atmosphere.Reverence.Seven.State
 
             _battleIcons.Enqueue(icon);
         }
-
+        
         public void AddMissIcon(Combatant receiver)
         {
             MissIcon icon = new MissIcon(receiver);
-
+            
+            _battleIcons.Enqueue(icon);
+        }
+        
+        public void AddRecoveryIcon(Combatant receiver)
+        {
+            RecoveryIcon icon = new RecoveryIcon(receiver);
+            
             _battleIcons.Enqueue(icon);
         }
         

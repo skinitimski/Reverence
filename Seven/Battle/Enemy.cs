@@ -342,6 +342,19 @@ namespace Atmosphere.Reverence.Seven.Battle
                 _mp = 0;
             }
         }
+        
+        public override void Recover()
+        {
+            Seven.BattleState.AddRecoveryIcon(this);
+            
+            if (Death)
+            {
+                CureDeath();
+            }
+            
+            _hp = MaxHP;
+            _mp = MaxMP;
+        }
 
         public override void UseMP(int amount)
         {

@@ -98,6 +98,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public abstract void AcceptDamage(int delta, AttackType type = AttackType.None);
         public abstract void AcceptMPLoss(int delta);
+        public abstract void Recover();
        
 
         public abstract void UseMP(int amount);

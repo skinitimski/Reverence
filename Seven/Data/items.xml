@@ -1,16 +1,36 @@
 <!-- ********* ITEMS ********* -->
 <items>
+    <!-- NOTE: not a real item -->
     <item>
         <name>Kill</name>
-        <desc>Decimates a character</desc>
+        <desc>Decimates a combatant</desc>
         <field target="Character">
-            <canUse>return true</canUse>
+            <canUse>return not c.Death</canUse>
             <use>c.HP = 0 c.MP = 0</use>
         </field>
         <battle target="Combatant" intendedForEnemies="true">
             <use>c:InflictDeath()</use>
         </battle>
     </item>
+    <!-- NOTE: not a real item -->
+    <item>
+        <name>Raise</name>
+        <desc>Breathes life into a combatant</desc>
+        <field target="Character">
+            <canUse>return c.Death</canUse>
+            <use>
+                c:CureDeath()
+                c.HP = c.MaxHP
+                c.MP = c.MaxMP
+            </use>
+        </field>
+        <battle target="Combatant" intendedForEnemies="false">
+            <use>
+                c:Recover()
+            </use>
+        </battle>
+    </item>
+    
     <item>
         <name>Potion</name>
         <desc>Restores 100 HP</desc>

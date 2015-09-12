@@ -268,6 +268,19 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             _c.MP -= delta;
         }
+
+        public override void Recover()
+        {
+            Seven.BattleState.AddRecoveryIcon(this);
+
+            if (Death)
+            {
+                CureDeath();
+            }
+
+            _c.HP = MaxHP;
+            _c.MP = MaxMP;
+        }
         
         public override void UseMP(int amount)
         {
