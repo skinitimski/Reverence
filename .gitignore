@@ -4,3 +4,5 @@ log
 .archive
 dist-*
 UnitTests/test-results/**
+**/bin/
+**/obj/
