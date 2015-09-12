@@ -618,11 +618,14 @@ namespace Atmosphere.Reverence.Seven
         /// <param name="gain">Amount of EXP points to gain.</param>
         public void GainExperience(int gain)
         {
-            while (Level < MAX_LEVEL && _exp + gain >= ExpNextLevel)
+            int exp_after = _exp + gain;
+
+            while (Level < MAX_LEVEL && exp_after >= ExpNextLevel)
             {
                 LevelUp();
             }
-            _exp += gain;
+
+            _exp = exp_after;
         }
         
         /// <summary>
