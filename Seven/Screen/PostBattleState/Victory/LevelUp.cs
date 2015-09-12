@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
 
 
         public LevelUp(ScreenState screenState, int partyIndex)
-            : base(90, 
+            : base(60, 
                    (partyIndex * (screenState.Height / 4 - 6)) + 190, 
                    width, 
                    height)
