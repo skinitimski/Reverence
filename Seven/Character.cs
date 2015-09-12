@@ -28,6 +28,8 @@ namespace Atmosphere.Reverence.Seven
         public const int PROFILE_HEIGHT = 136;
         public const int PROFILE_WIDTH_SMALL = 89;
         public const int PROFILE_HEIGHT_SMALL = 101;
+        public const int PROFILE_WIDTH_TINY = 36;
+        public const int PROFILE_HEIGHT_TINY = 41;
 
         #region Member Data
         
@@ -335,6 +337,7 @@ namespace Atmosphere.Reverence.Seven
 
             Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + Name.ToLower() + ".jpg");
             ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + Name.ToLower() + ".jpg");
+            ProfileTiny = new Gdk.Pixbuf(typeof(Seven).Assembly, "chartiny." + Name.ToLower() + ".jpg");
 
 
             // Sanity checks. Sometimes we'll load materia onto a save file which
@@ -1302,5 +1305,7 @@ namespace Atmosphere.Reverence.Seven
         public Gdk.Pixbuf Profile { get; private set; }
         
         public Gdk.Pixbuf ProfileSmall { get; private set; }
+        
+        public Gdk.Pixbuf ProfileTiny { get; private set; }
     }
 }

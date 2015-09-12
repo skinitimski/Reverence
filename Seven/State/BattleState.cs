@@ -474,12 +474,13 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 if (a != null)
                 {
-                    a.Draw(g);
+                    a.Draw(d, g, width, height);
                 }
             }
+
             foreach (Combatant e in EnemyList)
             {
-                e.Draw(g);
+                e.Draw(d, g, width, height);
             }
             
             if (Commanding != null)

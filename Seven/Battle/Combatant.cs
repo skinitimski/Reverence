@@ -33,6 +33,15 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public const int TURN_TIMER_TIMEOUT = 6000;
         
+        
+        protected const int _icon_half_width = (Character.PROFILE_WIDTH_TINY / 2);
+        protected const int _icon_half_height = (Character.PROFILE_HEIGHT_TINY / 2);
+
+        protected const int _text_offset_x = _icon_half_width + 10;
+        protected const int _text_offset_y = _icon_half_height - 30;
+        protected const int _text_spacing_y = 20;
+
+
         protected int _x;
         protected int _y;
         
@@ -64,7 +73,27 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         
-        public abstract void Draw(Cairo.Context g);
+        public void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height)
+        {
+            DrawIcon(d, g);
+            
+            Text.ShadowedText(g, NameColor, Name, X + _text_offset_x, Y + _text_offset_y, Text.MONOSPACE_FONT, 12);
+
+#if DEBUG
+            string extraInfo = String.Format("{0}/{1} {2}/{3} {4}%", HP, MaxHP, MP, MaxMP, TurnTimer.PercentElapsed);
+            Text.ShadowedText(g, Colors.WHITE, extraInfo, X + _text_offset_x, Y + _text_offset_y + _text_spacing_y, Text.MONOSPACE_FONT, 12);
+            
+            string statuses = StatusText();
+            
+            if (statuses.Length > 0)
+            {
+                Text.ShadowedText(g, Colors.WHITE, statuses.Substring(0, statuses.Length - 2), X + _text_offset_x, Y + _text_offset_y + _text_spacing_y * 2, Text.MONOSPACE_FONT, 12);
+            }
+#endif
+        }
+
+        protected abstract void DrawIcon(Gdk.Drawable d, Cairo.Context g);
+
         public abstract void Dispose();
         
         public abstract void AcceptDamage(int delta, AttackType type = AttackType.None);
@@ -242,6 +271,45 @@ namespace Atmosphere.Reverence.Seven.Battle
             C_Timer.Unpause();
             V_Timer.Unpause();
             TurnTimer.Unpause();
+        }
+
+        private String StatusText()
+        {            
+            StringBuilder statuses = new StringBuilder();
+            
+            if (Death) { statuses.Append("Death, "); }
+            if (NearDeath) { statuses.Append("NearDeath, "); }
+            if (Sadness) { statuses.Append("Sadness, "); }
+            if (Fury) { statuses.Append("Fury, "); }
+            if (Sleep) { statuses.Append("Sleep, "); }
+            if (Poison) { statuses.Append("Poison, "); }
+            if (Confusion) { statuses.Append("Confusion, "); }
+            if (Silence) { statuses.Append("Silence, "); }
+            if (Haste) { statuses.Append("Haste, "); }
+            if (Slow) { statuses.Append("Slow, "); }
+            if (Stop) { statuses.Append("Stop, "); }
+            if (Frog) { statuses.Append("Frog, "); }
+            if (Small) { statuses.Append("Small, "); }
+            if (SlowNumb) { statuses.Append("SlowNumb, "); }
+            if (Petrify) { statuses.Append("Petrify, "); }
+            if (Regen) { statuses.Append("Regen, "); }
+            if (Barrier) { statuses.Append("Barrier, "); }
+            if (MBarrier) { statuses.Append("MBarrier, "); }
+            if (Reflect) { statuses.Append("Reflect, "); }
+            if (Shield) { statuses.Append("Shield, "); }
+            if (DeathSentence) { statuses.Append("DeathSentence, "); }
+            if (Manipulate) { statuses.Append("Manipulate, "); }
+            if (Berserk) { statuses.Append("Berserk, "); }
+            if (Peerless) { statuses.Append("Peerless, "); }
+            if (Paralysed) { statuses.Append("Paralysed, "); }
+            if (Darkness) { statuses.Append("Darkness, "); }
+            if (Seizure) { statuses.Append("Seizure, "); }
+            if (DeathForce) { statuses.Append("DeathForce, "); }
+            if (Resist) { statuses.Append("Resist, "); }
+            if (LuckyGirl) { statuses.Append("LuckyGirl, "); }
+            if (Imprisoned) { statuses.Append("Imprisoned, "); }
+
+            return statuses.ToString();
         }
         
         

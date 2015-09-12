@@ -373,61 +373,11 @@ namespace Atmosphere.Reverence.Seven.Battle
 //        }
 
         
-        public override void Draw(Cairo.Context g)
+        protected override void DrawIcon(Gdk.Drawable d, Cairo.Context g)
         {
-            Cairo.Color iconColor = Colors.ALLY_BLUE;
-            
-            int iconSize = 20;
-
-            g.Color = iconColor;
-            g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
+            g.Color = Colors.ENEMY_RED;
+            g.Rectangle(X - _icon_half_width, Y - _icon_half_height, Character.PROFILE_WIDTH_TINY, Character.PROFILE_HEIGHT_TINY);
             g.Fill();
-
-            Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
-#if DEBUG
-            string extraInfo = String.Format("{0}/{1} {2}/{3} {4}%", HP, MaxHP, MP, MaxMP, TurnTimer.PercentElapsed);
-            Text.ShadowedText(g, Colors.WHITE, extraInfo, X + iconSize, Y + 20, Text.MONOSPACE_FONT, 18);
-
-            StringBuilder statuses = new StringBuilder();
-
-            if (Death) { statuses.Append("Death, "); }
-            if (NearDeath) { statuses.Append("NearDeath, "); }
-            if (Sadness) { statuses.Append("Sadness, "); }
-            if (Fury) { statuses.Append("Fury, "); }
-            if (Sleep) { statuses.Append("Sleep, "); }
-            if (Poison) { statuses.Append("Poison, "); }
-            if (Confusion) { statuses.Append("Confusion, "); }
-            if (Silence) { statuses.Append("Silence, "); }
-            if (Haste) { statuses.Append("Haste, "); }
-            if (Slow) { statuses.Append("Slow, "); }
-            if (Stop) { statuses.Append("Stop, "); }
-            if (Frog) { statuses.Append("Frog, "); }
-            if (Small) { statuses.Append("Small, "); }
-            if (SlowNumb) { statuses.Append("SlowNumb, "); }
-            if (Petrify) { statuses.Append("Petrify, "); }
-            if (Regen) { statuses.Append("Regen, "); }
-            if (Barrier) { statuses.Append("Barrier, "); }
-            if (MBarrier) { statuses.Append("MBarrier, "); }
-            if (Reflect) { statuses.Append("Reflect, "); }
-            if (Shield) { statuses.Append("Shield, "); }
-            if (DeathSentence) { statuses.Append("DeathSentence, "); }
-            if (Manipulate) { statuses.Append("Manipulate, "); }
-            if (Berserk) { statuses.Append("Berserk, "); }
-            if (Peerless) { statuses.Append("Peerless, "); }
-            if (Paralysed) { statuses.Append("Paralysed, "); }
-            if (Darkness) { statuses.Append("Darkness, "); }
-            if (Seizure) { statuses.Append("Seizure, "); }
-            if (DeathForce) { statuses.Append("DeathForce, "); }
-            if (Resist) { statuses.Append("Resist, "); }
-            if (LuckyGirl) { statuses.Append("LuckyGirl, "); }
-            if (Imprisoned) { statuses.Append("Imprisoned, "); }
-
-            if (statuses.Length > 0)
-            {
-                statuses.Length -= 2;
-                Text.ShadowedText(g, Colors.WHITE, statuses.ToString(), X + iconSize, Y + 40, Text.MONOSPACE_FONT, 18);
-            }
-#endif
         }
 
         protected override int GetTurnTimerStep(int vStep)

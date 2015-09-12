@@ -13,6 +13,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
 using Screens = Atmosphere.Reverence.Seven.Screen.BattleState;
@@ -27,7 +28,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         private Character _c;
         private List<MagicMenuEntry> _magicSpells;
         private List<SummonMenuEntry> _summons;
-                
+                        
         #endregion Member Data
 
         
@@ -285,26 +286,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                                  TurnTimer.Timeout);
         }
         
-        public override void Draw(Cairo.Context g)
+        protected override void DrawIcon(Gdk.Drawable d, Cairo.Context g)
         {
-            Cairo.Color iconColor = Colors.ENEMY_RED;
+            Gdk.GC gc = new Gdk.GC(d);
 
-            if (Sleep)
-            {
-                iconColor = new Cairo.Color(.05, .4, .05);
-            }
-            else if (Poison)
-            {
-                iconColor = new Cairo.Color(0, 1, .4);
-            }
-
-            int iconSize = 20;
-
-            g.Color = iconColor;
-            g.Rectangle(X - iconSize / 2, Y - iconSize / 2, iconSize, iconSize);
-            g.Fill();
-
-            Text.ShadowedText(g, NameColor, Name, X + iconSize, Y, Text.MONOSPACE_FONT, 18);
+            Images.RenderProfileTiny(d, gc, X - _icon_half_width, Y - _icon_half_height, _c);
         }
         
         #endregion Methods

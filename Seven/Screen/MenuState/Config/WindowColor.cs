@@ -97,6 +97,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 }
                 
                 Menu.Menu.SetCornerColor(corner, indicies[0], indicies[1], indicies[2]);
+
+                // This triggers an update of the background
                 Visible = Visible;
             }
             
