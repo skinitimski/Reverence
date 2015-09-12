@@ -13,6 +13,11 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
 	internal abstract class MateriaOrb
     {
+        private const string ATTACH_FUNCTION_FORMAT = "return function (c, l) {0} end";
+        private const string DETACH_FUNCTION_FORMAT = ATTACH_FUNCTION_FORMAT;
+
+        private static readonly string ATTACH_FUNCTION_EMPTY = String.Format(ATTACH_FUNCTION_FORMAT, String.Empty);
+        private static readonly string DETACH_FUNCTION_EMPTY = String.Format(DETACH_FUNCTION_FORMAT, String.Empty);
 
         #region Nested
 
@@ -43,8 +48,8 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 
                 abilities = new string[0];
                 
-                DoAttach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
-                DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c, l) end").First();
+                DoAttach = (LuaFunction)Seven.Lua.DoString(ATTACH_FUNCTION_EMPTY).First();
+                DoDetach = (LuaFunction)Seven.Lua.DoString(DETACH_FUNCTION_EMPTY).First();
             }
             
             public MateriaDefinition(string name, string desc, string ability) 
@@ -96,7 +101,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 if (attachNode != null)
                 {
                     string attach = node.SelectSingleNode("attach").InnerText;
-                    string attachFunction = String.Format("return function (c, l) {0} end", attach);
+                    string attachFunction = String.Format(ATTACH_FUNCTION_FORMAT, attach);
                     
                     try
                     {
@@ -113,7 +118,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 if (detachNode != null)
                 {
                     string detach = node.SelectSingleNode("detach").InnerText;
-                    string detachFunction = String.Format("return function (c, l) {0} end", detach);
+                    string detachFunction = String.Format(DETACH_FUNCTION_FORMAT, detach);
                     
                     try
                     {
@@ -403,7 +408,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
         public string Name { get { return Record.Name;} }
         public string Description { get { return Record.Desc; } }
-        public string ID { get { return Resource.CreateID(Name); } }
+        public string ID { get { return Record.ID; } }
         public int AP { get; protected set; }
         public int Level { get; private set; }
         public int[] Tiers { get { return Record.tiers; } }
