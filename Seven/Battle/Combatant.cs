@@ -96,8 +96,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public abstract void Dispose();
         
-        public abstract void AcceptDamage(int delta, AttackType type = AttackType.None);
-        public abstract void AcceptMPLoss(int delta);
+        public abstract void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None);
+        public abstract void AcceptMPLoss(Combatant source, int delta);
         public abstract void Recover();
        
 
@@ -156,7 +156,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                 dam = Formula.RunPhysicalModifiers(dam, source, target, elements);
 
-                target.AcceptDamage(dam, AttackType.Physical);
+                target.AcceptDamage(source, dam, AttackType.Physical);
             }
             else
             {
@@ -179,64 +179,78 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             
             if (Sleep && V_Timer.TotalMilliseconds - _sleepTime >= SLEEP_DURATION)
+            {
                 CureSleep();
+            }
             
             
             if (Poison && V_Timer.TotalMilliseconds - PoisonTime >= POISON_INTERVAL)
             {
-                AcceptDamage(MaxHP / 32);
+                AcceptDamage(Poisoner, MaxHP / 32);
                 PoisonTime = V_Timer.TotalMilliseconds;
             }
             
             
             if (SlowNumb && C_Timer.TotalMilliseconds - _slownumbTime >= SLOWNUMB_DURATION)
             {
-                CureSlowNumb();
-                InflictPetrify();
+                InflictPetrify(Petrifier);
             }
             
             
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeEnd >= REGEN_DURATION)
+            {
                 CureRegen();
+            }
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeInt >= REGEN_INTERVAL)
             {
-                AcceptDamage(MaxHP / 32);
+                AcceptDamage(Regenerator, MaxHP / -32);
                 _regenTimeInt = V_Timer.TotalMilliseconds;
             }
             
             
             if (Barrier && V_Timer.TotalMilliseconds - _barrierTime >= BARRIER_DURATION)
+            {
                 CureBarrier();
+            }
             
             
             if (MBarrier && V_Timer.TotalMilliseconds - _barrierTime >= MBARRIER_DURATION)
+            {
                 CureMBarrier();
+            }
             
             
             if (Shield && V_Timer.TotalMilliseconds - _shieldTime >= SHIELD_DURATION)
+            {
                 CureShield();
+            }
             
             
             if (DeathSentence && C_Timer.TotalMilliseconds - _deathsentenceTime >= DEATHSENTENCE_DURATION)
             {
-                CureDeathSentence();
-                InflictDeath();
+                InflictDeath(Sentencer);
             }
             
             
             if (Peerless && V_Timer.TotalMilliseconds - _peerlessTime >= PEERLESS_DURATION)
+            {
                 CurePeerless();
+            }
             
             
             if (Paralysed && V_Timer.TotalMilliseconds - _paralyzedTime >= PARALYZED_DURATION)
+            {
                 CureParalyzed();
+            }
             
             
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeEnd >= SEIZURE_DURATION)
+            {
                 CureSeizure();
+            }
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeInt >= SEIZURE_INTERVAL)
             {
-                AcceptDamage(MaxHP / -32);
+                AcceptDamage(Seizer, MaxHP / 32);
                 _seizureTimeInt = V_Timer.TotalMilliseconds;
             }
         }
@@ -317,11 +331,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Inflict
 
-        public abstract bool InflictDeath();
-        public abstract bool InflictFury();
-        public abstract bool InflictSadness();
+        public abstract bool InflictDeath(Combatant source);
+        public abstract bool InflictFury(Combatant source);
+        public abstract bool InflictSadness(Combatant source);
                 
-        public bool InflictSleep()
+        public bool InflictSleep(Combatant source)
         {
             if (Immune(Status.Sleep))
                 return false;
@@ -331,16 +345,17 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer.Pause();
             return true;
         }
-        public bool InflictPoison()
+        public bool InflictPoison(Combatant source)
         {
             if (Immune(Status.Poison))
                 return false;
             if (Poison) return false;
             Poison = true;
+            Poisoner = source;
             PoisonTime = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictConfusion()
+        public bool InflictConfusion(Combatant source)
         {
             if (Immune(Status.Confusion))
                 return false;
@@ -349,7 +364,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Confusion = true;
             return true;
         }
-        public bool InflictSilence()
+        public bool InflictSilence(Combatant source)
         {
             if (Immune(Status.Silence))
                 return false;
@@ -358,7 +373,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Silence = true;
             return true;
         }
-        public bool InflictHaste()
+        public bool InflictHaste(Combatant source)
         {
             if (Immune(Status.Haste))
                 return false;
@@ -370,7 +385,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             DoubleTimers();
             return true;
         }
-        public bool InflictSlow()
+        public bool InflictSlow(Combatant source)
         {
             if (Immune(Status.Slow))
                 return false;
@@ -382,7 +397,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             HalveTimers();
             return true;
         }
-        public bool InflictStop()
+        public bool InflictStop(Combatant source)
         {
             if (Immune(Status.Stop))
                 return false;
@@ -392,7 +407,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             PauseTimers();
             return true;
         }
-        public bool InflictFrog()
+        public bool InflictFrog(Combatant source)
         {
             if (Immune(Status.Frog))
                 return false;
@@ -401,7 +416,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Frog = true;
             return true;
         }
-        public bool InflictSmall()
+        public bool InflictSmall(Combatant source)
         {
             if (Immune(Status.Small))
                 return false;
@@ -410,37 +425,43 @@ namespace Atmosphere.Reverence.Seven.Battle
             Small = true;
             return true;
         }
-        public bool InflictSlowNumb()
+        public bool InflictSlowNumb(Combatant source)
         {
             if (Immune(Status.SlowNumb))
                 return false;
             if (SlowNumb || Petrify || Peerless || Resist)
                 return false;
             SlowNumb = true;
+            Petrifier = source;
             _slownumbTime = C_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictPetrify()
+        public bool InflictPetrify(Combatant source)
         {
             if (Immune(Status.Petrify))
                 return false;
             if (Petrify || Peerless || Resist)
                 return false;
+
+            CureSlowNumb();
+
             Petrify = true;
+
             return true;
         }
-        public bool InflictRegen()
+        public bool InflictRegen(Combatant source)
         {
             if (Immune(Status.Regen))
                 return false;
             if (Regen || Petrify || Peerless || Resist)
                 return false;
             Regen = true;
+            Regenerator = source;
             _regenTimeEnd = V_Timer.TotalMilliseconds;
             _regenTimeInt = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictBarrier()
+        public bool InflictBarrier(Combatant source)
         {
             if (Immune(Status.Barrier))
                 return false;
@@ -450,7 +471,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _barrierTime = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictMBarrier()
+        public bool InflictMBarrier(Combatant source)
         {
             if (Immune(Status.MBarrier))
                 return false;
@@ -460,7 +481,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _mbarrierTime = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictReflect()
+        public bool InflictReflect(Combatant source)
         {
             if (Immune(Status.Reflect))
                 return false;
@@ -469,7 +490,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Reflect = true;
             return true;
         }
-        public bool InflictShield()
+        public bool InflictShield(Combatant source)
         {
             if (Immune(Status.Shield))
                 return false;
@@ -479,20 +500,21 @@ namespace Atmosphere.Reverence.Seven.Battle
             _shieldTime = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictDeathSentence()
+        public bool InflictDeathSentence(Combatant source)
         {
             if (Immune(Status.DeathSentence))
                 return false;
             if (DeathSentence || Petrify || Peerless || Resist || DeathForce)
                 return false;
             DeathSentence = true;
+            Sentencer = source;
             _deathsentenceTime = C_Timer.TotalMilliseconds;
             return true;
         }
 
-        public abstract bool InflictManipulate();
+        public abstract bool InflictManipulate(Combatant source);
 
-        public bool InflictBerserk()
+        public bool InflictBerserk(Combatant source)
         {
             if (Immune(Status.Berserk))
                 return false;
@@ -501,7 +523,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Berserk = true;
             return true;
         }
-        public bool InflictPeerless()
+        public bool InflictPeerless(Combatant source)
         {
             if (Immune(Status.Peerless))
                 return false;
@@ -511,7 +533,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _peerlessTime = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictParalyzed()
+        public bool InflictParalyzed(Combatant source)
         {
             if (Immune(Status.Paralyzed))
                 return false;
@@ -522,7 +544,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer.Pause();
             return true;
         }
-        public bool InflictDarkness()
+        public bool InflictDarkness(Combatant source)
         {
             if (Immune(Status.Darkness))
                 return false;
@@ -531,18 +553,19 @@ namespace Atmosphere.Reverence.Seven.Battle
             Darkness = true;
             return true;
         }
-        public bool InflictSeizure()
+        public bool InflictSeizure(Combatant source)
         {
             if (Immune(Status.Seizure))
                 return false;
             if (Seizure || Petrify || Peerless || Resist)
                 return false;
             Seizure = true;
+            Seizer = source;
             _seizureTimeEnd = V_Timer.TotalMilliseconds;
             _seizureTimeInt = V_Timer.TotalMilliseconds;
             return true;
         }
-        public bool InflictDeathForce()
+        public bool InflictDeathForce(Combatant source)
         {
             if (Immune(Status.DeathForce))
                 return false;
@@ -551,7 +574,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             DeathForce = true;
             return true;
         }
-        public bool InflictResist()
+        public bool InflictResist(Combatant source)
         {
             if (Immune(Status.Resist))
                 return false;
@@ -560,7 +583,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             Resist = true;
             return true;
         }
-        public bool InflictLuckyGirl()
+        public bool InflictLuckyGirl(Combatant source)
         {
             if (Immune(Status.LuckyGirl))
                 return false;
@@ -569,7 +592,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             LuckyGirl = true;
             return true;
         }
-        public bool InflictImprisoned()
+        public bool InflictImprisoned(Combatant source)
         {
             if (Immune(Status.Imprisoned))
                 return false;
@@ -600,6 +623,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CurePoison()
         {
             PoisonTime = -1;
+            Poisoner = null;
             Poison = false;
             return true;
         }
@@ -650,6 +674,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             _slownumbTime = -1;
             SlowNumb = false;
+            Petrifier = null;
             return true;
         }
         public bool CurePetrify()
@@ -662,6 +687,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureRegen()
         {
             Regen = false;
+            Regenerator = null;
             _regenTimeInt = -1;
             _regenTimeEnd = -1;
             return true;
@@ -693,6 +719,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             DeathSentence = false;
             _deathsentenceTime = -1;
+            Sentencer = null;
             return true;
         }
         public bool CureManipulate()
@@ -726,6 +753,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureSeizure()
         {
             Seizure = false;
+            Seizer = null;
             _seizureTimeEnd = -1;
             _seizureTimeInt = -1;
             return true;
@@ -873,5 +901,17 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return nameColor;
             }
         }
+
+        public Combatant LastAttacker { get; protected set; }
+
+        public Combatant Poisoner { get; private set; }
+        
+        public Combatant Seizer { get; private set; }
+        
+        public Combatant Petrifier { get; private set; }
+
+        public Combatant Regenerator { get; private set; }
+
+        public Combatant Sentencer { get; private set; }
     }
 }

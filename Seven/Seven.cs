@@ -126,22 +126,26 @@ namespace Atmosphere.Reverence.Seven
             _menuState.Init();
 
             SetState(_menuState);
+            //TestPostBattleState();
         }
 
         private String GetSaveFilePath(int save)
         {
             string savefile = String.Format("savegame.{0}.xml", save);
             
-            savefile =Path.Combine(Configuration.SavePath, savefile);
+            savefile = Path.Combine(Configuration.SavePath, savefile);
 
             return savefile;
         }
         
         public void BeginBattle()
         {
-            int i = _random.Next(2);
+            int i = 2; //_random.Next(2);
 
-            _battleState = new BattleState("debug" + i);
+            String battleId = "debug" + i;
+            battleId = "gelnika.a";
+
+            _battleState = new BattleState(battleId);
             _battleState.Init();
 
             LuaEnvironment[typeof(BattleState).Name] = _battleState;
@@ -200,10 +204,15 @@ namespace Atmosphere.Reverence.Seven
         public void TestPostBattleState()
         {
             int exp = 50000;
-            int ap = 1500;
+            int ap = 150000;
             int gil = 100000;
 
-            _postBattleState = new PostBattleState(exp, ap, gil, new System.Collections.Generic.List<IInventoryItem>());
+            System.Collections.Generic.List<IInventoryItem> items = new System.Collections.Generic.List<IInventoryItem>();
+            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
+            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
+            items.Add(Item.GetItem("fairytale", InventoryItemType.weapon));
+
+            _postBattleState = new PostBattleState(exp, ap, gil, items);
             _postBattleState.Init();
             SetState(_postBattleState);
         }

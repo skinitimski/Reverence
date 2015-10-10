@@ -150,10 +150,10 @@ namespace Atmosphere.Reverence.Seven.Battle
             _void = new List<Element>();
             _absorb = new List<Element>();
             _immune = new List<Status>();
-            
+
             _win = new List<EnemyItem>();
             _steal = new List<EnemyItem>();
-            
+
             Attacks = new Dictionary<string, Attack>();
 
             _name = node.SelectSingleNode("name").InnerText;
@@ -168,7 +168,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _level = Int32.Parse(node.SelectSingleNode("lvl").InnerText);
             _maxhp = _hp = Int32.Parse(node.SelectSingleNode("hp").InnerText);
             _maxmp = _mp = Int32.Parse(node.SelectSingleNode("mp").InnerText);
-            
+
             Exp = Int32.Parse(node.SelectSingleNode("exp").InnerText);
             AP = Int32.Parse(node.SelectSingleNode("ap").InnerText);
             Gil = Int32.Parse(node.SelectSingleNode("gil").InnerText);
@@ -177,7 +177,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 _name += " " + designation;
             }
-            
+
             foreach (XmlNode weak in node.SelectNodes("weaks/weak"))
             {
                 _weak.Add((Element)Enum.Parse(typeof(Element), weak.InnerText));
@@ -186,7 +186,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 _halve.Add((Element)Enum.Parse(typeof(Element), halve.InnerText));
             }
-                                                                                                                                                                                                                        
+
             foreach (XmlNode v in node.SelectNodes("voids/void"))
             {
                 _void.Add((Element)Enum.Parse(typeof(Element), v.InnerText));
@@ -199,7 +199,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 _immune.Add((Status)Enum.Parse(typeof(Status), immunity.InnerText));
             }
-            
+
             foreach (XmlNode win in node.SelectNodes("win/item"))
             {
                 _win.Add(new EnemyItem(win.OuterXml));
@@ -213,9 +213,9 @@ namespace Atmosphere.Reverence.Seven.Battle
                 if (morph.Attributes["id"] != null)
                 {
                     string id = morph.Attributes["id"].Value;
-                    
+
                     InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), morph.Attributes["type"].Value);
-                
+
                     _morph = Item.GetItem(id, type);
                 }
             }
@@ -227,7 +227,28 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Attacks.Add(attack.ID, attack);
             }
 
-            
+
+            // AI: Setup
+
+            XmlNode setupNode = node.SelectSingleNode("ai/setup");
+
+            if (setupNode != null)
+            {
+                string setup = String.Format("return function (self) {0} end", setupNode.InnerText);
+
+                try
+                {
+                    AISetup = (LuaFunction)Seven.Lua.DoString(setup).First();
+                }
+                catch (Exception ex)
+                {
+                    throw new ImplementationException("Error loading enemy AI setup script; enemy = " + Name, ex);
+                }
+            }
+
+
+            // AI: Main
+
             string main = String.Format("return function (self) {0} end", node.SelectSingleNode("ai/main").InnerText);
             
             try
@@ -236,9 +257,30 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             catch (Exception ex)
             {
-                throw new ImplementationException("Error loading enemy main AI script; enemy = " + Name, ex);
+                throw new ImplementationException("Error loading enemy AI main script; enemy = " + Name, ex);
             }
             
+            
+            // AI: Counter
+            
+            XmlNode counterNode = node.SelectSingleNode("ai/counter");
+            
+            if (counterNode != null)
+            {
+                string counter = String.Format("return function (self) {0} end", counterNode.InnerText);
+                
+                try
+                {
+                    AICounter = (LuaFunction)Seven.Lua.DoString(counter).First();
+                }
+                catch (Exception ex)
+                {
+                    throw new ImplementationException("Error loading enemy AI counter script; enemy = " + Name, ex);
+                }
+            }
+
+
+            // Confusion Attack
             
             string confuAttack = node.SelectSingleNode("ai/confuAttack").InnerText;
             
@@ -248,7 +290,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             AIConfu = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
-            
+
+
+            // Berserk Attack
             
             string berserkAttack = node.SelectSingleNode("ai/berserkAttack").InnerText;
             
@@ -259,6 +303,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
 
+
+            // Timers
             
             int vStep = Seven.Party.BattleSpeed;
             
@@ -292,7 +338,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         #region Methods
         
-        public override void AcceptDamage(int delta, AttackType type = AttackType.None)
+        public override void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None)
         {
             Seven.BattleState.AddDamageIcon(delta, this);
 
@@ -325,9 +371,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 _death = true;
             }
+
+            if (source is Ally)
+            {
+                LastAttacker = source;
+            }
         }
 
-        public override void AcceptMPLoss(int delta)
+        public override void AcceptMPLoss(Combatant source, int delta)
         {
             Seven.BattleState.AddDamageIcon(delta, this, true);
 
@@ -340,6 +391,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             else if (_mp < 0)
             {
                 _mp = 0;
+            }
+            
+            if (source is Ally)
+            {
+                LastAttacker = source;
             }
         }
         
@@ -398,6 +454,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             return Dexterity * vStep / Seven.Party.NormalSpeed();
         }
 
+        public void EnterBattle()
+        {
+            RunAISetup();
+        }
+
 
         public void TakeTurn()
         {
@@ -417,6 +478,21 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region AI
         
+        private void RunAISetup()
+        {
+            if (AISetup != null)
+            {
+                try
+                {
+                    AISetup.Call(this);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in Enemy AI Setup script, enemy = " + Name, e);
+                }
+            }
+        }
+        
         private void RunAIMain()
         {
             try
@@ -426,6 +502,18 @@ namespace Atmosphere.Reverence.Seven.Battle
             catch (Exception e)
             {
                 throw new ImplementationException("Error in Enemy AI Main script, enemy = " + Name, e);
+            }
+        }
+        
+        private void RunAICounter()
+        {
+            try
+            {
+                AICounter.Call(this);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
             }
         }
         
@@ -463,16 +551,21 @@ namespace Atmosphere.Reverence.Seven.Battle
             Attack attack = Attacks[id];
 
             string description = " attacks";
-
+            
             if (attack.InfoVisible)
             {
                 description = " uses " + attack.ID;
             }
-
+            
             PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element }, true, description);
         }
 
+        public void UseMagicSpell(string id, IEnumerable<Combatant> targets)
+        {
+            Spell spell = Spell.GetMagicSpell(id);
 
+            spell.Use(this, targets, new SpellModifiers(), true);
+        }
 
 
 
@@ -660,7 +753,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Inflict Status
 
-        public override bool InflictFury()
+        public override bool InflictFury(Combatant source)
         {
             bool inflicted = false;
 
@@ -674,7 +767,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return inflicted;
         }
 
-        public override bool InflictSadness()
+        public override bool InflictSadness(Combatant source)
         {
             bool inflicted = false;
             
@@ -688,9 +781,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             return inflicted;
         }
 
-        public override bool InflictDeath()
+        public override bool InflictDeath(Combatant source)
         {
             bool inflicted = false;
+
+            CureDeathSentence();
 
             if (!_death)
             {
@@ -702,7 +797,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return inflicted;
         }
 
-        public override bool InflictManipulate()
+        public override bool InflictManipulate(Combatant source)
         {
             return false;
         }
@@ -823,9 +918,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Sadness { get { return _sadness; } }
 
         public override bool Fury { get { return _fury; } }
-
+        
+        private LuaFunction AISetup { get; set; }
+        
         private LuaFunction AIMain { get; set; }
-
+        
+        private LuaFunction AICounter { get; set; }
+        
         private LuaFunction AIConfu { get; set; }
 
         private LuaFunction AIBerserk { get; set; }

@@ -117,6 +117,11 @@ namespace Atmosphere.Reverence.Seven.State
             
             foreach (Enemy enemy in EnemyList)
             {
+                enemy.EnterBattle();
+            }
+
+            foreach (Enemy enemy in EnemyList)
+            {
                 enemy.TurnTimer.Unpause();
             }
         }

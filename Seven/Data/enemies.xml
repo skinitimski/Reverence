@@ -73,6 +73,126 @@
         </ai>
     </enemy>
     <enemy>
+        <name>reno</name>
+        <lvl>42</lvl>
+        <hp>15000</hp>
+        <mp>230</mp>
+        <exp>5000</exp>
+        <ap>300</ap>
+        <gil>4000</gil>
+        <atk>100</atk>
+        <def>100</def>
+        <defp>12</defp>
+        <dex>85</dex>
+        <mat>85</mat>
+        <mdf>96</mdf>
+        <lck>20</lck>
+        <steal>
+            <item id="touphring" type="accessory" chance="32"/>
+        </steal>
+        <voids>
+            <void>Gravity</void>
+        </voids>
+        <attacks>
+            <attack id="Short Staff">            
+                <type>Physical</type>
+                <power>20</power>
+                <atkp>110</atkp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+            <attack id="Electroprod 2">            
+                <type>Physical</type>
+                <power>68</power>
+                <atkp>90</atkp>
+                <target>Combatant</target>
+                <element>Lightning</element>
+            </attack>
+        </attacks>
+        <ai>
+            <main>
+                a = chooseRandomAlly()  
+                i = math.random(3)
+            
+                if i == 3 then
+                    self:UseAttack("Electroprod 2", a)
+                else
+                    self:UseAttack("Short Staff", a)
+                end                
+            </main>
+            <confuAttack>Short Staff</confuAttack>
+            <berserkAttack>Short Staff</berserkAttack>
+        </ai>
+    </enemy>
+    <enemy>
+        <name>Poodler</name>
+        <lvl>42</lvl>
+        <hp>6000</hp>
+        <mp>220</mp>
+        <exp>900</exp>
+        <ap>70</ap>
+        <gil>2500</gil>
+        <atk>98</atk>
+        <def>110</def>
+        <defp>2</defp>
+        <dex>86</dex>
+        <mat>85</mat>
+        <mdf>200</mdf>
+        <lck>0</lck>
+        <win>
+            <item id="xpotion" type="item" chance="8"/>
+        </win>
+        <steal>
+            <item id="turboether" type="item" chance="32"/>
+        </steal>
+        <morph>
+            <item id="speedsource" type="item" />
+        </morph>
+        <immunities>
+            <immunity>Death</immunity>
+            <immunity>Confusion</immunity>
+            <immunity>Silence</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>SlowNumb</immunity>
+            <immunity>Petrify</immunity>
+            <immunity>DeathSentence</immunity>
+            <immunity>Manipulate</immunity>
+            <immunity>Berserk</immunity>
+        </immunities>
+        <attacks>        
+            <attack id="Bodyblow">         
+                <type>Physical</type>
+                <power>16</power>
+                <atkp>100</atkp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+        </attacks>
+        <ai>
+            <setup>count = math.random(0,Party.PARTY_SIZE - 1)</setup>
+            <main>
+                local a = BattleState.Allies[count]
+                
+                if not a.Death then
+                    self:UseAttack("Bodyblow", a)
+                end
+                
+                count = (count + 1) % Party.PARTY_SIZE
+            </main>
+            <counter>
+                if self.HP &lt;= self.MaxHP * 4 / 3 and math.random(0,2) == 0 then
+                    local a = self.LastAttacker
+                    self:UseMagicSpell("Fire", a)
+                end   
+            </counter>
+            <confuAttack>Bodyblow</confuAttack>
+            <berserkAttack>Bodyblow</berserkAttack>
+        </ai>
+    </enemy>
+    <enemy>
         <name>Moth Slasher</name>
         <lvl>13</lvl>
         <hp>260</hp>

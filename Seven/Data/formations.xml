@@ -9,8 +9,17 @@
         <enemy id="punchingbag" x="100" y="200" row="1" />  
         <enemy id="goldmine"    x="135" y="275" row="0" />     
     </formation>
+    <formation id="debug2">
+        <enemy id="reno"  x="100" y="125" row="0" />    
+        <enemy id="reno"  x="120" y="200" row="0" />    
+        <enemy id="reno"  x="140" y="275" row="0" />    
+    </formation>
     <formation id="shinraTower.a">
         <enemy id="mothslasher" x="100" y="175" row="0" />
         <enemy id="mothslasher" x="100" y="250" row="0" />        
+    </formation>
+    <formation id="gelnika.a">
+        <enemy id="poodler" x="100" y="175" row="0" />  
+        <enemy id="poodler" x="100" y="250" row="1" />        
     </formation>
 </formations>

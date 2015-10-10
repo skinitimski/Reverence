@@ -42,7 +42,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                         
             if (HP == 0)
             {
-                InflictDeath();
+                InflictDeath(null);
             }
 
             int vStep = Seven.Party.BattleSpeed;
@@ -225,7 +225,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Methods
         
-        public override void AcceptDamage(int delta, AttackType type = AttackType.None)
+        public override void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None)
         {
             Seven.BattleState.AddDamageIcon(delta, this);
 
@@ -260,13 +260,23 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 Kill();
             }
+
+            if (source is Enemy)
+            {
+                LastAttacker = source;
+            }
         }
         
-        public override void AcceptMPLoss(int delta)
+        public override void AcceptMPLoss(Combatant source, int delta)
         {
             Seven.BattleState.AddDamageIcon(delta, this, true);
 
             _c.MP -= delta;
+            
+            if (source is Enemy)
+            {
+                LastAttacker = source;
+            }
         }
 
         public override void Recover()
@@ -377,7 +387,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         #region Inflict Status
 
-        public override bool InflictDeath()
+        public override bool InflictDeath(Combatant source)
         {
             if (_c.Immune(Status.Death))
             {
@@ -387,12 +397,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 return false;
             }
+            CureDeathSentence();
             TurnTimer.Reset();
             PauseTimers();
             return _c.InflictDeath();
         }
 
-        public override bool InflictFury()
+        public override bool InflictFury(Combatant source)
         {
             if (_c.Immune(Status.Fury))
             {
@@ -401,7 +412,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return _c.InflictFury();
         }
 
-        public override bool InflictSadness()
+        public override bool InflictSadness(Combatant source)
         {
             if (_c.Immune(Status.Sadness))
             {
@@ -410,7 +421,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return _c.InflictSadness();
         }
                 
-        public override bool InflictManipulate()
+        public override bool InflictManipulate(Combatant source)
         {
             return false;
         }

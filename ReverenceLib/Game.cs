@@ -238,10 +238,10 @@ namespace Atmosphere.Reverence
                     _isDrawing = false;
                 }
             }
-            
 
             _window.GetSize(out _oldWidth, out _oldHeight);
             _window.QueueDrawArea(0, 0, _oldWidth, _oldHeight);
+
             return true;
         }
         

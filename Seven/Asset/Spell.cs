@@ -217,7 +217,22 @@ namespace Atmosphere.Reverence.Seven.Asset
             return left.Order.CompareTo(right.Order);
         }
 
-        
+        /// <summary>
+        /// Cast this spell. The <param name="source">source</param> is the <see cref="Combatant" /> which is responsible for casting the spell.
+        /// The spell can have one or more <param name="targets">targets</param>.
+        /// </summary>
+        /// <param name='source'>
+        /// Source.
+        /// </param>
+        /// <param name='targets'>
+        /// Targets.
+        /// </param>
+        /// <param name='modifiers'>
+        /// Modifiers.
+        /// </param>
+        /// <param name='resetTurnTimer'>
+        /// If set to <c>true</c> reset turn timer.
+        /// </param>
         public void Use(Combatant source, IEnumerable<Combatant> targets, SpellModifiers modifiers, bool resetTurnTimer = true)
         {
             int pause = 1500;
@@ -298,7 +313,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     {
                         int dam = DamageFormula(source, target, modifiers);
                         
-                        target.AcceptDamage(dam, Type);
+                        target.AcceptDamage(source, dam, Type);
                     }
                     
                     foreach (StatusChange statusChange in Statuses)
@@ -312,7 +327,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                                     foreach (Status status in statusChange.Statuses)
                                     {
                                         Console.WriteLine(status);
-                                        target.GetType().GetMethod("Cure" + status).Invoke(target, new object[0]);
+
+                                        target.GetType().GetMethod("Cure" + status).Invoke(target, new object[] { source });
                                     }
 
                                     break;
@@ -323,7 +339,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                                     {
                                         Console.WriteLine(status);
                                         
-                                        target.GetType().GetMethod("Inflict" + status).Invoke(target, new object[0]);
+                                        target.GetType().GetMethod("Inflict" + status).Invoke(target, new object[] { source });
                                     }
 
                                     break;
