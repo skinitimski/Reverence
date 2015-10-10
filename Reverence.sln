@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverenceLib", "ReverenceLi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "Seven\Seven.csproj", "{164FDDDF-F2F8-4888-9347-8DB9C49F941C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyMechanicsParser", "EnemyMechanicsParser\EnemyMechanicsParser.csproj", "{3887B9E0-C819-4610-899F-08D2E1ED618F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{164FDDDF-F2F8-4888-9347-8DB9C49F941C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{164FDDDF-F2F8-4888-9347-8DB9C49F941C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{164FDDDF-F2F8-4888-9347-8DB9C49F941C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3887B9E0-C819-4610-899F-08D2E1ED618F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3887B9E0-C819-4610-899F-08D2E1ED618F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3887B9E0-C819-4610-899F-08D2E1ED618F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3887B9E0-C819-4610-899F-08D2E1ED618F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D16C2F8-2D9E-43A4-BFE2-8BB1973A22A5}.Release|Any CPU.ActiveCfg = Release|Any CPU

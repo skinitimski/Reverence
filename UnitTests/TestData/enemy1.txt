@@ -1,0 +1,15 @@
+-----------------------------------------------------------------------------
+Name: Land Worm
+ Lvl: 22         EXP: 400           Win: [ 8] Ether
+  HP: 1500        AP: 40          Steal: [ 8] Turbo Ether
+  MP: 80         Gil: 256         Morph:      Fire Fang
+ ---
+Weak:   Ice
+Half:   Fire, Gravity
+Asrb:   Earth
+ ---
+ Att: 60         Def: 80          Df%: 1           Dex: 68
+ MAt: 42         MDf: 230                          Lck: 0
+ ---
+Immune: Confusion, Frog
+ ---

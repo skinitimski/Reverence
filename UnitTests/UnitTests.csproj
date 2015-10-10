@@ -38,10 +38,12 @@
   <ItemGroup>
     <Folder Include="Properties\" />
     <Folder Include="Seven\" />
+    <Folder Include="TestData\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test.Timer.cs" />
     <Compile Include="Seven\Test.Character.LevelUp.cs" />
+    <Compile Include="EnemyMechanicsParserTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
@@ -52,5 +54,12 @@
       <Project>{164FDDDF-F2F8-4888-9347-8DB9C49F941C}</Project>
       <Name>Seven</Name>
     </ProjectReference>
+    <ProjectReference Include="..\EnemyMechanicsParser\EnemyMechanicsParser.csproj">
+      <Project>{3887B9E0-C819-4610-899F-08D2E1ED618F}</Project>
+      <Name>EnemyMechanicsParser</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TestData\enemy1.txt" />
   </ItemGroup>
 </Project>
