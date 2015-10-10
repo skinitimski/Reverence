@@ -193,6 +193,78 @@
         </ai>
     </enemy>
     <enemy>
+        <name>Poodler</name>
+        <lvl>42</lvl>
+        <hp>6000</hp>
+        <mp>220</mp>
+        <exp>900</exp>
+        <ap>70</ap>
+        <gil>2500</gil>
+        <atk>98</atk>
+        <def>110</def>
+        <defp>2</defp>
+        <dex>86</dex>
+        <mat>85</mat>
+        <mdf>200</mdf>
+        <lck>0</lck>
+        <win>
+            <item id="xpotion" type="item" chance="8"/>
+        </win>
+        <steal>
+            <item id="turboether" type="item" chance="32"/>
+        </steal>
+        <morph>
+            <item id="speedsource" type="item" />
+        </morph>
+        <immunities>
+            <immunity>Death</immunity>
+            <immunity>Confusion</immunity>
+            <immunity>Silence</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>SlowNumb</immunity>
+            <immunity>Petrify</immunity>
+            <immunity>DeathSentence</immunity>
+            <immunity>Manipulate</immunity>
+            <immunity>Berserk</immunity>
+        </immunities>
+        <attacks>        
+            <attack id="Bodyblow">         
+                <type>Physical</type>
+                <power>16</power>
+                <atkp>100</atkp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+        </attacks>
+        <ai>
+            <setup>count = math.random(0,Party.PARTY_SIZE - 1)</setup>
+            <main>
+                local a = BattleState.Allies[count]
+                
+                if not a.Death then
+                    self:UseAttack("Bodyblow", a)
+                end
+                
+                count = (count + 1) % Party.PARTY_SIZE
+            </main>
+            <counter>
+                if self.HP &lt;= self.MaxHP * 4 / 3 and math.random(0,2) == 0 then
+                    local a = self.LastAttacker
+                    self:UseMagicSpell("Fire", a)
+                end   
+            </counter>
+            <confuAttack>Bodyblow</confuAttack>
+            <berserkAttack>Bodyblow</berserkAttack>
+        </ai>
+    </enemy>
+    
+    
+    
+    
+    
+    <enemy>
         <name>Moth Slasher</name>
         <lvl>13</lvl>
         <hp>260</hp>
