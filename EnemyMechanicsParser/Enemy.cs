@@ -160,58 +160,72 @@ namespace Atmosphere.EnemyMechanicsParser
                     writer.WriteElementString("lck", lck);
 					
 							
-				    writer.WriteStartElement("weaks");
+					if (weak.Count > 0)
 					{
-						foreach (String s in weak)
+					    writer.WriteStartElement("weaks");
 						{
-							writer.WriteElementString("weak", s);
+							foreach (String s in weak)
+							{
+								writer.WriteElementString("weak", s);
+							}
 						}
+						writer.WriteEndElement(); // weaks
 					}
-					writer.WriteEndElement(); // weaks
 
-
-					writer.WriteStartElement("halves");
+					if (half.Count > 0)
 					{
-                        foreach (String s in half)
+						writer.WriteStartElement("halves");
 						{
-							writer.WriteElementString("halve", s);
+	                        foreach (String s in half)
+							{
+								writer.WriteElementString("halve", s);
+							}
 						}
+						writer.WriteEndElement(); // halves
 					}
-					writer.WriteEndElement(); // halves
 
-
-					writer.WriteStartElement("voids");
+					if (@void.Count > 0)
 					{
-                        foreach (String s in @void)
+						writer.WriteStartElement("voids");
 						{
-							writer.WriteElementString("void", s);
+	                        foreach (String s in @void)
+							{
+								writer.WriteElementString("void", s);
+							}
 						}
+						writer.WriteEndElement(); // voids
 					}
-					writer.WriteEndElement(); // voids
 
-
-					writer.WriteStartElement("absorbs");
+					if (absorb.Count > 0)
 					{
-                        foreach (String s in absorb)
+						writer.WriteStartElement("absorbs");
 						{
-							writer.WriteElementString("absorb", s);
+	                        foreach (String s in absorb)
+							{
+								writer.WriteElementString("absorb", s);
+							}
 						}
+						writer.WriteEndElement(); // absorbs
 					}
-					writer.WriteEndElement(); // absorbs
 
-
-					writer.WriteStartElement("immunities");
+					if (immunities.Count > 0)
 					{
-                        foreach (String s in immunities)
+						writer.WriteStartElement("immunities");
 						{
-							writer.WriteElementString("immunity", s);
+	                        foreach (String s in immunities)
+							{
+								writer.WriteElementString("immunity", s);
+							}
 						}
+						writer.WriteEndElement(); // immunities
 					}
-					writer.WriteEndElement(); // immunities
 
-					writer.WriteStartElement("morph");
-					writer.WriteAttributeString("id", morph);
-					writer.WriteEndElement();
+					if (!String.IsNullOrWhiteSpace(morph))
+					{
+						writer.WriteStartElement("morph");
+						writer.WriteAttributeString("id", morph);
+						writer.WriteEndElement();
+					}
                 }
                 writer.WriteEndElement(); // enemy
             }
