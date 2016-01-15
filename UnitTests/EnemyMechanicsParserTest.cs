@@ -49,7 +49,7 @@ namespace Atmosphere.Reverence.UnitTests
             Assert.AreEqual("230", enemy.mdf);
             Assert.AreEqual("0", enemy.lck);
 
-            Assert.Equals("Fire Fang", enemy.morph);
+            Assert.AreEqual("Fire Fang", enemy.morph);
         }
     }
 }
