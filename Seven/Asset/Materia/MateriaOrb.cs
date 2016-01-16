@@ -154,14 +154,14 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             
             public MasterMagicMateria() : base(MasterMagic.ID, 0) { }
             
-            
+
             public override List<Spell> GetSpells
             {
                 get
                 {
                     List<Spell> sp = new List<Spell>();
                     
-                    foreach (Spell s in Spell.GetMagicSpells())
+                    foreach (Spell s in MagicSpell.GetAll())
                     {
                         sp.Add(s);
                     }
@@ -190,7 +190,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                 {
                     List<Spell> sp = new List<Spell>();
                     
-                    foreach (Spell s in Spell.GetSummonSpells())
+                    foreach (Spell s in SummonSpell.GetAll())
                     {
                         sp.Add(s);
                     }

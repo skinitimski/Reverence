@@ -167,7 +167,6 @@
     <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
     <Compile Include="Screen\BattleState\WItemMenu.cs" />
     <Compile Include="Battle\AttackType.cs" />
-    <Compile Include="Battle\SpellModifiers.cs" />
     <Compile Include="Screen\PostBattleState\Hoard\GilLeft.cs" />
     <Compile Include="Screen\PostBattleState\Hoard\ItemRight.cs" />
     <Compile Include="Screen\PostBattleState\Victory\Ap.cs" />
@@ -194,7 +193,6 @@
     <Compile Include="Screen\BattleState\BattleIcon.cs" />
     <Compile Include="Battle\Formation.cs" />
     <Compile Include="Battle\FormationType.cs" />
-    <Compile Include="Asset\Spell.cs" />
     <Compile Include="Test\LevelUpDemo.cs" />
     <Compile Include="Screen\MenuState\Save\Label.cs" />
     <Compile Include="Screen\MenuState\Save\Prompt.cs" />
@@ -213,6 +211,12 @@
     <Compile Include="Screen\PostBattleState\Victory\MateriaLevelUp.cs" />
     <Compile Include="Screen\PostBattleState\Victory\MateriaInfo.cs" />
     <Compile Include="Screen\BattleState\RecoveryIcon.cs" />
+    <Compile Include="Asset\Ability.cs" />
+    <Compile Include="Battle\AbilityModifiers.cs" />
+    <Compile Include="Asset\MagicSpell.cs" />
+    <Compile Include="Asset\Spell.cs" />
+    <Compile Include="Asset\SummonSpell.cs" />
+    <Compile Include="Asset\EnemySkillSpell.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

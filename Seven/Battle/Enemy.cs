@@ -30,34 +30,75 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Nested
 
-        private class Attack
+        private class Attack : Ability
         {
-            public Attack(XmlNode node)
+            public Attack(XmlNode xml)
+                : base()
             {
-                ID = node.SelectSingleNode("@id").Value;
-                Power = Int32.Parse(node.SelectSingleNode("power").InnerText);
-                Atkp = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
-                Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), node.SelectSingleNode("target").InnerText);
-                Element = (Element)Enum.Parse(typeof(Element), node.SelectSingleNode("element").InnerText);
-                InfoVisible = true;
+                ID = xml.SelectSingleNode("@id").Value;
+                Name = xml.SelectSingleNode("@id").Value;
+                
+                Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
+                Hitp = Int32.Parse(xml.SelectSingleNode("hitp").InnerText);
 
-                XmlNode hiddenNode = node.SelectSingleNode("hidden");
+                XmlNode costNode = xml.SelectSingleNode("cost");            
+                MPCost = costNode == null ? 0 : Int32.Parse(costNode.InnerText);
 
-                if (hiddenNode != null)
+                Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), xml.SelectSingleNode("target").InnerText);
+                Type = (AttackType)Enum.Parse(typeof(AttackType), xml.SelectSingleNode("type").InnerText);
+                
+                XmlNode hiddenNode = xml.SelectSingleNode("hidden");
+                InfoVisible = hiddenNode == null ? false : Boolean.Parse(hiddenNode.InnerText);
+
+
+                Elements = GetElements(xml.SelectNodes("element")).ToArray();
+                Statuses = GetStatusChanges(xml.SelectNodes("statusChange")).ToArray();
+
+                
+                XmlNode hitsNode = xml.SelectSingleNode("hits");
+                
+                if (hitsNode != null)
                 {
-                    InfoVisible = Boolean.Parse(hiddenNode.InnerText);
+                    Hits = Int32.Parse(hitsNode.InnerText);
+                }
+                
+                XmlNode formulaNode = xml.SelectSingleNode("formula");
+                
+                if (formulaNode != null)
+                {
+                    DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
+                }
+                else
+                {
+                    switch (Type)
+                    {
+                        case AttackType.Magical:
+                            DamageFormula = MagicalAttack;
+                            break;
+                        case AttackType.Physical:
+                            DamageFormula = PhysicalAttack;
+                            break;
+                        default:
+                            throw new GameDataException("Neither a formula nor an attack type -- ability ID '{0}'", ID);
+                    }
                 }
             }
 
-            public string ID { get; private set; }
+            protected override string GetMessage(Combatant source)
+            {
+                string msg;
 
-            public int Power { get; private set; }
+                if (InfoVisible)
+                {
+                    msg = source.Name + " uses " + Name;
+                }
+                else
+                {
+                    msg = " attacks";
+                }
 
-            public int Atkp { get; private set; }
-
-            public BattleTarget Target { get; private set; }
-
-            public Element Element { get; private set; }
+                return msg;
+            }
 
             public bool InfoVisible { get; private set; }
         }
@@ -155,6 +196,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _steal = new List<EnemyItem>();
 
             Attacks = new Dictionary<string, Attack>();
+            Variables = new Dictionary<string, object>();
 
             _name = node.SelectSingleNode("name").InnerText;
             _attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
@@ -281,27 +323,52 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
             // Confusion Attack
+
+            XmlNode confuAttackNode = node.SelectSingleNode("ai/confuAttack");
+
+            if (confuAttackNode != null)
+            {            
+                string confuAttack = confuAttackNode.InnerText;
             
-            string confuAttack = node.SelectSingleNode("ai/confuAttack").InnerText;
+                if (!Attacks.ContainsKey(confuAttack))
+                {
+                    throw new GameDataException("Specified confu attack '{0}' is not configured; enemy = {1}", confuAttack, Name);
+                }
             
-            if (!Attacks.ContainsKey(confuAttack))
-            {
-                throw new GameDataException("Specified confu attack '{0}' is not configured; enemy = {1}", confuAttack, Name);
+                AIConfu = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
             }
-            
-            AIConfu = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
+            else
+            {
+                if (!Immune(Status.Confusion))
+                {
+                    throw new GameDataException("No confusion attack specified and not immune to confusion: {0}", Name);
+                }
+            }
+        
 
 
             // Berserk Attack
-            
-            string berserkAttack = node.SelectSingleNode("ai/berserkAttack").InnerText;
-            
-            if (!Attacks.ContainsKey(berserkAttack))
+
+            XmlNode berserkAttackNode = node.SelectSingleNode("ai/berserkAttack");
+
+            if (berserkAttackNode != null)
             {
-                throw new GameDataException("Specified berserk attack '{0}' is not configured; enemy = {1}", berserkAttack, Name);
-            }
+                string berserkAttack = berserkAttackNode.InnerText;
             
-            AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
+                if (!Attacks.ContainsKey(berserkAttack))
+                {
+                    throw new GameDataException("Specified berserk attack '{0}' is not configured; enemy = {1}", berserkAttack, Name);
+                }
+            
+                AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
+            }
+            else
+            {
+                if (!Immune(Status.Berserk))
+                {
+                    throw new GameDataException("No berserk attack specified and not immune to berserk: {0}", Name);
+                }
+            }
 
 
             // Timers
@@ -541,7 +608,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public void UseAttack(string id, Combatant target)
+        public void UseAttack(string id, Combatant target, bool resetTurnTimer = true)
+        {
+            UseAttack(id, new List<Combatant>() { target }, resetTurnTimer);
+        }
+
+        public void UseAttack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer = true)
         {
             if (!Attacks.ContainsKey(id))
             {
@@ -550,21 +622,15 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             Attack attack = Attacks[id];
 
-            string description = " attacks";
-            
-            if (attack.InfoVisible)
-            {
-                description = " uses " + attack.ID;
-            }
-            
-            PhysicalAttack(attack.Power, attack.Atkp, target, new Element[] { attack.Element }, true, description);
+            // Never reset the turn timer
+            attack.Use(this, targets, new AbilityModifiers(), resetTurnTimer);
         }
 
-        public void UseMagicSpell(string id, IEnumerable<Combatant> targets)
+        public void UseMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer = true)
         {
-            Spell spell = Spell.GetMagicSpell(id);
+            Spell spell = MagicSpell.Get(id);
 
-            spell.Use(this, targets, new SpellModifiers(), true);
+            spell.Use(this, targets, new AbilityModifiers(), resetTurnTimer);
         }
 
 
@@ -930,6 +996,31 @@ namespace Atmosphere.Reverence.Seven.Battle
         private LuaFunction AIBerserk { get; set; }
 
         private Dictionary<string, Attack> Attacks { get; set; }
+
+        private Dictionary<string, object> Variables { get; set; }
+
+        public object this[string key]
+        {
+            get
+            {
+                object variable;
+
+                if (Variables.ContainsKey(key))
+                {
+                    variable = Variables[key];
+                }
+                else
+                {
+                    throw new GameDataException("Emeny '{0}' attempted to get the value of an undefined variable '{1}'", Name, key);
+                }
+
+                return variable;
+            }
+            set
+            {
+                Variables[key] = value;
+            }
+        }
         
         #endregion Properties
         

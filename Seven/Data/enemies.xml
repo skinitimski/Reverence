@@ -16,13 +16,13 @@
         <mdf>0</mdf>
         <lck>0</lck>
         <steal>
-            <item id="potion" type="item" chance="8"/>
+            <item id="potion" type="item" chance="8" />
         </steal>
         <attacks>
             <attack id="Bump">
                 <type>Physical</type>
                 <power>16</power>
-                <atkp>100</atkp>
+                <hitp>100</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
             </attack>
@@ -52,13 +52,13 @@
         <mdf>40</mdf>
         <lck>0</lck>
         <steal>
-            <item id="circlet" type="accessory" chance="128"/>
+            <item id="circlet" type="accessory" chance="128" />
         </steal>
         <attacks>
             <attack id="Jingle Jangle">
                 <type>Physical</type>
                 <power>2</power>
-                <atkp>80</atkp>
+                <hitp>80</hitp>
                 <target>Combatant</target>
                 <element>Punch</element>
             </attack>
@@ -88,24 +88,24 @@
         <mdf>96</mdf>
         <lck>20</lck>
         <steal>
-            <item id="touphring" type="accessory" chance="32"/>
+            <item id="touphring" type="accessory" chance="32" />
         </steal>
         <voids>
             <void>Gravity</void>
         </voids>
         <attacks>
-            <attack id="Short Staff">            
+            <attack id="Short Staff">
                 <type>Physical</type>
                 <power>20</power>
-                <atkp>110</atkp>
+                <hitp>110</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
                 <hidden>true</hidden>
             </attack>
-            <attack id="Electroprod 2">            
+            <attack id="Electroprod 2">
                 <type>Physical</type>
                 <power>68</power>
-                <atkp>90</atkp>
+                <hitp>90</hitp>
                 <target>Combatant</target>
                 <element>Lightning</element>
             </attack>
@@ -141,10 +141,10 @@
         <mdf>200</mdf>
         <lck>0</lck>
         <win>
-            <item id="xpotion" type="item" chance="8"/>
+            <item id="xpotion" type="item" chance="8" />
         </win>
         <steal>
-            <item id="turboether" type="item" chance="32"/>
+            <item id="turboether" type="item" chance="32" />
         </steal>
         <morph>
             <item id="speedsource" type="item" />
@@ -161,11 +161,11 @@
             <immunity>Manipulate</immunity>
             <immunity>Berserk</immunity>
         </immunities>
-        <attacks>        
-            <attack id="Bodyblow">         
+        <attacks>
+            <attack id="Bodyblow">
                 <type>Physical</type>
                 <power>16</power>
-                <atkp>100</atkp>
+                <hitp>100</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
                 <hidden>true</hidden>
@@ -193,31 +193,35 @@
         </ai>
     </enemy>
     <enemy>
-        <name>Poodler</name>
-        <lvl>42</lvl>
-        <hp>6000</hp>
-        <mp>220</mp>
-        <exp>900</exp>
+        <name>Bad Rap</name>
+        <lvl>38</lvl>
+        <hp>9000</hp>
+        <mp>120</mp>
+        <exp>1100</exp>
         <ap>70</ap>
         <gil>2500</gil>
-        <atk>98</atk>
-        <def>110</def>
+        <atk>70</atk>
+        <def>90</def>
         <defp>2</defp>
-        <dex>86</dex>
-        <mat>85</mat>
-        <mdf>200</mdf>
-        <lck>0</lck>
+        <dex>60</dex>
+        <mat>100</mat>
+        <mdf>90</mdf>
+        <lck>3</lck>
         <win>
-            <item id="xpotion" type="item" chance="8"/>
+            <item id="xpotion" type="item" chance="8" />
         </win>
         <steal>
-            <item id="turboether" type="item" chance="32"/>
+            <item id="turboether" type="item" chance="32" />
         </steal>
         <morph>
             <item id="speedsource" type="item" />
         </morph>
+        <absorbs>
+            <absorb>Poison</absorb>
+        </absorbs>
         <immunities>
             <immunity>Death</immunity>
+            <immunity>Poison</immunity>
             <immunity>Confusion</immunity>
             <immunity>Silence</immunity>
             <immunity>Frog</immunity>
@@ -228,37 +232,98 @@
             <immunity>Manipulate</immunity>
             <immunity>Berserk</immunity>
         </immunities>
-        <attacks>        
-            <attack id="Bodyblow">         
+        <attacks>
+            <attack id="Whip">
                 <type>Physical</type>
                 <power>16</power>
-                <atkp>100</atkp>
+                <hitp>110</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
                 <hidden>true</hidden>
             </attack>
+            <attack id="Big Fang">
+                <type>Physical</type>
+                <power>37</power>
+                <hitp>85</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+            <attack id="Evil Poison">
+                <type>Physical</type>
+                <power>12</power>
+                <hitp>105</hitp>
+                <cost>4</cost>
+                <target>Combatant</target>
+                <element>Poison</element>
+                <hidden>true</hidden>
+                <statusChange type="Inflict" statuses="Darkness" odds="100" />
+            </attack>
         </attacks>
         <ai>
-            <setup>count = math.random(0,Party.PARTY_SIZE - 1)</setup>
+            <setup>
+                self["specialChance"] = 16
+                self["count"] = 0
+            </setup>
             <main>
-                local a = BattleState.Allies[count]
+                local a = nil
                 
-                if not a.Death then
-                    self:UseAttack("Bodyblow", a)
-                end
+                if self["count"] == 0 or self["count"] == 1 then
                 
-                count = (count + 1) % Party.PARTY_SIZE
+                    a = chooseRandomAlly()
+                    
+                    
+                    if math.random(1, self["specialChance"]) == 1 then
+                        self:UseAttack("Whip", a, false)
+                        a = chooseRandomAlly()
+                        self:UseAttack("Whip", a)
+                    else                    
+                        self:UseAttack("Whip", a)                        
+                    end
+                    
+                    self["count"] = self["count"] + 1
+                    
+                elseif self["count"] == 2 then
+                    
+                    a = chooseRandomAllyWithoutDarkness()
+                    
+                    if a ~= nil and math.random(1, self["specialChance"]) then
+                        self:UseAttack("Evil Poison", a)
+                    else                        
+                        a = chooseRandomAlly()
+                        
+                        if math.random(1, self["specialChance"]) == 1 then
+                            self:UseAttack("Whip", a, false)
+                            a = chooseRandomAlly()
+                            self:UseAttack("Whip", a)                            
+                            self["count"] = 3
+                        else
+                            self:UseAttack("Whip", a)
+                            self["count"] = 0
+                        end                        
+                    end     
+                                  
+                else
+                    
+                    a = chooseRandomAllyWithHighestHP()
+                    self:UseAttack("Big Fang", a)
+                    self["count"] = 1
+                    
+                end                
             </main>
             <counter>
-                if self.HP &lt;= self.MaxHP * 4 / 3 and math.random(0,2) == 0 then
-                    local a = self.LastAttacker
-                    self:UseMagicSpell("Fire", a)
+                if self.HP &lt;= self.MaxHP / 2 then
+                    SpecialChance = 2
+                elseif self.HP &lt;= self.MaxHP * 3 / 4 then
+                    SpecialChance = 3
+                else
+                    SpecialChance = 4
                 end   
             </counter>
-            <confuAttack>Bodyblow</confuAttack>
-            <berserkAttack>Bodyblow</berserkAttack>
         </ai>
     </enemy>
+    
+    
     
     
     
@@ -282,9 +347,9 @@
         <weaks>
             <weak>Lightning</weak>
         </weaks>
-        <halves/>
-        <voids/>
-        <absorbs/>
+        <halves />
+        <voids />
+        <absorbs />
         <immunities>
             <immunity>Sleep</immunity>
             <immunity>Poison</immunity>
@@ -295,16 +360,16 @@
             <immunity>DeathSentence</immunity>
             <immunity>Paralyzed</immunity>
         </immunities>
-        <win/>
+        <win />
         <steal>
-            <item id="carbonbangle" type="armor" chance="8"/>
+            <item id="carbonbangle" type="armor" chance="8" />
         </steal>
-        <morph/>
+        <morph />
         <attacks>
             <attack id="Verbal Attack">
                 <type>Physical</type>
                 <power>16</power>
-                <atkp>100</atkp>
+                <hitp>100</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
                 <hidden>true</hidden>
@@ -312,7 +377,7 @@
             <attack id="Speed Slash">
                 <type>Physical</type>
                 <power>29</power>
-                <atkp>85</atkp>
+                <hitp>85</hitp>
                 <target>Combatant</target>
                 <element>Cut</element>
             </attack>

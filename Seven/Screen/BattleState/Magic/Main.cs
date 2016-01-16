@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         protected int _xopt;
         protected int _yopt;
         private int _topRow;
-        private int _totalRows = (Spell.MagicSpellCount / COLUMNS) + ((Spell.MagicSpellCount % COLUMNS == 0) ? 0 : 1);
+        private int _totalRows = (MagicSpell.Count / COLUMNS) + ((MagicSpell.Count % COLUMNS == 0) ? 0 : 1);
         private readonly int _visibleRows = 3;
         protected MagicMenuEntry[,] _spells;
 
@@ -156,9 +156,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         protected void UseSpell(int xopt, int yopt, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            Spell spell = _spells[yopt, xopt].Spell;
+            Ability spell = _spells[yopt, xopt].Spell;
 
-            spell.Use(Seven.BattleState.Commanding, targets, new SpellModifiers(), releaseAlly);
+            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers(), releaseAlly);
         }
 
         protected override void DrawContents(Gdk.Drawable d)

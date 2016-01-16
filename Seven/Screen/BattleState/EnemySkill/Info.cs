@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,7 +44,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
             TextExtents te;
 
-            Spell s = Seven.BattleState.Commanding.EnemySkillMenu.Selected;
+            Ability s = Seven.BattleState.Commanding.EnemySkillMenu.Selected;
 
             int row = 0;
 

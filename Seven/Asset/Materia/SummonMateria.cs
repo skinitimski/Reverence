@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +30,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         {
             get
             {
-                return Abilities.Select(x => Spell.GetSummonSpell(Resource.CreateID(x))).ToList();
+                return Abilities.Select(x => SummonSpell.Get(Resource.CreateID(x))).ToList();
             }
         }
         

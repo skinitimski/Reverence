@@ -25,7 +25,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
         protected int _option;
         private int _topRow;
-        private int _totalRows = Spell.SummonCount;
+        private int _totalRows = SummonSpell.Count;
         private readonly int _visibleRows = 3;
         protected SummonMenuEntry[] _summons;
 
@@ -102,9 +102,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         
         protected void UseSpell(int option, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            Spell spell = _summons[option].Spell;
+            Ability spell = _summons[option].Spell;
             
-            spell.Use(Seven.BattleState.Commanding, targets, new SpellModifiers(), releaseAlly);
+            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers(), releaseAlly);
         }
 
         protected override void DrawContents(Gdk.Drawable d)

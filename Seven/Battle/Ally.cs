@@ -31,6 +31,32 @@ namespace Atmosphere.Reverence.Seven.Battle
                         
         #endregion Member Data
 
+
+        private class WeaponAttack : Ability
+        {
+            public WeaponAttack(Ally ally)
+            {
+                Name = "";
+                Desc = "";
+                ID = "";
+                
+                Type = AttackType.Physical;
+                Target = BattleTarget.Combatant;
+                
+                Elements = new Element[] { ally.Weapon.Element };
+                
+                Power = 16;
+                Hitp = ally.Atkp;
+                Hits = 1;
+
+                DamageFormula = PhysicalAttack;
+            }
+
+            protected override string GetMessage(Combatant source)
+            {
+                return source.Name + " attacks";
+            }
+        }
         
         public Ally(Character c, int x, int y, int e)
             : base(x, y)
@@ -50,6 +76,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             C_Timer = new Clock();
             V_Timer = new Clock(vStep);
             TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            PrimaryAttack = new WeaponAttack(this);
         }
 
         internal void InitMenu(ScreenState state)
@@ -123,7 +150,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                 if (right is MagicMateria && left is SupportMateria)
                 {
-                    foreach (Spell s in ((MagicMateria)right).GetSpells)
+                    foreach (Ability s in ((MagicMateria)right).GetSpells)
                     {
                         for (int j = 0; j < list.Count; j++)
                         {
@@ -323,7 +350,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public void Attack(Combatant target, bool resetTurnTimer = true)
         {
-            PhysicalAttack(16, Atkp, target, new Element[] { Weapon.Element }, resetTurnTimer);
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers(), resetTurnTimer);
         }
 
 
@@ -356,8 +383,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             target = Seven.BattleState.Allies[i];
-
-            PhysicalAttack(16, Atkp, target, new Element[] { Weapon.Element });
+            
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
         }
         
         public void RunAIBerserk()
@@ -368,7 +395,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     
             target = Seven.BattleState.EnemyList[i];
             
-            PhysicalAttack(16, Atkp, target, new Element[] { Weapon.Element });
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
         }
         
         #endregion AI
@@ -705,6 +732,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Armor Armor { get { return _c.Armor; } }
 
         public IEnumerable<MateriaOrb> Materia { get { return _c.Materia; } }
+
+        public Ability PrimaryAttack { get; private set; }
         
         #endregion Properties
         

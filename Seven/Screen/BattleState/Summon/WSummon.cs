@@ -37,7 +37,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     {
                         if (_summons[_option] != null)
                         {
-                            Spell spell = _summons[_option].Spell;
+                            Ability spell = _summons[_option].Spell;
                         
                             if (CommandingAvailableMP < spell.MPCost)
                             {

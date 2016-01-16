@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using Atmosphere.Reverence.Seven.Battle;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    internal delegate int DamageFormula(Combatant source, Combatant target, SpellModifiers modifiers);
+    internal delegate int DamageFormula(Combatant source, Combatant target, AbilityModifiers modifiers);
 
     internal static class Formula
     {
@@ -29,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
         
-        public static int RunMagicModifiers(int dam, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
+        public static int RunMagicModifiers(int dam, Combatant target, IEnumerable<Element> elements, AbilityModifiers modifiers)
         {
             dam = Sadness(dam, target);
             dam = Split(dam, modifiers);
@@ -43,7 +43,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
         
-        public static int RunCureModifiers(int dam, Combatant target, IEnumerable<Element> elements, SpellModifiers modifiers)
+        public static int RunCureModifiers(int dam, Combatant target, IEnumerable<Element> elements, AbilityModifiers modifiers)
         {
             dam = Split(dam, modifiers);
             dam = MBarrier(dam, target);
@@ -168,7 +168,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return Seven.BattleState.Random.Next(100) < hitp;
         }
 
-        public static bool StatusHit(Combatant source, Combatant target, int odds, IEnumerable<Status> statuses, SpellModifiers modifiers)
+        public static bool StatusHit(Combatant source, Combatant target, int odds, IEnumerable<Status> statuses, AbilityModifiers modifiers)
         {
             // auto hit conditions
 
@@ -278,7 +278,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int Split(int dam, SpellModifiers modifiers)
+        public static int Split(int dam, AbilityModifiers modifiers)
         {
             if (modifiers.QuadraMagic)
             {
@@ -292,7 +292,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int QuadraMagic(int dam, SpellModifiers modifiers)
+        public static int QuadraMagic(int dam, AbilityModifiers modifiers)
         {
             if (modifiers.QuadraMagic)
             {
@@ -322,7 +322,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return dam;
         }
 
-        public static int MPTurbo(int dam, SpellModifiers modifiers)
+        public static int MPTurbo(int dam, AbilityModifiers modifiers)
         {
             dam = dam + (dam * 10 * modifiers.MPTurboFactor) / 10;
 

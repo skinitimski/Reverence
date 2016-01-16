@@ -108,61 +108,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        protected void PhysicalAttack(int power, int atkp, Combatant target, Element[] elements, bool resetTurnTimer = true, string msg = " attacks")
-        {
-            int pause = 800;
-            int attack_duration = BattleIcon.ANIMATION_DURATION;
-            int duration = pause + attack_duration;
-
-            if (Confusion)
-            {
-                msg += " (confused)";
-            }
-            else if (Berserk)
-            {
-                msg += " (berserk)";
-            }
-
-            msg = Name + msg;
-
-            TimedActionContext context = new TimedActionContext(
-                delegate(Timer t)
-                { 
-                    Thread.Sleep(pause); 
-                    PhysicalAttack(power, atkp, this, target, elements); 
-                    Thread.Sleep(duration);
-                },
-                duration,
-                c => msg);
-
-
-            BattleEvent e = new BattleEvent(this, context);
-            e.ResetSourceTurnTimer = resetTurnTimer;
-
-            Seven.BattleState.EnqueueAction(e);
-        }
-
-
-
-
-
-
-        private static void PhysicalAttack(int power, int atkp, Combatant source, Combatant target, IEnumerable<Element> elements)
-        {
-            if (Formula.PhysicalHit(atkp, source, target, elements))
-            {
-                int bd = Formula.PhysicalBase(source);
-                int dam = Formula.PhysicalDamage(bd, power, target);
-
-                dam = Formula.RunPhysicalModifiers(dam, source, target, elements);
-
-                target.AcceptDamage(source, dam, AttackType.Physical);
-            }
-            else
-            {
-                Seven.BattleState.AddMissIcon(target);
-            }
-        }
+        
 
 
 
