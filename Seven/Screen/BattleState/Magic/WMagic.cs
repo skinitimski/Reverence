@@ -38,7 +38,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     {
                         if (_spells[_yopt, _xopt] != null)
                         {
-                            Ability spell = _spells[_yopt, _xopt].Spell;
+                            Spell spell = _spells[_yopt, _xopt].Spell;
                         
                             if (CommandingAvailableMP < spell.MPCost)
                             {

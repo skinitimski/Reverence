@@ -80,7 +80,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                     Reset();
                     break;
                 case Key.Circle:
-                    if (!String.IsNullOrEmpty(_spells[_yopt, _xopt].ID))
+                    if (!String.IsNullOrEmpty(_spells[_yopt, _xopt].Name))
                     {
                         Spell skill = _spells[_yopt, _xopt];
 
@@ -122,7 +122,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             
             for (int b = _topRow; b < j; b++)
                 for (int a = 0; a < COLUMNS; a++)
-                    Text.ShadowedText(g, String.IsNullOrEmpty(_spells[b, a].ID) ? "" : _spells[b, a].Name,
+                    Text.ShadowedText(g, String.IsNullOrEmpty(_spells[b, a].Name) ? "" : _spells[b, a].Name,
                                           X + x1 + a * xs,
                                           Y + (b - _topRow + 1) * ys);
             
@@ -156,7 +156,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         public bool IsValid { get { return _totalRows > 0; } }
         
         public override string Info
-        { get { return String.IsNullOrEmpty(_spells[_yopt, _xopt].ID) ? "" : _spells[_yopt, _xopt].Desc; } }
+        { get { return String.IsNullOrEmpty(_spells[_yopt, _xopt].Name) ? "" : _spells[_yopt, _xopt].Desc; } }
         public Spell Selected { get { return _spells[_yopt, _xopt]; } }
     }
 }

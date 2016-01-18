@@ -47,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         public int AllCount { get { return _allCount; } }
         public int QMagicCount { get { return _qmagicCount; } }
         public int MPTurboFactor { get { return _mpTurboFactor; } }
-        public string ID { get { return _spell.ID; } }
+        public string Name { get { return _spell.Name; } }
     }
 }
 

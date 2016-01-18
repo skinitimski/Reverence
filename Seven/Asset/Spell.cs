@@ -21,7 +21,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             Name = xml.SelectSingleNode("name").InnerText;
             Desc = xml.SelectSingleNode("desc").InnerText;
-            ID = Resource.CreateID(Name);
             
             Type = (AttackType)Enum.Parse(typeof(AttackType), xml.SelectSingleNode("type").InnerText);
             Target = (BattleTarget)Enum.Parse(typeof(BattleTarget), xml.SelectSingleNode("target").InnerText);
@@ -61,7 +60,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         DamageFormula = PhysicalAttack;
                         break;
                     default:
-                        throw new GameDataException("Neither a formula nor an attack type -- ability ID '{0}'", ID);
+                        throw new GameDataException("Neither a formula nor an attack type -- ability '{0}'", Name);
                 }
             }
 
@@ -85,7 +84,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 Spell spell = new Spell(node);
                 
-                table.Add(spell.ID, spell);
+                table.Add(spell.Name, spell);
             } 
             
             return table;

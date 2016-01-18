@@ -35,7 +35,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             public Attack(XmlNode xml)
                 : base()
             {
-                ID = xml.SelectSingleNode("@id").Value;
                 Name = xml.SelectSingleNode("@id").Value;
                 
                 Power = Int32.Parse(xml.SelectSingleNode("power").InnerText);
@@ -79,7 +78,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                             DamageFormula = PhysicalAttack;
                             break;
                         default:
-                            throw new GameDataException("Neither a formula nor an attack type -- ability ID '{0}'", ID);
+                            throw new GameDataException("Neither a formula nor an attack type -- ability '{0}'", Name);
                     }
                 }
             }
@@ -266,7 +265,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 Attack attack = new Attack(attackNode);
 
-                Attacks.Add(attack.ID, attack);
+                Attacks.Add(attack.Name, attack);
             }
 
 
@@ -318,6 +317,44 @@ namespace Atmosphere.Reverence.Seven.Battle
                 catch (Exception ex)
                 {
                     throw new ImplementationException("Error loading enemy AI counter script; enemy = " + Name, ex);
+                }
+            }
+            
+            
+            // AI: Counter - Physical
+            
+            XmlNode counterPhysicalNode = node.SelectSingleNode("ai/counter-physical");
+            
+            if (counterPhysicalNode != null)
+            {
+                string counter = String.Format("return function (self) {0} end", counterPhysicalNode.InnerText);
+                
+                try
+                {
+                    AICounterPhysical = (LuaFunction)Seven.Lua.DoString(counter).First();
+                }
+                catch (Exception ex)
+                {
+                    throw new ImplementationException("Error loading enemy AI counter-physical script; enemy = " + Name, ex);
+                }
+            }
+            
+            
+            // AI: Counter - Magical
+            
+            XmlNode counterMagicalNode = node.SelectSingleNode("ai/counter-physical");
+            
+            if (counterMagicalNode != null)
+            {
+                string counter = String.Format("return function (self) {0} end", counterMagicalNode.InnerText);
+                
+                try
+                {
+                    AICounterMagical = (LuaFunction)Seven.Lua.DoString(counter).First();
+                }
+                catch (Exception ex)
+                {
+                    throw new ImplementationException("Error loading enemy AI counter-magical script; enemy = " + Name, ex);
                 }
             }
 
@@ -442,6 +479,19 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (source is Ally)
             {
                 LastAttacker = source;
+
+                if (type == AttackType.Physical && AICounterPhysical != null)
+                {
+                    RunAICounterPhysical();
+                }
+                else if (type == AttackType.Magical && AICounterMagical != null)
+                {
+                    RunAICounterMagical();
+                }
+                else if (AICounter != null)
+                {
+                    RunAICounter();
+                }
             }
         }
 
@@ -514,7 +564,37 @@ namespace Atmosphere.Reverence.Seven.Battle
             g.Color = Colors.ENEMY_RED;
             g.Rectangle(X - _icon_half_width, Y - _icon_half_height, Character.PROFILE_WIDTH_TINY, Character.PROFILE_HEIGHT_TINY);
             g.Fill();
+
+#if DEBUG
+            string variables = GetVariableText();
+
+            if (variables.Length > 0)
+            {
+                Text.ShadowedText(g, Colors.WHITE, variables, X + _text_offset_x, Y + _text_offset_y - _text_spacing_y, Text.MONOSPACE_FONT, 12);
+            }
+#endif
         }
+
+        private string GetVariableText()
+        {
+            StringBuilder variables = new StringBuilder();
+            
+            foreach (KeyValuePair<string, object> variable in Variables)
+            {
+                variables.Append(variable.Key);
+                variables.Append("=");
+                variables.Append(variable.Value);
+                variables.Append(";");
+            }
+
+            if (variables.Length > 0)
+            {
+                variables.Length -= 1;
+            }
+
+            return variables.ToString();
+        }
+
 
         protected override int GetTurnTimerStep(int vStep)
         {
@@ -584,6 +664,30 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
+        private void RunAICounterPhysical()
+        {
+            try
+            {
+                AICounterPhysical.Call(this);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+            }
+        }
+        
+        private void RunAICounterMagical()
+        {
+            try
+            {
+                AICounterMagical.Call(this);
+            }
+            catch (Exception e)
+            {
+                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+            }
+        }
+        
         private void RunAIConfu()
         {
             try
@@ -608,30 +712,129 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public void UseAttack(string id, Combatant target, bool resetTurnTimer = true)
-        {
-            UseAttack(id, new List<Combatant>() { target }, resetTurnTimer);
-        }
 
-        public void UseAttack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer = true)
+
+        
+        public void UseAttack(string id, Combatant target)
+        {
+            UseAttack(id, new List<Combatant>() { target });
+        }
+        
+        public void UseAttackAndWait(string id, Combatant target)
+        {
+            UseAttackAndWait(id, new List<Combatant>() { target });
+        }
+        
+        public void UseAttack(string id, IEnumerable<Combatant> targets)
+        {
+            UseAttack(id, targets, true);
+        }   
+        
+        public void UseAttackAndWait(string id, IEnumerable<Combatant> targets)
+        {
+            UseAttack(id, targets, false);
+        }    
+        
+        private void UseAttack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
             if (!Attacks.ContainsKey(id))
             {
-                throw new GameDataException("Used attack that doesn't exist, enemy = " + Name);
+                throw new GameDataException("Enemy '{0}' used undefined attack '{1}'", Name, id);
             }
+            
+            Attacks[id].Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+        }       
 
-            Attack attack = Attacks[id];
 
-            // Never reset the turn timer
-            attack.Use(this, targets, new AbilityModifiers(), resetTurnTimer);
+
+
+        
+        public void CounterAttack(string id, Combatant target)
+        {
+            CounterAttack(id, new List<Combatant>() { target });
+        }    
+        
+        public void CounterAttack(string id, IEnumerable<Combatant> targets)
+        {
+            CounterAttack(id, targets, true);
         }
-
-        public void UseMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer = true)
+        
+        private void CounterAttack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
+        {
+            if (!Attacks.ContainsKey(id))
+            {
+                throw new GameDataException("Enemy '{0}' used undefined attack '{1}'", Name, id);
+            }
+            
+            Attacks[id].Use(this, targets, new AbilityModifiers { CounterAttack = true, ResetTurnTimer = false });
+        }
+        
+        
+        
+        
+        
+        public void UseMagicSpell(string id, Combatant target)
+        {
+            UseMagicSpell(id, new List<Combatant>() { target }, true);
+        }
+        
+        public void UseMagicSpell(string id, IEnumerable<Combatant> targets)
+        {
+            UseMagicSpell(id, targets, true);
+        }
+        
+        public void UseMagicSpellAndWait(string id, Combatant target)
+        {            
+            UseMagicSpell(id,  new List<Combatant>() { target }, false);
+        }
+        
+        public void UseMagicSpellAndWait(string id, IEnumerable<Combatant> targets)
+        {            
+            UseMagicSpell(id, targets, false);
+        }
+        
+        private void UseMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
             Spell spell = MagicSpell.Get(id);
-
-            spell.Use(this, targets, new AbilityModifiers(), resetTurnTimer);
+            
+            if (spell == null)
+            {
+                throw new GameDataException("Enemy '{0}' used undefined magic spell '{1}'", Name, id);
+            }
+            
+            spell.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer });
         }
+        
+        
+        
+        
+        
+        public void CounterWithMagicSpell(string id, Combatant target)
+        {
+            CounterWithMagicSpell(id, new List<Combatant>() { target }, true);
+        }
+        
+        public void CounterWithMagicSpell(string id, IEnumerable<Combatant> targets)
+        {
+            CounterWithMagicSpell(id, targets, true);
+        }
+        
+        private void CounterWithMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
+        {
+            Spell spell = MagicSpell.Get(id);
+            
+            if (spell == null)
+            {
+                throw new GameDataException("Enemy '{0}' used undefined magic spell '{1}'", Name, id);
+            }
+            
+            spell.Use(this, targets, new AbilityModifiers { CounterAttack = true, ResetTurnTimer = false });
+        }
+
+
+
+
+
 
 
 
@@ -990,6 +1193,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         private LuaFunction AIMain { get; set; }
         
         private LuaFunction AICounter { get; set; }
+        
+        private LuaFunction AICounterPhysical { get; set; }
+        
+        private LuaFunction AICounterMagical { get; set; }
         
         private LuaFunction AIConfu { get; set; }
 

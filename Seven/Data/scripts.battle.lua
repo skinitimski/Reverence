@@ -96,4 +96,14 @@ function chooseRandomAllyWithoutStatus(statusFunc)
     return nil
     
 end
+
+function roll(min, max, test)
+    
+    real = math.random(min, max)
+    
+    io.write("\nRolled dice! [",min," ",max,"] ",test," == ",real," \n\n")
+    
+    return real == test
+    
+end
     

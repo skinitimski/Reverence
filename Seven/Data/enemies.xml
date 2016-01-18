@@ -113,9 +113,8 @@
         <ai>
             <main>
                 a = chooseRandomAlly()  
-                i = math.random(3)
             
-                if i == 3 then
+                if roll(1,3,3) then
                     self:UseAttack("Electroprod 2", a)
                 else
                     self:UseAttack("Short Staff", a)
@@ -183,9 +182,9 @@
                 count = (count + 1) % Party.PARTY_SIZE
             </main>
             <counter>
-                if self.HP &lt;= self.MaxHP * 4 / 3 and math.random(0,2) == 0 then
+                if self.HP &lt;= self.MaxHP / 4 and roll(0,2,0) then
                     local a = self.LastAttacker
-                    self:UseMagicSpell("Fire", a)
+                    self:CounterWithMagicSpell("Fire", a)
                 end   
             </counter>
             <confuAttack>Bodyblow</confuAttack>
@@ -273,8 +272,8 @@
                     a = chooseRandomAlly()
                     
                     
-                    if math.random(1, self["specialChance"]) == 1 then
-                        self:UseAttack("Whip", a, false)
+                    if roll(1,self["specialChance"],1) then
+                        self:UseAttackAndWait("Whip", a)
                         a = chooseRandomAlly()
                         self:UseAttack("Whip", a)
                     else                    
@@ -287,13 +286,13 @@
                     
                     a = chooseRandomAllyWithoutDarkness()
                     
-                    if a ~= nil and math.random(1, self["specialChance"]) then
+                    if a ~= nil and roll(1,self["specialChance"],1) then
                         self:UseAttack("Evil Poison", a)
                     else                        
                         a = chooseRandomAlly()
                         
-                        if math.random(1, self["specialChance"]) == 1 then
-                            self:UseAttack("Whip", a, false)
+                        if roll(1,self["specialChance"],1)then
+                            self:UseAttackAndWait("Whip", a)
                             a = chooseRandomAlly()
                             self:UseAttack("Whip", a)                            
                             self["count"] = 3
@@ -322,6 +321,78 @@
             </counter>
         </ai>
     </enemy>
+    <enemy>
+        <name>Unknown</name>
+        <lvl>50</lvl>
+        <hp>11000</hp>
+        <mp>110</mp>
+        <exp>1500</exp>
+        <ap>150</ap>
+        <gil>5000</gil>
+        <atk>110</atk>
+        <def>110</def>
+        <defp>1</defp>
+        <dex>110</dex>
+        <mat>110</mat>
+        <mdf>110</mdf>
+        <lck>10</lck>
+        <win>
+            <item id="xpotion" type="item" chance="8" />
+        </win>
+        <steal>
+            <item id="firearmlet" type="armor" chance="8" />
+        </steal>
+        <morph id="powersource" />
+        <absorbs>
+            <absorb>Fire</absorb>
+        </absorbs>
+        <immunities>
+            <immunity>Death</immunity>
+            <immunity>Confusion</immunity>
+            <immunity>Silence</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>Slow-numb</immunity>
+            <immunity>Petrify</immunity>
+        </immunities>
+        <attacks>
+            <attack id="Bite">
+                <type>Physical</type>
+                <power>16</power>
+                <hitp>110</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+            <attack id="Tongue">
+                <type>Physical</type>
+                <power>48</power>
+                <hitp>90</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <hidden>true</hidden>
+            </attack>
+            <attack id="Blaster">
+                <type>Magical</type>
+                <power>28</power>
+                <hitp>255</hitp>
+                <cost>20</cost>
+                <target>Combatant</target>
+                <element>None</element>
+                <hidden>true</hidden>
+            </attack>
+        </attacks>
+        <ai>
+            <setup>
+                self["count"] = math.random(0, 1)
+            </setup>
+            <main>           
+            </main>
+            <counter>
+            </counter>
+        </ai>
+    </enemy>
+    
     
     
     

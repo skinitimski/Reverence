@@ -158,7 +158,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             Ability spell = _spells[yopt, xopt].Spell;
 
-            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers(), releaseAlly);
+            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
         }
 
         protected override void DrawContents(Gdk.Drawable d)

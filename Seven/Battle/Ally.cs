@@ -38,7 +38,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 Name = "";
                 Desc = "";
-                ID = "";
                 
                 Type = AttackType.Physical;
                 Target = BattleTarget.Combatant;
@@ -128,7 +127,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 {
                     foreach (Spell s in ((MagicMateria)m).GetSpells)
                     {
-                        if (!list.Any(x => x.ID == m.Name))
+                        if (!list.Any(x => x.Name == m.Name))
                         {
                             list.Add(new MagicMenuEntry(s));
                         }
@@ -154,7 +153,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     {
                         for (int j = 0; j < list.Count; j++)
                         {
-                            if (list[j].ID == s.ID)
+                            if (list[j].Name == s.Name)
                             {
                                 list[j].AddAbility((SupportMateria)left);
                             }
@@ -350,7 +349,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public void Attack(Combatant target, bool resetTurnTimer = true)
         {
-            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers(), resetTurnTimer);
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
         }
 
 

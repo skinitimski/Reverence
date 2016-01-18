@@ -30,7 +30,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
         {
             get
             {
-                return Abilities.Select(x => MagicSpell.Get(Resource.CreateID(x))).ToList();
+                return Abilities.Select(x => MagicSpell.Get(x)).ToList();
             }
         }
     }

@@ -104,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             Ability spell = _summons[option].Spell;
             
-            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers(), releaseAlly);
+            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
         }
 
         protected override void DrawContents(Gdk.Drawable d)

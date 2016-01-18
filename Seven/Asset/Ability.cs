@@ -131,34 +131,6 @@ namespace Atmosphere.Reverence.Seven.Asset
                 yield return change;
             }
         }
-
-        protected virtual DamageFormula GetDamageFormula(XmlNode xml)
-        {
-            DamageFormula formula;
-
-            XmlNode formulaNode = xml.SelectSingleNode("formula");
-            
-            if (formulaNode != null)
-            {
-                formula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
-            }
-            else
-            {
-                switch (Type)
-                {
-                    case AttackType.Magical:
-                        formula = MagicalAttack;
-                        break;
-                    case AttackType.Physical:
-                        formula = PhysicalAttack;
-                        break;
-                    default:
-                        throw new GameDataException("Neither a formula nor an attack type -- ability ID '{0}'", ID);
-                }
-            }
-
-            return formula;
-        }
                 
         protected abstract String GetMessage(Combatant source);
 
@@ -180,7 +152,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// <param name='resetTurnTimer'>
         /// If set to <c>true</c> reset turn timer.
         /// </param>
-        public void Use(Combatant source, IEnumerable<Combatant> targets, AbilityModifiers modifiers, bool resetTurnTimer = true)
+        public void Use(Combatant source, IEnumerable<Combatant> targets, AbilityModifiers modifiers)
         {
             int spell_duration = BattleIcon.ANIMATION_DURATION;
             if (Hits > 1) spell_duration = spell_duration * 2 / 3;
@@ -241,9 +213,9 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 BattleEvent e = new BattleEvent(source, context);
                 
-                e.ResetSourceTurnTimer = resetTurnTimer;
+                e.ResetSourceTurnTimer = modifiers.ResetTurnTimer;
                 
-                Seven.BattleState.EnqueueAction(e);
+                Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
             }
             else
             {   
@@ -261,9 +233,9 @@ namespace Atmosphere.Reverence.Seven.Asset
                 TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => msg);
                 
                 BattleEvent e = new BattleEvent(source, context);
-                e.ResetSourceTurnTimer = resetTurnTimer;
+                e.ResetSourceTurnTimer = modifiers.ResetTurnTimer;
                 
-                Seven.BattleState.EnqueueAction(e);
+                Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
             }
         }
         
@@ -336,8 +308,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         public string Name { get; protected set; }
 
         public string Desc { get; protected set; }
-
-        public string ID { get; protected set; }
 
         public AttackType Type { get; protected set; }
 
