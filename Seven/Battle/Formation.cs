@@ -16,13 +16,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             public EnemyRecord(XmlNode node)
             {
-                ID = node.SelectSingleNode("@id").Value;
+                Name = node.SelectSingleNode("@name").Value;
                 X = Int32.Parse(node.SelectSingleNode("@x").Value);
                 Y = Int32.Parse(node.SelectSingleNode("@y").Value);
                 Row = Int32.Parse(node.SelectSingleNode("@row").Value);
             }
 
-            public string ID { get; private set; }
+            public string Name { get; private set; }
             public int X { get; private set; }
             public int Y { get; private set; }
             public int Row { get; private set; }
@@ -77,7 +77,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             foreach (XmlNode enemyNode in node.SelectNodes("enemy"))
             {
-                string id = enemyNode.SelectSingleNode("@id").Value;
+                string id = enemyNode.SelectSingleNode("@name").Value;
 
                 if (!counts.ContainsKey(id))
                 {
@@ -95,9 +95,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                 string designation = "";
 
-                if (counts[record.ID] > 1)
+                if (counts[record.Name] > 1)
                 {
-                    int index = Enemies.Where(e => e.ID == record.ID).Count();
+                    int index = Enemies.Where(e => e.Name == record.Name).Count();
 
                     designation = ((char)('A' + index)).ToString();
                 }
@@ -142,7 +142,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 EnemyRecord record = Enemies[i];
 
-                enemies.Add(Enemy.CreateEnemy(record.ID, record.X, record.Y, e[i], record.Designation));
+                enemies.Add(Enemy.CreateEnemy(record.Name, record.X, record.Y, e[i], record.Designation));
             }
 
             return enemies;

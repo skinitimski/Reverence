@@ -847,8 +847,12 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return nameColor;
             }
         }
-
+        
         public Combatant LastAttacker { get; protected set; }
+        
+        public Combatant LastAttackerPhysical { get; protected set; }
+        
+        public Combatant LastAttackerMagical { get; protected set; }
 
         public Combatant Poisoner { get; private set; }
         

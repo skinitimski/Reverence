@@ -290,6 +290,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (source is Enemy)
             {
                 LastAttacker = source;
+
+                switch (type)
+                {
+                    case AttackType.Physical:
+                        LastAttackerPhysical = source;
+                        break;
+                    case AttackType.Magical:
+                        LastAttackerMagical = source;
+                        break;
+                }
             }
         }
         

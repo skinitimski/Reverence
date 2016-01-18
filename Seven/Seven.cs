@@ -143,7 +143,7 @@ namespace Atmosphere.Reverence.Seven
             int i = 2; //_random.Next(2);
 
             String battleId = "debug" + i;
-            battleId = "gelnika.c";
+            battleId = "gelnika.e";
 
             _battleState = new BattleState(battleId);
             _battleState.Init();

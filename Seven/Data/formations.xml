@@ -1,33 +1,39 @@
 <formations>
     <formation id="debug0">
-        <enemy id="punchingbag" x="100" y="125" row="1" />
-        <enemy id="punchingbag" x="135" y="200" row="0" />  
-        <enemy id="punchingbag" x="100" y="275" row="1" />        
+        <enemy name="Punching Bag" x="100" y="125" row="1" />
+        <enemy name="Punching Bag" x="135" y="200" row="0" />  
+        <enemy name="Punching Bag" x="100" y="275" row="1" />        
     </formation>
     <formation id="debug1">
-        <enemy id="goldmine"    x="135" y="125" row="0" />
-        <enemy id="punchingbag" x="100" y="200" row="1" />  
-        <enemy id="goldmine"    x="135" y="275" row="0" />     
+        <enemy name="Gold Mine"    x="135" y="125" row="0" />
+        <enemy name="Punching Bag" x="100" y="200" row="1" />  
+        <enemy name="Gold Mine"    x="135" y="275" row="0" />     
     </formation>
     <formation id="debug2">
-        <enemy id="reno"  x="100" y="125" row="0" />    
-        <enemy id="reno"  x="120" y="200" row="0" />    
-        <enemy id="reno"  x="140" y="275" row="0" />    
+        <enemy name="Turks:Reno"  x="100" y="125" row="0" />    
+        <enemy name="Turks:Reno"  x="120" y="200" row="0" />    
+        <enemy name="Turks:Reno"  x="140" y="275" row="0" />    
     </formation>
     <formation id="shinraTower.a">
-        <enemy id="mothslasher" x="100" y="175" row="0" />
-        <enemy id="mothslasher" x="100" y="250" row="0" />        
+        <enemy name="Moth Slasher" x="100" y="175" row="0" />
+        <enemy name="Moth Slasher" x="100" y="250" row="0" />        
     </formation>
     <formation id="gelnika.a">
-        <enemy id="poodler" x="100" y="175" row="0" />  
-        <enemy id="poodler" x="100" y="250" row="1" />        
+        <enemy name="Poodler" x="100" y="175" row="0" />  
+        <enemy name="Poodler" x="100" y="250" row="1" />        
     </formation>
     <formation id="gelnika.b">
-        <enemy id="badrap" x="100" y="125" row="1" />
-        <enemy id="poodler" x="135" y="200" row="0" />  
-        <enemy id="badrap" x="100" y="275" row="1" />     
+        <enemy name="Bad Rap" x="100" y="125" row="1" />
+        <enemy name="Poodler" x="135" y="200" row="0" />  
+        <enemy name="Bad Rap" x="100" y="275" row="1" />     
     </formation>
     <formation id="gelnika.c">
-        <enemy id="unknown" x="135" y="200" row="0" />   
+        <enemy name="Unknown" x="135" y="200" row="0" />   
+    </formation>
+    <formation id="gelnika.d">
+        <enemy name="Unknown 2" x="135" y="200" row="0" />   
+    </formation>
+    <formation id="gelnika.e">
+        <enemy name="Unknown 3" x="135" y="200" row="0" />   
     </formation>
 </formations>

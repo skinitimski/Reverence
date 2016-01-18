@@ -67,9 +67,21 @@ end
 function chooseRandomAllyWithoutDarkness()
 
     local statusFunc = function(a) return a.Darkness end
-    local a = chooseRandomAllyWithoutStatus(statusFunc)
+    return chooseRandomAllyWithoutStatus(statusFunc)
     
-    return a
+end
+
+function chooseRandomAllyWithoutConfusion()
+
+    local statusFunc = function(a) return a.Confusion end
+    return chooseRandomAllyWithoutStatus(statusFunc)
+    
+end
+
+function chooseRandomAllyWithoutPoison()
+
+    local statusFunc = function(a) return a.Poison end
+    return chooseRandomAllyWithoutStatus(statusFunc)
     
 end
 

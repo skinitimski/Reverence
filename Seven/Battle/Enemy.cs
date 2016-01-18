@@ -30,9 +30,9 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Nested
 
-        private class Attack : Ability
+        private class EnemyAbility : Ability
         {
-            public Attack(XmlNode xml)
+            public EnemyAbility(XmlNode xml)
                 : base()
             {
                 Name = xml.SelectSingleNode("@id").Value;
@@ -47,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Type = (AttackType)Enum.Parse(typeof(AttackType), xml.SelectSingleNode("type").InnerText);
                 
                 XmlNode hiddenNode = xml.SelectSingleNode("hidden");
-                InfoVisible = hiddenNode == null ? false : Boolean.Parse(hiddenNode.InnerText);
+                InfoVisible = hiddenNode == null ? true : Boolean.Parse(hiddenNode.InnerText);
 
 
                 Elements = GetElements(xml.SelectNodes("element")).ToArray();
@@ -178,7 +178,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                                 
                 string name = node.SelectSingleNode("name").InnerText;
                 
-                _table.Add(Resource.CreateID(name), node);
+                _table.Add(name, node);
             }
         }
         
@@ -194,7 +194,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _win = new List<EnemyItem>();
             _steal = new List<EnemyItem>();
 
-            Attacks = new Dictionary<string, Attack>();
+            Attacks = new Dictionary<string, EnemyAbility>();
             Variables = new Dictionary<string, object>();
 
             _name = node.SelectSingleNode("name").InnerText;
@@ -263,7 +263,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             foreach (XmlNode attackNode in node.SelectNodes("attacks/attack"))
             {
-                Attack attack = new Attack(attackNode);
+                EnemyAbility attack = new EnemyAbility(attackNode);
 
                 Attacks.Add(attack.Name, attack);
             }
@@ -417,22 +417,22 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
         }
 
-        public static Enemy CreateEnemy(string id, int x, int y, int e, string designation = "")
+        public static Enemy CreateEnemy(string name, int x, int y, int e, string designation = "")
         {       
-            if (!_table.ContainsKey(id))
+            if (!_table.ContainsKey(name))
             {
-                throw new GameDataException("No enemy defined with id = " + id);
+                throw new GameDataException("No enemy defined with name = " + name);
             }
 
             Enemy enemy = null;
 
             try
             {
-                enemy = new Enemy(_table[id], x, y, e, designation);
+                enemy = new Enemy(_table[name], x, y, e, designation);
             }
             catch (Exception ex)
             {
-                throw new GameDataException("Error creating enemy with id = " + id, ex);
+                throw new GameDataException("Error creating enemy with name = " + name, ex);
             }
 
             return enemy;
@@ -479,6 +479,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (source is Ally)
             {
                 LastAttacker = source;
+
+                switch (type)
+                {
+                    case AttackType.Physical:
+                        LastAttackerPhysical = source;
+                        break;
+                    case AttackType.Magical:
+                        LastAttackerMagical = source;
+                        break;
+                }
 
                 if (type == AttackType.Physical && AICounterPhysical != null)
                 {
@@ -715,27 +725,27 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
         
-        public void UseAttack(string id, Combatant target)
+        public void Attack(string id, Combatant target)
         {
-            UseAttack(id, new List<Combatant>() { target });
+            Attack(id, new List<Combatant>() { target });
         }
         
-        public void UseAttackAndWait(string id, Combatant target)
+        public void AttackAndWait(string id, Combatant target)
         {
-            UseAttackAndWait(id, new List<Combatant>() { target });
+            AttackAndWait(id, new List<Combatant>() { target });
         }
         
-        public void UseAttack(string id, IEnumerable<Combatant> targets)
+        public void Attack(string id, IEnumerable<Combatant> targets)
         {
-            UseAttack(id, targets, true);
+            Attack(id, targets, true);
         }   
         
-        public void UseAttackAndWait(string id, IEnumerable<Combatant> targets)
+        public void AttackAndWait(string id, IEnumerable<Combatant> targets)
         {
-            UseAttack(id, targets, false);
+            Attack(id, targets, false);
         }    
         
-        private void UseAttack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
+        private void Attack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
             if (!Attacks.ContainsKey(id))
             {
@@ -773,27 +783,27 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         
-        public void UseMagicSpell(string id, Combatant target)
+        public void CastMagicSpell(string id, Combatant target)
         {
-            UseMagicSpell(id, new List<Combatant>() { target }, true);
+            CastMagicSpell(id, new List<Combatant>() { target }, true);
         }
         
-        public void UseMagicSpell(string id, IEnumerable<Combatant> targets)
+        public void CastMagicSpell(string id, IEnumerable<Combatant> targets)
         {
-            UseMagicSpell(id, targets, true);
+            CastMagicSpell(id, targets, true);
         }
         
-        public void UseMagicSpellAndWait(string id, Combatant target)
+        public void CastMagicSpellAndWait(string id, Combatant target)
         {            
-            UseMagicSpell(id,  new List<Combatant>() { target }, false);
+            CastMagicSpell(id,  new List<Combatant>() { target }, false);
         }
         
-        public void UseMagicSpellAndWait(string id, IEnumerable<Combatant> targets)
+        public void CastMagicSpellAndWait(string id, IEnumerable<Combatant> targets)
         {            
-            UseMagicSpell(id, targets, false);
+            CastMagicSpell(id, targets, false);
         }
         
-        private void UseMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
+        private void CastMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
             Spell spell = MagicSpell.Get(id);
             
@@ -1202,7 +1212,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         private LuaFunction AIBerserk { get; set; }
 
-        private Dictionary<string, Attack> Attacks { get; set; }
+        private Dictionary<string, EnemyAbility> Attacks { get; set; }
 
         private Dictionary<string, object> Variables { get; set; }
 

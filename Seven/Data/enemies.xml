@@ -30,7 +30,7 @@
         <ai>
             <main>
                 a = chooseRandomAlly()                
-                self:UseAttack("Bump", a)
+                self:Attack("Bump", a)
             </main>
             <confuAttack>Bump</confuAttack>
             <berserkAttack>Bump</berserkAttack>
@@ -66,14 +66,14 @@
         <ai>
             <main>
                 a = chooseRandomAlly()                
-                self:UseAttack("Jingle Jangle", a)
+                self:Attack("Jingle Jangle", a)
             </main>
             <confuAttack>Jingle Jangle</confuAttack>
             <berserkAttack>Jingle Jangle</berserkAttack>
         </ai>
     </enemy>
     <enemy>
-        <name>reno</name>
+        <name>Turks:Reno</name>
         <lvl>42</lvl>
         <hp>15000</hp>
         <mp>230</mp>
@@ -115,9 +115,9 @@
                 a = chooseRandomAlly()  
             
                 if roll(1,3,3) then
-                    self:UseAttack("Electroprod 2", a)
+                    self:Attack("Electroprod 2", a)
                 else
-                    self:UseAttack("Short Staff", a)
+                    self:Attack("Short Staff", a)
                 end                
             </main>
             <confuAttack>Short Staff</confuAttack>
@@ -176,7 +176,7 @@
                 local a = BattleState.Allies[count]
                 
                 if not a.Death then
-                    self:UseAttack("Bodyblow", a)
+                    self:Attack("Bodyblow", a)
                 end
                 
                 count = (count + 1) % Party.PARTY_SIZE
@@ -246,7 +246,6 @@
                 <hitp>85</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
-                <hidden>true</hidden>
             </attack>
             <attack id="Evil Poison">
                 <type>Physical</type>
@@ -255,7 +254,6 @@
                 <cost>4</cost>
                 <target>Combatant</target>
                 <element>Poison</element>
-                <hidden>true</hidden>
                 <statusChange type="Inflict" statuses="Darkness" odds="100" />
             </attack>
         </attacks>
@@ -273,11 +271,11 @@
                     
                     
                     if roll(1,self["specialChance"],1) then
-                        self:UseAttackAndWait("Whip", a)
+                        self:AttackAndWait("Whip", a)
                         a = chooseRandomAlly()
-                        self:UseAttack("Whip", a)
+                        self:Attack("Whip", a)
                     else                    
-                        self:UseAttack("Whip", a)                        
+                        self:Attack("Whip", a)                        
                     end
                     
                     self["count"] = self["count"] + 1
@@ -287,17 +285,17 @@
                     a = chooseRandomAllyWithoutDarkness()
                     
                     if a ~= nil and roll(1,self["specialChance"],1) then
-                        self:UseAttack("Evil Poison", a)
+                        self:Attack("Evil Poison", a)
                     else                        
                         a = chooseRandomAlly()
                         
                         if roll(1,self["specialChance"],1)then
-                            self:UseAttackAndWait("Whip", a)
+                            self:AttackAndWait("Whip", a)
                             a = chooseRandomAlly()
-                            self:UseAttack("Whip", a)                            
+                            self:Attack("Whip", a)                            
                             self["count"] = 3
                         else
-                            self:UseAttack("Whip", a)
+                            self:Attack("Whip", a)
                             self["count"] = 0
                         end                        
                     end     
@@ -305,7 +303,7 @@
                 else
                     
                     a = chooseRandomAllyWithHighestHP()
-                    self:UseAttack("Big Fang", a)
+                    self:Attack("Big Fang", a)
                     self["count"] = 1
                     
                 end                
@@ -363,7 +361,6 @@
                 <hitp>110</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
-                <hidden>true</hidden>
             </attack>
             <attack id="Tongue">
                 <type>Physical</type>
@@ -371,7 +368,6 @@
                 <hitp>90</hitp>
                 <target>Combatant</target>
                 <element>Hit</element>
-                <hidden>true</hidden>
             </attack>
             <attack id="Blaster">
                 <type>Magical</type>
@@ -380,7 +376,6 @@
                 <cost>20</cost>
                 <target>Combatant</target>
                 <element>None</element>
-                <hidden>true</hidden>
             </attack>
         </attacks>
         <ai>
@@ -393,18 +388,18 @@
                     
                     if self["count"] == 0 then
                         
-                        self:UseAttack("Tongue", chooseRandomAlly())                        
+                        self:Attack("Tongue", chooseRandomAlly())                        
                         if roll(1,3,1)   then self["count"] = 2 end
                         if roll(1,3,1,2) then self["count"] = 1 end                    
                     
                     elseif self["count"] == 1 then
                     
-                        self:UseAttack("Tongue", chooseRandomAlly())                        
+                        self:Attack("Tongue", chooseRandomAlly())                        
                         self["count"] = 0
                         
                     else
                     
-                        self:UseAttack("Bite", chooseRandomAlly())
+                        self:Attack("Bite", chooseRandomAlly())
                         self["count"] = 0
                     
                     end
@@ -413,18 +408,18 @@
                 
                     if self["count"] == 0 then
                     
-                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
-                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
-                        self:UseAttack("Blaster", chooseRandomAlly())
+                        self:AttackAndWait("Blaster", chooseRandomAlly())
+                        self:AttackAndWait("Blaster", chooseRandomAlly())
+                        self:Attack("Blaster", chooseRandomAlly())
                         
                     elseif self["count"] == 1 then
                     
-                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
-                        self:UseAttack("Blaster", chooseRandomAlly())
+                        self:AttackAndWait("Blaster", chooseRandomAlly())
+                        self:Attack("Blaster", chooseRandomAlly())
                     
                     elseif self["count"] == 2 then
                     
-                        self:UseAttack("Blaster", chooseRandomAlly())
+                        self:Attack("Blaster", chooseRandomAlly())
                     
                     end                    
                 end
@@ -448,6 +443,193 @@
             </counter-magical>
         </ai>
     </enemy>
+    <enemy>
+        <name>Unknown 2</name>
+        <lvl>51</lvl>
+        <hp>13000</hp>
+        <mp>130</mp>
+        <exp>3000</exp>
+        <ap>300</ap>
+        <gil>10000</gil>
+        <atk>130</atk>
+        <def>130</def>
+        <defp>1</defp>
+        <dex>130</dex>
+        <mat>130</mat>
+        <mdf>130</mdf>
+        <lck>12</lck>
+        <morph id="guardsource" />
+        <absorbs>
+            <absorb>Poison</absorb>
+        </absorbs>
+        <immunities>
+            <immunity>Death</immunity>
+            <immunity>Confusion</immunity>
+            <immunity>Berserk</immunity>
+            <immunity>Silence</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>SlowNumb</immunity>
+            <immunity>Petrify</immunity>
+        </immunities>
+        <attacks>
+            <attack id="Tentacle">
+                <type>Physical</type>
+                <power>48</power>
+                <hitp>90</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+            </attack>
+            <attack id="? Needle">
+                <type>Physical</type>
+                <power>0</power>
+                <hitp>90</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <statusChange type="Inflict" statuses="Paralyzed" odds="100" />
+            </attack>
+            <attack id="Abnormal Breath">
+                <type>Magical</type>
+                <power>0</power>
+                <hitp>90</hitp>
+                <cost>11</cost>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <statusChange type="Inflict" statuses="Confusion" odds="100" />
+            </attack>
+        </attacks>
+        <ai>
+            <setup>
+                self["firstAttack"] = true
+            </setup>
+            <main>  
+            
+                local a = chooseRandomAllyWithoutConfusion()
+                
+                if a == nil then a = chooseRandomAlly() end
+                    
+                if self["firstAttack"] then                    
+                    self:Attack("Abnormal Breath", a)                   
+                    self["firstAttack"] = false                    
+                else                    
+                    self:Attack("Tentacle", a)                     
+                end
+            </main>
+            <counter-physical>
+                
+                local a = self.LastAttackerPhysical
+                
+                if self.HP &lt;= self.MaxHP / 4 then
+                    self:CounterAttack("? Needle", a)
+                elseif self.HP &lt;= self.MaxHP / 2 then
+                    self:CounterAttack("Abnormal Breath", a)    
+                end   
+            </counter-physical>
+        </ai>
+    </enemy>
+    <enemy>
+        <name>Unknown 3</name>
+        <lvl>52</lvl>
+        <hp>15000</hp>
+        <mp>150</mp>
+        <exp>900</exp>
+        <ap>200</ap>
+        <gil>7500</gil>
+        <atk>150</atk>
+        <def>150</def>
+        <defp>1</defp>
+        <dex>150</dex>
+        <mat>150</mat>
+        <mdf>150</mdf>
+        <lck>13</lck>
+        <morph id="Magic Source" />
+        <absorbs>
+            <absorb>Lightning</absorb>
+        </absorbs>
+        <immunities>
+            <immunity>Death</immunity>
+            <immunity>Confusion</immunity>
+            <immunity>Berserk</immunity>
+            <immunity>Silence</immunity>
+            <immunity>Stop</immunity>
+            <immunity>Frog</immunity>
+            <immunity>Small</immunity>
+            <immunity>SlowNumb</immunity>
+            <immunity>Petrify</immunity>
+        </immunities>
+        <attacks>
+            <attack id="Poison Fang">
+                <type>Physical</type>
+                <power>48</power>
+                <hitp>90</hitp>
+                <target>Combatant</target>
+                <element>Poison</element>
+                <statusChange type="Inflict" statuses="Poison" odds="100" />
+            </attack>
+            <attack id="Slap">
+                <type>Physical</type>
+                <power>48</power>
+                <hitp>90</hitp>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <statusChange type="Inflict" statuses="Fury" odds="100" />
+            </attack>
+            <attack id="Creepy Touch">
+                <type>Magical</type>
+                <power>0</power>
+                <hitp>90</hitp>
+                <cost>11</cost>
+                <target>Combatant</target>
+                <element>Hit</element>
+                <statusChange type="Inflict" statuses="Sadness" odds="100" />
+            </attack>
+        </attacks>
+        <ai>
+                self["chance"] = 0
+            <setup>
+            </setup>
+            <main>              
+                local a = chooseRandomAllyWithoutPoison()
+                
+                if a ~= nil then
+                
+                    if self.MP &gt;= 4 then
+                        self["chance"] = 7
+                    else
+                        self["chance"] = 6
+                    end
+                    
+                    local tmp = roll(1,self["chance"])
+                    
+                    if tmp == 0 or tmp == 1 or tmp == 2 or tmp == 3 then
+                        self:Attack("Poison Fang", a)
+                    elseif tmp == 4 then
+                        self:Attack("Slap", a)
+                    else
+                        self:CastMagicSpell("Bolt2", a)
+                    end                   
+                
+                end   
+            </main>
+            <counter>                
+                local a = self.LastAttacker
+                
+                if self.HP &lt;= self.MaxHP / 2 or not a.Poison then
+                    self:CounterAttack("Creepy Touch", a)    
+                end   
+            </counter>
+        </ai>
+    </enemy>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
@@ -515,9 +697,9 @@
                 i = math.random(3)
             
                 if i == 3 then
-                    self:UseAttack("Speed Slash", a)
+                    self:Attack("Speed Slash", a)
                 else
-                    self:UseAttack("Verbal Attack", a)
+                    self:Attack("Verbal Attack", a)
                 end  
             </main>
             <confuAttack>Verbal Attack</confuAttack>
