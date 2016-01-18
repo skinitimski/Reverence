@@ -66,7 +66,7 @@ namespace Atmosphere.EnemyMechanicsParser
             
             enemy.name = GetValueFromRegex(record, @"Name: (.+)");
             enemy.lvl = GetValueFromRegex(record, @" Lvl: +(\d{1,2}) ");
-            enemy.hp = GetValueFromRegex(record, @"  HP: +(\d{1,4}) ");
+            enemy.hp = GetValueFromRegex(record, @"  HP: +(\d{1,5}) ");
             enemy.mp = GetValueFromRegex(record, @"  MP: +(\d{1,4}) ");
             enemy.exp = GetValueFromRegex(record, @" EXP: +(\d{1,5}) ");
             enemy.ap = GetValueFromRegex(record, @" AP: +(\d{1,5}) ");
@@ -158,6 +158,13 @@ namespace Atmosphere.EnemyMechanicsParser
                     writer.WriteElementString("mat", mat);
                     writer.WriteElementString("mdf", mdf);
                     writer.WriteElementString("lck", lck);
+                    
+                    if (!String.IsNullOrWhiteSpace(morph))
+                    {
+                        writer.WriteStartElement("morph");
+                        writer.WriteAttributeString("id", morph);
+                        writer.WriteEndElement();
+                    }
 					
 							
 					if (weak.Count > 0)
@@ -214,17 +221,17 @@ namespace Atmosphere.EnemyMechanicsParser
 						{
 	                        foreach (String s in immunities)
 							{
-								writer.WriteElementString("immunity", s);
+                                if (s == "Slow-numb")
+                                {
+                                    writer.WriteElementString("immunity", "SlowNumb");
+                                }
+                                else
+                                {
+								    writer.WriteElementString("immunity", s);
+                                }
 							}
 						}
 						writer.WriteEndElement(); // immunities
-					}
-
-					if (!String.IsNullOrWhiteSpace(morph))
-					{
-						writer.WriteStartElement("morph");
-						writer.WriteAttributeString("id", morph);
-						writer.WriteEndElement();
 					}
                 }
                 writer.WriteEndElement(); // enemy
