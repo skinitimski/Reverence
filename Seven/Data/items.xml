@@ -9,7 +9,7 @@
             <use>c.HP = 0 c.MP = 0</use>
         </field>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>c:InflictDeath()</use>
+            <use>t:InflictDeath()</use>
         </battle>
     </item>
     <!-- NOTE: not a real item -->
@@ -26,7 +26,7 @@
         </field>
         <battle target="Combatant" intendedForEnemies="false">
             <use>
-                c:Recover()
+                t:Recover()
             </use>
         </battle>
     </item>
@@ -39,7 +39,7 @@
             <use>c.HP = c.HP + 100</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptDamage(-100) end</use>
+            <use>if not t.Death then t:AcceptDamage(s, -100) end</use>
         </battle>
     </item>
     <item>
@@ -50,7 +50,7 @@
             <use>c.HP = c.HP + 500</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptDamage(-500) end</use>
+            <use>if not t.Death then t:AcceptDamage(s, -500) end</use>
         </battle>
     </item>
     <item>
@@ -61,7 +61,7 @@
             <use>c.HP = c.MaxHP</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptDamage(-c.MaxHP) end</use>
+            <use>if not t.Death then t:AcceptDamage(s, -t.MaxHP) end</use>
         </battle>
     </item>
     <item>
@@ -72,7 +72,7 @@
             <use>c.MP = c.MP + 100</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptMPLoss(-100) end</use>
+            <use>if not t.Death then t:AcceptMPLoss(s, -100) end</use>
         </battle>
     </item>
     <item>
@@ -83,7 +83,7 @@
             <use>c.MP = c.MaxMP</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptMPLoss(-c.MaxMP) end</use>
+            <use>if not t.Death then t:AcceptMPLoss(s, -c.MaxMP) end</use>
         </battle>
     </item>
     <item>
@@ -94,7 +94,7 @@
             <use>c.HP = c.MaxHP c.MP = c.MaxMP</use>
         </field>
         <battle target="Combatant">
-            <use>if not c.Death then c:AcceptDamage(-c.MaxHP); c:AcceptMPLoss(-c.MaxMP) end</use>
+            <use>if not t.Death then t:AcceptDamage(s, -t.MaxHP); t:AcceptMPLoss(s, -t.MaxMP) end</use>
         </battle>
     </item>
     <item>
@@ -114,16 +114,14 @@
         </field>
         <battle target="Group">
             <use>
-                for i = 0, c.Count - 1 do
-                    if c[i] ~= nil and not c[i].Death 
+                for i = 0, t.Count - 1 do
+                    if t[i] ~= nil and not t[i].Death 
                     then
-                        c[i]:AcceptDamage(-c[i].MaxHP)
-                        c[i]:AcceptMPLoss(-c[i].MaxMP)
+                        t[i]:AcceptDamage(s, -t[i].MaxHP)
+                        t[i]:AcceptMPLoss(s, -t[i].MaxMP)
                     end
                 end
             </use>
-            <!--
-            -->
         </battle>
     </item>
     <item>
@@ -138,8 +136,8 @@
         </field>
         <battle target="Combatant">
             <use>
-                c:CureDeath()
-                c:AcceptDamage(-c.MaxHP / 10)
+                t:CureDeath()
+                t:AcceptDamage(s, -c.MaxHP / 10)
             </use>
         </battle>
     </item>
@@ -167,7 +165,7 @@
             <use>if c.Sadness then c:CureSadness() else c:InflictFury() end</use>
         </field>
         <battle target="Combatant">
-            <use>c:InflictFury()</use>
+            <use>t:InflictFury()</use>
         </battle>
     </item>
     <item>
@@ -178,7 +176,7 @@
             <use>if c.Fury then c:CureFury() else c:InflictSadness() end</use>
         </field>
         <battle target="Combatant">
-            <use>c:InflictSadness()</use>
+            <use>t:InflictSadness()</use>
         </battle>
     </item>
     <item>
@@ -233,7 +231,7 @@
         <name>Loco Weed</name>
         <desc>Inflicts [Confu]</desc>
         <battle target="Combatant">
-            <use>c:InflictConfusion()</use>
+            <use>t:InflictConfusion()</use>
         </battle>
     </item>
     <item>
@@ -243,19 +241,22 @@
             <canUse>return true</canUse>
             <use>c:CureFury() c:CureSadness()</use>
         </field>
+        <battle target="Combatant">
+            <use>t:CureFury() c:CureSadness()</use>
+        </battle>
     </item>
     <item>
         <name>Vagyrisk Claw</name>
         <desc>Inflicts [Petrify]</desc>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>c:InflictPetrify()</use>
+            <use>t:InflictPetrify()</use>
         </battle>
     </item>
     <item>
         <name>Soft</name>
         <desc>Cures [Petrify]</desc>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>c:CurePetrify()</use>
+            <use>t:CurePetrify()</use>
         </battle>
     </item>
 </items>

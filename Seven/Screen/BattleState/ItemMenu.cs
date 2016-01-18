@@ -91,13 +91,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             TimedActionContext context = new TimedActionContext(
                 delegate(Timer timer) 
                 {                
-                ((Item)item).UseInBattle(targets);
-                Thread.Sleep(duration);
-                Seven.Party.Inventory.DecreaseCount(slot);
+                    ((Item)item).UseInBattle(Seven.BattleState.Commanding, targets);
+                    Thread.Sleep(duration);
+                    Seven.Party.Inventory.DecreaseCount(slot);
                 },
                 duration,
-            c => userName + " uses item " + itemName
-                );
+                c => userName + " uses item " + itemName
+            );
 
 
             BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, context);

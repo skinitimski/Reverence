@@ -113,7 +113,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     BattleUsage.IntendedForEnemies = Boolean.Parse(intendedForEnemiesNode.Value);
                 }
 
-                string use = String.Format("return function (c) {0} end", battle.SelectSingleNode("use").InnerText);
+                string use = String.Format("return function (s, t) {0} end", battle.SelectSingleNode("use").InnerText);
                 
                 try
                 {
@@ -186,7 +186,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// Uses an item in battle.
         /// </summary>
         [LuaFunctionCaller]
-        public void UseInBattle(IEnumerable<Combatant> targets)
+        public void UseInBattle(Ally source, IEnumerable<Combatant> targets)
         {
             targets.Count();
 
@@ -199,7 +199,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         case BattleTarget.Combatant:
                         case BattleTarget.Ally:
                         case BattleTarget.Enemy:
-                            BattleUsage.Use.Call(targets.First());
+                            BattleUsage.Use.Call(source, targets.First());
                             break;
                             
                         case BattleTarget.Group:
@@ -208,7 +208,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         case BattleTarget.AlliesPlural:
                         case BattleTarget.Enemies:
                         case BattleTarget.EnemiesPlural:
-                            BattleUsage.Use.Call(targets.ToList());
+                            BattleUsage.Use.Call(source, targets.ToList());
                             break;
                     }
                 }
