@@ -23,7 +23,6 @@
                 <name>butterflyedge</name>
                 <materia>
                     <orb id="mastermagic" type="Magic" ap="0" slot="0" />
-                    <orb id="ice" type="Magic" ap="2000" slot="1" />
                 </materia>
             </weapon>
             <armor>
@@ -111,7 +110,9 @@
             <backRow>true</backRow>
             <weapon>
                 <name>fairytale</name>
-                <materia />
+                <materia>
+                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
+                </materia>
             </weapon>
             <armor>
                 <name>diamondbangle</name>
@@ -147,8 +148,7 @@
             <armor>
                 <name>diamondbangle</name>
                 <materia>
-                    <orb id="fire" type="Magic" ap="2500" slot="0" />
-                    <orb id="all" type="Support" ap="2000" slot="1" />
+                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
                 </materia>
             </armor>
             <accessory />

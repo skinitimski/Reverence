@@ -23,10 +23,11 @@
         <enemy id="poodler" x="100" y="250" row="1" />        
     </formation>
     <formation id="gelnika.b">
-        <enemy id="poodler" x="135" y="200" row="0" />  
-        <!--
         <enemy id="badrap" x="100" y="125" row="1" />
+        <enemy id="poodler" x="135" y="200" row="0" />  
         <enemy id="badrap" x="100" y="275" row="1" />     
-        -->
+    </formation>
+    <formation id="gelnika.c">
+        <enemy id="unknown" x="135" y="200" row="0" />   
     </formation>
 </formations>

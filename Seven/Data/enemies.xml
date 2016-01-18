@@ -349,10 +349,11 @@
         <immunities>
             <immunity>Death</immunity>
             <immunity>Confusion</immunity>
+            <immunity>Berserk</immunity>
             <immunity>Silence</immunity>
             <immunity>Frog</immunity>
             <immunity>Small</immunity>
-            <immunity>Slow-numb</immunity>
+            <immunity>SlowNumb</immunity>
             <immunity>Petrify</immunity>
         </immunities>
         <attacks>
@@ -384,12 +385,67 @@
         </attacks>
         <ai>
             <setup>
-                self["count"] = math.random(0, 1)
+                self["count"] = roll(0, 1)
+                self["blaster"] = 0
             </setup>
-            <main>           
+            <main>         
+                if self["blaster"] == 0 then
+                    
+                    if self["count"] == 0 then
+                        
+                        self:UseAttack("Tongue", chooseRandomAlly())                        
+                        if roll(1,3,1)   then self["count"] = 2 end
+                        if roll(1,3,1,2) then self["count"] = 1 end                    
+                    
+                    elseif self["count"] == 1 then
+                    
+                        self:UseAttack("Tongue", chooseRandomAlly())                        
+                        self["count"] = 0
+                        
+                    else
+                    
+                        self:UseAttack("Bite", chooseRandomAlly())
+                        self["count"] = 0
+                    
+                    end
+                    
+                else
+                
+                    if self["count"] == 0 then
+                    
+                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
+                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
+                        self:UseAttack("Blaster", chooseRandomAlly())
+                        
+                    elseif self["count"] == 1 then
+                    
+                        self:UseAttackAndWait("Blaster", chooseRandomAlly())
+                        self:UseAttack("Blaster", chooseRandomAlly())
+                    
+                    elseif self["count"] == 2 then
+                    
+                        self:UseAttack("Blaster", chooseRandomAlly())
+                    
+                    end                    
+                end
             </main>
-            <counter>
-            </counter>
+            <counter-physical>
+                if self["blaster"] == 0 then
+                    if self.HP &lt;= self.MaxHP / 3 then
+                        self["blaster"] = 1
+                        self["Count"] = 2
+                    end
+                end
+            </counter-physical>
+            <counter-magical>
+                if self["blaster"] == 1 then
+                    if self["count"] == 3 then
+                        self["Count"] = 0
+                    else
+                        self["Count"] = self["Count"] + 1
+                    end
+                end
+            </counter-magical>
         </ai>
     </enemy>
     

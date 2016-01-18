@@ -97,13 +97,33 @@ function chooseRandomAllyWithoutStatus(statusFunc)
     
 end
 
+-- roll(min,max,tmin,tmax) : returns true if a random value between min and max (inclusive) is between tmin and tmax (inclusive)
+function roll(min, max, tmin, tmax)
+    
+    real = math.random(min, max)
+    
+    io.write("\nRolled dice! [",min,",",max,"] ->",real," in [",tmin,",",tmax,"] \n\n")
+    
+    return tmin <= real and real <= tmax
+    
+end
+
+-- roll(min,max,test) : returns true if test is equal to a random value between min and max (inclusive)
 function roll(min, max, test)
     
     real = math.random(min, max)
     
-    io.write("\nRolled dice! [",min," ",max,"] ",test," == ",real," \n\n")
+    io.write("\nRolled dice! [",min,",",max,"] -> ",real," == ",test," \n\n")
     
     return real == test
     
 end
+
+-- roll: returns a value between min and max inclusive
+function roll(min, max)
+
+    return math.random(min, max)
+    
+end
+
     
