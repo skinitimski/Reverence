@@ -36,6 +36,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         private class WeaponAttack : Ability
         {
             public WeaponAttack(Ally ally)
+                : this(ally, 1)
+            {
+            }
+
+            public WeaponAttack(Ally ally, int hits)
             {
                 Name = "";
                 Desc = "";
@@ -47,7 +52,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
                 Power = 16;
                 Hitp = ally.Atkp;
-                Hits = 1;
+                Hits = hits;
 
                 DamageFormula = PhysicalAttack;
             }
@@ -76,7 +81,10 @@ namespace Atmosphere.Reverence.Seven.Battle
             C_Timer = CurrentBattle.TimeFactory.CreateClock();
             V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
             TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            
             PrimaryAttack = new WeaponAttack(this);
+            PrimaryAttackX2 = new WeaponAttack(this, 2);
+            PrimaryAttackX4 = new WeaponAttack(this, 4);
         }
 
         internal void InitMenu(ScreenState state)
@@ -357,10 +365,20 @@ namespace Atmosphere.Reverence.Seven.Battle
         
 
 
-
+        
         public void Attack(Combatant target, bool resetTurnTimer = true)
         {
             PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+        }
+        
+        public void AttackX2(Combatant target, bool resetTurnTimer = true)
+        {
+            PrimaryAttackX2.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+        }
+
+        public void AttackX4(IEnumerable<Combatant> targets, bool resetTurnTimer = true)
+        {
+            PrimaryAttackX4.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
         }
 
 
@@ -742,8 +760,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Armor Armor { get { return _c.Armor; } }
 
         public IEnumerable<MateriaOrb> Materia { get { return _c.Materia; } }
-
+        
         public Ability PrimaryAttack { get; private set; }
+        
+        public Ability PrimaryAttackX2 { get; private set; }
+        
+        public Ability PrimaryAttackX4 { get; private set; }
         
         #endregion Properties
         

@@ -375,9 +375,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     {
                         Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
-                    else if (_option == _doubleCutOption2 || _option == _doubleCutOption4)
+                    else if (_option == _doubleCutOption2)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
+                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                    }
+                    else if (_option == _doubleCutOption4)
+                    {
+                        Seven.BattleState.Screen.SelectEitherGroup(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _slashAllOption)
                     {
@@ -454,9 +458,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             else if (_option == _doubleCutOption2)
             {
                 target = targets.First();
-                
-                performer.Attack(target, false);
-                performer.Attack(target);
+
+                performer.AttackX2(target);
             }
 
             #endregion 2x-Cut
@@ -465,12 +468,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _doubleCutOption4)
             {
-                target = targets.First();
-
-                performer.Attack(target, false);
-                performer.Attack(target, false);
-                performer.Attack(target, false);
-                performer.Attack(target);
+                performer.AttackX4(targets);
             }
 
             #endregion 4x-Cut
