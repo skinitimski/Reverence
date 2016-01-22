@@ -9,7 +9,7 @@
             <use>c.HP = 0 c.MP = 0</use>
         </field>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>t:InflictDeath()</use>
+            <use>t:InflictDeath(s)</use>
         </battle>
     </item>
     <!-- NOTE: not a real item -->
