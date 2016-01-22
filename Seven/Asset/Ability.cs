@@ -33,6 +33,119 @@ namespace Atmosphere.Reverence.Seven.Asset
 
             public int Odds { get; set; }
         }
+        
+        protected class UseAbilityEvent : CombatantActionEvent
+        {
+            protected UseAbilityEvent(Combatant source, bool resetSourceTurnTimer, int duration)
+                : base(source, resetSourceTurnTimer, duration)
+            {
+            }
+
+            public static UseAbilityEvent Create(Ability ability, AbilityModifiers modifiers, Combatant source, IEnumerable<Combatant> targets)
+            {            
+                string msg = ability.GetMessage(source);
+                
+                if (source.Confusion)
+                {
+                    msg += " (confused)";
+                }
+                else if (source.Berserk)
+                {
+                    msg += " (berserk)";
+                }
+
+
+                int duration = ability.PauseDuration + ability.SpellDuration * ability.Hits;
+
+                UseAbilityEvent @event = new UseAbilityEvent(source, modifiers.ResetTurnTimer, duration)
+                {
+                    Hits = new bool[ability.Hits],
+                    Status = msg,
+                    Targets = targets,
+                    Ability = ability,
+                    Modifiers = modifiers
+                };
+
+                return @event;
+            }
+            
+            protected override void RunIteration(long elapsed, bool lastIteration)
+            {
+                if (elapsed >= Ability.PauseDuration)
+                {
+                    if (CurrentHit < Hits.Length)
+                    {
+                        if (!Hits[CurrentHit] && elapsed >= Ability.PauseDuration + Ability.SpellDuration * CurrentHit)
+                        {
+                            if (Ability.Hits > 1 && Ability.Plural)
+                            {
+                                int index = Ability._random.Next(Targets.Count());
+                                Combatant newTarget = Targets.ToList()[index];
+                                Ability.Cast(Source, new List<Combatant>{ newTarget }, Modifiers);
+                            }
+                            else
+                            {
+                                Ability.Cast(Source, Targets, Modifiers);
+                            }
+
+                            CurrentHit++;
+                        }
+                    }
+
+                
+                    // timski: don't remember why I wrote this line, and it doesn't make
+                    // any sense to me right now...
+                    //if (Hits > 1) Thread.Sleep(spell_duration / 3);
+                }
+            }
+            
+            protected override string GetStatus(long elapsed)
+            {
+                return Status;
+            }
+
+            private String Status { get; set; }
+
+            private bool[] Hits { get; set; }
+
+            private int CurrentHit { get; set; }
+
+            private IEnumerable<Combatant> Targets { get; set; }
+
+            private Ability Ability { get; set; }
+
+            private AbilityModifiers Modifiers { get; set; }
+        }
+        
+        protected class UseAbilityFailEvent : CombatantActionEvent
+        {
+            private const int DURATION = 2000;
+
+            public UseAbilityFailEvent(Combatant source, Ability ability, bool resetSourceTurnTimer)
+                : base(source, resetSourceTurnTimer, DURATION)
+            {
+                if (source is Ally)
+                {
+                    Status = "Not enough MP for " + ability.Name + "!";
+                }
+                else // is Enemy
+                {
+                    Status = source.Name + "'s skill power is used up.";
+                }
+            }
+            
+            protected override void RunIteration(long elapsed, bool lastIteration)
+            {
+                
+            }
+            
+            protected override string GetStatus(long elapsed)
+            {
+                return Status;
+            }
+
+            private string Status { get; set; }
+        }
 
 
         protected Ability()
@@ -41,7 +154,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             Statuses = new StatusChange[] { };
             Hits = 1;
         }
-
         
         protected int PhysicalAttack(Combatant source, Combatant target, AbilityModifiers modifiers)
         {
@@ -153,11 +265,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// If set to <c>true</c> reset turn timer.
         /// </param>
         public void Use(Combatant source, IEnumerable<Combatant> targets, AbilityModifiers modifiers)
-        {
-            int spell_duration = BattleIcon.ANIMATION_DURATION;
-            if (Hits > 1) spell_duration = spell_duration * 2 / 3;
-            int duration = PauseDuration + spell_duration * Hits;
-            
+        {            
             bool canUse = true;
             
             if (!modifiers.CostsNothing)
@@ -173,67 +281,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
             
             if (canUse)
-            {                   
-                string msg = GetMessage(source);
-                
-                if (source.Confusion)
-                {
-                    msg += " (confused)";
-                }
-                else if (source.Berserk)
-                {
-                    msg += " (berserk)";
-                }
-                
-                TimedActionContext context = new TimedActionContext(
-                    delegate(Timer t) 
-                    { 
-                        Thread.Sleep(PauseDuration); 
-
-                        for (int hit = 0; hit < Hits; hit++)
-                        {
-                            if (Hits > 1 && Plural)
-                            {
-                                int index = _random.Next(targets.Count());
-                                Combatant newTarget = targets.ToList()[index];
-                                Cast(source, new List<Combatant>{ newTarget }, modifiers);
-                            }
-                            else
-                            {
-                                Cast(source, targets, modifiers);
-                            }
-
-                            Thread.Sleep(spell_duration);
-                        }
-
-                        if (Hits > 1) Thread.Sleep(spell_duration / 3);
-                    },
-                    duration, 
-                    c => msg);
-                
-                BattleEvent e = new BattleEvent(source, context);
-                
-                e.ResetSourceTurnTimer = modifiers.ResetTurnTimer;
+            {                 
+                UseAbilityEvent e = UseAbilityEvent.Create(this, modifiers, source, targets);
                 
                 Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
             }
             else
             {   
-                string msg;
-
-                if (source is Ally)
-                {
-                    msg = "Not enough MP for " + Name + "!";
-                }
-                else // is Enemy
-                {
-                    msg = source.Name + "'s skill power is used up.";
-                }
-                
-                TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => msg);
-                
-                BattleEvent e = new BattleEvent(source, context);
-                e.ResetSourceTurnTimer = modifiers.ResetTurnTimer;
+                UseAbilityFailEvent e = new UseAbilityFailEvent(source, this, modifiers.ResetTurnTimer);
                 
                 Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
             }
@@ -315,7 +370,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         public int MPCost { get; protected set; }
         
-        
         protected int Hits { get; set; }
 
         protected DamageFormula DamageFormula { get; set; }
@@ -349,6 +403,22 @@ namespace Atmosphere.Reverence.Seven.Asset
                 return pause;
             }
         }
+
+        private int SpellDuration
+        {
+            get
+            {
+                int duration = BattleIcon.ANIMATION_DURATION;
+
+                if (Hits > 1)
+                {
+                    duration = duration * 2 / 3;
+                }
+
+                return duration;
+            }
+        }
+        
 
 
 

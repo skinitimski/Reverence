@@ -2,6 +2,8 @@ using System;
 
 using Cairo;
 
+using Atmosphere.Reverence.Time;
+
 namespace Atmosphere.Reverence
 {
     public abstract class State : IDisposable
@@ -19,6 +21,11 @@ namespace Atmosphere.Reverence
                 _initialized = true;
                 InternalInit();
             }
+        }
+
+        protected State()
+        {
+            TimeFactory = new TimeFactory();
         }
         
         protected abstract void InternalInit();
@@ -38,6 +45,8 @@ namespace Atmosphere.Reverence
         }
         
         protected abstract void InternalDispose();
+        
+        public TimeFactory TimeFactory { get; private set; }
     }
 }
 

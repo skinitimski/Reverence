@@ -30,6 +30,54 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         protected int _topRow;
         protected readonly int _rows = 3;
 
+
+
+        
+        
+        private class UseItemEvent : CombatantActionEvent
+        {
+            private const int DURATION = 2000;
+            
+            public UseItemEvent(Item item, int slot, Ally source, IEnumerable<Combatant> targets, bool resetSourceTurnTimer)
+                : base(source, resetSourceTurnTimer, DURATION)
+            {
+                Item = item;
+                Slot = slot;
+                Source = source;
+                Targets = targets;
+                Status = source.Name + " uses item " + item.Name;
+                
+            }
+            
+            protected override void RunIteration(long elapsed, bool isLast)
+            {
+                if (!HasUsed)
+                {
+                    Item.UseInBattle((Ally)Source, Targets);
+                    HasUsed = true;
+                }
+                
+                if (isLast)
+                {
+                    Seven.Party.Inventory.DecreaseCount(Slot);
+                }
+            }
+            
+            protected override string GetStatus(long elapsed)
+            {
+                return Status;
+            }
+            
+            private Item Item { get; set; }
+            private int Slot { get; set; }
+            private IEnumerable<Combatant> Targets { get; set; }
+            private string Status { get; set; }
+            
+            private bool HasUsed { get; set; }
+        }
+
+
+
         public ItemMenu(Menu.ScreenState screenState)
             : base(
                 5,
@@ -82,28 +130,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         protected void UseItem(int slot, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            int duration = 2000;
-            IInventoryItem item = Seven.Party.Inventory.GetItem(slot);
-            
-            string userName = Seven.BattleState.Commanding.Name;
-            string itemName = Seven.Party.Inventory.GetItem(slot).Name;
+            Item item = (Item)Seven.Party.Inventory.GetItem(slot);
+            Ally source = Seven.BattleState.Commanding;
 
-            TimedActionContext context = new TimedActionContext(
-                delegate(Timer timer) 
-                {                
-                    ((Item)item).UseInBattle(Seven.BattleState.Commanding, targets);
-                    Thread.Sleep(duration);
-                    Seven.Party.Inventory.DecreaseCount(slot);
-                },
-                duration,
-                c => userName + " uses item " + itemName
-            );
-
-
-            BattleEvent e = new BattleEvent(Seven.BattleState.Commanding, context);
-
-
-            e.ResetSourceTurnTimer = releaseAlly;
+            UseItemEvent e = new UseItemEvent(item, slot, source, targets, releaseAlly);
             
             Seven.BattleState.EnqueueAction(e);
         }

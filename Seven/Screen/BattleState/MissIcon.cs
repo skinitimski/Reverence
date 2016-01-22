@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
+using StateOfBattle = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -12,8 +13,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private const string MISS = "Miss";
 
 
-        public MissIcon(Combatant receiver)
-            : base(receiver)
+        public MissIcon(StateOfBattle battle, Combatant receiver)
+            : base(battle, receiver)
         {
             Message = MISS;
         }

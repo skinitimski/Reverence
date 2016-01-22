@@ -16,6 +16,7 @@ using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
+using Atmosphere.Reverence.Seven.State;
 using Screens = Atmosphere.Reverence.Seven.Screen.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Battle
@@ -57,8 +58,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        public Ally(Character c, int x, int y, int e)
-            : base(x, y)
+        public Ally(BattleState battle, Character c, int x, int y, int e)
+            : base(battle, x, y)
         {
             _c = c;
                         
@@ -72,9 +73,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             int vStep = Seven.Party.BattleSpeed;
             
-            C_Timer = new Clock();
-            V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            C_Timer = CurrentBattle.TimeFactory.CreateClock();
+            V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
+            TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
             PrimaryAttack = new WeaponAttack(this);
         }
 

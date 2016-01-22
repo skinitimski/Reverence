@@ -37,10 +37,33 @@ namespace Atmosphere.Reverence.Seven.State
         
         private BattleEvent _victoryEvent;
         private BattleEvent _lossEvent;
-
-        private bool _victory = true;
                 
         #endregion
+
+
+        private class EndOfBattleEvent : BattleEvent
+        {
+            public const int DURATION = 4000;
+
+            
+            public EndOfBattleEvent(TimeFactory factory, string text)
+                : base(factory, DURATION)
+            {
+                Text = text;
+            }
+
+            protected override void RunIteration(long elapsed, bool isLast)
+            {
+
+            }
+            
+            protected override string GetStatus(long elapsed)
+            {
+                return Text;
+            }
+
+            private string Text { get; set; }
+        }
         
 
         private BattleState()
@@ -71,12 +94,12 @@ namespace Atmosphere.Reverence.Seven.State
                 Height = Seven.Config.WindowHeight
             };
                         
-            _victoryEvent = CreateVictoryEvent();
-            _lossEvent = CreateLossEvent();
+            _victoryEvent = new EndOfBattleEvent(TimeFactory, "Victory!");
+            _lossEvent = new EndOfBattleEvent(TimeFactory, "Annihilated!");
 
             Screen = new BattleScreen(state);
 
-            BattleClock = new Clock(Seven.Party.BattleSpeed);
+            BattleClock = TimeFactory.CreateClock(Seven.Party.BattleSpeed);
                        
             Allies = new Ally[Party.PARTY_SIZE];
 
@@ -95,7 +118,7 @@ namespace Atmosphere.Reverence.Seven.State
                     int x = x0 + (i * xs);
                     int y = y0 + (i * ys);
 
-                    Allies[i] = new Ally(Seven.Party[i], x, y, e[i]);
+                    Allies[i] = new Ally(this, Seven.Party[i], x, y, e[i]);
                     Allies[i].InitMenu(state);
                 }
             }
@@ -105,7 +128,7 @@ namespace Atmosphere.Reverence.Seven.State
                 throw new GameDataException("Must have at least one ally in battle.");
             }
 
-            EnemyList = _formation.GetEnemyList();
+            EnemyList = _formation.GetEnemyList(this);
             
             foreach (Ally ally in Allies)
             {
@@ -125,31 +148,6 @@ namespace Atmosphere.Reverence.Seven.State
                 enemy.TurnTimer.Unpause();
             }
         }
-        
-        private static BattleEvent CreateVictoryEvent()
-        {
-            int duration = 4000;
-            
-            TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => "Victory!");
-            
-            BattleEvent victoryEvent = new BattleEvent(null, context);
-            victoryEvent.ResetSourceTurnTimer = false;
-            
-            return victoryEvent;
-        }
-        
-        private static BattleEvent CreateLossEvent()
-        {
-            int duration = 4000;
-            
-            TimedActionContext context = new TimedActionContext(x => Thread.Sleep(duration), duration, c => "Annihilated!");
-            
-            BattleEvent lossEvent = new BattleEvent(null, context);
-            lossEvent.ResetSourceTurnTimer = false;
-            
-            return lossEvent;
-        }
-
 
 
 
@@ -173,31 +171,34 @@ namespace Atmosphere.Reverence.Seven.State
         
         public override void RunIteration()
         {
-            if (!Loss && CheckForLoss())
+            if (Paused == null)
             {
-                Loss = true;
+                if (!Loss && CheckForLoss())
+                {
+                    Loss = true;
 
-                EnqueueAction(_lossEvent, true);
+                    EnqueueAction(_lossEvent, true);
+                }
+            
+                if (!Loss && !Victory && CheckForVictory())
+                {
+                    Victory = true;
+
+                    EnqueueAction(_victoryEvent, true);
+                }
+
+                SetControl();
+            
+                CheckEventQueue();
+            
+                CheckCombatantTimers();
+
+                CheckEnemyTurnTimers();
+            
+                CheckIcons();
+            
+                ClearDeadEnemies();
             }
-            
-            if (!Loss && !Victory && CheckForVictory())
-            {
-                Victory = true;
-
-                EnqueueAction(_victoryEvent, true);
-            }
-
-            SetControl();
-            
-            CheckEventQueue();
-            
-            CheckCombatantTimers();
-
-            CheckEnemyTurnTimers();
-            
-            CheckIcons();
-            
-            ClearDeadEnemies();
         }
         
         private void SetControl()
@@ -245,35 +246,9 @@ namespace Atmosphere.Reverence.Seven.State
         private void CheckEventQueue()
         {
             lock (EventQueue)
-            {
-                // If the current ability is done, clear it
-                if (AbilityThread != null && !AbilityThread.IsAlive)
-                {
-#if DEBUG
-                    Console.WriteLine("Event has completed:");
-                    Console.WriteLine(ActiveAbility.ToString());
-#endif
-//                if (ActiveAbility.Performer is Ally)
-//                {
-//                    LastPartyAction = (AbilityState)ActiveAbility.Clone();
-//                }
-
-                    if (ActiveAbility == _victoryEvent)
-                    {
-                        Seven.Instance.EndBattle();
-                    }
-
-                    if (ActiveAbility == _lossEvent)
-                    {
-                        Seven.Instance.LoseGame();
-                    }
-
-                    ActiveAbility = null;
-                    AbilityThread = null;
-                }
-
+            {                
                 // Dequeue next ability if none is in progress
-                if (AbilityThread == null)
+                if (ActiveAbility == null)
                 {
                     if (PriorityQueue.Count > 0)
                     {
@@ -286,8 +261,37 @@ namespace Atmosphere.Reverence.Seven.State
 
                     if (ActiveAbility != null)
                     {
-                        AbilityThread = new Thread(new ThreadStart(ActiveAbility.DoAction));
-                        AbilityThread.Start();
+                        ActiveAbility.Begin();
+                    }
+                }
+
+                // If the current ability is done, clear it
+                if (ActiveAbility != null)
+                {
+                    bool isDone = ActiveAbility.RunIteration();
+
+                    if (isDone)
+                    {
+#if DEBUG
+                        Console.WriteLine("Event has completed:");
+                        Console.WriteLine(ActiveAbility.ToString());
+#endif
+    //                if (ActiveAbility.Performer is Ally)
+    //                {
+    //                    LastPartyAction = (AbilityState)ActiveAbility.Clone();
+    //                }
+
+                        if (ActiveAbility == _victoryEvent)
+                        {
+                            Seven.Instance.EndBattle();
+                        }
+
+                        if (ActiveAbility == _lossEvent)
+                        {
+                            Seven.Instance.LoseGame();
+                        }
+
+                        ActiveAbility = null;
                     }
                 }
             }
@@ -417,21 +421,21 @@ namespace Atmosphere.Reverence.Seven.State
 
         public void AddDamageIcon(int amount, Combatant receiver, bool mp = false)
         {
-            DamageIcon icon = new DamageIcon(amount, receiver, mp);
+            DamageIcon icon = new DamageIcon(this, amount, receiver, mp);
 
             _battleIcons.Enqueue(icon);
         }
         
         public void AddMissIcon(Combatant receiver)
         {
-            MissIcon icon = new MissIcon(receiver);
+            MissIcon icon = new MissIcon(this, receiver);
             
             _battleIcons.Enqueue(icon);
         }
         
         public void AddRecoveryIcon(Combatant receiver)
         {
-            RecoveryIcon icon = new RecoveryIcon(receiver);
+            RecoveryIcon icon = new RecoveryIcon(this, receiver);
             
             _battleIcons.Enqueue(icon);
         }
@@ -508,27 +512,64 @@ namespace Atmosphere.Reverence.Seven.State
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
+
+        private class PauseState
+        {
+
+            public bool WasPartyClockPaused { get; set; }
+        }
         
         [GLib.ConnectBefore()]
         public override void KeyPressHandle(Key k)
         {
-            switch (k)
+            if (k == Key.Start)
             {
-                case Key.Select:
-                    Screen.InfoBar.Visible = !Screen.InfoBar.Visible;
-                    break;
-                case Key.Square:
-                    _holdingSquare = true;
-                    break;
-                case Key.Triangle:
-                    if (Commanding != null)
+                if (Paused == null)
+                {
+                    Paused = new PauseState
                     {
-                        _turnQueue.Enqueue(Commanding);
-                        ClearControl();
+                        WasPartyClockPaused = Seven.Party.Clock.Pause()
+                    };
+                    
+                    TimeFactory.PauseAllClocks();
+                }
+                else if (Paused != null)
+                {
+                    TimeFactory.UnpauseAllClocks();
+                    
+                    if (Paused.WasPartyClockPaused)
+                    {
+                        Seven.Party.Clock.Unpause();
                     }
-                    break;
-                default:
-                    break;
+                    
+                    Paused = null;
+                }
+            }
+
+            if (Paused == null)
+            {
+                switch (k)
+                {
+                    case Key.Select:
+                        Screen.InfoBar.Visible = !Screen.InfoBar.Visible;
+                        break;
+
+                    case Key.Square:
+                        _holdingSquare = true;
+                        break;
+
+                    case Key.Triangle:
+                        if (Commanding != null)
+                        {
+                            _turnQueue.Enqueue(Commanding);
+                            ClearControl();
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
             }
 
             if (Commanding != null && !Victory)
@@ -544,6 +585,10 @@ namespace Atmosphere.Reverence.Seven.State
                 case Key.Square:
                     _holdingSquare = false;
                     break;
+
+                case Key.Start:
+                    break;
+
                 default:
                     break;
             }
@@ -577,12 +622,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         protected override void InternalDispose()
-        {
-            if (AbilityThread != null)
-            {
-                AbilityThread.Abort();
-            }
-            
+        {            
             foreach (Ally a in Allies)
             {
                 if (a != null)
@@ -619,17 +659,15 @@ namespace Atmosphere.Reverence.Seven.State
         public int Gil  { get; private set; }
         public List<IInventoryItem> Items { get; private set; }
 
-        public System.Threading.Thread AbilityThread { get; private set; }
-
         public Random Random { get; private set; }
 
         public Queue<BattleEvent> EventQueue { get; private set; }
 
         public Queue<BattleEvent> PriorityQueue { get; private set; }
+
+        private PauseState Paused { get; set; }
         
         #endregion Properties
-        
-        
     }
 }
 

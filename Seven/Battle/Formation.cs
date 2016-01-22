@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
+using Atmosphere.Reverence.Seven.State;
+
 namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class Formation
@@ -114,7 +116,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
 
 
-        public List<Enemy> GetEnemyList()
+        public List<Enemy> GetEnemyList(BattleState battle)
         {
             int[] e = new int[Enemies.Count];
             
@@ -142,7 +144,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 EnemyRecord record = Enemies[i];
 
-                enemies.Add(Enemy.CreateEnemy(record.Name, record.X, record.Y, e[i], record.Designation));
+                enemies.Add(Enemy.CreateEnemy(battle, record.Name, record.X, record.Y, e[i], record.Designation));
             }
 
             return enemies;

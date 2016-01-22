@@ -12,6 +12,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
+using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
@@ -62,10 +63,12 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        protected Combatant(int x, int y)
+        protected Combatant(BattleState battle, int x, int y)
         {            
             _x = x;
             _y = y;
+
+            CurrentBattle = battle;
         }
         
         
@@ -122,8 +125,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         
         public void CheckTimers()
-        {
-            
+        {           
             if (Sleep && V_Timer.TotalMilliseconds - _sleepTime >= SLEEP_DURATION)
             {
                 CureSleep();
@@ -863,5 +865,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Combatant Regenerator { get; private set; }
 
         public Combatant Sentencer { get; private set; }
+
+        public BattleState CurrentBattle { get; private set; }
     }
 }

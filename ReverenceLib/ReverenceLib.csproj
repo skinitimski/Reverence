@@ -19,7 +19,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,7 +28,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>False</ConsolePause>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -82,10 +82,9 @@
     <Compile Include="Attributes\LuaFunctionCaller.cs" />
     <Compile Include="Graphics\Colors.cs" />
     <Compile Include="Menu\MenuScreen.cs" />
-    <Compile Include="Time\TimedDialogue.cs" />
     <Compile Include="Menu\ScreenState.cs" />
-    <Compile Include="Time\TimedAction.cs" />
     <Compile Include="Menu\MessageBox.cs" />
-    <Compile Include="Time\TimedActionContext.cs" />
+    <Compile Include="Time\TimeFactory.cs" />
+    <Compile Include="Time\TimedDialogue.cs" />
   </ItemGroup>
 </Project>

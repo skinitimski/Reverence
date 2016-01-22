@@ -52,6 +52,8 @@ namespace Atmosphere.Reverence.Time
             _timeoutMs = timeout;
             _timeout = timeout * TICKS_PER_MS;
         }
+
+
         
         #endregion Constructors
         

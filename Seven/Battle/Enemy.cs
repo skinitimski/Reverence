@@ -13,6 +13,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
@@ -182,8 +183,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        private Enemy(XmlNode node, int x, int y, int e, string designation)
-            : base(x, y)
+        private Enemy(BattleState battle, XmlNode node, int x, int y, int e, string designation)
+            : base(battle, x, y)
         {         
             _weak = new List<Element>();
             _halve = new List<Element>();
@@ -412,12 +413,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             int vStep = Seven.Party.BattleSpeed;
             
-            C_Timer = new Clock();
-            V_Timer = new Clock(vStep);
-            TurnTimer = new Time.Timer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            C_Timer = CurrentBattle.TimeFactory.CreateClock();
+            V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
+            TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
         }
 
-        public static Enemy CreateEnemy(string name, int x, int y, int e, string designation = "")
+        public static Enemy CreateEnemy(BattleState battle, string name, int x, int y, int e, string designation = "")
         {       
             if (!_table.ContainsKey(name))
             {
@@ -428,7 +429,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             try
             {
-                enemy = new Enemy(_table[name], x, y, e, designation);
+                enemy = new Enemy(battle, _table[name], x, y, e, designation);
             }
             catch (Exception ex)
             {

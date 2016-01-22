@@ -16,7 +16,7 @@ using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
-    internal class BattleMenu : ControlMenu, ISelectorUser
+    internal sealed class BattleMenu : ControlMenu, ISelectorUser
     {
         #region Layout
 
@@ -58,6 +58,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 screenState.Width / 5,
                 screenState.Height * 5 / 20 - 6)
         {
+            AssociatedAlly = a;
+
             xs = screenState.Width / 5;
 
             Visible = false;
@@ -477,66 +479,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _senseOption)
             {
-                target = targets.First();
+                BattleEvent sense = SenseEvent.Create(AssociatedAlly, targets);
 
-                List<String> messages = new List<String>();
-
-                messages.Add(target.Name + " Lvl: " + target.Level);
-                messages.Add(String.Format("HP: {0}/{1} MP: {2}/{3}", target.HP, + target.MaxHP , + target.MP, + target.MaxMP));
-
-                foreach (Element element in target.Weaknesses)
-                {
-                    string description = element.ToString();
-
-                    switch (element)
-                    {
-                        case Element.Restorative:
-                            description = "holy power";
-                            break;
-                    }
-
-                    messages.Add("Weak against " + description + ".");
-                }
-
-
-                int pause = 1000;
-                int message_duration = 1500; // TODO: config value
-                int dialogue_duration = messages.Count * message_duration;
-                int duration = pause + dialogue_duration;
-                
-                TimedDialogue dialogue = delegate(Clock c)
-                {
-                    long elapsed = c.TotalMilliseconds;
-                    string info = null;
-                    
-                    if (elapsed < pause)
-                    {
-                        info = performer.Name + " senses " + target.Name;
-                    }
-                    else
-                    {
-                        elapsed -= pause;
-
-                        int index = (int)elapsed / message_duration;
-
-                        if (index >= messages.Count) index = messages.Count - 1;
-
-                        info = messages[index]; 
-                    }
-                    
-                    return info;
-                };
-
-                TimedActionContext context = new TimedActionContext(
-                    delegate(Timer t) { Thread.Sleep(pause); target.Sense(); Thread.Sleep(dialogue_duration); },
-                    duration,
-                    dialogue);
-
-
-                BattleEvent e = new BattleEvent(performer, context);
-
-                
-                Seven.BattleState.EnqueueAction(e);
+                Seven.BattleState.EnqueueAction(sense);
             }
 
             #endregion Sense
@@ -587,64 +532,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             #region Steal
             else if (_option == _stealOption)
-            {
-                target = targets.First();
-
-                Enemy enemy = (Enemy)target;
-
-                IInventoryItem stolen = null;
-
-                bool canSteal = enemy.HasItems;
-
-                int pause = 1000;
-                int steal_duration = 2000;
-                int duration = pause + steal_duration;
-                
-                TimedDialogue dialogue = delegate(Clock c)
-                {
-                    long elapsed = c.TotalMilliseconds;
-                    string info = null;
-                    
-                    if (elapsed < pause)
-                    {
-                        info = performer.Name + " steals from " + target.Name;
-                    }
-                    else
-                    {
-                        if (canSteal)
-                        {
-                            if (stolen != null)
-                            {
-                                // TODO: this doesn't work
-                                info = "Stole " + stolen.Name + "!";
-                            }
-                            else
-                            {
-                                info = "Couldn't steal anything...";
-                            }
-                        }
-                        else
-                        {
-                            info = "Nothing to steal.";
-                        }
-                    }
-                    
-                    return info;
-                };
-                
-                TimedActionContext context = new TimedActionContext(
-                    delegate(Timer t) { 
-                        Thread.Sleep(pause); 
-                        stolen = ((Enemy)target).StealItem(performer);
-                        Thread.Sleep(steal_duration);
-                    },
-                    duration,
-                    dialogue);
-
-
-                
-                
-                BattleEvent e = new BattleEvent(performer, context);
+            {                
+                StealEvent e = StealEvent.Create(AssociatedAlly, targets);
                 
                 Seven.BattleState.EnqueueAction(e);
             }
@@ -856,6 +745,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public bool WMagic { get { return _wmagic; } }
 
         public bool WSummon { get { return _wsummon; } }
+
+        private Ally AssociatedAlly { get; set; }
     }
 
 

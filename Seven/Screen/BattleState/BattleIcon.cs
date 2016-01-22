@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
+using StateOfBattle = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -21,14 +22,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private const int STEPS_BELOW = Q1 / MIN;
 
 
-        protected BattleIcon(Combatant receiver)
+        protected BattleIcon(StateOfBattle battle, Combatant receiver)
         {            
             X = receiver.X;
             Y = receiver.Y;
 
             Color = Colors.WHITE;
-            AnimationTimer = new Timer(ANIMATION_DURATION);
+            AnimationTimer = battle.TimeFactory.CreateTimer(ANIMATION_DURATION);
         }
+
         
         public void Draw(Gdk.Drawable d)
         {
