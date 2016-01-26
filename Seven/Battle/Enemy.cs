@@ -451,11 +451,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 if (Sleep)
                 {
-                    CureSleep();
+                    CureSleep(source);
                 }
                 if (Confusion)
                 {
-                    CureConfusion();
+                    CureConfusion(source);
                 }
             }
                         
@@ -527,13 +527,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        public override void Recover()
+        public override void Recover(Combatant source)
         {
             Seven.BattleState.AddRecoveryIcon(this);
             
             if (Death)
             {
-                CureDeath();
+                CureDeath(source);
             }
             
             _hp = MaxHP;
@@ -1065,7 +1065,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             bool inflicted = false;
 
-            CureDeathSentence();
+            CureDeathSentence(source);
 
             if (!_death)
             {
@@ -1087,7 +1087,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Cure Status
         
-        public override bool CureFury()
+        public override bool CureFury(Combatant source)
         {
             bool cured = false;
 
@@ -1100,7 +1100,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return cured;
         }
 
-        public override bool CureSadness()
+        public override bool CureSadness(Combatant source)
         {
             bool cured = false;
             
@@ -1115,7 +1115,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             return cured;
         }
         
-        public override bool CureDeath()
+        public override bool CureDeath(Combatant source)
         {
             bool cured = false;
             

@@ -7,6 +7,8 @@ using System.Text;
 using Thread = System.Threading.Thread;
 using System.Xml;
 
+using NLua;
+
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
@@ -77,7 +79,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     {
                         if (!Hits[CurrentHit] && elapsed >= Ability.PauseDuration + Ability.SpellDuration * CurrentHit)
                         {
-                            if (Ability.Hits > 1 && Ability.Plural)
+                            if (Ability.Hits > 1 && Ability.RandomTarget)
                             {
                                 int index = Ability._random.Next(Targets.Count());
                                 Combatant newTarget = Targets.ToList()[index];
@@ -190,6 +192,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.HP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
+            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -199,6 +202,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
+            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -208,6 +212,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MaxHP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
+            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -217,11 +222,17 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MaxMP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
+            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
+        
+        protected int Fixed(Combatant source, Combatant target, AbilityModifiers modifiers)
+        {
+            return Power;
+        }
 
-        protected IEnumerable<Element> GetElements(XmlNodeList elementNodes)
+        protected static IEnumerable<Element> GetElements(XmlNodeList elementNodes)
         {
             foreach (XmlNode node in elementNodes)
             {
@@ -229,7 +240,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
         
-        protected IEnumerable<StatusChange> GetStatusChanges(XmlNodeList inflictionNodes)
+        protected static IEnumerable<StatusChange> GetStatusChanges(XmlNodeList inflictionNodes)
         {
             foreach (XmlNode node in inflictionNodes)
             {
@@ -242,6 +253,56 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                 yield return change;
             }
+        }
+
+        protected DamageFormula GetFormula(XmlNode formulaNode)
+        {
+            DamageFormula formula = null;
+
+            if (formulaNode != null)
+            {
+                XmlNode codeNode = formulaNode.SelectSingleNode("custom");
+
+                if (codeNode != null)
+                {                    
+                    string code = String.Format("return function (source, target, modifiers) {0} end", codeNode.InnerText);
+                    LuaFunction customFormula;
+
+                    try
+                    {
+                        customFormula = (LuaFunction)Seven.Lua.DoString(code).First();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new ImplementationException("Error loading ability custom formula; name = " + Name, ex);
+                    }
+
+                    formula = delegate(Combatant source, Combatant target, AbilityModifiers modifiers)
+                    {
+                        return (int)customFormula.Call(source, target, modifiers).First();
+                    };
+                }
+                else
+                {
+                    formula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
+                }
+            }
+            else
+            {
+                switch (Type)
+                {
+                    case AttackType.Magical:
+                        formula = MagicalAttack;
+                        break;
+                    case AttackType.Physical:
+                        formula = PhysicalAttack;
+                        break;
+                    default:
+                        throw new GameDataException("Neither a formula nor an attack type defined -- ability '{0}'", Name);
+                }
+            }
+
+            return formula;
         }
                 
         protected abstract String GetMessage(Combatant source);
@@ -359,6 +420,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
             }
         }
+
+
         
         public string Name { get; protected set; }
 
@@ -382,7 +445,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         protected IEnumerable<StatusChange> Statuses { get; set; }
 
-        private bool Plural { get { return Target == BattleTarget.AlliesPlural || Target == BattleTarget.EnemiesPlural || Target == BattleTarget.GroupPlural; } }
+        private bool RandomTarget { get { return Target == BattleTarget.GroupRandom || Target == BattleTarget.AlliesRandom || Target == BattleTarget.EnemiesRandom; } }
 
         private int PauseDuration
         {

@@ -202,12 +202,14 @@ namespace Atmosphere.Reverence.Seven.Asset
                             BattleUsage.Use.Call(source, targets.First());
                             break;
                             
+                        case BattleTarget.Area:
+                        case BattleTarget.AreaRandom:
                         case BattleTarget.Group:
-                        case BattleTarget.GroupPlural:
+                        case BattleTarget.GroupRandom:
                         case BattleTarget.Allies:
-                        case BattleTarget.AlliesPlural:
+                        case BattleTarget.AlliesRandom:
                         case BattleTarget.Enemies:
-                        case BattleTarget.EnemiesPlural:
+                        case BattleTarget.EnemiesRandom:
                             BattleUsage.Use.Call(source, targets.ToList());
                             break;
                     }
@@ -233,7 +235,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             switch (type)
             {
                 case InventoryItemType.item:
+
                     item = ItemTable[id];
+
+                    if (item == null)
+                    {
+                        throw new GameDataException("Could not find item with id " + id);
+                    }
+
                     break;
                 case InventoryItemType.weapon:
                     item = Weapon.Get(id);

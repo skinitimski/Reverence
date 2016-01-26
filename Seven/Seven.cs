@@ -140,10 +140,10 @@ namespace Atmosphere.Reverence.Seven
         
         public void BeginBattle()
         {
-            int i = 2; //_random.Next(2);
+            int i = 1; //_random.Next(2);
 
             String battleId = "debug" + i;
-            battleId = "gelnika.e";
+            //battleId = "gelnika.e";
 
             _battleState = new BattleState(battleId);
             _battleState.Init();

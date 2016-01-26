@@ -124,11 +124,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         _xopt++;
                     }
                     break;
+
                 case Key.X:
                     Visible = false;
                     Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
+
                 case Key.Circle:
                     if (Selected != null)
                     {
@@ -195,6 +197,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     Y + cy + (_yopt - _topRow + 1) * ys);
             }
 
+
             Seven.BattleState.Screen.MagicInfo.Draw(d);
 
 
@@ -219,9 +222,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         }
 
         public bool IsValid { get { return _totalRows > 0; } }
-
+        
         public override string Info
-        { get { return Selected == null ? "" : Selected.Spell.Desc; } }
+        {
+            get
+            {
+                return Selected == null ? String.Empty : Selected.Spell.Desc; 
+            }
+        }
 
         public MagicMenuEntry Selected { get { return _spells[_yopt, _xopt]; } }
 

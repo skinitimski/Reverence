@@ -147,18 +147,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     Seven.BattleState.Screen.SelectEnemy();
                     break;
                 case BattleTarget.Group:
-                case BattleTarget.GroupPlural:
+                case BattleTarget.GroupRandom:
                     Seven.BattleState.Screen.SelectEitherGroup(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
                     break;
                 case BattleTarget.Allies:
-                case BattleTarget.AlliesPlural:
+                case BattleTarget.AlliesRandom:
                     Seven.BattleState.Screen.SelectAllies();
                     break;
                 case BattleTarget.Enemies:
-                case BattleTarget.EnemiesPlural:
+                case BattleTarget.EnemiesRandom:
                     Seven.BattleState.Screen.SelectEnemies();
                     break;
                 case BattleTarget.Area:
+                case BattleTarget.AreaRandom:
                     Seven.BattleState.Screen.SelectArea();
                     break;
             }

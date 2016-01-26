@@ -397,7 +397,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _enemySkillMenuOption && !Seven.BattleState.Commanding.Silence)
                     {
-                        //Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.EnemySkillMenu);
+                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.EnemySkillMenu);
                     }
                     else if (_option == _summonMenuOption && !Seven.BattleState.Commanding.Silence)
                     {

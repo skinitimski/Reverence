@@ -22,8 +22,9 @@
             <weapon>
                 <name>butterflyedge</name>
                 <materia>
-                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
-                    <orb id="doublecut" type="Command" ap="0" slot="1" />
+                    <orb id="mastermagic" type="Magic"   ap="0"         slot="0" />
+                    <orb id="doublecut"   type="Command" ap="0"         slot="1" />
+                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="2" />
                 </materia>
             </weapon>
             <armor>
@@ -114,6 +115,7 @@
                 <materia>
                     <orb id="mastermagic" type="Magic" ap="0" slot="0" />
                     <orb id="doublecut" type="Command" ap="100000" slot="1" />
+                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="2" />
                 </materia>
             </weapon>
             <armor>
@@ -151,6 +153,7 @@
                 <name>diamondbangle</name>
                 <materia>
                     <orb id="mastermagic" type="Magic" ap="0" slot="0" />
+                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="1" />
                 </materia>
             </armor>
             <accessory />

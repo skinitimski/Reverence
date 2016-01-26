@@ -20,12 +20,17 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         static EnemySkillSpell()
         {
-            _enemySkillSpells = Spell.LoadSpells("data.spells.summon.xml");
+            _enemySkillSpells = Spell.LoadSpells("data.spells.enemyskill.xml");
         }
         
-        public static Spell Get(string id)
+        public static Spell Get(string name)
         {
-            return _enemySkillSpells[id];
+            if (!_enemySkillSpells.ContainsKey(name))
+            {
+                throw new GameDataException("Could not find enemy skill spell with name " + name);
+            }
+
+            return _enemySkillSpells[name];
         }
         
         public static IEnumerable<Spell> GetAll()

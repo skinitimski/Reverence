@@ -1,7 +1,7 @@
 <spells>
     <spell>
         <name>Cure</name>
-        <desc>Restores MP</desc>
+        <desc>Restores HP</desc>
         <order>0</order>
         <type>Magical</type>
         <cost>5</cost>
@@ -17,7 +17,7 @@
     </spell>
     <spell>
         <name>Cure2</name>
-        <desc>Restores MP</desc>
+        <desc>Restores HP</desc>
         <order>1</order>
         <type>Magical</type>
         <cost>24</cost>
@@ -33,7 +33,7 @@
     </spell>
     <spell>
         <name>Cure3</name>
-        <desc>Restores MP</desc>
+        <desc>Restores HP</desc>
         <order>2</order>
         <type>Magical</type>
         <cost>64</cost>
@@ -105,6 +105,9 @@
         <power>8</power>
         <hitp>255</hitp>
         <statusChange type="Cure" statuses="Death" odds="100" />
+        <elements>
+            <element>Restorative</element>
+        </elements>
     </spell>      
     <spell>
         <name>Life2</name>
@@ -119,6 +122,9 @@
         <power>32</power>
         <hitp>255</hitp>
         <statusChange type="Cure" statuses="Death" odds="100" />
+        <elements>
+            <element>Restorative</element>
+        </elements>
     </spell>
     <spell>
         <name>Regen</name>
@@ -756,7 +762,7 @@
         <order>49</order>
         <type>Magical</type>
         <cost>110</cost>
-        <target>GroupPlural</target>
+        <target>GroupRandom</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>false</allable>
         <formula>MagicalAttack</formula>

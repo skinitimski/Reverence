@@ -42,28 +42,8 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             XmlNode hitsNode = xml.SelectSingleNode("hits");
             Hits = hitsNode == null ? 1 : Int32.Parse(hitsNode.InnerText);
-            
-            XmlNode formulaNode = xml.SelectSingleNode("formula");
-            
-            if (formulaNode != null)
-            {
-                DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
-            }
-            else
-            {
-                switch (Type)
-                {
-                    case AttackType.Magical:
-                        DamageFormula = MagicalAttack;
-                        break;
-                    case AttackType.Physical:
-                        DamageFormula = PhysicalAttack;
-                        break;
-                    default:
-                        throw new GameDataException("Neither a formula nor an attack type -- ability '{0}'", Name);
-                }
-            }
 
+            DamageFormula = GetFormula(xml.SelectSingleNode("formula"));
         }
 
 

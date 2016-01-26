@@ -101,7 +101,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public abstract void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None);
         public abstract void AcceptMPLoss(Combatant source, int delta);
-        public abstract void Recover();
+        public abstract void Recover(Combatant source);
        
 
         public abstract void UseMP(int amount);
@@ -128,7 +128,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {           
             if (Sleep && V_Timer.TotalMilliseconds - _sleepTime >= SLEEP_DURATION)
             {
-                CureSleep();
+                CureSleep(this);
             }
             
             
@@ -147,7 +147,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeEnd >= REGEN_DURATION)
             {
-                CureRegen();
+                CureRegen(this);
             }
             if (Regen && V_Timer.TotalMilliseconds - _regenTimeInt >= REGEN_INTERVAL)
             {
@@ -158,19 +158,19 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (Barrier && V_Timer.TotalMilliseconds - _barrierTime >= BARRIER_DURATION)
             {
-                CureBarrier();
+                CureBarrier(this);
             }
             
             
             if (MBarrier && V_Timer.TotalMilliseconds - _barrierTime >= MBARRIER_DURATION)
             {
-                CureMBarrier();
+                CureMBarrier(this);
             }
             
             
             if (Shield && V_Timer.TotalMilliseconds - _shieldTime >= SHIELD_DURATION)
             {
-                CureShield();
+                CureShield(this);
             }
             
             
@@ -182,19 +182,19 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (Peerless && V_Timer.TotalMilliseconds - _peerlessTime >= PEERLESS_DURATION)
             {
-                CurePeerless();
+                CurePeerless(this);
             }
             
             
             if (Paralysed && V_Timer.TotalMilliseconds - _paralyzedTime >= PARALYZED_DURATION)
             {
-                CureParalyzed();
+                CureParalyzed(this);
             }
             
             
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeEnd >= SEIZURE_DURATION)
             {
-                CureSeizure();
+                CureSeizure(this);
             }
             if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeInt >= SEIZURE_INTERVAL)
             {
@@ -328,7 +328,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Haste || Petrify || Peerless || Resist)
                 return false;
             if (Slow)
-                CureSlow();
+                CureSlow(source);
             Haste = true;
             DoubleTimers();
             return true;
@@ -340,7 +340,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Slow || Petrify || Peerless || Resist)
                 return false;
             if (Haste)
-                CureHaste();
+                CureHaste(source);
             Slow = true;
             HalveTimers();
             return true;
@@ -391,7 +391,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Petrify || Peerless || Resist)
                 return false;
 
-            CureSlowNumb();
+            CureSlowNumb(source);
 
             Petrify = true;
 
@@ -557,10 +557,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
         #region Cure
-        public abstract bool CureDeath();
-        public abstract bool CureFury();
-        public abstract bool CureSadness();
-        public bool CureSleep()
+        public abstract bool CureDeath(Combatant source);
+        public abstract bool CureFury(Combatant source);
+        public abstract bool CureSadness(Combatant source);
+        public bool CureSleep(Combatant source)
         {
             _sleepTime = -1;
             Sleep = false;
@@ -568,36 +568,36 @@ namespace Atmosphere.Reverence.Seven.Battle
                 TurnTimer.Unpause();
             return true;
         }
-        public bool CurePoison()
+        public bool CurePoison(Combatant source)
         {
             PoisonTime = -1;
             Poisoner = null;
             Poison = false;
             return true;
         }
-        public bool CureConfusion()
+        public bool CureConfusion(Combatant source)
         {
             Confusion = false;
             return true;
         }
-        public bool CureSilence()
+        public bool CureSilence(Combatant source)
         {
             Silence = false;
             return true;
         }
-        public bool CureHaste()
+        public bool CureHaste(Combatant source)
         {
             Haste = false;
             HalveTimers();
             return true;
         }
-        public bool CureSlow()
+        public bool CureSlow(Combatant source)
         {
             Slow = false;
             DoubleTimers();
             return true;
         }
-        public bool CureStop()
+        public bool CureStop(Combatant source)
         {
             Stop = false;
             if (!Imprisoned)
@@ -608,31 +608,31 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             return true;
         }
-        public bool CureFrog()
+        public bool CureFrog(Combatant source)
         {
             Frog = false;
             return true;
         }
-        public bool CureSmall()
+        public bool CureSmall(Combatant source)
         {
             Small = false;
             return true;
         }
-        public bool CureSlowNumb()
+        public bool CureSlowNumb(Combatant source)
         {
             _slownumbTime = -1;
             SlowNumb = false;
             Petrifier = null;
             return true;
         }
-        public bool CurePetrify()
+        public bool CurePetrify(Combatant source)
         {
             Petrify = false;
             if (!(Sleep || Stop || Paralysed || Imprisoned))
                 TurnTimer.Reset();
             return true;
         }
-        public bool CureRegen()
+        public bool CureRegen(Combatant source)
         {
             Regen = false;
             Regenerator = null;
@@ -640,52 +640,52 @@ namespace Atmosphere.Reverence.Seven.Battle
             _regenTimeEnd = -1;
             return true;
         }
-        public bool CureBarrier()
+        public bool CureBarrier(Combatant source)
         {
             Barrier = false;
             _barrierTime = -1;
             return true;
         }
-        public bool CureMBarrier()
+        public bool CureMBarrier(Combatant source)
         {
             MBarrier = false;
             _mbarrierTime = -1;
             return true;
         }
-        public bool CureReflect()
+        public bool CureReflect(Combatant source)
         {
             Reflect = false;
             return true;
         }
-        public bool CureShield()
+        public bool CureShield(Combatant source)
         {
             Shield = false;
             _shieldTime = -1;
             return true;
         }
-        public bool CureDeathSentence()
+        public bool CureDeathSentence(Combatant source)
         {
             DeathSentence = false;
             _deathsentenceTime = -1;
             Sentencer = null;
             return true;
         }
-        public bool CureManipulate()
+        public bool CureManipulate(Combatant source)
         {
             return true;
         }
-        public bool CureBerserk()
+        public bool CureBerserk(Combatant source)
         {
             Berserk = false;
             return true;
         }
-        public bool CurePeerless()
+        public bool CurePeerless(Combatant source)
         {
             Peerless = false;
             _peerlessTime = -1;
             return true;
         }
-        public bool CureParalyzed()
+        public bool CureParalyzed(Combatant source)
         {
             Paralysed = false;
             _paralyzedTime = -1;
@@ -693,12 +693,12 @@ namespace Atmosphere.Reverence.Seven.Battle
                 TurnTimer.Unpause();
             return true;
         }
-        public bool CureDarkness()
+        public bool CureDarkness(Combatant source)
         {
             Darkness = false;
             return true;
         }
-        public bool CureSeizure()
+        public bool CureSeizure(Combatant source)
         {
             Seizure = false;
             Seizer = null;
@@ -706,22 +706,22 @@ namespace Atmosphere.Reverence.Seven.Battle
             _seizureTimeInt = -1;
             return true;
         }
-        public bool CureDeathForce()
+        public bool CureDeathForce(Combatant source)
         {
             DeathForce = false;
             return true;
         }
-        public bool CureResist()
+        public bool CureResist(Combatant source)
         {
             Resist = false;
             return true;
         }
-        public bool CureLuckyGirl()
+        public bool CureLuckyGirl(Combatant source)
         {
             LuckyGirl = false;
             return true;
         }
-        public bool CureImprisoned()
+        public bool CureImprisoned(Combatant source)
         {
             Imprisoned = false;
             if (!Stop)

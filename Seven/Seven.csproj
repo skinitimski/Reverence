@@ -211,7 +211,6 @@
     <Compile Include="Screen\PostBattleState\Victory\MateriaLevelUp.cs" />
     <Compile Include="Screen\PostBattleState\Victory\MateriaInfo.cs" />
     <Compile Include="Screen\BattleState\RecoveryIcon.cs" />
-    <Compile Include="Asset\Ability.cs" />
     <Compile Include="Battle\AbilityModifiers.cs" />
     <Compile Include="Asset\MagicSpell.cs" />
     <Compile Include="Asset\Spell.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="Battle\SenseEvent.cs" />
     <Compile Include="Battle\StealEvent.cs" />
     <Compile Include="Battle\CombatantActionEvent.cs" />
+    <Compile Include="Battle\Ability.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

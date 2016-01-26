@@ -26,7 +26,7 @@
         </field>
         <battle target="Combatant" intendedForEnemies="false">
             <use>
-                t:Recover()
+                t:Recover(s)
             </use>
         </battle>
     </item>

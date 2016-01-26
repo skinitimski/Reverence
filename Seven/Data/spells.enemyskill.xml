@@ -1,85 +1,137 @@
 <spells>
-    <!--
     <spell>
         <name>Frog Song</name>
-        <desc></desc>
+        <desc>Inflicts [Frog,Sleep]</desc>
+        <order>0</order>
+        <type>Magical</type>
         <cost>100</cost>
-        <matp>5</matp>
-        <order>1</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>5</hitp>
+        <statusChange type="Inflict" statuses="Frog,Sleep" odds="100" />
     </spell>
+    <!-- TODO: hit only if tar.Lvl=N*4 -->
     <spell>
         <name>L4 Suicide</name>
-        <desc></desc>
+        <desc>Critical damage if Lvl=N*4</desc>
+        <order>1</order>
+        <type>Magical</type>
         <cost>10</cost>
-        <matp>255</matp>
-        <order>2</order>
-        <elements/>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <formula>HPPercent</formula>
+        <power>31</power>
+        <hitp>255</hitp>
     </spell>
     <spell>
         <name>Magic Hammer</name>
-        <desc></desc>
+        <desc>Absorbs MP</desc>
+        <order>2</order>
+        <type>Magical</type>
         <cost>3</cost>
-        <matp>100</matp>
-        <order>3</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <formula>Fixed</formula>
+        <power>100</power>
+        <hitp>100</hitp>
     </spell>
     <spell>
         <name>White Wind</name>
-        <desc></desc>
+        <desc>Restores Caster's HP to allies</desc>
+        <order>3</order>
+        <type>Physical</type>
         <cost>24</cost>
-        <matp>255</matp>
-        <order>4</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <formula>
+            <custom>return source.HP</custom>
+        </formula>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Sleep,Poison,Confusion,Silence,Slow,Stop,Frog,Small,SlowNumb,Petrify,Berserk,Paralysed,Darkness,DeathForce,Resist" odds="100" />
+        <elements>
+            <element>Restorative</element>
+        </elements>
     </spell>
     <spell>
         <name>Big Guard</name>
-        <desc></desc>
+        <desc>Inflicts [Barrier,MBarrier,Haste]</desc>
+        <order>4</order>
+        <type>Magical</type>
         <cost>56</cost>
-        <matp>255</matp>
-        <order>5</order>
+        <target>Group</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Barrier,MBarrier,Haste" odds="100" />
         <elements/>
     </spell>
     <spell>
         <name>Angel Whisper</name>
-        <desc></desc>
+        <desc>Fully Restores</desc>
+        <order>5</order>
+        <type>Magical</type>
         <cost>50</cost>
-        <matp>255</matp>
-        <order>6</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <formula>MaxHPPercent</formula>
+        <power>32</power>
+        <hitp>255</hitp>
+        <statusChange type="Cure" statuses="Death" odds="100" />
+        <elements>
+            <element>Restorative</element>
+        </elements>
     </spell>
+    <!-- TODO : what?? -->
     <spell>
         <name>Dragon Force</name>
-        <desc></desc>
-        <cost>19</cost>
-        <matp>255</matp>
-        <order>7</order>
-        <elements/>
+        <desc>Raises [Def,MDef]</desc>
+        <order>6</order>
+        <type>Magical</type>
+        <cost>13</cost>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>255</hitp>
     </spell>
     <spell>
         <name>Death Force</name>
-        <desc></desc>
+        <desc>Prevents [Death]</desc>
+        <order>7</order>
+        <type>Magical</type>
         <cost>3</cost>
-        <matp>255</matp>
-        <order>8</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>false</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="DeathForce" odds="100" />
     </spell>
     <spell>
         <name>Flame Thrower</name>
-        <desc></desc>
+        <desc>[Fire]-based damage</desc>
+        <order>8</order>
+        <type>Magical</type>
         <cost>10</cost>
-        <matp>100</matp>
-        <order>9</order>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>14</power>
+        <hitp>100</hitp>
         <elements>
             <element>Fire</element>
         </elements>
     </spell>
     <spell>
         <name>Laser</name>
-        <desc></desc>
+        <desc>[Gravity]-based damage</desc>
+        <order>9</order>
+        <type>Magical</type>
         <cost>16</cost>
-        <matp>100</matp>
-        <order>10</order>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <formula>HPPercent</formula>
+        <power>16</power>
+        <hitp>100</hitp>
         <elements>
             <element>Gravity</element>
         </elements>
@@ -87,55 +139,79 @@
     <spell>
         <name>Matra Magic</name>
         <desc></desc>
+        <order>10</order>
+        <type>Magical</type>
         <cost>8</cost>
-        <matp>100</matp>
-        <order>11</order>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>11</power>
+        <hitp>100</hitp>
         <elements/>
     </spell>
     <spell>
         <name>Bad Breath</name>
-        <desc></desc>
+        <desc>Inflicts [Slp,Psn,Cnfu,Sil,Frg,Sml]</desc>
+        <order>11</order>
+        <type>Magical</type>
         <cost>58</cost>
-        <matp>100</matp>
-        <order>12</order>
-        <elements/>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="Sleep,Poison,Confusion,Silence,Frog,Small" odds="100" />
     </spell>
     <spell>
         <name>Beta</name>
-        <desc></desc>
+        <desc>[Fire]-based attack</desc>
+        <order>12</order>
+        <type>Magical</type>
         <cost>35</cost>
-        <matp>100</matp>
-        <order>13</order>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>54</power>
+        <hitp>100</hitp>
         <elements>
             <element>Fire</element>
         </elements>
     </spell>
     <spell>
         <name>Aqualung</name>
-        <desc></desc>
+        <desc>[Water]-based attack</desc>
+        <order>13</order>
+        <type>Magical</type>
         <cost>34</cost>
-        <matp>100</matp>
-        <order>14</order>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>52</power>
+        <hitp>100</hitp>
         <elements>
             <element>Water</element>
         </elements>
     </spell>
     <spell>
         <name>Trine</name>
-        <desc></desc>
+        <desc>[Lightning]-based attack</desc>
+        <order>14</order>
+        <type>Magical</type>
         <cost>20</cost>
-        <matp>100</matp>
-        <order>15</order>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>34</power>
+        <hitp>100</hitp>
         <elements>
             <element>Lightning</element>
         </elements>
     </spell>
     <spell>
         <name>Magic Breath</name>
-        <desc></desc>
+        <desc>[Fire/Ice/Lightning]-based attack</desc>
+        <order>15</order>
+        <type>Magical</type>
         <cost>75</cost>
-        <matp>100</matp>
-        <order>16</order>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>77</power>
+        <hitp>100</hitp>
         <elements>
             <element>Fire</element>
             <element>Ice</element>
@@ -144,67 +220,101 @@
     </spell>
     <spell>
         <name>????</name>
-        <desc></desc>
+        <desc>Who knows?</desc>
+        <order>16</order>
+        <type>Physical</type>
         <cost>3</cost>
-        <matp>100</matp>
-        <order>17</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <formula>
+            <custom>return source.MaxHP - source.HP</custom>
+        </formula>
+        <power>0</power>
+        <hitp>100</hitp>
     </spell>
+    <!-- TODO: after damage effect -->
     <spell>
         <name>Goblin Punch</name>
-        <desc></desc>
+        <desc>Non-elemental attack</desc>
+        <order>17</order>
+        <type>Physical</type>
         <cost>0</cost>
-        <matp>100</matp>
-        <order>18</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>12</power>
+        <hitp>100</hitp>
     </spell>
+    <!-- TODO: number of times party has fled?? -->
     <spell>
         <name>Chocobuckle</name>
-        <desc></desc>
+        <desc>Damage equal to Retreat rate</desc>
+        <order>18</order>
+        <type>Physical</type>
         <cost>3</cost>
-        <matp>100</matp>
-        <order>19</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <formula>
+            <custom>return 0</custom>
+        </formula>
+        <power>0</power>
+        <hitp>100</hitp>
     </spell>
+    <!-- TODO: hit only if tar.Lvl=N*5 -->
     <spell>
         <name>L5 Death</name>
-        <desc></desc>
+        <desc>Inflicts [Slp,Psn,Cnfu,Sil,Frg,Sml]</desc>
+        <order>19</order>
+        <type>Magical</type>
         <cost>22</cost>
-        <matp>255</matp>
-        <order>20</order>
-        <elements/>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Death" odds="100" />
     </spell>
     <spell>
         <name>Death Sentence</name>
-        <desc></desc>
+        <desc>Inflicts [Slp,Psn,Cnfu,Sil,Frg,Sml]</desc>
+        <order>20</order>
+        <type>Magical</type>
         <cost>10</cost>
-        <matp>100</matp>
-        <order>21</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>0</power>
+        <hitp>100</hitp>
+        <statusChange type="Inflict" statuses="DeathSentence" odds="100" />
     </spell>
     <spell>
         <name>Roulette</name>
-        <desc></desc>
+        <desc>Inflicts [Death] at random</desc>
+        <order>21</order>
+        <type>Magical</type>
         <cost>6</cost>
-        <matp>255</matp>
-        <order>22</order>
-        <elements/>
+        <target>AreaRandom</target>
+        <power>0</power>
+        <hitp>255</hitp>
+        <statusChange type="Inflict" statuses="Death" odds="100" />
     </spell>
     <spell>
         <name>Shadow Flare</name>
-        <desc></desc>
+        <desc>Strong non-elemental attack</desc>
+        <order>22</order>
+        <type>Magical</type>
         <cost>100</cost>
-        <matp>100</matp>
-        <order>23</order>
-        <elements/>
+        <target>Combatant</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>125</power>
+        <hitp>100</hitp>
     </spell>
     <spell>
         <name>Pandora's Box</name>
-        <desc></desc>
+        <desc>Piercing non-elemental attack</desc>
+        <order>23</order>
+        <type>Magical</type>
         <cost>110</cost>
-        <matp>100</matp>
-        <order>24</order>
-        <elements/>
+        <target>Group</target>
+        <targetEnemiesFirst>true</targetEnemiesFirst>
+        <power>60</power>
+        <hitp>100</hitp>
     </spell>
-    -->
 </spells>

@@ -46,7 +46,15 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Desc = "";
                 
                 Type = AttackType.Physical;
-                Target = BattleTarget.Combatant;
+
+                if (hits > 2)
+                {
+                    Target = BattleTarget.GroupRandom;
+                }
+                else
+                {
+                    Target = BattleTarget.Combatant;
+                }
                 
                 Elements = new Element[] { ally.Weapon.Element };
                 
@@ -270,11 +278,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 if (Sleep)
                 {
-                    CureSleep();
+                    CureSleep(source);
                 }
                 if (Confusion)
                 {
-                    CureConfusion();
+                    CureConfusion(source);
                 }
             }
 
@@ -324,13 +332,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public override void Recover()
+        public override void Recover(Combatant source)
         {
             Seven.BattleState.AddRecoveryIcon(this);
 
             if (Death)
             {
-                CureDeath();
+                CureDeath(source);
             }
 
             _c.HP = MaxHP;
@@ -452,7 +460,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 return false;
             }
-            CureDeathSentence();
+            CureDeathSentence(source);
             TurnTimer.Reset();
             PauseTimers();
             return _c.InflictDeath();
@@ -487,52 +495,52 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         #region Cure Status
         
-        private void CureAll()
+        private void CureAll(Combatant source)
         {
-            CureFury();
-            CureSadness();
-            CureSleep();
-            CurePoison();
-            CureConfusion();
-            CureSilence();
-            CureHaste();
-            CureSlow();
-            CureStop();
-            CureFrog();
-            CureSmall();
-            CureSlowNumb();
-            CurePetrify();
-            CureRegen();
-            CureBarrier();
-            CureMBarrier();
-            CureReflect();
-            CureShield();
-            CureDeathSentence();
-            CureManipulate();
-            CureBerserk();
-            CurePeerless();
-            CureParalyzed();
-            CureDarkness();
-            CureSeizure();
-            CureDeathForce();
-            CureResist();
-            CureLuckyGirl();
-            CureImprisoned();
+            CureFury(source);
+            CureSadness(source);
+            CureSleep(source);
+            CurePoison(source);
+            CureConfusion(source);
+            CureSilence(source);
+            CureHaste(source);
+            CureSlow(source);
+            CureStop(source);
+            CureFrog(source);
+            CureSmall(source);
+            CureSlowNumb(source);
+            CurePetrify(source);
+            CureRegen(source);
+            CureBarrier(source);
+            CureMBarrier(source);
+            CureReflect(source);
+            CureShield(source);
+            CureDeathSentence(source);
+            CureManipulate(source);
+            CureBerserk(source);
+            CurePeerless(source);
+            CureParalyzed(source);
+            CureDarkness(source);
+            CureSeizure(source);
+            CureDeathForce(source);
+            CureResist(source);
+            CureLuckyGirl(source);
+            CureImprisoned(source);
         }
         
-        public override bool CureDeath()
+        public override bool CureDeath(Combatant source)
         {
-            CureAll();
+            CureAll(source);
             UnpauseTimers();
             return _c.CureDeath();
         }
 
-        public override bool CureFury()
+        public override bool CureFury(Combatant source)
         {
             return _c.CureFury();
         }
 
-        public override bool CureSadness()
+        public override bool CureSadness(Combatant source)
         {
             return _c.CureSadness();
         }

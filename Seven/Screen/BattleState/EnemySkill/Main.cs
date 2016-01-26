@@ -46,10 +46,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             _spells = new Spell[_totalRows, COLUMNS];
             
             for (int i = 0; i < EnemySkillMateria.TOTAL_ENEMY_SKILLS; i++)
-                if (((esm.AP >> i) & 1) > 0)
             {
-                Spell s = esm.EnemySkills[i];
-                _spells[s.Order / COLUMNS, s.Order % COLUMNS] = s;
+                if (((esm.AP >> i) & 1) > 0)
+                {
+                    Spell s = esm.EnemySkills[i];
+                    _spells[s.Order / COLUMNS, s.Order % COLUMNS] = s;
+                }
             }
             
             Reset();
@@ -62,49 +64,74 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             switch (k)
             {
                 case Key.Up:
-                    if (_yopt > 0) _yopt--;
-                    if (_topRow > _yopt) _topRow--;
+                    if (_yopt > 0) 
+                    {
+                        _yopt--;
+                    }
+                    if (_topRow > _yopt) 
+                    {
+                        _topRow--;
+                    }
                     break;
                 case Key.Down:
-                    if (_yopt < _totalRows - 1) _yopt++;
-                    if (_topRow < _yopt - _visibleRows + 1) _topRow++;
+                    if (_yopt < _totalRows - 1)
+                    {
+                        _yopt++;
+                    }
+                    if (_topRow < _yopt - _visibleRows + 1)
+                    {
+                        _topRow++;
+                    }
                     break;
                 case Key.Left:
-                    if (_xopt > 0) _xopt--;
+                    if (_xopt > 0) 
+                    {
+                        _xopt--;
+                    }
                     break;
                 case Key.Right:
-                    if (_xopt < COLUMNS - 1) _xopt++;
+                    if (_xopt < COLUMNS - 1)
+                    {
+                        _xopt++;
+                    }
                     break;
+
                 case Key.X:
+                    Visible = false;
                     Seven.BattleState.Screen.PopControl();
                     Reset();
                     break;
-                case Key.Circle:
-                    if (!String.IsNullOrEmpty(_spells[_yopt, _xopt].Name))
-                    {
-                        Spell skill = _spells[_yopt, _xopt];
 
-                        if (Seven.BattleState.Commanding.MP >= skill.MPCost)
+                case Key.Circle:
+                    if (Selected != null)
+                    {
+                        Spell spell = Selected;
+                        
+                        if (Seven.BattleState.Commanding.MP >= spell.MPCost)
                         {
-                            Seven.BattleState.Screen.ActivateSelector(skill.Target, skill.TargetEnemiesFirst);
+                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
+                        }
+                        else
+                        {
+                            Seven.Instance.ShowMessage(c => "!", 500);
                         }
                     }
                     break;
             }
         }
-        public bool ActOnSelection(IEnumerable<Combatant> targets)
+        
+        public virtual bool ActOnSelection(IEnumerable<Combatant> targets)
         {
-            Seven.BattleState.Commanding.UseMP(_spells[_yopt, _xopt].MPCost);
+            UseSpell(_xopt, _yopt, targets);
             
-//            AbilityState state;
-//            
-//            state = (AbilityState)Seven.BattleState.Commanding.Ability.Clone();
-//            
-//            state.Performer = Seven.BattleState.Commanding;
-//            
-//            state.Action += delegate() { _spells[_xopt, _yopt].Action(); };
-
             return true;
+        }
+        
+        protected void UseSpell(int xopt, int yopt, IEnumerable<Combatant> targets, bool releaseAlly = true)
+        {
+            Ability spell = _spells[yopt, xopt];
+            
+            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
         }
 
 
@@ -119,19 +146,32 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             
             
             int j = Math.Min(_visibleRows + _topRow, _totalRows);
+
             
             for (int b = _topRow; b < j; b++)
+            {
                 for (int a = 0; a < COLUMNS; a++)
-                    Text.ShadowedText(g, String.IsNullOrEmpty(_spells[b, a].Name) ? "" : _spells[b, a].Name,
-                                          X + x1 + a * xs,
-                                          Y + (b - _topRow + 1) * ys);
-            
-            
+                {
+                    Spell enemySkill = _spells[b, a];
+                    
+                    if (enemySkill != null)
+                    {
+                        Text.ShadowedText(g, enemySkill.Name,
+                            X + x1 + a * xs,
+                            Y + (b - _topRow + 1) * ys);
+                    }
+                }
+            }
+
+
             if (IsControl)
+            {
                 Shapes.RenderCursor(g,
-                                      X + x1 + cx + _xopt * xs,
-                                      Y + cy + (_yopt - _topRow + 1) * ys);
-            
+                    X + x1 + cx + _xopt * xs,
+                    Y + cy + (_yopt - _topRow + 1) * ys);
+            }
+
+
             Seven.BattleState.Screen.EnemySkillInfo.Draw(d);
             
             
@@ -156,7 +196,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         public bool IsValid { get { return _totalRows > 0; } }
         
         public override string Info
-        { get { return String.IsNullOrEmpty(_spells[_yopt, _xopt].Name) ? "" : _spells[_yopt, _xopt].Desc; } }
+        {
+            get
+            {
+                return Selected == null ? String.Empty : Selected.Desc; 
+            }
+        }
+
         public Spell Selected { get { return _spells[_yopt, _xopt]; } }
     }
 }

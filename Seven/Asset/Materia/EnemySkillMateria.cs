@@ -25,7 +25,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
                 for (int i = 0; i < TOTAL_ENEMY_SKILLS; i++)
                 {
-                    skills[i] = EnemySkillSpell.Get(Resource.CreateID(AllAbilities[i]));
+                    skills[i] = EnemySkillSpell.Get(AllAbilities[i]);
                 }
 
                 return skills;

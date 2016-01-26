@@ -10,11 +10,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         Ally,
         Enemy,
         Allies,
-        AlliesPlural,
+        AlliesRandom,
         Enemies,
-        EnemiesPlural,
+        EnemiesRandom,
         Group,
-        GroupPlural,
-        Area
+        GroupRandom,
+        Area,
+        AreaRandom
     }
 }

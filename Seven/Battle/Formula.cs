@@ -14,17 +14,17 @@ namespace Atmosphere.Reverence.Seven.Battle
     {
         public static int RunPhysicalModifiers(int dam, Combatant source, Combatant target, IEnumerable<Element> elements)
         {
-            dam = Formula.Critical(dam, source, target);
-            dam = Formula.Berserk(dam, source);
-            dam = Formula.RowCheck(dam, source, target);
-            dam = Formula.Frog(dam, target);
-            dam = Formula.Sadness(dam, target);
-            dam = Formula.Barrier(dam, target);
-            dam = Formula.Mini(dam, source);
-            dam = Formula.RandomVariation(dam);
-            dam = Formula.LowerSanityCkeck(dam);
-            dam = Formula.RunElementalChecks(dam, target, elements);
-            dam = Formula.UpperSanityCheck(dam);
+            dam = Critical(dam, source, target);
+            dam = Berserk(dam, source);
+            dam = RowCheck(dam, source, target);
+            dam = Frog(dam, target);
+            dam = Sadness(dam, target);
+            dam = Barrier(dam, target);
+            dam = Mini(dam, source);
+            dam = RandomVariation(dam);
+            dam = LowerSanityCkeck(dam);
+            dam = RunElementalChecks(dam, target, elements);
+            dam = UpperSanityCheck(dam);
 
             return dam;
         }
