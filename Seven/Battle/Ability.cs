@@ -43,7 +43,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             {
             }
 
-            public static UseAbilityEvent Create(Ability ability, AbilityModifiers modifiers, Combatant source, IEnumerable<Combatant> targets)
+            public static UseAbilityEvent Create(Ability ability, AbilityModifiers modifiers, Combatant source, Combatant[] targets)
             {            
                 string msg = ability.GetMessage(source);
                 
@@ -62,6 +62,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 UseAbilityEvent @event = new UseAbilityEvent(source, modifiers.ResetTurnTimer, duration)
                 {
                     Hits = new bool[ability.Hits],
+                    Records = new bool[targets.Count()],
                     Status = msg,
                     Targets = targets,
                     Ability = ability,
@@ -79,25 +80,30 @@ namespace Atmosphere.Reverence.Seven.Asset
                     {
                         if (!Hits[CurrentHit] && elapsed >= Ability.PauseDuration + Ability.SpellDuration * CurrentHit)
                         {
-                            if (Ability.Hits > 1 && Ability.RandomTarget)
+                            bool[] whoWasHit = Ability.Cast(Source, Targets, Modifiers);
+
+                            for (int i = 0; i < whoWasHit.Length; i++)
                             {
-                                int index = Ability._random.Next(Targets.Count());
-                                Combatant newTarget = Targets.ToList()[index];
-                                Ability.Cast(Source, new List<Combatant>{ newTarget }, Modifiers);
-                            }
-                            else
-                            {
-                                Ability.Cast(Source, Targets, Modifiers);
+                                if (!Records[i] && whoWasHit[i])
+                                {
+                                    Records[i] = true;
+                                }
                             }
 
                             CurrentHit++;
                         }
                     }
+                }
 
-                
-                    // timski: don't remember why I wrote this line, and it doesn't make
-                    // any sense to me right now...
-                    //if (Hits > 1) Thread.Sleep(spell_duration / 3);
+                if (lastIteration)
+                {
+                    for (int i = 0; i < Records.Length; i++)
+                    {
+                        if (Records[i])
+                        {
+                            Targets[i].Respond(Ability);
+                        }
+                    }
                 }
             }
             
@@ -112,7 +118,9 @@ namespace Atmosphere.Reverence.Seven.Asset
 
             private int CurrentHit { get; set; }
 
-            private IEnumerable<Combatant> Targets { get; set; }
+            private Combatant[] Targets { get; set; }
+
+            private bool[] Records { get; set; }
 
             private Ability Ability { get; set; }
 
@@ -343,7 +351,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             if (canUse)
             {                 
-                UseAbilityEvent e = UseAbilityEvent.Create(this, modifiers, source, targets);
+                UseAbilityEvent e = UseAbilityEvent.Create(this, modifiers, source, targets.ToArray());
                 
                 Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
             }
@@ -355,10 +363,21 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
         
-        private void Cast(Combatant source, IEnumerable<Combatant> targets, AbilityModifiers modifiers)
+        private bool[] Cast(Combatant source, Combatant[] targets, AbilityModifiers modifiers)
         {
-            foreach (Combatant target in targets)
+            if (RandomTarget && targets.Count() > 1)
             {
+                int index = _random.Next(targets.Count());
+                Combatant newTarget = targets.ToList()[index];
+                targets = new Combatant[] { newTarget };
+            }
+
+            bool[] hits = new bool[targets.Length];
+
+            for (int i = 0; i < targets.Length; i++)
+            {
+                Combatant target = targets[i];
+
                 bool hit;
 
                 if (Type == AttackType.Physical)
@@ -413,12 +432,16 @@ namespace Atmosphere.Reverence.Seven.Asset
                             }
                         }
                     }       
+
+                    hits[i] = true;
                 }
                 else
                 {
                     Seven.BattleState.AddMissIcon(target);
                 }
             }
+
+            return hits;
         }
 
 
@@ -481,10 +504,6 @@ namespace Atmosphere.Reverence.Seven.Asset
                 return duration;
             }
         }
-        
-
-
-
     }
 }
 

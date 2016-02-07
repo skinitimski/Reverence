@@ -301,7 +301,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (HP == 0)
             {
-                Kill();
+                Kill(source);
             }
 
             if (source is Enemy)
@@ -343,6 +343,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             _c.HP = MaxHP;
             _c.MP = MaxMP;
+        }
+
+        public override void Respond(Ability ability)
+        {
         }
         
         public override void UseMP(int amount)
@@ -435,35 +439,30 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
         
         #endregion AI
-        
-
-        private void Kill()
-        {
-            TurnTimer.Reset();
-            PauseTimers();
-
-            // if we're running kill, then we just set HP == 0, 
-            //   so it's already been run on the character
-            //_c.Kill();
-        }
 
 
         #region Inflict Status
 
         public override bool InflictDeath(Combatant source)
         {
-            if (_c.Immune(Status.Death))
+            bool inflicted = false;
+            
+            if (!Immune(Status.Death) && !(DeathForce || Peerless || Petrify || Resist))
             {
-                return false;
+                if (DeathSentence)
+                {
+                    CureDeathSentence(source);
+                }
+
+                inflicted = _c.InflictDeath();
+
+                if (inflicted)
+                {                    
+                    Kill(source);
+                }
             }
-            if (DeathForce || Peerless || Petrify || Resist)
-            {
-                return false;
-            }
-            CureDeathSentence(source);
-            TurnTimer.Reset();
-            PauseTimers();
-            return _c.InflictDeath();
+            
+            return inflicted;
         }
 
         public override bool InflictFury(Combatant source)
@@ -489,50 +488,34 @@ namespace Atmosphere.Reverence.Seven.Battle
             return false;
         }
 
+        protected override void Kill(Combatant source)
+        {
+            _c.HP = 0;
+
+            CureAll(source);
+            TurnTimer.Reset();
+            PauseTimers();
+
+            // FINAL ATTACK !!!
+        }
+
         #endregion Inflict
         
         
         
         #region Cure Status
         
-        private void CureAll(Combatant source)
-        {
-            CureFury(source);
-            CureSadness(source);
-            CureSleep(source);
-            CurePoison(source);
-            CureConfusion(source);
-            CureSilence(source);
-            CureHaste(source);
-            CureSlow(source);
-            CureStop(source);
-            CureFrog(source);
-            CureSmall(source);
-            CureSlowNumb(source);
-            CurePetrify(source);
-            CureRegen(source);
-            CureBarrier(source);
-            CureMBarrier(source);
-            CureReflect(source);
-            CureShield(source);
-            CureDeathSentence(source);
-            CureManipulate(source);
-            CureBerserk(source);
-            CurePeerless(source);
-            CureParalyzed(source);
-            CureDarkness(source);
-            CureSeizure(source);
-            CureDeathForce(source);
-            CureResist(source);
-            CureLuckyGirl(source);
-            CureImprisoned(source);
-        }
-        
         public override bool CureDeath(Combatant source)
         {
-            CureAll(source);
-            UnpauseTimers();
-            return _c.CureDeath();
+            bool cured = _c.CureDeath();
+
+            if (cured)
+            {
+                CureAll(source);
+                UnpauseTimers();
+            }
+
+            return cured;
         }
 
         public override bool CureFury(Combatant source)
@@ -652,6 +635,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             get
             {
                 int atkp = AttackPercent(_c);
+
                 if (Darkness)
                 {
                     return atkp / 2;
@@ -746,10 +730,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Sadness { get { return _c.Sadness; } }
 
         public override bool Fury { get { return _c.Fury; } }
-
-        public bool IsDead { get { return Petrify || Imprisoned || Death; } }
-
-        public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed || Imprisoned; } }
         
         public List<MagicMenuEntry> MagicSpells { get { return _magicSpells; } }
 
@@ -779,4 +759,3 @@ namespace Atmosphere.Reverence.Seven.Battle
         
     }
 }
-

@@ -358,6 +358,25 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new ImplementationException("Error loading enemy AI counter-magical script; enemy = " + Name, ex);
                 }
             }
+            
+            
+            // AI: Counter - Death
+            
+            XmlNode counterDeathNode = node.SelectSingleNode("ai/counter-death");
+            
+            if (counterDeathNode != null)
+            {
+                string counter = String.Format("return function (self) {0} end", counterDeathNode.InnerText);
+                
+                try
+                {
+                    AICounterDeath = (LuaFunction)Seven.Lua.DoString(counter).First();
+                }
+                catch (Exception ex)
+                {
+                    throw new ImplementationException("Error loading enemy AI counter-death script; enemy = " + Name, ex);
+                }
+            }
 
 
             // Confusion Attack
@@ -458,6 +477,22 @@ namespace Atmosphere.Reverence.Seven.Battle
                     CureConfusion(source);
                 }
             }
+            
+            
+            if (source is Ally)
+            {
+                LastAttacker = source;
+                
+                switch (type)
+                {
+                    case AttackType.Physical:
+                        LastAttackerPhysical = source;
+                        break;
+                    case AttackType.Magical:
+                        LastAttackerMagical = source;
+                        break;
+                }
+            }
                         
             int hp = _hp - delta;
             
@@ -474,35 +509,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (HP == 0)
             {
-                _death = true;
-            }
-
-            if (source is Ally)
-            {
-                LastAttacker = source;
-
-                switch (type)
-                {
-                    case AttackType.Physical:
-                        LastAttackerPhysical = source;
-                        break;
-                    case AttackType.Magical:
-                        LastAttackerMagical = source;
-                        break;
-                }
-
-                if (type == AttackType.Physical && AICounterPhysical != null)
-                {
-                    RunAICounterPhysical();
-                }
-                else if (type == AttackType.Magical && AICounterMagical != null)
-                {
-                    RunAICounterMagical();
-                }
-                else if (AICounter != null)
-                {
-                    RunAICounter();
-                }
+                Kill(source);
             }
         }
 
@@ -540,12 +547,33 @@ namespace Atmosphere.Reverence.Seven.Battle
             _mp = MaxMP;
         }
 
+        public override void Respond(Ability ability)
+        {
+            if (!CannotAct)
+            {                                                                                                                                                                                                                                                                                                                                                                                                       
+                if (ability.Type == AttackType.Physical)
+                {
+                    RunAICounterPhysical();
+                }
+                else if (ability.Type == AttackType.Magical)
+                {
+                    RunAICounterMagical();
+                }
+                else
+                {
+                    RunAICounter();
+                }
+            }
+        }
+
+
         public override void UseMP(int amount)
         {
             if (_mp - amount < 0)
             {
                 throw new ImplementationException("Used more MP than I had -- " + Name);
             }
+
             _mp -= amount;
         }
         
@@ -606,7 +634,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             return variables.ToString();
         }
 
-
         protected override int GetTurnTimerStep(int vStep)
         {
             return Dexterity * vStep / Seven.Party.NormalSpeed();
@@ -616,7 +643,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             RunAISetup();
         }
-
 
         public void TakeTurn()
         {
@@ -665,37 +691,61 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         private void RunAICounter()
         {
-            try
+            if (AICounter != null)
             {
-                AICounter.Call(this);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+                try
+                {
+                    AICounter.Call(this);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+                }
             }
         }
         
         private void RunAICounterPhysical()
         {
-            try
+            if (AICounterPhysical != null)
             {
-                AICounterPhysical.Call(this);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+                try
+                {
+                    AICounterPhysical.Call(this);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in Enemy AI Counter - Physical script, enemy = " + Name, e);
+                }
             }
         }
         
         private void RunAICounterMagical()
         {
-            try
+            if (AICounterMagical != null)
             {
-                AICounterMagical.Call(this);
+                try
+                {
+                    AICounterMagical.Call(this);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in Enemy AI Counter - Magical script, enemy = " + Name, e);
+                }
             }
-            catch (Exception e)
+        }
+        
+        private void RunAICounterDeath()
+        {
+            if (AICounterDeath != null)
             {
-                throw new ImplementationException("Error in Enemy AI Counter script, enemy = " + Name, e);
+                try
+                {
+                    AICounterDeath.Call(this);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in Enemy AI Counter - Death script, enemy = " + Name, e);
+                }
             }
         }
         
@@ -722,9 +772,6 @@ namespace Atmosphere.Reverence.Seven.Battle
                 throw new ImplementationException("Error in Enemy AI Berserk script, enemy = " + Name, e);
             }
         }
-
-
-
         
         public void Attack(string id, Combatant target)
         {
@@ -739,12 +786,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         public void Attack(string id, IEnumerable<Combatant> targets)
         {
             Attack(id, targets, true);
-        }   
+        }
         
         public void AttackAndWait(string id, IEnumerable<Combatant> targets)
         {
             Attack(id, targets, false);
-        }    
+        }
         
         private void Attack(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
@@ -754,16 +801,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             Attacks[id].Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
-        }       
-
-
-
-
+        }
         
         public void CounterAttack(string id, Combatant target)
         {
             CounterAttack(id, new List<Combatant>() { target });
-        }    
+        }
         
         public void CounterAttack(string id, IEnumerable<Combatant> targets)
         {
@@ -780,10 +823,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             Attacks[id].Use(this, targets, new AbilityModifiers { CounterAttack = true, ResetTurnTimer = false });
         }
         
-        
-        
-        
-        
         public void CastMagicSpell(string id, Combatant target)
         {
             CastMagicSpell(id, new List<Combatant>() { target }, true);
@@ -796,7 +835,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public void CastMagicSpellAndWait(string id, Combatant target)
         {            
-            CastMagicSpell(id,  new List<Combatant>() { target }, false);
+            CastMagicSpell(id, new List<Combatant>() { target }, false);
         }
         
         public void CastMagicSpellAndWait(string id, IEnumerable<Combatant> targets)
@@ -815,10 +854,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             spell.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer });
         }
-        
-        
-        
-        
         
         public void CounterWithMagicSpell(string id, Combatant target)
         {
@@ -845,96 +880,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-
-
-
-
-        
-//        private void AI()
-//        {
-//            while (true)
-//            {
-//                if (TurnTimer.IsUp && !WaitingToResolve)
-//                {
-//                    Ally target;
-//
-//                    int i = Seven.BattleState.Random.Next(3);
-//                    
-//                    while (Seven.BattleState.Allies[i] == null || Seven.BattleState.Allies[i].IsDead)
-//                    {
-//                        i = (i + 1) % Party.PARTY_SIZE;
-//                    }
-//
-//                    target = Seven.BattleState.Allies[i];
-//
-//                    BattleEvent e = new BattleEvent(this, () => Formula.PhysicalAttack(16, this, target));
-//
-//                    e.Dialogue = c => Name + " attacks";
-//
-//                    Seven.BattleState.EnqueueAction(e);
-//                }
-//                else
-//                {
-//                    Thread.Sleep(100);
-//                }
-//            }
-//        }
-//        
-//        protected override void ConfuAI()
-//        {
-//            while (true)
-//            {
-//                if (TurnTimer.IsUp && !WaitingToResolve)
-//                {
-//                    Enemy attackee;
-//                    int i = Seven.BattleState.Random.Next(Seven.BattleState.EnemyList.Count);
-//                    attackee = Seven.BattleState.EnemyList[i];
-//                    
-//                    int bd = Formula.PhysicalBase(this);
-//                    int dam = Formula.PhysicalDamage(bd, 16, attackee);
-//                    
-//                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
-//
-//                    e.Dialogue = c => Name + " attacks (confused)";
-//                    
-//                    Seven.BattleState.EnqueueAction(e);
-//                }
-//                else
-//                {
-//                    Thread.Sleep(100);
-//                }
-//            }
-//        }
-//        
-//        protected override void BerserkAI()
-//        {
-//            while (true)
-//            {
-//                if (TurnTimer.IsUp && !WaitingToResolve)
-//                {
-//                    Ally attackee;
-//                    int i = Seven.BattleState.Random.Next(3);
-//                    
-//                    while (Seven.BattleState.Allies[i] == null)
-//                        i = (i + 1) % 3;
-//                    attackee = Seven.BattleState.Allies[i];
-//                    
-//                    
-//                    int bd = Formula.PhysicalBase(this);
-//                    int dam = Formula.PhysicalDamage(bd, 16, attackee);
-//                    
-//                    BattleEvent e = new BattleEvent(this, () => attackee.AcceptDamage(dam, AttackType.Physical));
-//                    
-//                    e.Dialogue = c => Name + " attacks (berserk)";
-//                    
-//                    Seven.BattleState.EnqueueAction(e);
-//                }
-//                else 
-//                {
-//                    Thread.Sleep(100);
-//                }
-//            }
-//        }
         
         #endregion
         
@@ -1065,13 +1010,20 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             bool inflicted = false;
 
-            CureDeathSentence(source);
-
-            if (!_death)
+            if (!Immune(Status.Death) && !(DeathForce || Peerless || Petrify || Resist))
             {
-                _death = true;
-                _hp = 0;
-                inflicted = true;
+                if (DeathSentence)
+                {
+                    CureDeathSentence(source);
+                }
+
+                if (!_death)
+                {                 
+                    Kill(source);
+
+                    _death = true;
+                    inflicted = true;
+                }
             }
 
             return inflicted;
@@ -1123,11 +1075,26 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 _death = false;
                 cured = true;
+
+                CureAll(source);
+                UnpauseTimers();
             }
             
             return cured;
         }
         
+        protected override void Kill(Combatant source)
+        {
+            _hp = 0;
+            _death = true;
+
+            CureAll(source);
+            TurnTimer.Reset();
+            PauseTimers();
+
+            RunAICounterDeath();
+        }
+                
         #endregion
         
         
@@ -1208,6 +1175,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         private LuaFunction AICounterPhysical { get; set; }
         
         private LuaFunction AICounterMagical { get; set; }
+        
+        private LuaFunction AICounterDeath { get; set; }
         
         private LuaFunction AIConfu { get; set; }
 

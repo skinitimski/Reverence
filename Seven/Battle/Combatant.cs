@@ -103,6 +103,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract void AcceptMPLoss(Combatant source, int delta);
         public abstract void Recover(Combatant source);
        
+        public abstract void Respond(Ability ability);
 
         public abstract void UseMP(int amount);
 
@@ -264,7 +265,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Manipulate) { statuses.Append("Manipulate, "); }
             if (Berserk) { statuses.Append("Berserk, "); }
             if (Peerless) { statuses.Append("Peerless, "); }
-            if (Paralysed) { statuses.Append("Paralysed, "); }
+            if (Paralysed) { statuses.Append("Paralyzed, "); }
             if (Darkness) { statuses.Append("Darkness, "); }
             if (Seizure) { statuses.Append("Seizure, "); }
             if (DeathForce) { statuses.Append("DeathForce, "); }
@@ -732,6 +733,43 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             return true;
         }
+        
+        protected void CureAll(Combatant source)
+        {
+            CureFury(source);
+            CureSadness(source);
+            CureSleep(source);
+            CurePoison(source);
+            CureConfusion(source);
+            CureSilence(source);
+            CureHaste(source);
+            CureSlow(source);
+            CureStop(source);
+            CureFrog(source);
+            CureSmall(source);
+            CureSlowNumb(source);
+            CurePetrify(source);
+            CureRegen(source);
+            CureBarrier(source);
+            CureMBarrier(source);
+            CureReflect(source);
+            CureShield(source);
+            CureDeathSentence(source);
+            CureManipulate(source);
+            CureBerserk(source);
+            CurePeerless(source);
+            CureParalyzed(source);
+            CureDarkness(source);
+            CureSeizure(source);
+            CureDeathForce(source);
+            CureResist(source);
+            CureLuckyGirl(source);
+            CureImprisoned(source);
+        }
+
+        protected abstract void Kill(Combatant source);
+
+
         #endregion Cure
 
 
@@ -812,6 +850,11 @@ namespace Atmosphere.Reverence.Seven.Battle
         public Clock C_Timer { get; protected set; } 
         public Clock V_Timer { get; protected set; } 
         public Timer TurnTimer { get; protected set; } 
+        
+        
+        public bool IsDead { get { return Petrify || Imprisoned || Death; } }
+        
+        public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed || Imprisoned; } }
 
         private bool _waiting;
         public bool WaitingToResolve
@@ -849,6 +892,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return nameColor;
             }
         }
+
         
         public Combatant LastAttacker { get; protected set; }
         
