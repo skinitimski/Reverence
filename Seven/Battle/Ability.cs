@@ -170,7 +170,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             int bd = Formula.PhysicalBase(source);
             int dam = Formula.PhysicalDamage(bd, Power, target);
             
-            dam = Formula.RunPhysicalModifiers(dam, source, target, Elements);
+            dam = Formula.Critical(dam, source, target);
+            dam = Formula.Berserk(dam, source);
+            dam = Formula.RowCheck(dam, source, target);
+            dam = Formula.Frog(dam, target);
+            dam = Formula.Sadness(dam, target);
+            dam = Formula.Barrier(dam, target);
+            dam = Formula.Mini(dam, source);
+            dam = Formula.RandomVariation(dam);
 
             return dam;
         }
@@ -180,7 +187,11 @@ namespace Atmosphere.Reverence.Seven.Asset
             int bd = Formula.MagicalBase(source);
             int dam = Formula.MagicalDamage(bd, Power, target);
             
-            dam = Formula.RunMagicModifiers(dam, target, Elements, modifiers);
+            dam = Formula.Sadness(dam, target);
+            dam = Formula.Split(dam, modifiers);
+            dam = Formula.MBarrier(dam, target);
+            dam = Formula.MPTurbo(dam, modifiers);
+            dam = Formula.RandomVariation(dam);
             
             return dam;
         }
@@ -190,7 +201,10 @@ namespace Atmosphere.Reverence.Seven.Asset
             int bd = Formula.MagicalBase(source);
             int dam = bd + 22 * Power;
             
-            dam = Formula.RunCureModifiers(dam, target, Elements, modifiers);
+            dam = Formula.Split(dam, modifiers);
+            dam = Formula.MBarrier(dam, target);
+            dam = Formula.MPTurbo(dam, modifiers);
+            dam = Formula.RandomVariation(dam);
             
             return dam;
         }
@@ -200,7 +214,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.HP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
-            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -210,7 +223,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
-            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -220,7 +232,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MaxHP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
-            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -230,7 +241,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             int dam = target.MaxMP * Power / 32;
             
             dam = Formula.QuadraMagic(dam, modifiers);
-            dam = Formula.RunElementalChecks(dam, target, Elements);
             
             return dam;
         }
@@ -287,7 +297,9 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                     formula = delegate(Combatant source, Combatant target, AbilityModifiers modifiers)
                     {
-                        return (int)customFormula.Call(source, target, modifiers).First();
+                        object formulaResult = customFormula.Call(source, target, modifiers).First(); // it's a double
+
+                        return Convert.ToInt32(formulaResult); 
                     };
                 }
                 else
@@ -394,6 +406,10 @@ namespace Atmosphere.Reverence.Seven.Asset
                     if (Power > 0)
                     {
                         int dam = DamageFormula(source, target, modifiers);
+
+                        dam = Formula.RunElementalChecks(dam, target, Elements);
+                        dam = Formula.LowerSanityCkeck(dam);
+                        dam = Formula.UpperSanityCheck(dam);
                         
                         target.AcceptDamage(source, dam, Type);
                     }

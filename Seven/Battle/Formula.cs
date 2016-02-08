@@ -12,50 +12,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 
     internal static class Formula
     {
-        public static int RunPhysicalModifiers(int dam, Combatant source, Combatant target, IEnumerable<Element> elements)
-        {
-            dam = Critical(dam, source, target);
-            dam = Berserk(dam, source);
-            dam = RowCheck(dam, source, target);
-            dam = Frog(dam, target);
-            dam = Sadness(dam, target);
-            dam = Barrier(dam, target);
-            dam = Mini(dam, source);
-            dam = RandomVariation(dam);
-            dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, target, elements);
-            dam = UpperSanityCheck(dam);
-
-            return dam;
-        }
-        
-        public static int RunMagicModifiers(int dam, Combatant target, IEnumerable<Element> elements, AbilityModifiers modifiers)
-        {
-            dam = Sadness(dam, target);
-            dam = Split(dam, modifiers);
-            dam = MBarrier(dam, target);
-            dam = MPTurbo(dam, modifiers);
-            dam = RandomVariation(dam);
-            dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, target, elements);
-            dam = UpperSanityCheck(dam);
-
-            return dam;
-        }
-        
-        public static int RunCureModifiers(int dam, Combatant target, IEnumerable<Element> elements, AbilityModifiers modifiers)
-        {
-            dam = Split(dam, modifiers);
-            dam = MBarrier(dam, target);
-            dam = MPTurbo(dam, modifiers);
-            dam = RandomVariation(dam);
-            dam = LowerSanityCkeck(dam);
-            dam = RunElementalChecks(dam, target, elements);
-            dam = UpperSanityCheck(dam);
-            
-            return dam;
-        }
-
         public static int PhysicalBase(Combatant er)
         {
             return er.Atk + ((er.Atk + er.Level) / 32) * (er.Atk * er.Level / 32);
