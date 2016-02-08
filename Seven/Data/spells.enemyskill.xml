@@ -42,14 +42,14 @@
         <order>3</order>
         <type>Physical</type>
         <cost>24</cost>
-        <target>Combatant</target>
+        <target>Group</target>
         <targetEnemiesFirst>false</targetEnemiesFirst>
         <formula>
             <custom>return source.HP</custom>
         </formula>
-        <power>0</power>
+        <power>1</power>
         <hitp>255</hitp>
-        <statusChange type="Inflict" statuses="Sleep,Poison,Confusion,Silence,Slow,Stop,Frog,Small,SlowNumb,Petrify,Berserk,Paralysed,Darkness,DeathForce,Resist" odds="100" />
+        <statusChange type="Cure" statuses="Sleep,Poison,Confusion,Silence,Slow,Stop,Frog,Small,SlowNumb,Petrify,Berserk,Paralyzed,Darkness,DeathForce,Resist" odds="100" />
         <elements>
             <element>Restorative</element>
         </elements>
