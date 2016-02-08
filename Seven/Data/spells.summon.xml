@@ -220,7 +220,7 @@
         <allable>false</allable>
         <power>120</power>
         <hitp>255</hitp>
-        <statusChange type="Inflict" statuses="Sleep,Poison,Confusion,Silence,Slow,Frog,Small,Paralysed'" odds="100" />
+        <statusChange type="Inflict" statuses="Sleep,Poison,Confusion,Silence,Slow,Frog,Small,Paralyzed'" odds="100" />
     </spell>    
     <spell>
         <name>Disintegration</name>

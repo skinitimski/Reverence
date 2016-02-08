@@ -74,7 +74,7 @@
         <allable>true</allable>
         <power>0</power>
         <hitp>255</hitp>
-        <statusChange type="Cure" statuses="Sleep,Poison,Sadness,Fury,Confusion,Silence,Frog,Small,Slownumb,Petrify,Berserk,Paralysed,Darkness" odds="100" />
+        <statusChange type="Cure" statuses="Sleep,Poison,Sadness,Fury,Confusion,Silence,Frog,Small,Slownumb,Petrify,Berserk,Paralyzed,Darkness" odds="100" />
     </spell>    
     <spell>
         <name>Resist</name>
