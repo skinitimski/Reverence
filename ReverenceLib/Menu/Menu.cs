@@ -270,12 +270,12 @@ namespace Atmosphere.Reverence.Menu
             }
             set
             {
-                _visible = value;
-
-                if (_visible)
+                if (value)
                 {
                     UpdateBackground();
                 }
+
+                _visible = value;
             }
         }
 
