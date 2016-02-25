@@ -104,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.State
 
 
         public PostBattleState(BattleState battle)
-            : base((Seven)battle.Parent)
+            : this(battle.Seven, battle.Exp, battle.AP, battle.Gil, battle.Items)
         {
         }
 
@@ -286,7 +286,7 @@ namespace Atmosphere.Reverence.Seven.State
                 {
                     foreach (MateriaOrb m in c.Materia)
                     {
-                        if (m != null && !m.Master && !(m is EnemySkillMateria))
+                        if (m != null && !(m is EnemySkillMateria) && !m.Master)
                         {
                             int level = m.Level;
 
