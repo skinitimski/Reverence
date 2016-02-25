@@ -24,7 +24,11 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                 screenState.Height  * 2 / 15,
                 screenState.Width / 2,
                 screenState.Height / 12 - 6)
-        { }
+        {
+            PostBattleState = postBattleState;
+        }
+
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
