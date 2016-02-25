@@ -15,8 +15,6 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
     internal class EnemySkillMateria : MateriaOrb
     {
-        private List<string> _abilities;
-
         public const string NAME = "Enemy Skill";
         public const string DESCRIPTION = "Use skills learned from enemies";
        
@@ -53,6 +51,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
 
             return merged;
         }
+
         
         public void LearnSkill(int skill)
         {
