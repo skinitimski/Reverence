@@ -261,7 +261,8 @@
         <target>Enemies</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <allable>false</allable>
-        <power>120</power>
+        <power>80</power>
+        <hits>13</hits>
         <hitp>255</hitp>
     </spell>
 </spells>
