@@ -22,9 +22,9 @@
             <weapon>
                 <name>butterflyedge</name>
                 <materia>
-                    <orb id="Master Magic" ap="0"         slot="0" />
-                    <orb id="Double Cut"   ap="125000"    slot="1" />
-                    <orb id="Enemy Skill"  ap="16777215"  slot="2" />
+                    <orb id="Master Magic"  ap="0"         slot="0" />
+                    <orb id="Master Summon" ap="0"         slot="1" />
+                    <orb id="Enemy Skill"   ap="16777215"  slot="2" />
                 </materia>
             </weapon>
             <armor>
@@ -146,7 +146,8 @@
             <weapon>
                 <name>seraphcomb</name>
                 <materia>
-                    <orb id="Sense" ap="2000" slot="0" />
+                    <orb id="Sense"        ap="2000" slot="0" />
+                    <orb id="Double Cut"   ap="125000"    slot="1" />
                 </materia>
             </weapon>
             <armor>
