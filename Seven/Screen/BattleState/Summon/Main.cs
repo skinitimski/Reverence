@@ -37,9 +37,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                 screenState.Width * 3 / 4,
                 (screenState.Height * 5 / 20) - 25)
         {
-            _summons = new SummonMenuEntry[_totalRows];
-
             _totalRows = battleState.Seven.Data.SummonSpellCount;
+
+            _summons = new SummonMenuEntry[_totalRows];
 
             foreach (SummonMenuEntry s in summons)
             {
@@ -124,7 +124,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
             for (int b = _topRow; b < j; b++)
             {
-                Text.ShadowedText(g, _summons[b] == null ? "" : _summons[b].Name,
+                Text.ShadowedText(g, _summons[b] == null ? "" : _summons[b].Spell.Name,
                     X + x1,
                     Y + (b - _topRow + 1) * ys);
             }
