@@ -7,6 +7,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
@@ -15,6 +16,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         protected const int CURSOR_SPACING = 25;
 
         protected bool _isControl = false;
+
+        protected Selector(SevenBattleState battleState)
+        {
+            BattleState = battleState;
+        }
         
         public virtual void ControlHandle(Key k)
         {
@@ -22,22 +28,22 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 case Key.Circle:
 
-                    bool clear = Seven.BattleState.Screen.User.ActOnSelection(Selected);
+                    bool clear = BattleState.Screen.User.ActOnSelection(Selected);
 
                     if (clear)
                     {
-                        Seven.BattleState.Commanding.WaitingToResolve = true;
-                        Seven.BattleState.ClearControl();
+                        BattleState.Commanding.WaitingToResolve = true;
+                        BattleState.ClearControl();
                     }
                     else
                     {
-                        Seven.BattleState.Screen.PopControl();
+                        BattleState.Screen.PopControl();
                     }
 
                     break;
 
                 case Key.X:
-                    Seven.BattleState.ActionAbort();
+                    BattleState.ActionAbort();
                     break;
                 default:
                     break;
@@ -59,7 +65,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         public abstract string Info { get; }
 
         protected abstract IEnumerable<Combatant> Selected { get; }
-
+        
+        protected SevenBattleState BattleState { get; private set; }
     }
-
 }

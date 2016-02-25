@@ -4,6 +4,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 {        
@@ -34,13 +35,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         
         private Option option = 0;
 
-        public Options(Menu.ScreenState screenState)
+        public Options(SevenMenuState menuState, ScreenState screenState)
             : base(
                 screenState.Width * 3 / 4 - 10,
                 screenState.Height / 20,
                 screenState.Width / 4,
                 screenState.Height * 11 / 20)
-        { }
+        { 
+            MenuState = menuState;
+        }
         
         public override void ControlHandle(Key k)
         {
@@ -58,7 +61,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                     switch (option)
                     {
                         case Option.Item: // Item
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.ItemScreen);
+                            MenuState.ChangeScreen(MenuState.ItemScreen);
                             break;
                             //case Option.Magic: // Magic
                         case Option.Materia: // Materia
@@ -66,23 +69,23 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                         case Option.Status: // Status
                         case Option.Order: // Order
                             //case Option.Limit: // Limit
-                            Seven.MenuState.MainScreen.ChangeControl(Seven.MenuState.MainStatus);
+                            MenuState.MainScreen.ChangeControl(MenuState.MainStatus);
                             break;
                         case Option.Config: // Config
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.ConfigScreen);
+                            MenuState.ChangeScreen(MenuState.ConfigScreen);
                             break;
                         case Option.PHS: // PHS
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.PhsScreen);
+                            MenuState.ChangeScreen(MenuState.PhsScreen);
                             break;
                         case Option.Save: // Save
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.SaveScreen);
+                            MenuState.ChangeScreen(MenuState.SaveScreen);
                             break;
                         default:
                             break;
                     }
                     break;
                 case Key.Square:
-                    Seven.Instance.BeginBattle();
+                    MenuState.Seven.BeginBattle();
                     break;
                 default:
                     break;
@@ -120,6 +123,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         public Option Selection { get { return option; } }
         public override string Info
         { get { return ""; } }
+
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

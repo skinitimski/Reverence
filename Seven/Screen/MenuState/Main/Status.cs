@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 {    
@@ -34,13 +35,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         private int option_hold = -1;
 
 
-        public Status(Menu.ScreenState screenState)
+        public Status(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height / 9,
                 screenState.Width * 4 / 5,
                 screenState.Height * 7 / 9)
         {
+            MenuState = menuState;
         }
         
         public override void ControlHandle(Key k)
@@ -52,62 +54,62 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                     {
                         option--;
                     } 
-                    Seven.Party.DecrementSelection();
+                    MenuState.Party.DecrementSelection();
                     break;
                 case Key.Down: 
                     if (option < 2)
                     {
                         option++;
                     }
-                    Seven.Party.IncrementSelection();
+                    MenuState.Party.IncrementSelection();
                     break;
                 case Key.X:
-                    Seven.MenuState.MainScreen.ChangeControl(Seven.MenuState.MainOptions);
+                    MenuState.MainScreen.ChangeControl(MenuState.MainOptions);
                     break;
                 case Key.Circle:
-                    switch (Seven.MenuState.MainOptions.Selection)
+                    switch (MenuState.MainOptions.Selection)
                     {
                         case Options.Option.Magic: // Magic
-                            if (Seven.Party[option] == null)
+                            if (MenuState.Party[option] == null)
                             {
                                 break;
                             }
                             //MenuState.MainMenu.ChangeScreen(Screen._magicScreen);
                             break;
                         case Options.Option.Materia: // Materia
-                            if (Seven.Party[option] == null)
+                            if (MenuState.Party[option] == null)
                             {
                                 break;
                             }
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.MateriaScreen);
+                            MenuState.ChangeScreen(MenuState.MateriaScreen);
                             break;
                         case Options.Option.Equip: // Equip
-                            if (Seven.Party[option] == null)
+                            if (MenuState.Party[option] == null)
                             {
                                 break;
                             }
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.EquipScreen);
+                            MenuState.ChangeScreen(MenuState.EquipScreen);
                             break;
                         case Options.Option.Status: // Status
-                            if (Seven.Party[option] == null)
+                            if (MenuState.Party[option] == null)
                             {
                                 break;
                             }
-                            Seven.MenuState.ChangeScreen(Seven.MenuState.StatusScreen);
+                            MenuState.ChangeScreen(MenuState.StatusScreen);
                             break;
                         case Options.Option.Order: // Order
                             if (option_hold != -1)
                             {
                                 if (option_hold == option)
                                 {
-                                    Seven.Party[option].BackRow = !Seven.Party[option].BackRow;
+                                    MenuState.Party[option].BackRow = !MenuState.Party[option].BackRow;
                                     option_hold = -1;
                                 }
                                 else
                                 {
-                                    Character temp = Seven.Party[option];
-                                    Seven.Party[option] = Seven.Party[option_hold];
-                                    Seven.Party[option_hold] = temp;
+                                    Character temp = MenuState.Party[option];
+                                    MenuState.Party[option] = MenuState.Party[option_hold];
+                                    MenuState.Party[option_hold] = temp;
                                     option_hold = -1;
                                 }
                             }
@@ -117,7 +119,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                             }
                             break;
                         case Options.Option.Limit: // Limit
-                            if (Seven.Party[option] == null)
+                            if (MenuState.Party[option] == null)
                             {
                                 break;
                             }
@@ -143,9 +145,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                if (MenuState.Party[i] != null)
                 {
-                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                    DrawCharacterStatus(d, gc, g, MenuState.Party[i], y_firstRow + i * row_height);
                 }
             } 
 
@@ -177,11 +179,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         public override void SetAsControl()
         {
             base.SetAsControl();
-            Seven.Party.SetSelection(option);
+            MenuState.Party.SetSelection(option);
         }
         
         public override string Info
         { get { return ""; } }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

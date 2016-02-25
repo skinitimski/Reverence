@@ -1,13 +1,13 @@
 using System;
 
-using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Screen.LossState;
 
 namespace Atmosphere.Reverence.Seven.State
 {
-    internal class LossState : GameState
+    internal class LossState : State
     {
-        public LossState()
+        public LossState(Seven seven)
+            : base(seven)
         {
         }
         
@@ -17,10 +17,10 @@ namespace Atmosphere.Reverence.Seven.State
         
         protected override void InternalInit()
         {
-            Screen = new Prompt();
+            Screen = new Prompt(Seven);
         }
         
-        public override void Draw(Gdk.Drawable d, int width, int height)
+        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
         {
             Screen.Draw(d);
             Screen.Visible = true;

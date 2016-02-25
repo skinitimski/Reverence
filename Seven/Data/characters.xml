@@ -23,8 +23,8 @@
         <weapon>
             <name>bustersword</name>
             <materia>
-                <orb id="fire" type="Magic" ap="0" slot="0" />
-                <orb id="ice" type="Magic" ap="0" slot="1" />
+                <orb id="Fire" type="Magic" ap="0" slot="0" />
+                <orb id="Ice" type="Magic" ap="0" slot="1" />
             </materia>
         </weapon>
         <armor>
@@ -178,14 +178,14 @@
         <weapon>
             <name>mythrilclip</name>
             <materia>
-                <orb id="fire" type="Magic" ap="500" slot="0" />
-                <orb id="all" type="Support" ap="0" slot="1" /> 
+                <orb id="Fire" type="Magic" ap="500" slot="0" />
+                <orb id="All" type="Support" ap="0" slot="1" /> 
             </materia>
         </weapon>
         <armor>
             <name>mythrilarmlet</name>
             <materia>
-                <orb id="sense" type="Command" ap="0" slot="0" />
+                <orb id="Sense" type="Command" ap="0" slot="0" />
             </materia>
         </armor>
         <accessory />
@@ -221,7 +221,7 @@
         <weapon>
             <name>4pointshuriken</name>
             <materia>
-                <orb id="throw" type="Command" ap="0" slot="0" />
+                <orb id="Throw" type="Command" ap="0" slot="0" />
             </materia>
         </weapon>
         <armor>
@@ -261,7 +261,7 @@
         <weapon>
             <name>yellowmphone</name>
             <materia>
-                <orb id="transform" type="Magic" ap="0" slot="0" />
+                <orb id="Transform" type="Magic" ap="0" slot="0" />
                 <!--<orb id="manipulate" type="Command" ap="0" slot="1" />-->
             </materia>
         </weapon>
@@ -378,20 +378,20 @@
         <weapon>
             <name>masamune</name>
             <materia>
-                <orb id="revive"  type="Magic"   ap="55000" slot="0" />
-                <orb id="restore" type="Magic"   ap="40000" slot="1" />
-                <orb id="fire"    type="Magic"   ap="35000" slot="2" />
-                <orb id="all"     type="Support" ap="35000" slot="3" />
-                <orb id="heal"    type="Magic"   ap="60000" slot="4" />
+                <orb id="Revive"  type="Magic"   ap="55000" slot="0" />
+                <orb id="Restore" type="Magic"   ap="40000" slot="1" />
+                <orb id="Fire"    type="Magic"   ap="35000" slot="2" />
+                <orb id="All"     type="Support" ap="35000" slot="3" />
+                <orb id="Heal"    type="Magic"   ap="60000" slot="4" />
             </materia>
         </weapon>
         <armor>
             <name>goldarmlet</name>
             <materia>
-                <orb id="ice"       type="Magic"   ap="35000" slot="0" />
-                <orb id="all"       type="Support" ap="35000" slot="1" />
+                <orb id="Ice"       type="Magic"   ap="35000" slot="0" />
+                <orb id="All"       type="Support" ap="35000" slot="1" />
                 <orb id="lightning" type="Magic"   ap="35000" slot="2" />
-                <orb id="all"       type="Support" ap="35000" slot="3" />            
+                <orb id="All"       type="Support" ap="35000" slot="3" />            
             </materia>
         </armor>
         <accessory>touphring</accessory>

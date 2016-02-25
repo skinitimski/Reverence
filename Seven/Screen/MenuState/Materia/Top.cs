@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 {  
@@ -42,13 +43,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         private int cx = x_slots;
         private int cy = cy0;
 
-        public Top(Menu.ScreenState screenState)
+        public Top(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height / 20,
                 screenState.Width - 10,
                 screenState.Height * 3 / 10 - 6)
         {
+            MenuState = menuState;
         }
         
         public override void ControlHandle(Key k)
@@ -80,10 +82,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     }
                     break;
                 case Key.X:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                    MenuState.ChangeScreen(MenuState.MainScreen);
                     break;
                 case Key.Square:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.EquipScreen);
+                    MenuState.ChangeScreen(MenuState.EquipScreen);
                     break;
                 case Key.Circle:
                     if (optionX == -1)
@@ -93,7 +95,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                             case 0: // check
                                 break;
                             case 1: // arrange
-                                Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaArrange);
+                                MenuState.MateriaScreen.ChangeControl(MenuState.MateriaArrange);
                                 break;
                             default:
                                 break;
@@ -104,15 +106,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                         switch (optionY)
                         {
                             case 0:
-                                if (optionX < Seven.Party.Selected.Weapon.Slots.Length)
+                                if (optionX < MenuState.Party.Selected.Weapon.Slots.Length)
                                 {
-                                    Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
+                                    MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
                                 }
                                 break;
                             case 1:
-                                if (optionX < Seven.Party.Selected.Armor.Slots.Length)
+                                if (optionX < MenuState.Party.Selected.Armor.Slots.Length)
                                 {
-                                    Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
+                                    MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
                                 }
                                 break;
                         }
@@ -127,21 +129,21 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     switch (optionY)
                     {
                         case 0:
-                            orb = Seven.Party.Selected.Weapon.Slots[optionX];
+                            orb = MenuState.Party.Selected.Weapon.Slots[optionX];
                             if (orb != null)
                             {
-                                Seven.Party.Selected.Weapon.Slots[optionX] = null;
-                                orb.Detach(Seven.Party.Selected);
-                                Seven.Party.Materiatory.Put(orb);
+                                MenuState.Party.Selected.Weapon.Slots[optionX] = null;
+                                orb.Detach(MenuState.Party.Selected);
+                                MenuState.Party.Materiatory.Put(orb);
                             }
                             break;
                         case 1:
-                            orb = Seven.Party.Selected.Armor.Slots[optionX];
+                            orb = MenuState.Party.Selected.Armor.Slots[optionX];
                             if (orb != null)
                             {
-                                Seven.Party.Selected.Armor.Slots[optionX] = null;
-                                orb.Detach(Seven.Party.Selected);
-                                Seven.Party.Materiatory.Put(orb);
+                                MenuState.Party.Selected.Armor.Slots[optionX] = null;
+                                orb.Detach(MenuState.Party.Selected);
+                                MenuState.Party.Materiatory.Put(orb);
                             }
                             break;
                         default:
@@ -184,16 +186,16 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             #region Slots
                         
-            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x_slots, Y + y_slots_weapon);
-            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x_slots, Y + y_slots_armor);
+            MateriaSlots.Render(g, MenuState.Party.Selected.Weapon, X + x_slots, Y + y_slots_weapon);
+            MateriaSlots.Render(g, MenuState.Party.Selected.Armor, X + x_slots, Y + y_slots_armor);
             
             #endregion
             
             #region Character Status
             
-            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
+            Images.RenderProfile(d, gc, X + xpic, Y + ypic, MenuState.Party.Selected);
             
-            Graphics.Stats.RenderCharacterStatus(d, gc, g, Seven.Party.Selected, X + x_status, Y + y_status, false);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, MenuState.Party.Selected, X + x_status, Y + y_status, false);
             
             #endregion Status
             
@@ -210,11 +212,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             Text.ShadowedText(g, "Arr.", X + x_labels, Y + y_arrange);
             
             string weapon, armor;
-            weapon = Seven.Party.Selected.Weapon.Name;
-            armor = Seven.Party.Selected.Armor.Name;
+            weapon = MenuState.Party.Selected.Weapon.Name;
+            armor = MenuState.Party.Selected.Armor.Name;
 
-            Text.ShadowedText(g, Seven.Party.Selected.Weapon.Name, X + x_names, Y + y_weapon); 
-            Text.ShadowedText(g, Seven.Party.Selected.Armor.Name, X + x_names, Y + y_armor);
+            Text.ShadowedText(g, MenuState.Party.Selected.Weapon.Name, X + x_names, Y + y_weapon); 
+            Text.ShadowedText(g, MenuState.Party.Selected.Armor.Name, X + x_names, Y + y_armor);
             
             #endregion 
             
@@ -244,14 +246,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 switch (optionY)
                 {
                     case 0:
-                        if (optionX < Seven.Party.Selected.Weapon.Slots.Length)
-                        if (Seven.Party.Selected.Weapon.Slots [optionX] != null)
-                            return Seven.Party.Selected.Weapon.Slots [optionX].Description;
+                        if (optionX < MenuState.Party.Selected.Weapon.Slots.Length)
+                        if (MenuState.Party.Selected.Weapon.Slots [optionX] != null)
+                            return MenuState.Party.Selected.Weapon.Slots [optionX].Description;
                         return String.Empty;
                     case 1:
-                        if (optionX < Seven.Party.Selected.Armor.Slots.Length)
-                        if (Seven.Party.Selected.Armor.Slots [optionX] != null)
-                            return Seven.Party.Selected.Armor.Slots [optionX].Description;
+                        if (optionX < MenuState.Party.Selected.Armor.Slots.Length)
+                        if (MenuState.Party.Selected.Armor.Slots [optionX] != null)
+                            return MenuState.Party.Selected.Armor.Slots [optionX].Description;
                         return String.Empty;
                     default:
                         return String.Empty;
@@ -273,14 +275,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     switch (optionY)
                     {
                         case 0:
-                            if (optionX < Seven.Party.Selected.Weapon.Slots.Length)
-                            if (Seven.Party.Selected.Weapon.Slots [optionX] != null)
-                                return Seven.Party.Selected.Weapon.Slots [optionX];
+                            if (optionX < MenuState.Party.Selected.Weapon.Slots.Length)
+                            if (MenuState.Party.Selected.Weapon.Slots [optionX] != null)
+                                return MenuState.Party.Selected.Weapon.Slots [optionX];
                             return null;
                         case 1:
-                            if (optionX < Seven.Party.Selected.Armor.Slots.Length)
-                            if (Seven.Party.Selected.Armor.Slots [optionX] != null)
-                                return Seven.Party.Selected.Armor.Slots [optionX];
+                            if (optionX < MenuState.Party.Selected.Armor.Slots.Length)
+                            if (MenuState.Party.Selected.Armor.Slots [optionX] != null)
+                                return MenuState.Party.Selected.Armor.Slots [optionX];
                             return null;
                         default:
                             return null;
@@ -290,6 +292,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     return null;
             }
         }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

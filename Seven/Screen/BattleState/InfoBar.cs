@@ -5,20 +5,24 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
     internal sealed class InfoBar : GameMenu
     {
-        public InfoBar(Menu.ScreenState screenState)
+        public InfoBar(SevenBattleState battleState, ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 6 / 10,
                 screenState.Width - 10,
                 (screenState.Height / 10) - 7,
                 false)
-        { }
+        {
+            BattleState = battleState;
+        }
 
         protected override void DrawContents(Gdk.Drawable d)
         {
@@ -31,9 +35,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             string msg = "";
 
-            if (Seven.BattleState.Screen.Control != null)
+            if (BattleState.Screen.Control != null)
             {
-                msg = Seven.BattleState.Screen.Control.Info;
+                msg = BattleState.Screen.Control.Info;
             }
 
             te = g.TextExtents(msg);
@@ -45,5 +49,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }

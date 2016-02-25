@@ -5,282 +5,108 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+
+using Cairo;
 using NLua;
 
 using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
-	internal abstract class MateriaOrb
+	internal class MateriaOrb
     {
         private const string ATTACH_FUNCTION_FORMAT = "return function (c, l) {0} end";
         private const string DETACH_FUNCTION_FORMAT = ATTACH_FUNCTION_FORMAT;
 
-        private static readonly string ATTACH_FUNCTION_EMPTY = String.Format(ATTACH_FUNCTION_FORMAT, String.Empty);
-        private static readonly string DETACH_FUNCTION_EMPTY = String.Format(DETACH_FUNCTION_FORMAT, String.Empty);
-
-        #region Nested
-
-        private class MateriaDefinition
-        {
-            public int hpp;
-            public int mpp;
-            public int str;
-            public int vit;
-            public int dex;
-            public int mag;
-            public int spr;
-            public int lck;
-            public int order;
-
-            public MateriaType type;
-
-            public int[] tiers;
-            public string[] abilities;
-            
-            private MateriaDefinition() 
-            {
-                Name = String.Empty;
-                Desc = String.Empty;
-                
-                tiers = new int[1];
-                tiers[0] = 0;
-                
-                abilities = new string[0];
-                
-                DoAttach = (LuaFunction)Seven.Lua.DoString(ATTACH_FUNCTION_EMPTY).First();
-                DoDetach = (LuaFunction)Seven.Lua.DoString(DETACH_FUNCTION_EMPTY).First();
-            }
-            
-            public MateriaDefinition(string name, string desc, string ability) 
-                : this()
-            {
-                Name = name;
-                Desc = desc;
-                ID = Resource.CreateID(Name);
-                abilities = new string[] { ability };
-            }
-
-            public MateriaDefinition(XmlNode node)
-                : this()
-            {
-                Name = node.SelectSingleNode("name").InnerText;
-                Desc = node.SelectSingleNode("desc").InnerText;
-
-                ID = Resource.CreateID(Name);
-
-                hpp = node.SelectSingleNode("hpp") != null ? Int32.Parse(node.SelectSingleNode("hpp").InnerText) : 0;
-                mpp = node.SelectSingleNode("mpp") != null ? Int32.Parse(node.SelectSingleNode("mpp").InnerText) : 0;
-
-                str = node.SelectSingleNode("str") != null ? Int32.Parse(node.SelectSingleNode("str").InnerText) : 0;
-                vit = node.SelectSingleNode("vit") != null ? Int32.Parse(node.SelectSingleNode("vit").InnerText) : 0;
-                dex = node.SelectSingleNode("dex") != null ? Int32.Parse(node.SelectSingleNode("dex").InnerText) : 0;
-                mag = node.SelectSingleNode("mag") != null ? Int32.Parse(node.SelectSingleNode("mag").InnerText) : 0;
-                spr = node.SelectSingleNode("spr") != null ? Int32.Parse(node.SelectSingleNode("spr").InnerText) : 0;
-                lck = node.SelectSingleNode("lck") != null ? Int32.Parse(node.SelectSingleNode("lck").InnerText) : 0;
-
-                type = (MateriaType)Enum.Parse(typeof(MateriaType), node.SelectSingleNode("type").InnerText);
-
-                XmlNodeList tlist = node.SelectNodes("tiers/tier");
-                tiers = new int[tlist.Count];
-                int t = 0;
-
-                foreach (XmlNode child in tlist)
-                {
-                    tiers[t] = Int32.Parse(child.InnerText);
-                    t++;
-                }
-
-                order = Int32.Parse(node.SelectSingleNode("order").InnerText);
-
-                abilities = node.SelectSingleNode("abilities").InnerText.Split(new char[] { ',' }, StringSplitOptions.None);
-                
-                
-                XmlNode attachNode = node.SelectSingleNode("attach");
-                
-                if (attachNode != null)
-                {
-                    string attach = node.SelectSingleNode("attach").InnerText;
-                    string attachFunction = String.Format(ATTACH_FUNCTION_FORMAT, attach);
-                    
-                    try
-                    {
-                        DoAttach = (LuaFunction)Seven.Lua.DoString(attachFunction).First();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ImplementationException("Error in accessory attach script; id = " + ID, e);
-                    }
-                }
-                
-                XmlNode detachNode = node.SelectSingleNode("detach");
-                
-                if (detachNode != null)
-                {
-                    string detach = node.SelectSingleNode("detach").InnerText;
-                    string detachFunction = String.Format(DETACH_FUNCTION_FORMAT, detach);
-                    
-                    try
-                    {
-                        DoDetach = (LuaFunction)Seven.Lua.DoString(detachFunction).First();
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ImplementationException("Error in accessory detach script; id = " + ID, e);
-                    }
-                }
-            }
-
-            public string Name { get; private set; }
-            public string ID { get; private set; }
-            public string Desc { get; private set; }
-                     
-            
-            public LuaFunction DoAttach { get; private set; }
-            
-            public LuaFunction DoDetach { get; private set; }
-
-        }
-        
-        
-        private class MasterMagicMateria : MagicMateria
-        {        
-            internal static readonly MateriaOrb.MateriaDefinition MasterMagic;
-            
-            static MasterMagicMateria()
-            {
-                MasterMagic = new MateriaOrb.MateriaDefinition("Master Magic", "Equips all magical spells", "All Magic");
-            }
-            
-            public MasterMagicMateria() : base(MasterMagic.ID, 0) { }
-            
-
-            public override List<Spell> GetSpells
-            {
-                get
-                {
-                    List<Spell> sp = new List<Spell>();
-                    
-                    foreach (Spell s in MagicSpell.GetAll())
-                    {
-                        sp.Add(s);
-                    }
-                    
-                    return sp;
-                }
-            }
-        }
-        
-        
-        private class MasterSummonMateria : SummonMateria
-        {        
-            internal static readonly MateriaOrb.MateriaDefinition MasterMagic;
-            
-            static MasterSummonMateria()
-            {
-                MasterMagic = new MateriaOrb.MateriaDefinition("Master Summon", "Equips all summons", "All Summons");
-            }
-            
-            public MasterSummonMateria() : base(MasterMagic.ID, 0) { }
-            
-            
-            public override List<Spell> GetSpells
-            {
-                get
-                {
-                    List<Spell> sp = new List<Spell>();
-                    
-                    foreach (Spell s in SummonSpell.GetAll())
-                    {
-                        sp.Add(s);
-                    }
-                    
-                    return sp;
-                }
-            }
-        }
-
-        #endregion
-
-
-
-
-        private static Dictionary<string, MateriaDefinition> _data;
-
-
-
-
+        private static readonly Color ORB_COLOR_MAGIC = new Color(0, .7, .05);
+        private static readonly Color ORB_COLOR_SUPPORT = new Color(.0, .6, .8);
+        private static readonly Color ORB_COLOR_COMMAND = new Color(.8, .8, .2);
+        private static readonly Color ORB_COLOR_INDEPENDENT = new Color(.8, .0, .8);
+        private static readonly Color ORB_COLOR_SUMMON = new Color(.9, 0, 0);
 
         
-        static MateriaOrb()
+        private string[] abilities;
+
+
+
+
+
+
+        protected MateriaOrb()
+        {            
+        }
+
+        public MateriaOrb(XmlNode node, Lua lua)
+            : this()
         {
-            _data = new Dictionary<string, MateriaDefinition>();
+            Name = node.SelectSingleNode("name").InnerText;
+            Description = node.SelectSingleNode("desc").InnerText;
+
             
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.materia.xml", typeof(Seven).Assembly);
+            HPMod = node.SelectSingleNode("hpp") != null ? Int32.Parse(node.SelectSingleNode("hpp").InnerText) : 0;
+            MPMod = node.SelectSingleNode("mpp") != null ? Int32.Parse(node.SelectSingleNode("mpp").InnerText) : 0;
             
-            foreach (XmlNode node in gamedata.SelectNodes("//materiadata/materia"))
+            StrengthMod = node.SelectSingleNode("str") != null ? Int32.Parse(node.SelectSingleNode("str").InnerText) : 0;
+            VitalityMod = node.SelectSingleNode("vit") != null ? Int32.Parse(node.SelectSingleNode("vit").InnerText) : 0;
+            DexterityMod = node.SelectSingleNode("dex") != null ? Int32.Parse(node.SelectSingleNode("dex").InnerText) : 0;
+            MagicMod = node.SelectSingleNode("mag") != null ? Int32.Parse(node.SelectSingleNode("mag").InnerText) : 0;
+            SpiritMod = node.SelectSingleNode("spr") != null ? Int32.Parse(node.SelectSingleNode("spr").InnerText) : 0;
+            LuckMod = node.SelectSingleNode("lck") != null ? Int32.Parse(node.SelectSingleNode("lck").InnerText) : 0;
+            
+            Type = (MateriaType)Enum.Parse(typeof(MateriaType), node.SelectSingleNode("type").InnerText);
+            
+            XmlNodeList tlist = node.SelectNodes("tiers/tier");
+            Tiers = new int[tlist.Count];
+            int t = 0;
+            
+            foreach (XmlNode child in tlist)
             {
-                if (node.NodeType == XmlNodeType.Comment)
+                Tiers[t] = Int32.Parse(child.InnerText);
+                t++;
+            }
+            
+            Order = Int32.Parse(node.SelectSingleNode("order").InnerText);
+            
+            abilities = node.SelectSingleNode("abilities").InnerText.Split(new char[] { ',' }, StringSplitOptions.None);
+            
+            
+            XmlNode attachNode = node.SelectSingleNode("attach");
+            
+            if (attachNode != null)
+            {
+                string attach = node.SelectSingleNode("attach").InnerText;
+                string attachFunction = String.Format(ATTACH_FUNCTION_FORMAT, attach);
+                
+                try
                 {
-                    continue;
+                    DoAttach = (LuaFunction)lua.DoString(attachFunction).First();
                 }
-                
-                MateriaDefinition rec = new MateriaDefinition(node);
-                
-                _data.Add(rec.ID, rec);
-            }
-            
-            _data.Add(MasterMagicMateria.MasterMagic.ID, MasterMagicMateria.MasterMagic);
-        }
-
-
-        private MateriaOrb()
-        {
-        }
-                
-        protected MateriaOrb(string name, int ap)
-        {
-            Record = _data[name];
-
-            Level = 0;
-            AP = 0;
-
-            AddAP(ap);
-        }
-
-
-
-        public static MateriaOrb Create(string id, int ap, MateriaType type)
-        {
-            MateriaOrb materia = null;
-
-            if (id == "enemyskill")
-            {
-                materia = new EnemySkillMateria(ap);
-            }
-            else if (id == MasterMagicMateria.MasterMagic.ID)
-            {
-                materia = new MasterMagicMateria();
-            }
-            else
-            {
-                switch (type)
+                catch (Exception e)
                 {
-                    case MateriaType.Magic:
-                        return new MagicMateria(id, ap);
-                    case MateriaType.Support:
-                        return new SupportMateria(id, ap);
-                    case MateriaType.Command:
-                        return new CommandMateria(id, ap);
-                    case MateriaType.Independent:
-                        return new IndependentMateria(id, ap);
-                    case MateriaType.Summon:
-                        return new SummonMateria(id, ap);
+                    throw new ImplementationException("Error in accessory attach script; name = " + Name, e);
                 }
             }
-
-            return materia;
+            
+            XmlNode detachNode = node.SelectSingleNode("detach");
+            
+            if (detachNode != null)
+            {
+                string detach = node.SelectSingleNode("detach").InnerText;
+                string detachFunction = String.Format(DETACH_FUNCTION_FORMAT, detach);
+                
+                try
+                {
+                    DoDetach = (LuaFunction)lua.DoString(detachFunction).First();
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error in accessory detach script; name = " + Name, e);
+                }
+            }
         }
+
+
+
 
 
 
@@ -374,14 +200,17 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             c.MagicBonus += MagicMod;
             c.SpiritBonus += SpiritMod;
             c.LuckBonus += LuckMod;
-            
-            try
+
+            if (DoAttach != null)
             {
-                Record.DoAttach.Call(c, Level + 1);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error calling materia attach script; id = " + ID, e);
+                try
+                {
+                    DoAttach.Call(c, Level + 1);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error calling materia attach script; name = " + Name, e);
+                }
             }
         }
         public virtual void Detach(Character c)
@@ -392,48 +221,98 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             c.MagicBonus -= MagicMod;
             c.SpiritBonus -= SpiritMod;
             c.LuckBonus -= LuckMod;
-                                    
-            try
+                     
+            if (DoDetach != null)
             {
-                Record.DoDetach.Call(c, Level + 1);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error calling materia detach script; id = " + ID, e);
+                try
+                {
+                    DoDetach.Call(c, Level + 1);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error calling materia detach script; name = " + Name, e);
+                }
             }
         }
 
 
-        public abstract Cairo.Color Color { get; }
+        public Cairo.Color Color
+        {
+            get
+            {
+                switch (Type)
+                {
+                    case MateriaType.Magic:
+                        return ORB_COLOR_MAGIC;
+                    case MateriaType.Support:
+                        return ORB_COLOR_SUPPORT;
+                    case MateriaType.Command:
+                        return ORB_COLOR_COMMAND;
+                    case MateriaType.Independent:
+                        return ORB_COLOR_INDEPENDENT;
+                    case MateriaType.Summon:
+                        return ORB_COLOR_SUPPORT;
+                    default:
+                        throw new GameDataException("Materia has no type, name " + Name);
+                }
+            }
+        }
 
-        public string Name { get { return Record.Name;} }
-        public string Description { get { return Record.Desc; } }
-        public string ID { get { return Record.ID; } }
+        public string Name { get; protected set; }
+        public string Description { get; protected set; }
         public int AP { get; protected set; }
         public int Level { get; private set; }
-        public int[] Tiers { get { return Record.tiers; } }
+        public int[] Tiers { get; protected set; }
         public bool Master { get { return Level == Tiers.Length - 1; } }
 
-        public int StrengthMod { get { return Record.str; } }
-        public int VitalityMod { get { return Record.vit; } }
-        public int DexterityMod { get { return Record.dex; } }
-        public int MagicMod { get { return Record.mag; } }
-        public int SpiritMod { get { return Record.spr; } }
-        public int LuckMod { get { return Record.lck; } }
-        public int HPMod { get { return Record.hpp; } }
-        public int MPMod { get { return Record.mpp; } }
+        public int StrengthMod { get; protected set; }
+        public int VitalityMod { get; protected set; }
+        public int DexterityMod { get; protected set; }
+        public int MagicMod { get; protected set; }
+        public int SpiritMod { get; protected set; }
+        public int LuckMod { get; protected set; }
+        public int HPMod { get; protected set; }
+        public int MPMod { get; protected set; }
 
-        public int Order { get { return Record.order; } }
+        protected int Order { get; set; }
 
-        public abstract MateriaType Type { get; }
+        public MateriaType Type { get; protected set; }
 
-        public abstract List<string> Abilities { get; }
+        
+        public LuaFunction DoAttach { get; private set; }
+        
+        public LuaFunction DoDetach { get; private set; }
 
-        public virtual string[] AllAbilities { get { return Record.abilities; } }
+        public virtual IEnumerable<string> Abilities
+        {
+            get
+            {
+                List<string> abilities = new List<string>();
 
-        protected abstract int TypeOrder { get; }
+                switch (Type)
+                {
+                    case MateriaType.Magic:                        
+                    case MateriaType.Independent:
+                        abilities.AddRange(AbilityDescriptions.TakeWhile((s, i) => i <= Level));
+                        break;
 
-        private MateriaDefinition Record { get; set; }
+                    case MateriaType.Support:
+                    case MateriaType.Summon:
+                        abilities.Add(AbilityDescriptions.First());
+                        break;
+
+                    case MateriaType.Command:
+                        abilities.Add(AbilityDescriptions.ToArray()[Level >= AbilityDescriptions.Count() ? Level - 1 : Level]);
+                        break;
+                }
+
+                return abilities;
+            }
+        }
+
+        public virtual IEnumerable<string> AbilityDescriptions { get { return abilities; } }
+
+        private int TypeOrder { get { return (int)Type; } }
 	}
 
 

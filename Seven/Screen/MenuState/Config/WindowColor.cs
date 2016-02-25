@@ -3,8 +3,8 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
-
 using Atmosphere.Reverence.Seven;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 {
@@ -46,14 +46,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             public WindowCornerColor(int x, int y, int corner, WindowColor owner)
                 : base(x, y, WIDTH, HEIGHT)
             {
+                Owner = owner;
+
                 x_spacing = (Width - x0 * 2) / 11;
 
                 this.corner = corner;
 
                 GetCornerColor(corner, out indicies[0], out indicies[1], out indicies[2]);
                 GetCornerColor(corner, out indicies_orig[0], out indicies_orig[1], out indicies_orig[2]);
-                
-                Owner = owner;
             }
             
             public void ControlHandle(Key k)
@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                         Owner.ReturnFromSubMenu();
                         break;
                     case Key.Circle:
-                        Seven.MenuState.UpdateAllBackgrounds();
+                        Owner.MenuState.UpdateAllBackgrounds();
                         Owner.ReturnFromSubMenu();
                         break;
                     default:
@@ -152,10 +152,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
         
         
-        public WindowColor(int x, int y, ControlMenu owner)
+        public WindowColor(SevenMenuState menuState, int x, int y, ControlMenu owner)
             : base(x, y, WIDTH, HEIGHT)
         {
             Owner = owner;
+            MenuState = menuState;
         }
         
         public override void ControlHandle(Key k)
@@ -219,7 +220,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         }
 
 
-        protected void ReturnFromSubMenu()
+        private void ReturnFromSubMenu()
         {
             SubMenu = null;
 
@@ -277,9 +278,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         private WindowCornerColor SubMenu { get; set; }
 
         private ControlMenu Owner { get; set; }
-
-
+        
+        private SevenMenuState MenuState { get; set; }
     }
-
 }
 

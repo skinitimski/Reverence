@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
 {  
@@ -28,13 +29,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         #endregion Layout
 
         
-        public Prompt(Menu.ScreenState screenState)
+        public Prompt(SevenMenuState menuState, ScreenState screenState)
             : base(
                 screenState.Width / 2 - width / 2,
                 screenState.Height / 2 - height / 2,
                 width, 
                 height)
         {
+            MenuState = menuState;
         }
 
         public override void ControlHandle(Key k)
@@ -62,10 +64,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
                     }
                     break;
                 case Key.Circle:
-                    Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SaveConfirm);
+                    MenuState.SaveScreen.ChangeControl(MenuState.SaveConfirm);
                     break;
                 case Key.X:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                    MenuState.ChangeScreen(MenuState.MainScreen);
                     break;
                 default: break;
             }
@@ -103,7 +105,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         
         public override string Info
         { get { return ""; } }
-        
+
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

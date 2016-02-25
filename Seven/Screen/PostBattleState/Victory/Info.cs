@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Graphics;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenPostBattleState = Atmosphere.Reverence.Seven.State.PostBattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
 {  
@@ -24,9 +25,11 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         
 #endregion
         
-        protected Info(int x, int y, int w, int h)
+        protected Info(SevenPostBattleState postBattleState, int x, int y, int w, int h, int index)
             : base(x, y, w, h)
-        { }
+        { 
+            Character = postBattleState.Party[index];
+        }
 
         protected override void DrawContents(Gdk.Drawable d)
         {
@@ -38,21 +41,20 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             
             TextExtents te;
             
-            
-            Character c = Seven.Party[PartyIndex];
-
-            Color textColor = c.Death ? Colors.TEXT_RED : Colors.WHITE;
 
 
+            Color textColor = Character.Death ? Colors.TEXT_RED : Colors.WHITE;
 
-            if (c != null)
+
+
+            if (Character != null)
             {
-                Images.RenderProfile(d, gc, X + xpic, Y + ypic, c);
+                Images.RenderProfile(d, gc, X + xpic, Y + ypic, Character);
                 
-                Text.ShadowedText(g, textColor, c.Name, X + x1, Y + y0);
+                Text.ShadowedText(g, textColor,Character.Name, X + x1, Y + y0);
                 Text.ShadowedText(g, textColor, "Level:", X + x2, Y + y1);
                 
-                string lvl = c.Level.ToString();
+                string lvl = Character.Level.ToString();
                 te = g.TextExtents(lvl);
                 Text.ShadowedText(g, textColor, lvl, X + x3 - te.Width, Y + y1);
                 
@@ -64,11 +66,11 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
                 te = g.TextExtents(temp);
                 Text.ShadowedText(g, textColor, temp, X + x4 - te.Width, Y + y1);
                 
-                string exp = c.Exp.ToString() + "p";
+                string exp = Character.Exp.ToString() + "p";
                 te = g.TextExtents(exp);
                 Text.ShadowedText(g, textColor, exp, X + x5 - te.Width, Y + y0);
                 
-                string expNext = c.ExpToNextLevel.ToString() + "p";
+                string expNext = Character.ExpToNextLevel.ToString() + "p";
                 te = g.TextExtents(expNext);
                 Text.ShadowedText(g, textColor, expNext, X + x5 - te.Width, Y + y1);
             }
@@ -78,7 +80,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             ((IDisposable)g).Dispose();
         }
 
-        protected abstract int PartyIndex { get; }
+        protected Character Character { get; private set; }
     }
 }
 

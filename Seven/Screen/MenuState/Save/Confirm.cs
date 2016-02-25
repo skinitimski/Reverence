@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
 {  
@@ -23,10 +24,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         
         private int option = 0;
         
-        public Confirm(Menu.ScreenState screenState)
+        public Confirm(SevenMenuState menuState, ScreenState screenState)
             : base(265, 200, 270, 150)
         {
             Visible = false;
+            MenuState = menuState;
         }
 
         public override void ControlHandle(Key k)
@@ -43,15 +45,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
 
                     if (option == 0)
                     {
-                        Seven.Instance.SaveGame(Seven.MenuState.SavePrompt.Option);
-                        Seven.Instance.ShowMessage(c => "Saved!");
+                        MenuState.Seven.SaveGame(MenuState.SavePrompt.Option);
+                        MenuState.Seven.ShowMessage(c => "Saved!");
                     }
 
-                    Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);
+                    MenuState.SaveScreen.ChangeControl(MenuState.SavePrompt);
 
                     break;
                 case Key.X:
-                    Seven.MenuState.SaveScreen.ChangeControl(Seven.MenuState.SavePrompt);
+                    MenuState.SaveScreen.ChangeControl(MenuState.SavePrompt);
                     break;
                 default: break;
             }
@@ -98,6 +100,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
         public override string Info
         { get { return ""; } }
         
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

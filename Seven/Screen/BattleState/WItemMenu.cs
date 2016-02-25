@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -22,8 +23,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
 
 
-        public WItemMenu(Menu.ScreenState screenState)
-            : base(screenState)
+        public WItemMenu(SevenBattleState battleState, ScreenState screenState)
+            : base(battleState, screenState)
         {
         }
         
@@ -37,7 +38,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     
                     if (FirstChoice != null)
                     {
-                        if (_option == FirstChoice.Slot && Seven.Party.Inventory.GetCount(_option) == 1)
+                        if (_option == FirstChoice.Slot && BattleState.Party.Inventory.GetCount(_option) == 1)
                         {
                             cancel = true;
                         }
@@ -81,6 +82,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         }
 
         private Choice FirstChoice { get; set; }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }
 

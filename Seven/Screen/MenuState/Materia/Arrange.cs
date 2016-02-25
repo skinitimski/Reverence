@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 {  
@@ -20,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         private int option = 0;
 
-        public Arrange(Menu.ScreenState screenState)
+        public Arrange(SevenMenuState menuState, ScreenState screenState)
             : base(
                 screenState.Width * 3 / 8,
                 150,
@@ -28,7 +29,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 140)
         {
             Visible = false;
+
+            MenuState = menuState;
         }
+
         public override void ControlHandle(Key k)
         {
             switch (k)
@@ -43,42 +47,42 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     switch (option)
                     {
                         case 0:
-                            Seven.Party.Materiatory.Sort();
+                            MenuState.Party.Materiatory.Sort();
                             break;
                         case 1:
                             break;
                         case 2:
-                            for (int i = 0; i < Seven.Party.Selected.Weapon.Slots.Length; i++)
+                            for (int i = 0; i < MenuState.Party.Selected.Weapon.Slots.Length; i++)
                             {
-                                MateriaOrb orb = Seven.Party.Selected.Weapon.Slots[i];
+                                MateriaOrb orb = MenuState.Party.Selected.Weapon.Slots[i];
                                 if (orb != null)
                                 {
-                                    Seven.Party.Selected.Weapon.Slots[i] = null;
-                                    orb.Detach(Seven.Party.Selected);
-                                    Seven.Party.Materiatory.Put(orb);
+                                    MenuState.Party.Selected.Weapon.Slots[i] = null;
+                                    orb.Detach(MenuState.Party.Selected);
+                                    MenuState.Party.Materiatory.Put(orb);
                                 }
                             }
-                            for (int j = 0; j < Seven.Party.Selected.Armor.Slots.Length; j++)
+                            for (int j = 0; j < MenuState.Party.Selected.Armor.Slots.Length; j++)
                             {
-                                MateriaOrb orb = Seven.Party.Selected.Armor.Slots[j];
+                                MateriaOrb orb = MenuState.Party.Selected.Armor.Slots[j];
                                 if (orb != null)
                                 {
-                                    Seven.Party.Selected.Armor.Slots[j] = null;
-                                    orb.Detach(Seven.Party.Selected);
-                                    Seven.Party.Materiatory.Put(orb);
+                                    MenuState.Party.Selected.Armor.Slots[j] = null;
+                                    orb.Detach(MenuState.Party.Selected);
+                                    MenuState.Party.Materiatory.Put(orb);
                                 }
                             }
                             break;
                         case 3:
-                            Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
-                            Seven.MenuState.MateriaList.Trashing = true;
+                            MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
+                            MenuState.MateriaList.Trashing = true;
                             break;
                         default: break;
                     }
                     break;
                 case Key.X:
                     Visible = false;
-                    Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
+                    MenuState.MateriaScreen.ChangeToDefaultControl();
                     break;
                 default: break;
             }
@@ -114,6 +118,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         public override string Info
         { get { return ""; } }
         
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

@@ -2,7 +2,9 @@ using System;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenPostBattleState = Atmosphere.Reverence.Seven.State.PostBattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
 {  
@@ -16,13 +18,16 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
         
 #endregion
 
-        public VictoryEXP(Menu.ScreenState screenState)
+        public VictoryEXP(SevenPostBattleState postBattleState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height  * 2 / 15,
                 screenState.Width / 2,
                 screenState.Height / 12 - 6)
-        { }
+        { 
+            Exp = postBattleState.Exp + "p";
+        }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
@@ -31,15 +36,16 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             g.SetFontSize(24);
             
             TextExtents te;
-            
-            string exp = Seven.PostBattleState.Exp.ToString() + "p";
-            te = g.TextExtents(exp);
+
+            te = g.TextExtents(Exp);
             Text.ShadowedText(g, "EXP", X + x1, Y + ys);
-            Text.ShadowedText(g, exp, X + x2 - te.Width, Y + ys);
+            Text.ShadowedText(g, Exp, X + x2 - te.Width, Y + ys);
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
+        private string Exp { get; set; }
     }
 }
 

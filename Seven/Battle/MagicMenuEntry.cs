@@ -1,6 +1,7 @@
 using System;
 
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
@@ -21,18 +22,23 @@ namespace Atmosphere.Reverence.Seven.Asset
             //_addedAbilities = new List<AddedAbility>();
         }
         
-        public void AddAbility(SupportMateria s)
+        public void AddAbility(MateriaOrb s)
         {
+            if (s.Type != MateriaType.Support)
+            {
+                throw new ImplementationException("Used non-support materia '{0}' in a support context.", s.Name);
+            }
+
             //_addedAbilities.Add(s.GetAbility());
-            if (s.ID == "all")
+            if (s.Name == "All")
             {
                 _allCount = Math.Min(s.Level + 1, 5);
             }
-            if (s.ID == "quadramagic")
+            if (s.Name == "Quadra Magic")
             {
                 _qmagicCount = Math.Min(s.Level + 1, 5);
             }
-            if (s.ID == "mpturbo")
+            if (s.Name == "MP Turbo")
             {
                 _mpTurboFactor = Math.Min(s.Level + 1, 5);
             }

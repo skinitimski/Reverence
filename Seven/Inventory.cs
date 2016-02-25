@@ -14,6 +14,8 @@ namespace Atmosphere.Reverence.Seven
 {
     internal class Inventory
     {        
+
+
         public const int INVENTORY_SIZE = 1000;
         private Record[] _inventory;
 
@@ -93,20 +95,18 @@ namespace Atmosphere.Reverence.Seven
 
 
 
-
-
         public Inventory()
         {
             _inventory = new Record[INVENTORY_SIZE];
-
+            
             // fill all slots
             for (int i = 0; i < INVENTORY_SIZE; i++)
             {
                 _inventory[i] = new Record(i);
             }
         }
-        
-        public Inventory(XmlNode savegame)
+
+        public Inventory(Data data, XmlNode savegame)
             : this()
         {
             foreach (XmlNode node in savegame.SelectNodes("./inventory/*"))
@@ -123,7 +123,7 @@ namespace Atmosphere.Reverence.Seven
                 
                 _inventory[slot] = new Record(slot);
                 _inventory[slot].Count = count;
-                _inventory[slot].Item = Item.GetItem(id, type);
+                _inventory[slot].Item = data.GetInventoryItem(id, type);
             }
         }
         
@@ -298,25 +298,7 @@ namespace Atmosphere.Reverence.Seven
             Array.Copy(tempNotNull, 0, _inventory, 0, INVENTORY_SIZE - q);
             // END HACK
         }
-        
-        public bool UseItemInField(int slot)
-        {
-            IInventoryItem item = _inventory[slot].Item;
-            
-            if (!item.CanUseInField)
-            {
-                throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
-            }
-            
-            bool used = ((Item)item).UseInField();
-            
-            if (used)
-            {
-                DecreaseCount(slot);
-            }
-            
-            return used;
-        }
+
 
         public void WriteToXml(XmlWriter writer)
         {
@@ -338,5 +320,7 @@ namespace Atmosphere.Reverence.Seven
 
             writer.WriteEndElement(); // inventory;
         }
+
+        private Party Owners { get; set; }
     }
 }

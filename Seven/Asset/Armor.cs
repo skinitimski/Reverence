@@ -14,13 +14,10 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Armor : SlotHolder
     {
-        private static readonly Dictionary<string, ArmorData> _table;
-
-
-        private class ArmorData : SlotHolder.SlotHolderData
+        internal class ArmorData : SlotHolder.SlotHolderData
         {
-            public ArmorData(XmlNode node)
-                : base(node)
+            public ArmorData(XmlNode node, Lua lua)
+                : base(node, lua)
             {
                 Defense = Int32.Parse(node.SelectSingleNode("def").InnerText);
                 DefensePercent = Int32.Parse(node.SelectSingleNode("defp").InnerText);
@@ -36,41 +33,16 @@ namespace Atmosphere.Reverence.Seven.Asset
             
             public int MagicDefensePercent { get; private set; }
         }
-        
-        static Armor()
-        {
-            _table = new Dictionary<string, ArmorData>();
-            
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.armour.xml", typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("//armour/armor"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-
-                ArmorData armor = new ArmorData(node);
-
-                _table.Add(armor.ID, armor);
-            }
-        }
 
 
         
-        private Armor(ArmorData data)
+        public Armor(ArmorData data)
             : base(data)
         {
             Defense = data.Defense;
             DefensePercent = data.DefensePercent;
             MagicDefense = data.MagicDefense;
             MagicDefensePercent = data.MagicDefensePercent;
-        }
-
-        
-        public static Armor Get(string id)
-        {
-            return new Armor(_table[id]);
         }
 
 
@@ -93,29 +65,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
 
             Slots[slot] = orb;
-        }
-
-        public static void SwapMateria(Armor before, Armor after, Character c)
-        {
-            for (int i = 0; i < before.Slots.Length; i++)
-            {
-                MateriaOrb m = before.Slots[i];
-
-                if (m != null)
-                {
-                    if (i > after.Slots.Length)
-                    {
-                        m.Detach(c);
-                        Seven.Party.Materiatory.Put(m);
-                    }
-                    else
-                    {
-                        after.Slots[i] = m;
-                    }
-                }
-
-                before.Slots[i] = null;
-            }
         }
         
         public int Defense { get; private set; }

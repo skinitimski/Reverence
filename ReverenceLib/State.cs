@@ -23,9 +23,10 @@ namespace Atmosphere.Reverence
             }
         }
 
-        protected State()
+        protected State(Game game)
         {
             TimeFactory = new TimeFactory();
+            Parent = game;
         }
         
         protected abstract void InternalInit();
@@ -34,7 +35,7 @@ namespace Atmosphere.Reverence
 
         public abstract void KeyReleaseHandle(Key k);
         
-        public abstract void Draw(Gdk.Drawable d, int width, int height);
+        public abstract void Draw(Gdk.Drawable d, int width, int height, bool screenChanged);
         
         public abstract void RunIteration();
         
@@ -47,6 +48,8 @@ namespace Atmosphere.Reverence
         protected abstract void InternalDispose();
         
         public TimeFactory TimeFactory { get; private set; }
+
+        public Game Parent { get; private set; }
     }
 }
 

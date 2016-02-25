@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {       
@@ -20,8 +21,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             public IEnumerable<Combatant> Targets;
         }
         
-        public WSummon(IEnumerable<SummonMenuEntry> spells, Menu.ScreenState screenState)
-            : base(spells, screenState)
+        public WSummon(SevenBattleState battleState, IEnumerable<SummonMenuEntry> spells, Menu.ScreenState screenState)
+            : base(battleState, spells, screenState)
         {
         }
         
@@ -101,5 +102,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         }
 
         private Choice FirstChoice { get; set; }
+        
+        private SevenBattleState BattleState { get; set; }
     }    
 }

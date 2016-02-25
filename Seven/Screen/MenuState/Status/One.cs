@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
@@ -33,8 +34,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
 
 
-        public One(Menu.ScreenState screenState)
-            : base(screenState)
+        public One(SevenMenuState menuState, ScreenState screenState)
+            : base(menuState, screenState)
         {
             Visible = true;
         }
@@ -59,9 +60,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
             DrawCharacterStatus(d, gc, g);
 
-            exp = Seven.Party.Selected.Exp.ToString();
-            next = Seven.Party.Selected.ExpToNextLevel.ToString();
-            llvl = Seven.Party.Selected.LimitLevel.ToString();
+            exp = Party.Selected.Exp.ToString();
+            next = Party.Selected.ExpToNextLevel.ToString();
+            llvl = Party.Selected.LimitLevel.ToString();
 
             Text.ShadowedText(g, "Exp:", X + x8, Y + ya);
             Text.ShadowedText(g, "Next lvl:", X + x8, Y + yb);
@@ -82,20 +83,20 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             string str, vit, dex, mag, spi, lck;
             string atk, atkp, def, defp, mat, mdf, mdfp;
             
-            str = Seven.Party.Selected.Strength.ToString();
-            vit = Seven.Party.Selected.Vitality.ToString();
-            dex = Seven.Party.Selected.Dexterity.ToString();
-            mag = Seven.Party.Selected.Magic.ToString();
-            spi = Seven.Party.Selected.Spirit.ToString();
-            lck = Seven.Party.Selected.Luck.ToString();
+            str = Party.Selected.Strength.ToString();
+            vit = Party.Selected.Vitality.ToString();
+            dex = Party.Selected.Dexterity.ToString();
+            mag = Party.Selected.Magic.ToString();
+            spi = Party.Selected.Spirit.ToString();
+            lck = Party.Selected.Luck.ToString();
             
-            atk = Ally.Attack(Seven.Party.Selected).ToString();
-            atkp = Ally.AttackPercent(Seven.Party.Selected).ToString();
-            def = Ally.Defense(Seven.Party.Selected).ToString();
-            defp = Ally.DefensePercent(Seven.Party.Selected).ToString();
-            mat = Ally.MagicAttack(Seven.Party.Selected).ToString();
-            mdf = Ally.MagicDefense(Seven.Party.Selected).ToString();
-            mdfp = Ally.MagicDefensePercent(Seven.Party.Selected).ToString();
+            atk = Ally.Attack(Party.Selected).ToString();
+            atkp = Ally.AttackPercent(Party.Selected).ToString();
+            def = Ally.Defense(Party.Selected).ToString();
+            defp = Ally.DefensePercent(Party.Selected).ToString();
+            mat = Ally.MagicAttack(Party.Selected).ToString();
+            mdf = Ally.MagicDefense(Party.Selected).ToString();
+            mdfp = Ally.MagicDefensePercent(Party.Selected).ToString();
             
             Cairo.Color greenish = Colors.TEXT_TEAL;
             
@@ -149,8 +150,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
 
 
-            MateriaSlots.Render(g, Seven.Party.Selected.Weapon, X + x9, Y + yi);
-            MateriaSlots.Render(g, Seven.Party.Selected.Armor, X + x9, Y + yk);
+            MateriaSlots.Render(g, Party.Selected.Weapon, X + x9, Y + yi);
+            MateriaSlots.Render(g, Party.Selected.Armor, X + x9, Y + yk);
 
             
             
@@ -163,9 +164,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             g.ShowText("Acc.");
             g.Color = Colors.WHITE;
             
-            Text.ShadowedText(g, Seven.Party.Selected.Weapon.Name, X + x8, Y + yh);
-            Text.ShadowedText(g, Seven.Party.Selected.Armor.Name, X + x8, Y + yj);
-            Text.ShadowedText(g, Seven.Party.Selected.Accessory.Name, X + x8, Y + yl);
+            Text.ShadowedText(g, Party.Selected.Weapon.Name, X + x8, Y + yh);
+            Text.ShadowedText(g, Party.Selected.Armor.Name, X + x8, Y + yj);
+            Text.ShadowedText(g, Party.Selected.Accessory.Name, X + x8, Y + yl);
 
             #endregion Right
             

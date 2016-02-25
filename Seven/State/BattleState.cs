@@ -16,14 +16,14 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
-using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
+using NLua;
 
 namespace Atmosphere.Reverence.Seven.State
 {    
-    internal class BattleState : GameState
+    internal class BattleState : State
     {
         #region Member Data
         
@@ -66,12 +66,13 @@ namespace Atmosphere.Reverence.Seven.State
         }
         
 
-        private BattleState()
+        private BattleState(Seven seven)
+            : base(seven)
         {
         }
         
-        public BattleState(string formationId)
-            : this()
+        public BattleState(Seven seven, string formationId)
+            : this(seven)
         {            
             _turnQueue = new Queue<Ally>();
             _battleIcons = new Queue<BattleIcon>();
@@ -80,6 +81,11 @@ namespace Atmosphere.Reverence.Seven.State
             PriorityQueue = new Queue<BattleEvent>();
             
             Random = new Random();
+
+            Lua = Seven.GetLua();            
+            Lua.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
+            Lua[typeof(BattleState).Name] = this;
+
             
             Items = new List<IInventoryItem>();
             
@@ -90,16 +96,16 @@ namespace Atmosphere.Reverence.Seven.State
         {
             ScreenState state = new ScreenState
             {
-                Width = Seven.Config.WindowWidth,
-                Height = Seven.Config.WindowHeight
+                Width = Seven.Configuration.WindowWidth,
+                Height = Seven.Configuration.WindowHeight
             };
                         
             _victoryEvent = new EndOfBattleEvent(TimeFactory, "Victory!");
             _lossEvent = new EndOfBattleEvent(TimeFactory, "Annihilated!");
 
-            Screen = new BattleScreen(state);
+            Screen = new BattleScreen(this, state);
 
-            BattleClock = TimeFactory.CreateClock(Seven.Party.BattleSpeed);
+            BattleClock = TimeFactory.CreateClock(Party.BattleSpeed);
                        
             Allies = new Ally[Party.PARTY_SIZE];
 
@@ -109,16 +115,16 @@ namespace Atmosphere.Reverence.Seven.State
             int xs = 30;
             int ys = 250 / Party.PARTY_SIZE;
 
-            int[] e = _formation.GetAllyTurnTimersElapsed();
+            int[] e = _formation.GetAllyTurnTimersElapsed(Party);
 
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                if (Party[i] != null)
                 {
                     int x = x0 + (i * xs);
                     int y = y0 + (i * ys);
 
-                    Allies[i] = new Ally(this, Seven.Party[i], x, y, e[i]);
+                    Allies[i] = new Ally(this, Party[i], x, y, e[i]);
                     Allies[i].InitMenu(state);
                 }
             }
@@ -283,12 +289,12 @@ namespace Atmosphere.Reverence.Seven.State
 
                         if (ActiveAbility == _victoryEvent)
                         {
-                            Seven.Instance.EndBattle();
+                            Seven.EndBattle();
                         }
 
                         if (ActiveAbility == _lossEvent)
                         {
-                            Seven.Instance.LoseGame();
+                            Seven.LoseGame();
                         }
 
                         ActiveAbility = null;
@@ -480,7 +486,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         #region Override Methods
         
-        public override void Draw(Gdk.Drawable d, int width, int height)
+        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
 
@@ -529,7 +535,7 @@ namespace Atmosphere.Reverence.Seven.State
                 {
                     Paused = new PauseState
                     {
-                        WasPartyClockPaused = Seven.Party.Clock.Pause()
+                        WasPartyClockPaused = Party.Clock.Pause()
                     };
                     
                     TimeFactory.PauseAllClocks();
@@ -540,7 +546,7 @@ namespace Atmosphere.Reverence.Seven.State
                     
                     if (Paused.WasPartyClockPaused)
                     {
-                        Seven.Party.Clock.Unpause();
+                        Party.Clock.Unpause();
                     }
                     
                     Paused = null;
@@ -658,6 +664,8 @@ namespace Atmosphere.Reverence.Seven.State
         public int AP { get; private set; }
         public int Gil  { get; private set; }
         public List<IInventoryItem> Items { get; private set; }
+
+        public Lua Lua { get; private set; }
 
         public Random Random { get; private set; }
 

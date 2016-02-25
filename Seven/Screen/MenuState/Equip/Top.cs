@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 {
@@ -31,13 +32,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         private int cy = yi;
         private int _option = 0;
 
-        public Top(Menu.ScreenState screenState)
+        public Top(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height / 20,
                 screenState.Width - 10,
                 screenState.Height * 3 / 10 - 6)
         {
+            MenuState = menuState;
         }
         
         public override void ControlHandle(Key k)
@@ -59,27 +61,27 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 case Key.X:
                     if (Changed)
                     {
-                        Seven.MenuState.ChangeScreen(Seven.MenuState.MateriaScreen);
+                        MenuState.ChangeScreen(MenuState.MateriaScreen);
                     }
                     else
                     {
-                        Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                        MenuState.ChangeScreen(MenuState.MainScreen);
                     }
                     Changed = false;
                     break;
                 case Key.Square:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MateriaScreen);
+                    MenuState.ChangeScreen(MenuState.MateriaScreen);
                     break;
                 case Key.Circle:
-                    Seven.MenuState.EquipScreen.ChangeControl(Seven.MenuState.EquipList);
+                    MenuState.EquipScreen.ChangeControl(MenuState.EquipList);
                     break;
                 case Key.Triangle:
                     if (_option == 2)
                     {
-                        if (Seven.Party.Selected.Accessory != Accessory.EMPTY)
+                        if (MenuState.Party.Selected.Accessory != Accessory.EMPTY)
                         {
-                            Seven.Party.Inventory.AddToInventory(Seven.Party.Selected.Accessory);
-                            Seven.Party.Selected.Accessory = Accessory.EMPTY;
+                            MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Accessory);
+                            MenuState.Party.Selected.Accessory = Accessory.EMPTY;
                         }
                     }
                     break;
@@ -117,9 +119,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             #region Character Status
             
-            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Seven.Party.Selected);
+            Images.RenderProfile(d, gc, X + xpic, Y + ypic, MenuState.Party.Selected);
 
-            Graphics.Stats.RenderCharacterStatus(d, gc, g, Seven.Party.Selected, X + x_status, Y + y_status, false);
+            Graphics.Stats.RenderCharacterStatus(d, gc, g, MenuState.Party.Selected, X + x_status, Y + y_status, false);
 
             #endregion Status
             
@@ -134,9 +136,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             g.ShowText("Acc.");
             g.Color = Colors.WHITE;
             
-            weapon = Seven.Party.Selected.Weapon.Name;
-            armor = Seven.Party.Selected.Armor.Name;
-            acc = Seven.Party.Selected.Accessory.Name;
+            weapon = MenuState.Party.Selected.Weapon.Name;
+            armor = MenuState.Party.Selected.Armor.Name;
+            acc = MenuState.Party.Selected.Accessory.Name;
             
             te = g.TextExtents(weapon);
             Text.ShadowedText(g, weapon, X + x8, Y + yi);
@@ -169,16 +171,18 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 switch (_option)
                 {
                     case 0:
-                        return Seven.Party.Selected.Weapon.Description;
+                        return MenuState.Party.Selected.Weapon.Description;
                     case 1:
-                        return Seven.Party.Selected.Armor.Description;
+                        return MenuState.Party.Selected.Armor.Description;
                     case 2:
-                        return Seven.Party.Selected.Accessory.Description;
+                        return MenuState.Party.Selected.Accessory.Description;
                     default:
                         return "";
                 }
             }
         }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 {      
@@ -25,7 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         private int optionX;
         private int optionY;
 
-        public List(Menu.ScreenState screenState)
+        public List(SevenMenuState menuState, Menu.ScreenState screenState)
             : base(
                 screenState.Width / 2,
                 screenState.Height * 22 / 60,
@@ -33,6 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                 screenState.Height * 7 / 12)
         { 
             _characters = new Character[3, 3];
+            MenuState = menuState;
         }
 
         public override void ControlHandle(Key k)
@@ -64,14 +66,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                     }
                     break;
                 case Key.Circle:
-                    Character temp = Seven.Party.Reserves[optionY, optionX];
-                    Seven.Party.Reserves[optionY, optionX] = Seven.Party[Seven.MenuState.PhsStats.Option];
-                    Seven.Party[Seven.MenuState.PhsStats.Option] = temp;
+                    Character temp = MenuState.Party.Reserves[optionY, optionX];
+                    MenuState.Party.Reserves[optionY, optionX] = MenuState.Party[MenuState.PhsStats.Option];
+                    MenuState.Party[MenuState.PhsStats.Option] = temp;
                     Update();
-                    Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsStats);
+                    MenuState.PhsScreen.ChangeControl(MenuState.PhsStats);
                     break;
                 case Key.X:
-                    Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsStats);
+                    MenuState.PhsScreen.ChangeControl(MenuState.PhsStats);
                     break;
                 default:
                     break;
@@ -111,9 +113,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             {
                 for (int b = 0; b <= 2; b++)
                 {
-                    if (Seven.Party.Reserves[a, b] != null)
+                    if (MenuState.Party.Reserves[a, b] != null)
                     {
-                        Images.RenderProfileSmall(d, gc, X + x + b * xs, Y + y + a * ys, Seven.Party.Reserves[a, b]);
+                        Images.RenderProfileSmall(d, gc, X + x + b * xs, Y + y + a * ys, MenuState.Party.Reserves[a, b]);
                     }
                 }
             }
@@ -133,9 +135,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             {
                 for (int b = 0; b <= 2; b++)
                 {
-                    if (b + (3 * a) < Seven.Party.Reserves.Length)
+                    if (b + (3 * a) < MenuState.Party.Reserves.Length)
                     {
-                        _characters[a, b] = Seven.Party.Reserves[b, a];
+                        _characters[a, b] = MenuState.Party.Reserves[b, a];
                     }
                 }
             }
@@ -147,10 +149,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         }
         
         public Character Selection
-        { get { return Seven.Party.Reserves[optionY, optionX]; } }
+        { get { return MenuState.Party.Reserves[optionY, optionX]; } }
         
         public override string Info
         { get { return (Selection == null) ? "" : Selection.Name; } }
+
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

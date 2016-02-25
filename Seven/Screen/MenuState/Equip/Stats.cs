@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 {
@@ -22,13 +23,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
         
 #endregion
 
-        public Stats(Menu.ScreenState screenState)
+        public Stats(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 7 / 12,
                 screenState.Width * 5 / 8,
                 screenState.Height * 11 / 30)
         { 
+            MenuState = menuState;
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -44,13 +46,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
             int atk, atkp, def, defp, mat, mdf, mdfp;
 
-            atk = Ally.Attack(Seven.Party.Selected);
-            atkp = Ally.AttackPercent(Seven.Party.Selected);
-            def = Ally.Defense(Seven.Party.Selected);
-            defp = Ally.DefensePercent(Seven.Party.Selected);
-            mat = Ally.MagicAttack(Seven.Party.Selected);
-            mdf = Ally.MagicDefense(Seven.Party.Selected);
-            mdfp = Ally.MagicDefensePercent(Seven.Party.Selected);
+            atk = Ally.Attack(MenuState.Party.Selected);
+            atkp = Ally.AttackPercent(MenuState.Party.Selected);
+            def = Ally.Defense(MenuState.Party.Selected);
+            defp = Ally.DefensePercent(MenuState.Party.Selected);
+            mat = Ally.MagicAttack(MenuState.Party.Selected);
+            mdf = Ally.MagicDefense(MenuState.Party.Selected);
+            mdfp = Ally.MagicDefensePercent(MenuState.Party.Selected);
             
             Cairo.Color greenish = Colors.TEXT_TEAL;
             
@@ -77,49 +79,49 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             te = g.TextExtents(mdfp.ToString());
             Text.ShadowedText(g, mdfp.ToString(), X + x1 - te.Width, Y + yr + (line * 6));
             
-            if (Seven.MenuState.EquipList.IsControl)
+            if (MenuState.EquipList.IsControl)
             {
                 int t_atk, t_atkp, t_def, t_defp, t_mat, t_mdf, t_mdfp;
                 
                 IInventoryItem temp;
                 
-                switch (Seven.MenuState.EquipTop.Option)
+                switch (MenuState.EquipTop.Option)
                 {
                     case 0:
-                        temp = Seven.Party.Selected.Weapon;
-                        Seven.Party.Selected.Weapon = (Weapon)Seven.MenuState.EquipList.Selection;
+                        temp = MenuState.Party.Selected.Weapon;
+                        MenuState.Party.Selected.Weapon = (Weapon)MenuState.EquipList.Selection;
                         break;
                     case 1:
-                        temp = Seven.Party.Selected.Armor;
-                        Seven.Party.Selected.Armor = (Armor)Seven.MenuState.EquipList.Selection;
+                        temp = MenuState.Party.Selected.Armor;
+                        MenuState.Party.Selected.Armor = (Armor)MenuState.EquipList.Selection;
                         break;
                     case 2:
-                        temp = Seven.Party.Selected.Accessory;
-                        Seven.Party.Selected.Accessory = (Accessory)Seven.MenuState.EquipList.Selection;
+                        temp = MenuState.Party.Selected.Accessory;
+                        MenuState.Party.Selected.Accessory = (Accessory)MenuState.EquipList.Selection;
                         break;
                     default:
-                        temp = Seven.Party.Selected.Weapon;
+                        temp = MenuState.Party.Selected.Weapon;
                         break;
                 }
                 
-                t_atk = Ally.Attack(Seven.Party.Selected);
-                t_atkp = Ally.AttackPercent(Seven.Party.Selected);
-                t_def = Ally.Defense(Seven.Party.Selected);
-                t_defp = Ally.DefensePercent(Seven.Party.Selected);
-                t_mat = Ally.MagicAttack(Seven.Party.Selected);
-                t_mdf = Ally.MagicDefense(Seven.Party.Selected);
-                t_mdfp = Ally.MagicDefensePercent(Seven.Party.Selected);
+                t_atk = Ally.Attack(MenuState.Party.Selected);
+                t_atkp = Ally.AttackPercent(MenuState.Party.Selected);
+                t_def = Ally.Defense(MenuState.Party.Selected);
+                t_defp = Ally.DefensePercent(MenuState.Party.Selected);
+                t_mat = Ally.MagicAttack(MenuState.Party.Selected);
+                t_mdf = Ally.MagicDefense(MenuState.Party.Selected);
+                t_mdfp = Ally.MagicDefensePercent(MenuState.Party.Selected);
                 
-                switch (Seven.MenuState.EquipTop.Option)
+                switch (MenuState.EquipTop.Option)
                 {
                     case 0:
-                        Seven.Party.Selected.Weapon = (Weapon)temp;
+                        MenuState.Party.Selected.Weapon = (Weapon)temp;
                         break;
                     case 1:
-                        Seven.Party.Selected.Armor = (Armor)temp;
+                        MenuState.Party.Selected.Armor = (Armor)temp;
                         break;
                     case 2:
-                        Seven.Party.Selected.Accessory = (Accessory)temp;
+                        MenuState.Party.Selected.Accessory = (Accessory)temp;
                         break;
                     default: break;
                 }
@@ -183,7 +185,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
-        
+
+        private SevenMenuState MenuState { get; set; }   
     }
 }
 

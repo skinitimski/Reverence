@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 {      
@@ -24,17 +25,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         
         #endregion Layout
 
-        public Info(Menu.ScreenState screenState)
+        public Info(SevenMenuState menuState, Menu.ScreenState screenState)
             : base(
                 screenState.Width / 2,
                 screenState.Height * 7 / 60,
                 screenState.Width / 2 - 9,
                 screenState.Height / 4)
-        { }
+        { 
+            PhsList = menuState.PhsList;
+        }
         
         protected override void DrawContents(Gdk.Drawable d)
         {
-            if (Seven.MenuState.PhsList.IsControl)
+            if (PhsList.IsControl)
             {
                 Gdk.GC gc = new Gdk.GC(d);
                 Cairo.Context g = Gdk.CairoHelper.Create(d);
@@ -45,7 +48,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             
                 #region Character
             
-                Character c = Seven.MenuState.PhsList.Selection;
+                Character c = PhsList.Selection;
             
                 if (c != null)
                 {
@@ -61,6 +64,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                 ((IDisposable)g).Dispose();
             }
         }
+
+        private List PhsList { get; set; }
     }
 }
 

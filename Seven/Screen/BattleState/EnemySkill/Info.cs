@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 {
@@ -25,7 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
         #endregion Layout
 
-        public Info(Menu.ScreenState screenState)
+        public Info(SevenBattleState battleState, ScreenState screenState)
             : base(
                 screenState.Width * 3 / 4 + 12,
                 screenState.Height * 7 / 10 + 20,
@@ -33,6 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                 (screenState.Height * 5 / 20) - 25)
         {
             Visible = false;
+            BattleState = battleState;
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -44,7 +46,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
             TextExtents te;
 
-            Ability s = Seven.BattleState.Commanding.EnemySkillMenu.Selected;
+            Ability s = BattleState.Commanding.EnemySkillMenu.Selected;
 
             int row = 0;
 
@@ -59,7 +61,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                 te = g.TextExtents(cost);
                 Text.ShadowedText(g, cost, X + x2 - te.Width, Y + y0 + (row * ys));
 
-                string tot = Seven.BattleState.Commanding.MP.ToString();
+                string tot = BattleState.Commanding.MP.ToString();
                 te = g.TextExtents(tot);
                 Text.ShadowedText(g, tot, X + x3 - te.Width, Y + y0 + (row * ys));
 
@@ -69,7 +71,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenBattleState BattleState { get; set; }
     }
-
-
 }

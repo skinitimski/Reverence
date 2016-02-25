@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 using Cairo;
 
-using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
@@ -18,7 +17,7 @@ using MateriaLevelUp = Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
 
 namespace Atmosphere.Reverence.Seven.State
 {
-    internal class PostBattleState : GameState
+    internal class PostBattleState : State
     {
         public const int MS_PER_BAR_FILL = 3000;
 
@@ -41,7 +40,8 @@ namespace Atmosphere.Reverence.Seven.State
 
 
 
-        internal PostBattleState(int exp, int ap, int gil, List<IInventoryItem> items)
+        internal PostBattleState(Seven seven, int exp, int ap, int gil, List<IInventoryItem> items)
+            : base(seven)
         {
             Exp = exp;
             AP = ap;
@@ -56,13 +56,13 @@ namespace Atmosphere.Reverence.Seven.State
 
             for (int i = 0; i < 3; i++)
             {
-                if (Seven.Party[i] != null)
+                if (Party[i] != null)
                 {
-                    foreach (MateriaOrb m in Seven.Party[i].Materia)
+                    foreach (MateriaOrb m in Party[i].Materia)
                     {
                         if (m != null)
                         {
-                            if (m.ID == "gilplus")
+                            if (m.Name == "gilplus")
                             {
                                 switch (m.Level)
                                 {
@@ -77,7 +77,7 @@ namespace Atmosphere.Reverence.Seven.State
                                         break;
                                 }
                             }
-                            if (m.ID == "expplus")
+                            if (m.Name == "expplus")
                             {
                                 switch (m.Level)
                                 {
@@ -104,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.State
 
 
         public PostBattleState(BattleState battle)
-            : this(battle.Exp, battle.AP, battle.Gil, battle.Items)
+            : base((Seven)battle.Parent)
         {
         }
 
@@ -140,8 +140,8 @@ namespace Atmosphere.Reverence.Seven.State
         {
             ScreenState state = new ScreenState
             {
-                Width = Seven.Config.WindowWidth,
-                Height = Seven.Config.WindowHeight
+                Width = Seven.Configuration.WindowWidth,
+                Height = Seven.Configuration.WindowHeight
             };
             
 
@@ -151,11 +151,11 @@ namespace Atmosphere.Reverence.Seven.State
 
             List<GameMenu> victoryMenus = new List<GameMenu>();
             victoryMenus.Add(victoryLabel);
-            victoryMenus.Add(new Screens.Victory.VictoryEXP(state));
-            victoryMenus.Add(new Screens.Victory.VictoryAP(state));
-            victoryMenus.Add(new Screens.Victory.VictoryTop(state));
-            victoryMenus.Add(new Screens.Victory.VictoryMiddle(state));
-            victoryMenus.Add(new Screens.Victory.Bottom(state));
+            victoryMenus.Add(new Screens.Victory.VictoryEXP(this, state));
+            victoryMenus.Add(new Screens.Victory.VictoryAP(this, state));
+            victoryMenus.Add(new Screens.Victory.Top(this, state));
+            victoryMenus.Add(new Screens.Victory.Middle(this, state));
+            victoryMenus.Add(new Screens.Victory.Bottom(this, state));
 
             Mastered = new Mastered(state);
             Mastered.Visible = false;
@@ -180,14 +180,14 @@ namespace Atmosphere.Reverence.Seven.State
 
 
             Screens.Hoard.Label hoardLabel = new Screens.Hoard.Label(state);
-            HoardItemLeft = new Screens.Hoard.ItemLeft(state, Gil);
+            HoardItemLeft = new Screens.Hoard.ItemLeft(this, state, Gil);
             
             List<GameMenu> hoardMenus = new List<GameMenu>();
             hoardMenus.Add(hoardLabel);
-            hoardMenus.Add(new Screens.Hoard.GilLeft(state));
-            hoardMenus.Add(new Screens.Hoard.HoardGilRight(state));
+            hoardMenus.Add(new Screens.Hoard.GilLeft(this, state));
+            hoardMenus.Add(new Screens.Hoard.HoardGilRight(this, state));
             hoardMenus.Add(HoardItemLeft);
-            hoardMenus.Add(new Screens.Hoard.ItemRight(state));
+            hoardMenus.Add(new Screens.Hoard.ItemRight(this, state));
 
             HoardScreen = new MenuScreen(hoardMenus, hoardLabel);
 
@@ -218,7 +218,7 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
 
-        public override void Draw(Gdk.Drawable d, int width, int height)
+        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
         {
             _screen.Draw(d);
         }
@@ -280,13 +280,13 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 leveledUp[i] = new List<MateriaOrb>();
 
-                Character c = Seven.Party[i];
+                Character c = Party[i];
 
                 if (c != null && !c.Death)
                 {
                     foreach (MateriaOrb m in c.Materia)
                     {
-                        if (m != null && !m.Master)
+                        if (m != null && !m.Master && !(m is EnemySkillMateria))
                         {
                             int level = m.Level;
 
@@ -308,7 +308,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             // Each character not in the party gets half the
             // EXP that the others get (and no AP)
-            foreach (Character c in Seven.Party.Reserves)
+            foreach (Character c in Party.Reserves)
             {
                 if (c != null)
                 {
@@ -325,13 +325,13 @@ namespace Atmosphere.Reverence.Seven.State
                 int[] exp = new int[Party.PARTY_SIZE];
                 int[] expGained = new int[Party.PARTY_SIZE];
 
-                int refreshPeriod = Seven.Config.RefreshPeriod;
+                int refreshPeriod = Seven.Configuration.RefreshPeriod;
                 int msPerBarFill = MS_PER_BAR_FILL;
                 int periodsPerBarFill = msPerBarFill / refreshPeriod;
 
                 for (int i = 0; i < Party.PARTY_SIZE; i++)
                 {
-                    Character c = Seven.Party[i];
+                    Character c = Party[i];
                     
                     if (c != null && !c.Death)
                     {
@@ -348,7 +348,7 @@ namespace Atmosphere.Reverence.Seven.State
                         {
                             for (int i = 0; i < Party.PARTY_SIZE; i++)
                             {    
-                                Character c = Seven.Party[i];
+                                Character c = Party[i];
                                 
                                 if (c != null && !c.Death)
                                 {                            
@@ -367,7 +367,7 @@ namespace Atmosphere.Reverence.Seven.State
                     {
                         if (expGained[i] < exp[i])
                         {
-                            Character c = Seven.Party[i];
+                            Character c = Party[i];
 
                             if (c != null && !c.Death)
                             {
@@ -386,7 +386,7 @@ namespace Atmosphere.Reverence.Seven.State
                                 }
 
                                 expGained[i] += expChunk;
-                                Seven.Party[i].GainExperience(expChunk);
+                                Party[i].GainExperience(expChunk);
                             }
                             
                             allDone = false;

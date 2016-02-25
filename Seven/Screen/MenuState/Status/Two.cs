@@ -5,6 +5,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
@@ -18,12 +19,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int yo = yn + 80;
         const int yp = yo + 80;
         const int ys = 24;
-
         const int stop = 120;
-                
 
-        public Two(Menu.ScreenState screenState)
-            : base(screenState)
+        public Two(SevenMenuState menuState, ScreenState screenState)
+            : base(menuState, screenState)
         {
             Visible = false;
         }
@@ -70,10 +69,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                 
                 s = e.ToString() + " ";
                 te = g.TextExtents(s);
-                if (Seven.Party.Selected.Halves(e))
+                if (Party.Selected.Halves(e))
+                {
                     Text.ShadowedText(g, Colors.WHITE, e.ToString(), X + x, Y + r);
+                }
                 else
+                {
                     Text.ShadowedText(g, Colors.GRAY_4, e.ToString(), X + x, Y + r);
+                }
                 x += te.XAdvance;
             }
             
@@ -89,10 +92,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                 
                 s = e.ToString() + " ";
                 te = g.TextExtents(s);
-                if (Seven.Party.Selected.Halves(e))
+                if (Party.Selected.Halves(e))
+                {
                     Text.ShadowedText(g, Colors.WHITE, e.ToString(), X + x, Y + r);
+                }
                 else
+                {
                     Text.ShadowedText(g, Colors.GRAY_4, e.ToString(), X + x, Y + r);
+                }
                 x += te.XAdvance;
             }
             
@@ -108,10 +115,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                 
                 s = e.ToString() + " ";
                 te = g.TextExtents(s);
-                if (Seven.Party.Selected.Voids(e))
+                if (Party.Selected.Voids(e))
+                {
                     Text.ShadowedText(g, Colors.WHITE, e.ToString(), X + x, Y + r);
+                }
                 else
+                {
                     Text.ShadowedText(g, Colors.GRAY_4, e.ToString(), X + x, Y + r);
+                }
                 x += te.XAdvance;
             }
             
@@ -127,10 +138,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
                 
                 s = e.ToString() + " ";
                 te = g.TextExtents(s);
-                if (Seven.Party.Selected.Absorbs(e))
+                if (Party.Selected.Absorbs(e))
+                {
                     Text.ShadowedText(g, Colors.WHITE, e.ToString(), X + x, Y + r);
+                }
                 else
+                {
                     Text.ShadowedText(g, Colors.GRAY_4, e.ToString(), X + x, Y + r);
+                }
                 x += te.XAdvance;
             }
             

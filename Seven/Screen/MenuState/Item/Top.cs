@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 {
@@ -25,13 +26,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         private int option = 0;
         
         
-        public Top(Menu.ScreenState screenState)
+        public Top(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height / 20,
                 screenState.Width - 10,
                 screenState.Height / 15)
-        { }
+        { 
+            MenuState = menuState;
+        }
         
         public override void ControlHandle(Key k)
         {
@@ -44,17 +47,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     if (option < 2) option++;
                     break;
                 case Key.X:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
-                    Seven.MenuState.ItemList.Reset();
+                    MenuState.ChangeScreen(MenuState.MainScreen);
+                    MenuState.ItemList.Reset();
                     break;
                 case Key.Circle:
                     switch (option)
                     {
                         case 0:
-                            Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemList);
+                            MenuState.ItemScreen.ChangeControl(MenuState.ItemList);
                             break;
                         case 1:
-                            Seven.Party.Inventory.Sort();
+                            MenuState.Party.Inventory.Sort();
                             break;
                         case 2:
                             break;
@@ -109,6 +112,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                 }
             }
         }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

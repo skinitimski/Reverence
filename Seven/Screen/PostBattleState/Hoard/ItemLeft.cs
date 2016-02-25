@@ -5,6 +5,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenPostBattleState = Atmosphere.Reverence.Seven.State.PostBattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
 {  
@@ -29,15 +30,17 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         private bool _stopGivingGil;
         private readonly object _sync = new Object();
         
-        public ItemLeft(Menu.ScreenState screenState, int gil)
+        public ItemLeft(SevenPostBattleState postBattleState, ScreenState screenState, int gil)
             : base(
                 2,
                 screenState.Height * 13 / 60,
                 screenState.Width / 2,
                 screenState.Height * 3 / 4 - 6)
         { 
+            PostBattleState = postBattleState;
             Gil = gil;
         }
+
         public override void ControlHandle(Key k)
         {
             if (!_gaveGilAlready)
@@ -144,7 +147,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                 int totalGilToGain = Gil;
                 int gilGained = 0;
                 
-                int refreshPeriod = Seven.Config.RefreshPeriod;
+                int refreshPeriod = PostBattleState.Seven.Configuration.RefreshPeriod;
                 int gilPerPeriod = 30;
                                 
                 while (true)
@@ -155,7 +158,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                         {
                             int gilLeft = totalGilToGain - gilGained;
                             
-                            Seven.Party.Gil += gilLeft;
+                            PostBattleState.Party.Gil += gilLeft;
                             
                             break;
                         }
@@ -172,8 +175,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                             gilToGain = totalGilToGain - gilGained;
                         }
                         
-                        Seven.Party.Gil += gilToGain;
-                        Seven.PostBattleState.Gil -= gilToGain;
+                        PostBattleState.Party.Gil += gilToGain;
+                        PostBattleState.Gil -= gilToGain;
                         gilGained += gilToGain;
                         
                         allDone = false;
@@ -197,7 +200,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             {
                 for (int i = 0; i < item.Count; i++)
                 {
-                    Seven.Party.Inventory.AddToInventory(item.Item);
+                    PostBattleState.Party.Inventory.AddToInventory(item.Item);
                 }
             }
 
@@ -209,7 +212,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             GiveGilAnimation.Join();
             GiveGilAnimation = null;
 
-            Seven.Instance.EndPostBattle();
+            PostBattleState.Seven.EndPostBattle();
         }
 
         private void TakeEverything() 
@@ -248,7 +251,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             base.SetAsControl();
 
             _option = 0;
-            _hoard = Seven.PostBattleState.Items;
+            _hoard = PostBattleState.Items;
             _taken = new List<Inventory.Record>();
         }
 
@@ -281,6 +284,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         private int Gil { get; set; }
         
         private Thread GiveGilAnimation { get; set; }
+
+        private SevenPostBattleState PostBattleState { get; set; }
     }
 }
 

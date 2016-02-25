@@ -11,12 +11,13 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
+using NLua;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Spell : Ability
     {
-        protected Spell(XmlNode xml)
+        public Spell(XmlNode xml, Lua lua)
             : base()
         {
             Name = xml.SelectSingleNode("name").InnerText;
@@ -43,31 +44,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             XmlNode hitsNode = xml.SelectSingleNode("hits");
             Hits = hitsNode == null ? 1 : Int32.Parse(hitsNode.InnerText);
 
-            DamageFormula = GetFormula(xml.SelectSingleNode("formula"));
-        }
-
-
-
-        
-        public static Dictionary<string, Spell> LoadSpells(string resource)
-        {
-            Dictionary<string, Spell> table = new Dictionary<string, Spell>();
-            
-            XmlDocument gamedata = Resource.GetXmlFromResource(resource, typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("/spells/spell"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-                
-                Spell spell = new Spell(node);
-                
-                table.Add(spell.Name, spell);
-            } 
-            
-            return table;
+            DamageFormula = GetFormula(xml.SelectSingleNode("formula"), lua);
         }
 
 

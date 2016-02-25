@@ -6,6 +6,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 {
@@ -24,13 +25,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
         #endregion
 
-        public Selected(Menu.ScreenState screenState)
+        public Selected(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 5 / 12,
                 screenState.Width * 5 / 8,
                 screenState.Height / 6)
         {
+            MenuState = menuState;
         }
         
         protected override void DrawContents(Gdk.Drawable d)
@@ -66,26 +68,26 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             {
                 SlotHolder equipment = null;
 
-                if (Seven.MenuState.EquipTop.IsControl)
+                if (MenuState.EquipTop.IsControl)
                 {
-                    switch (Seven.MenuState.EquipTop.Option)
+                    switch (MenuState.EquipTop.Option)
                     {
                         case 0: 
-                            equipment = Seven.Party.Selected.Weapon;
+                            equipment = MenuState.Party.Selected.Weapon;
                             break;
                         case 1:
-                            equipment = Seven.Party.Selected.Armor;
+                            equipment = MenuState.Party.Selected.Armor;
                             break;
                         // case 2 is accessory
                     }
                 }
-                else if (Seven.MenuState.EquipList.IsControl)
+                else if (MenuState.EquipList.IsControl)
                 {
-                    switch (Seven.MenuState.EquipTop.Option)
+                    switch (MenuState.EquipTop.Option)
                     {
                         case 0: 
                         case 1: 
-                            equipment = (SlotHolder)Seven.MenuState.EquipList.Selection;
+                            equipment = (SlotHolder)MenuState.EquipList.Selection;
                             break;
                         // case 2 is accessory
                     }
@@ -93,7 +95,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
 
                 return equipment;
             }
-        }               
+        }  
+        
+        private SevenMenuState MenuState { get; set; }            
         
     }
 }

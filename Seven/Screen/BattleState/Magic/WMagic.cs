@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {       
@@ -21,8 +22,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             public IEnumerable<Combatant> Targets;
         }
         
-        public WMagic(IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
-            : base(spells, screenState)
+        public WMagic(SevenBattleState battleState, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
+            : base(battleState, spells, screenState)
         {
         }
         

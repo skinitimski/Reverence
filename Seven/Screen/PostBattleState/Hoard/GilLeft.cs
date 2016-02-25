@@ -2,7 +2,9 @@ using System;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenPostBattleState = Atmosphere.Reverence.Seven.State.PostBattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
 {  
@@ -16,7 +18,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         
 #endregion
         
-        public GilLeft(Menu.ScreenState screenState)
+        public GilLeft(SevenPostBattleState postBattleState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height  * 2 / 15,
@@ -32,7 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             
             TextExtents te;
             
-            string gil = Seven.PostBattleState.Gil.ToString() + "g";
+            string gil = PostBattleState.Gil.ToString() + "g";
             te = g.TextExtents(gil);
             Text.ShadowedText(g, "Gained Gil", X + x1, Y + ys);
             Text.ShadowedText(g, gil, X + x2 - te.Width, Y + ys);
@@ -40,6 +42,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenPostBattleState PostBattleState { get; set; }
     }
 }
 

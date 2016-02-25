@@ -7,7 +7,6 @@ using Atmosphere.Reverence;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Menu;
-using GameState = Atmosphere.Reverence.State;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using Atmosphere.Reverence.Seven.Screen.MenuState;
 using Screens = Atmosphere.Reverence.Seven.Screen.MenuState;
@@ -16,9 +15,10 @@ using Atmosphere.Reverence.Seven.Screen.MenuState.Main;
 
 namespace Atmosphere.Reverence.Seven.State
 {
-    internal class MenuState : GameState
+    internal class MenuState : State
     {
-        public MenuState()
+        public MenuState(Seven seven)
+            : base(seven)
         {
         }
 
@@ -28,21 +28,21 @@ namespace Atmosphere.Reverence.Seven.State
         {
             ScreenState state = new ScreenState
             {
-                Width = Seven.Config.WindowWidth,
-                Height = Seven.Config.WindowHeight
+                Width = Parent.Configuration.WindowWidth,
+                Height = Parent.Configuration.WindowHeight
             };
 
             //
             // MAIN MENU
             // 
             
-            MainStatus = new Screens.Main.Status(state);
-            MainOptions = new Screens.Main.Options(state);
+            MainStatus = new Screens.Main.Status(this, state);
+            MainOptions = new Screens.Main.Options(this, state);
             
             List<GameMenu> mainMenus = new List<GameMenu>();
             mainMenus.Add(MainStatus);
             mainMenus.Add(MainOptions);
-            mainMenus.Add(new Screens.Main.Time(state));
+            mainMenus.Add(new Screens.Main.Time(this, state));
             mainMenus.Add(new Screens.Main.Location(state));
             
             MainScreen = new MenuScreen(mainMenus, MainOptions);
@@ -53,15 +53,15 @@ namespace Atmosphere.Reverence.Seven.State
             // ITEM
             //
                         
-            ItemTop = new Screens.Item.Top(state);
-            ItemStats = new Screens.Item.Stats(state);
-            ItemList = new Screens.Item.List(state);
+            ItemTop = new Screens.Item.Top(this, state);
+            ItemStats = new Screens.Item.Stats(this, state);
+            ItemList = new Screens.Item.List(this, state);
 
             List<GameMenu> itemMenus = new List<GameMenu>();
             itemMenus.Add(ItemTop);
             itemMenus.Add(ItemStats);
             itemMenus.Add(ItemList);
-            itemMenus.Add(new Screens.Item.Info(state));
+            itemMenus.Add(new Screens.Item.Info(this, state));
             itemMenus.Add(new Screens.Item.Label(state));
 
             ItemScreen = new MenuScreen(itemMenus, ItemTop);
@@ -71,16 +71,16 @@ namespace Atmosphere.Reverence.Seven.State
             // MATERIA
             //
 
-            MateriaTop = new Screens.Materia.Top(state);
-            MateriaList = new Screens.Materia.List(state);
-            MateriaArrange = new Screens.Materia.Arrange(state);
-            MateriaPrompt = new Screens.Materia.Prompt(state);
+            MateriaTop = new Screens.Materia.Top(this, state);
+            MateriaList = new Screens.Materia.List(this, state);
+            MateriaArrange = new Screens.Materia.Arrange(this, state);
+            MateriaPrompt = new Screens.Materia.Prompt(this, state);
 
             List<GameMenu> materiaMenus  = new List<GameMenu>();
             materiaMenus.Add(MateriaTop);
             materiaMenus.Add(MateriaList);
-            materiaMenus.Add(new Screens.Materia.Stats(state));
-            materiaMenus.Add(new Screens.Materia.Info(state));
+            materiaMenus.Add(new Screens.Materia.Stats(this, state));
+            materiaMenus.Add(new Screens.Materia.Info(this, state));
             materiaMenus.Add(new Screens.Materia.Label(state));
             materiaMenus.Add(MateriaArrange);
             materiaMenus.Add(MateriaPrompt);
@@ -92,15 +92,15 @@ namespace Atmosphere.Reverence.Seven.State
             // EQUIP
             //
 
-            EquipTop = new Screens.Equip.Top(state);
-            EquipList = new Screens.Equip.List(state);
+            EquipTop = new Screens.Equip.Top(this, state);
+            EquipList = new Screens.Equip.List(this, state);
 
-            List<GameMenu> equipMenus =  new List<GameMenu>();
+            List<GameMenu> equipMenus = new List<GameMenu>();
             equipMenus.Add(EquipTop);
             equipMenus.Add(EquipList);
-            equipMenus.Add(new Screens.Equip.Stats(state));
-            equipMenus.Add(new Screens.Equip.Selected(state));
-            equipMenus.Add(new Screens.Equip.Info(state));
+            equipMenus.Add(new Screens.Equip.Stats(this, state));
+            equipMenus.Add(new Screens.Equip.Selected(this, state));
+            equipMenus.Add(new Screens.Equip.Info(this, state));
             equipMenus.Add(new Screens.Equip.Label(state));
 
             EquipScreen = new MenuScreen(equipMenus, EquipTop);
@@ -110,10 +110,10 @@ namespace Atmosphere.Reverence.Seven.State
             // STATUS
             //
 
-            StatusOne = new Screens.Status.One(state);
-            StatusTwo = new Screens.Status.Two(state);
-            StatusThree = new Screens.Status.Three(state);
-            StatusLabel = new Screens.Status.Label(state);
+            StatusOne = new Screens.Status.One(this, state);
+            StatusTwo = new Screens.Status.Two(this, state);
+            StatusThree = new Screens.Status.Three(this, state);
+            StatusLabel = new Screens.Status.Label(this, state);
 
             List<GameMenu>  statusMenus =  new List<GameMenu>();
             statusMenus.Add(StatusOne);
@@ -128,28 +128,28 @@ namespace Atmosphere.Reverence.Seven.State
             // CONFIG
             //
             
-            ConfigMain = new Screens.Config.Main(state);
+            ConfigMain = new Screens.Config.Main(this, state);
             
             List<GameMenu> configMenus = new List<GameMenu>();
-            configMenus.Add(new Screens.Config.Info(state));
+            configMenus.Add(new Screens.Config.Info(this,state));
             configMenus.Add(new Screens.Config.Label(state));
             configMenus.Add(ConfigMain);
 
             ConfigScreen = new MenuScreen(configMenus, ConfigMain);
             
-            
+
             //
             // PHS
             //
             
-            PhsList = new Screens.Phs.List(state);
+            PhsList = new Screens.Phs.List(this, state);
             PhsStats = new Screens.Phs.Stats(state);
             
             List<GameMenu> phsMenus = new List<GameMenu>();
             phsMenus.Add(new Screens.Phs.Top(state));
             phsMenus.Add(PhsStats);
             phsMenus.Add(PhsList);
-            phsMenus.Add(new Screens.Phs.Info(state));
+            phsMenus.Add(new Screens.Phs.Info(this, state));
             phsMenus.Add(new Screens.Phs.Label(state));
             
             PhsScreen = new MenuScreen(phsMenus, PhsStats);
@@ -159,8 +159,8 @@ namespace Atmosphere.Reverence.Seven.State
             // SAVE
             //
 
-            SavePrompt = new Screens.Save.Prompt(state);
-            SaveConfirm = new Screens.Save.Confirm(state);
+            SavePrompt = new Screens.Save.Prompt(this, state);
+            SaveConfirm = new Screens.Save.Confirm(this, state);
 
             List<GameMenu> saveMenus = new List<GameMenu>();
             saveMenus.Add(new Screens.Save.Label(state));
@@ -176,7 +176,7 @@ namespace Atmosphere.Reverence.Seven.State
 
 
 
-        public override void Draw(Gdk.Drawable d, int width, int height)
+        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace Atmosphere.Reverence.Seven.State
                         MateriaTop.IsControl ||
                         StatusLabel.IsControl)
                     {
-                        Seven.Party.IncrementSelection();
+                        Party.IncrementSelection();
                     }
                     break;
                 case Key.R1:
@@ -208,7 +208,7 @@ namespace Atmosphere.Reverence.Seven.State
                         MateriaTop.IsControl ||
                         StatusLabel.IsControl)
                     {
-                        Seven.Party.DecrementSelection();
+                        Party.DecrementSelection();
                     }
                     break;
                 default:

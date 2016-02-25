@@ -11,6 +11,7 @@ using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -59,7 +60,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 
                 if (isLast)
                 {
-                    Seven.Party.Inventory.DecreaseCount(Slot);
+                    Source.CurrentBattle.Party.Inventory.DecreaseCount(Slot);
                 }
             }
             
@@ -78,13 +79,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-        public ItemMenu(Menu.ScreenState screenState)
+        public ItemMenu(SevenBattleState battleState, ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 7 / 10 + 20,
                 screenState.Width - 11,
                 (screenState.Height * 5 / 20) - 25)
         {
+            BattleState = battleState;
         }
 
         public override void ControlHandle(Key k)
@@ -101,7 +103,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     break;
                 case Key.X:
                     Visible = false;
-                    Seven.BattleState.Screen.PopControl();
+                    BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
@@ -111,7 +113,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     {
                         Item item = (Item)i;
 
-                        Seven.BattleState.Screen.ActivateSelector(item.BattleTarget, item.IntendedForEnemies);
+                        BattleState.Screen.ActivateSelector(item.BattleTarget, item.IntendedForEnemies);
                     }
 
                     break;
@@ -130,12 +132,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         protected void UseItem(int slot, IEnumerable<Combatant> targets, bool releaseAlly = true)
         {
-            Item item = (Item)Seven.Party.Inventory.GetItem(slot);
-            Ally source = Seven.BattleState.Commanding;
+            Item item = (Item)BattleState.Party.Inventory.GetItem(slot);
+            Ally source = BattleState.Commanding;
 
             UseItemEvent e = new UseItemEvent(item, slot, source, targets, releaseAlly);
             
-            Seven.BattleState.EnqueueAction(e);
+            BattleState.EnqueueAction(e);
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -152,11 +154,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             for (int i = _topRow; i < j; i++)
             {
-                IInventoryItem item = Seven.Party.Inventory.GetItem(i);
+                IInventoryItem item = BattleState.Party.Inventory.GetItem(i);
 
                 if (item != null)
                 {
-                    int count = Seven.Party.Inventory.GetCount(i);
+                    int count = BattleState.Party.Inventory.GetCount(i);
                     te = g.TextExtents(count.ToString());
 
                     Color textColor = item.CanUseInBattle ? Colors.WHITE : Colors.GRAY_4;
@@ -198,6 +200,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             }
         }
 
-        protected IInventoryItem Selection { get { return Seven.Party.Inventory.GetItem(_option); } }
+        protected IInventoryItem Selection { get { return BattleState.Party.Inventory.GetItem(_option); } }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }

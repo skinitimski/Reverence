@@ -5,8 +5,10 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using Atmosphere.Reverence.Seven.Asset;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {
@@ -23,7 +25,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         
         #endregion Layout
         
-        public Info(Menu.ScreenState screenState)
+        public Info(SevenBattleState battleState, ScreenState screenState)
             : base(
                 screenState.Width * 3 / 4 + 12,
                 screenState.Height * 7 / 10 + 20,
@@ -31,6 +33,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                 (screenState.Height * 5 / 20) - 25)
         {
             Visible = false;
+            BattleState = battleState;
         }
         
         protected override void DrawContents(Gdk.Drawable d)
@@ -42,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             
             TextExtents te;
             
-            MagicMenuEntry s = Seven.BattleState.Commanding.MagicMenu.Selected;
+            MagicMenuEntry s = BattleState.Commanding.MagicMenu.Selected;
             
             int row = 0;
             
@@ -57,7 +60,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                 te = g.TextExtents(cost);
                 Text.ShadowedText(g, cost, X + x2 - te.Width, Y + y0 + (row * ys));
                 
-                string tot = Seven.BattleState.Commanding.MP.ToString();
+                string tot = BattleState.Commanding.MP.ToString();
                 te = g.TextExtents(tot);
                 Text.ShadowedText(g, tot, X + x3 - te.Width, Y + y0 + (row * ys));
                 
@@ -84,6 +87,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }
 

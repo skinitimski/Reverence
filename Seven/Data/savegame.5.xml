@@ -22,9 +22,9 @@
             <weapon>
                 <name>butterflyedge</name>
                 <materia>
-                    <orb id="mastermagic" type="Magic"   ap="0"         slot="0" />
-                    <orb id="doublecut"   type="Command" ap="0"         slot="1" />
-                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="2" />
+                    <orb id="Master Magic" ap="0"         slot="0" />
+                    <orb id="Double Cut"   ap="125000"    slot="1" />
+                    <orb id="Enemy Skill"  ap="16777215"  slot="2" />
                 </materia>
             </weapon>
             <armor>
@@ -113,9 +113,9 @@
             <weapon>
                 <name>fairytale</name>
                 <materia>
-                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
-                    <orb id="doublecut" type="Command" ap="100000" slot="1" />
-                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="2" />
+                    <orb id="Master Magic" ap="0"         slot="0" />
+                    <orb id="Double Cut"   ap="0"         slot="1" />
+                    <orb id="Enemy Skill"  ap="16777215"  slot="2" />
                 </materia>
             </weapon>
             <armor>
@@ -146,14 +146,14 @@
             <weapon>
                 <name>seraphcomb</name>
                 <materia>
-                    <orb id="sense" type="Command" ap="2000" slot="0" />
+                    <orb id="Sense" ap="2000" slot="0" />
                 </materia>
             </weapon>
             <armor>
                 <name>diamondbangle</name>
                 <materia>
-                    <orb id="mastermagic" type="Magic" ap="0" slot="0" />
-                    <orb id="enemyskill"  type="Command" ap="16777215"  slot="1" />
+                    <orb id="Master Magic" ap="0" slot="0" />
+                    <orb id="Enemy Skill"  ap="16777215"  slot="1" />
                 </materia>
             </armor>
             <accessory />
@@ -180,7 +180,7 @@
             <weapon>
                 <name>yellowmphone</name>
                 <materia>
-                    <orb id="transform" type="Magic" ap="0" slot="0" />
+                    <orb id="Transform" ap="0" slot="0" />
                 </materia>
             </weapon>
             <armor>
@@ -211,7 +211,7 @@
             <weapon>
                 <name>windslash</name>
                 <materia>
-                    <orb id="throw" type="Command" ap="0" slot="0" />
+                    <orb id="Throw" ap="0" slot="0" />
                 </materia>
             </weapon>
             <armor>
@@ -300,20 +300,20 @@
             <weapon>
                 <name>masamune</name>
                 <materia>
-                    <orb id="revive" type="Magic" ap="55000" slot="0" />
-                    <orb id="restore" type="Magic" ap="40000" slot="1" />
-                    <orb id="fire" type="Magic" ap="35000" slot="2" />
-                    <orb id="all" type="Support" ap="35000" slot="3" />
-                    <orb id="heal" type="Magic" ap="60000" slot="4" />
+                    <orb id="Revive" ap="55000" slot="0" />
+                    <orb id="Restore" ap="40000" slot="1" />
+                    <orb id="Fire" ap="35000" slot="2" />
+                    <orb id="All" ap="35000" slot="3" />
+                    <orb id="Heal" ap="60000" slot="4" />
                 </materia>
             </weapon>
             <armor>
                 <name>goldarmlet</name>
                 <materia>
-                    <orb id="ice" type="Magic" ap="35000" slot="0" />
-                    <orb id="all" type="Support" ap="35000" slot="1" />
-                    <orb id="lightning" type="Magic" ap="35000" slot="2" />
-                    <orb id="all" type="Support" ap="35000" slot="3" />
+                    <orb id="Ice" ap="35000" slot="0" />
+                    <orb id="All" ap="35000" slot="1" />
+                    <orb id="Lightning" ap="35000" slot="2" />
+                    <orb id="All" ap="35000" slot="3" />
                 </materia>
             </armor>
             <accessory>touphring</accessory>
@@ -518,75 +518,75 @@
         <accessory id="waterring" count="1" slot="416" />
     </inventory>
     <materiatory>
-        <orb id="fire" type="Magic" ap="2000" slot="0" />
-        <orb id="fire" type="Magic" ap="1400" slot="1" />
-        <orb id="ice" type="Magic" ap="30000" slot="2" />
-        <orb id="lightning" type="Magic" ap="20000" slot="3" />
-        <orb id="restore" type="Magic" ap="1000" slot="5" />
-        <orb id="restore" type="Magic" ap="19000" slot="7" />
-        <orb id="revive" type="Magic" ap="20000" slot="8" />
-        <orb id="earth" type="Magic" ap="12000" slot="16" />
-        <orb id="earth" type="Magic" ap="39000" slot="17" />
-        <orb id="poison" type="Magic" ap="6100" slot="18" />
-        <orb id="gravity" type="Magic" ap="11000" slot="19" />
-        <orb id="heal" type="Magic" ap="32000" slot="21" />
-        <orb id="seal" type="Magic" ap="12000" slot="22" />
-        <orb id="mystify" type="Magic" ap="16000" slot="23" />
-        <orb id="transform" type="Magic" ap="20000" slot="24" />
-        <orb id="exit" type="Magic" ap="13000" slot="25" />
-        <orb id="barrier" type="Magic" ap="5050" slot="26" />
-        <orb id="destruct" type="Magic" ap="7040" slot="27" />
-        <orb id="time" type="Magic" ap="12000" slot="28" />
-        <orb id="comet" type="Magic" ap="60000" slot="29" />
-        <orb id="contain" type="Magic" ap="12000" slot="32" />
-        <orb id="fullcure" type="Magic" ap="80000" slot="33" />
-        <orb id="shield" type="Magic" ap="11000" slot="34" />
-        <orb id="ultima" type="Magic" ap="5000" slot="35" />
-        <orb id="ultima" type="Magic" ap="4999" slot="36" />
-        <orb id="hpabsorb" type="Support" ap="90000" slot="37" />
-        <orb id="mpabsorb" type="Support" ap="100000" slot="38" />
-        <orb id="quadramagic" type="Support" ap="90000" slot="39" />
-        <orb id="all" type="Support" ap="10000" slot="40" />
-        <orb id="wsummon" type="Command" ap="110000" slot="50" />
-        <orb id="wmagic" type="Command" ap="200000" slot="51" />
-        <orb id="witem" type="Command" ap="110000" slot="52" />
-        <orb id="sense" type="Command" ap="4518" slot="53" />
-        <orb id="doublecut" type="Command" ap="6286" slot="54" />
-        <orb id="doublecut" type="Command" ap="142006" slot="55" />
-        <orb id="slashall" type="Command" ap="113116" slot="56" />
-        <orb id="slashall" type="Command" ap="149675" slot="57" />
-        <orb id="mime" type="Command" ap="25719" slot="58" />
-        <orb id="deathblow" type="Command" ap="12964" slot="59" />
-        <orb id="steal" type="Command" ap="49876" slot="60" />
-        <orb id="steal" type="Command" ap="36111" slot="61" />
-        <orb id="enemyskill" type="Command" ap="3548138" slot="62" />
-        <orb id="underwater" type="Independent" ap="32000" slot="64" />
-        <orb id="longrange" type="Independent" ap="32000" slot="65" />
-        <orb id="magicplus" type="Independent" ap="41511" slot="66" />
-        <orb id="luckplus" type="Independent" ap="22782" slot="67" />
-        <orb id="speedplus" type="Independent" ap="50000" slot="68" />
-        <orb id="speedplus" type="Independent" ap="0" slot="69" />
-        <orb id="chocomog" type="Summon" ap="10000" slot="70" />
-        <orb id="shiva" type="Summon" ap="10000" slot="71" />
-        <orb id="ifrit" type="Summon" ap="10000" slot="72" />
-        <orb id="ramuh" type="Summon" ap="10000" slot="73" />
-        <orb id="titan" type="Summon" ap="10000" slot="74" />
-        <orb id="odin" type="Summon" ap="10000" slot="75" />
-        <orb id="leviathan" type="Summon" ap="10000" slot="76" />
-        <orb id="bahamut" type="Summon" ap="10000" slot="77" />
-        <orb id="kjata" type="Summon" ap="10000" slot="78" />
-        <orb id="alexander" type="Summon" ap="10000" slot="79" />
-        <orb id="phoenix" type="Summon" ap="10000" slot="80" />
-        <orb id="neobahamut" type="Summon" ap="10000" slot="81" />
-        <orb id="hades" type="Summon" ap="10000" slot="82" />
-        <orb id="typhon" type="Summon" ap="10000" slot="83" />
-        <orb id="bahamutzero" type="Summon" ap="10000" slot="84" />
-        <orb id="knightsofround" type="Summon" ap="10000" slot="85" />
-        <orb id="hpplus" type="Independent" ap="12838" slot="100" />
-        <orb id="hpplus" type="Independent" ap="23955" slot="101" />
-        <orb id="hpplus" type="Independent" ap="50000" slot="102" />
-        <orb id="mpplus" type="Independent" ap="9944" slot="103" />
-        <orb id="mpplus" type="Independent" ap="45121" slot="104" />
+        <orb id="Master Magic" type="Magic" ap="0" slot="0" />
+        <orb id="Fire" type="Magic" ap="1400" slot="1" />
+        <orb id="Ice" type="Magic" ap="30000" slot="2" />
+        <orb id="Lightning" type="Magic" ap="20000" slot="3" />
+        <orb id="Restore" type="Magic" ap="1000" slot="5" />
+        <orb id="Restore" type="Magic" ap="19000" slot="7" />
+        <orb id="Revive" type="Magic" ap="20000" slot="8" />
+        <orb id="Earth" type="Magic" ap="12000" slot="16" />
+        <orb id="Earth" type="Magic" ap="39000" slot="17" />
+        <orb id="Poison" type="Magic" ap="6100" slot="18" />
+        <orb id="Gravity" type="Magic" ap="11000" slot="19" />
+        <orb id="Heal" type="Magic" ap="32000" slot="21" />
+        <orb id="Seal" type="Magic" ap="12000" slot="22" />
+        <orb id="Mystify" type="Magic" ap="16000" slot="23" />
+        <orb id="Transform" type="Magic" ap="20000" slot="24" />
+        <orb id="Exit" type="Magic" ap="13000" slot="25" />
+        <orb id="Barrier" type="Magic" ap="5050" slot="26" />
+        <orb id="Destruct" type="Magic" ap="7040" slot="27" />
+        <orb id="Time" type="Magic" ap="12000" slot="28" />
+        <orb id="Comet" type="Magic" ap="60000" slot="29" />
+        <orb id="Contain" type="Magic" ap="12000" slot="32" />
+        <orb id="Full Cure" type="Magic" ap="80000" slot="33" />
+        <orb id="Shield" type="Magic" ap="11000" slot="34" />
+        <orb id="Ultima" type="Magic" ap="5000" slot="35" />
+        <orb id="Ultima" type="Magic" ap="4999" slot="36" />
+        <orb id="MP Absorb" type="Support" ap="90000" slot="37" />
+        <orb id="MP Absorb" type="Support" ap="100000" slot="38" />
+        <orb id="Quadra Magic" type="Support" ap="90000" slot="39" />
+        <orb id="All" type="Support" ap="10000" slot="40" />
+        <orb id="W-Summon" type="Command" ap="110000" slot="50" />
+        <orb id="W-Magic" type="Command" ap="200000" slot="51" />
+        <orb id="W-Item" type="Command" ap="110000" slot="52" />
+        <orb id="Sense" type="Command" ap="4518" slot="53" />
+        <orb id="Double Cut" type="Command" ap="6286" slot="54" />
+        <orb id="Double Cut" type="Command" ap="142006" slot="55" />
+        <orb id="Slash-All" type="Command" ap="113116" slot="56" />
+        <orb id="Slash-All" type="Command" ap="149675" slot="57" />
+        <orb id="Mime" type="Command" ap="25719" slot="58" />
+        <orb id="Deathblow" type="Command" ap="12964" slot="59" />
+        <orb id="Steal" type="Command" ap="49876" slot="60" />
+        <orb id="Steal" type="Command" ap="36111" slot="61" />
+        <orb id="Enemy Skill" type="Command" ap="3548138" slot="62" />
+        <orb id="Underwater" type="Independent" ap="32000" slot="64" />
+        <orb id="Long Range" type="Independent" ap="32000" slot="65" />
+        <orb id="Magic Plus" type="Independent" ap="41511" slot="66" />
+        <orb id="Luck Plus" type="Independent" ap="22782" slot="67" />
+        <orb id="Speed Plus" type="Independent" ap="50000" slot="68" />
+        <orb id="Speed Plus" type="Independent" ap="0" slot="69" />
+        <orb id="Choco/Mog" type="Summon" ap="10000" slot="70" />
+        <orb id="Shiva" type="Summon" ap="10000" slot="71" />
+        <orb id="Ifrit" type="Summon" ap="10000" slot="72" />
+        <orb id="Ramuh" type="Summon" ap="10000" slot="73" />
+        <orb id="Titan" type="Summon" ap="10000" slot="74" />
+        <orb id="Odin" type="Summon" ap="10000" slot="75" />
+        <orb id="Leviathan" type="Summon" ap="10000" slot="76" />
+        <orb id="Bahamut" type="Summon" ap="10000" slot="77" />
+        <orb id="Kjata" type="Summon" ap="10000" slot="78" />
+        <orb id="Alexander" type="Summon" ap="10000" slot="79" />
+        <orb id="Phoenix" type="Summon" ap="10000" slot="80" />
+        <orb id="Neo Bahamut" type="Summon" ap="10000" slot="81" />
+        <orb id="Hades" type="Summon" ap="10000" slot="82" />
+        <orb id="Typhon" type="Summon" ap="10000" slot="83" />
+        <orb id="Bahamut ZERO" type="Summon" ap="10000" slot="84" />
+        <orb id="Knights of Round" type="Summon" ap="10000" slot="85" />
+        <orb id="HP Plus" type="Independent" ap="12838" slot="100" />
+        <orb id="HP Plus" type="Independent" ap="23955" slot="101" />
+        <orb id="HP Plus" type="Independent" ap="50000" slot="102" />
+        <orb id="MP Plus" type="Independent" ap="9944" slot="103" />
+        <orb id="MP Plus" type="Independent" ap="45121" slot="104" />
     </materiatory>
     <gil>26890</gil>
     <time>41359984</time>

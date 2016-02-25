@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenPostBattleState = Atmosphere.Reverence.Seven.State.PostBattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
 {  
@@ -18,25 +20,28 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
         
 #endregion
         
-        public ItemRight(Menu.ScreenState screenState)
+        public ItemRight(SevenPostBattleState postBattleState, ScreenState screenState)
             : base(
                 screenState.Width / 2,
                 screenState.Height * 13 / 60,
                 screenState.Width / 2 - 8,
                 screenState.Height * 3 / 4 - 6)
-        { }
+        { 
+            HoardItemLeft = postBattleState.HoardItemLeft;
+        }
+
         protected override void DrawContents(Gdk.Drawable d)
         {
             Cairo.Context g = Gdk.CairoHelper.Create(d);
             
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
+
             TextExtents te;
 
             Text.ShadowedText(g, "Item", X + x1, Y + (ys * 1));
             
-            List<Inventory.Record> taken = Seven.PostBattleState.HoardItemLeft.Taken;
+            List<Inventory.Record> taken = HoardItemLeft.Taken;
             
             for (int i = 0; i < taken.Count; i++)
             {
@@ -52,6 +57,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
+        private ItemLeft HoardItemLeft { get; set; }
     }
 }
 

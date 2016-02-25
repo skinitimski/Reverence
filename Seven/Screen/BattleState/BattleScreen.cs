@@ -11,6 +11,7 @@ using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using Screens = Atmosphere.Reverence.Seven.Screen.BattleState;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 using SelectorBase = Atmosphere.Reverence.Seven.Screen.BattleState.Selector.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -22,29 +23,34 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-
-
-        public BattleScreen(ScreenState state)
+        private BattleScreen()
         {
-            StatusBarLeft = new Screens.StatusBarLeft(state);
-            StatusBarRight = new Screens.StatusBarRight(state);
-            InfoBar = new Screens.InfoBar(state);
-            EventBar = new Screens.EventBar(state);
-            ItemMenu = new Screens.ItemMenu(state);
-            WItemMenu = new Screens.WItemMenu(state);
+        }
+
+        public BattleScreen(SevenBattleState battleState, ScreenState state)
+            : this()
+        {
+            StatusBarLeft = new Screens.StatusBarLeft(battleState, state);
+            StatusBarRight = new Screens.StatusBarRight(battleState, state);
+            InfoBar = new Screens.InfoBar(battleState, state);
+            EventBar = new Screens.EventBar(battleState, state);
+            ItemMenu = new Screens.ItemMenu(battleState, state);
+            WItemMenu = new Screens.WItemMenu(battleState, state);
 
             
-            MagicInfo = new Screens.Magic.Info(state);  
-            EnemySkillInfo = new Screens.EnemySkill.Info(state);  
-            SummonMenuInfo = new Screens.Summon.Info(state);  
+            MagicInfo = new Screens.Magic.Info(battleState, state);  
+            EnemySkillInfo = new Screens.EnemySkill.Info(battleState, state);  
+            SummonMenuInfo = new Screens.Summon.Info(battleState, state);  
             
-            SelfSelector = new Screens.Selector.SelfSelector();
-            TargetSelector = new Screens.Selector.TargetSelector();
-            GroupSelector = new Screens.Selector.GroupSelector();
-            AreaSelector = new Screens.Selector.AreaSelector();
+            SelfSelector = new Screens.Selector.SelfSelector(battleState);
+            TargetSelector = new Screens.Selector.TargetSelector(battleState);
+            GroupSelector = new Screens.Selector.GroupSelector(battleState);
+            AreaSelector = new Screens.Selector.AreaSelector(battleState);
 
             _controllerStack = new List<IController>();
             _controller = null;
+
+            BattleState = battleState;
         }
 
         public void Draw(Gdk.Drawable d)
@@ -144,23 +150,23 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     SelectAlly();
                     break;
                 case BattleTarget.Enemy:
-                    Seven.BattleState.Screen.SelectEnemy();
+                    BattleState.Screen.SelectEnemy();
                     break;
                 case BattleTarget.Group:
                 case BattleTarget.GroupRandom:
-                    Seven.BattleState.Screen.SelectEitherGroup(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
+                    BattleState.Screen.SelectEitherGroup(targetEnemiesFirst ? BattleTargetGroup.Enemies : BattleTargetGroup.Allies);
                     break;
                 case BattleTarget.Allies:
                 case BattleTarget.AlliesRandom:
-                    Seven.BattleState.Screen.SelectAllies();
+                    BattleState.Screen.SelectAllies();
                     break;
                 case BattleTarget.Enemies:
                 case BattleTarget.EnemiesRandom:
-                    Seven.BattleState.Screen.SelectEnemies();
+                    BattleState.Screen.SelectEnemies();
                     break;
                 case BattleTarget.Area:
                 case BattleTarget.AreaRandom:
-                    Seven.BattleState.Screen.SelectArea();
+                    BattleState.Screen.SelectArea();
                     break;
             }
         }
@@ -271,33 +277,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public Screens.Selector.TargetSelector TargetSelector { get; private set; }
         public Screens.Selector.GroupSelector GroupSelector { get; private set; }
         public Screens.Selector.AreaSelector AreaSelector { get; private set; }
-
-
-
-
-
-
-
-
-
-
-        //
-        // Selector
-        //
-
-
-
               
         public ISelectorUser User { get;  private set; }
 
-
-
-
-
-
-
-
-
-
+        public SevenBattleState BattleState { get; private set; }
     }
 }

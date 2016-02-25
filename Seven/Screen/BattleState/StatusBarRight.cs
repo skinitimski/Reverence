@@ -5,8 +5,10 @@ using System.Text;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
+using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState
 {
@@ -27,28 +29,29 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         const string SLASH = "/";
 
-        public StatusBarRight(Menu.ScreenState screenState)
+        public StatusBarRight(SevenBattleState battleState, ScreenState screenState)
             : base(
                 screenState.Width * 2 / 5 + 12,
                 screenState.Height * 7 / 10,
                 screenState.Width * 3 / 5 - 17,
                 screenState.Height * 5 / 20 - 5)
         {
+            BattleState = battleState;
         }
         
         protected override void DrawContents(Gdk.Drawable d)
         {
-            if (Seven.BattleState.Allies[0] != null)
+            if (BattleState.Allies[0] != null)
             {
-                DrawAllyStatus(d, Seven.BattleState.Allies[0], y0);
+                DrawAllyStatus(d, BattleState.Allies[0], y0);
             }
-            if (Seven.BattleState.Allies[1] != null)
+            if (BattleState.Allies[1] != null)
             {
-                DrawAllyStatus(d, Seven.BattleState.Allies[1], y1);
+                DrawAllyStatus(d, BattleState.Allies[1], y1);
             }
-            if (Seven.BattleState.Allies[2] != null)
+            if (BattleState.Allies[2] != null)
             {
-                DrawAllyStatus(d, Seven.BattleState.Allies[2], y2);
+                DrawAllyStatus(d, BattleState.Allies[2], y2);
             }
         }
 
@@ -114,12 +117,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             color = a.Death ? Colors.TEXT_RED : Colors.WHITE;
             
             hpmax = a.MaxHP.ToString();
-            hpmax = hpmax;
             te = g.TextExtents(hpmax);
             Text.ShadowedText(g, color, hpmax, X + x_hpmax - te.Width, Y + y);
             
             mpmax = a.MaxMP.ToString();
-            mpmax = mpmax;
             te = g.TextExtents(mpmax);
             Text.ShadowedText(g, mpmax, X + x_mpmax - te.Width, Y + y);
 
@@ -146,6 +147,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }
 

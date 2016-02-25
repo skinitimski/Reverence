@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
@@ -23,8 +24,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         const int yc = yb + 25; //    "
 
 
-        public Three(Menu.ScreenState screenState)
-            : base(screenState)
+        public Three(SevenMenuState menuState, ScreenState screenState)
+            : base(menuState, screenState)
         {
             Visible = false;
         }

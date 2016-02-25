@@ -3,6 +3,8 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using Atmosphere.Reverence.Time;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
 {    
@@ -17,7 +19,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         
         #endregion
 
-        public Time(Menu.ScreenState screenState)
+        public Time(SevenMenuState menuState, Menu.ScreenState screenState)
             : base(
                 screenState.Width * 3 / 4 - 10,
                 screenState.Height * 7 / 10,
@@ -25,6 +27,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
                 screenState.Height * 3 / 20)
         {
             x2 = screenState.Width / 4 - 10;
+            GameClock = menuState.Party.Clock;
+            Gil = menuState.Party.Gil.ToString();
         }
         
         
@@ -44,26 +48,29 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             g.SelectFontFace("Courier New", FontSlant.Normal, FontWeight.Bold);
             
             long s, m, h;
-            s = Seven.Party.Clock.Seconds;
-            m = Seven.Party.Clock.Minutes;
-            h = Seven.Party.Clock.Hours;
+            s = GameClock.Seconds;
+            m = GameClock.Minutes;
+            h = GameClock.Hours;
             
             string time = String.Format("{0}{1}:{2}{3}:{4}{5}",
                                         h < 10 ? "0" : "", h,
                                         m < 10 ? "0" : "", m,
                                         s < 10 ? "0" : "", s);
-            
+
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x2 - te.Width, Y + y1);
-            
-            string gil = Seven.Party.Gil.ToString();
-            te = g.TextExtents(gil);
-            Text.ShadowedText(g, gil, X + x2 - te.Width, Y + y2);
+
+            te = g.TextExtents(Gil);
+            Text.ShadowedText(g, Gil, X + x2 - te.Width, Y + y2);
             
             
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+
+        private Clock GameClock { get; set; }
+
+        private string Gil { get; set; }
     }
 
 }

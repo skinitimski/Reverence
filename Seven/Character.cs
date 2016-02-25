@@ -210,12 +210,16 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
+        private Character()
+        {
+        }
+
         /// <summary>
         /// Creates a character from scratch with initial stats/equipment.
         /// </summary>
         /// <param name="dataxmlstring"></param>
-        public Character(XmlNode dataxml)
-            : this(dataxml, dataxml)
+        public Character(XmlNode dataxml, Data data)
+            : this(dataxml, dataxml, data)
         {
         }
         
@@ -224,7 +228,8 @@ namespace Atmosphere.Reverence.Seven
         /// </summary>
         /// <param name="savexmlstring"></param>
         /// <param name="dataxmlstring"></param>
-        public Character(XmlNode savexml, XmlNode dataxml)
+        public Character(XmlNode savexml, XmlNode dataxml, Data data)
+            : this()
         {
             _halve = new List<Element>();
             _void = new List<Element>();
@@ -280,12 +285,11 @@ namespace Atmosphere.Reverence.Seven
             BackRow = Boolean.Parse(savexml.SelectSingleNode("./backRow").InnerText);
             
             // Equipment
-            _weapon = Weapon.Get(savexml.SelectSingleNode("./weapon/name").InnerText);
+            _weapon = data.GetWeapon(savexml.SelectSingleNode("./weapon/name").InnerText);
 
             foreach (XmlNode orb in savexml.SelectNodes("./weapon/materia/orb"))
             {
                 string id = orb.Attributes["id"].Value;
-                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
                 int ap = Int32.Parse(orb.Attributes["ap"].Value);
                 int slot = Int32.Parse(orb.Attributes["slot"].Value);
                 if (slot >= _weapon.Slots.Length)
@@ -293,15 +297,14 @@ namespace Atmosphere.Reverence.Seven
                     throw new SaveStateException("Materia orb assigned to slot that doesnt exist on weapon.");
                 }
                 
-                _weapon.Slots[slot] = MateriaOrb.Create(id, ap, type);
+                _weapon.Slots[slot] = data.GetMateria(id, ap);
             }
             
-            _armor = Armor.Get(savexml.SelectSingleNode("./armor/name").InnerText);
+            _armor = data.GetArmor(savexml.SelectSingleNode("./armor/name").InnerText);
 
             foreach (XmlNode orb in savexml.SelectNodes("./armor/materia/orb"))
             {
                 string id = orb.Attributes["id"].Value;
-                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), orb.Attributes["type"].Value);
                 int ap = Int32.Parse(orb.Attributes["ap"].Value);
                 int slot = Int32.Parse(orb.Attributes["slot"].Value);
                 if (slot >= _weapon.Slots.Length)
@@ -309,11 +312,11 @@ namespace Atmosphere.Reverence.Seven
                     throw new SaveStateException("Materia orb assigned to slot that doesnt exist on armor.");
                 }
                 
-                _armor.Slots[slot] = MateriaOrb.Create(id, ap, type);
+                _armor.Slots[slot] = data.GetMateria(id, ap);
             }
             
             string acc = savexml.SelectSingleNode("./accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : Accessory.Get(acc);
+            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : data.GetAccessory(acc);
             
             
             // Q-Values
@@ -412,7 +415,7 @@ namespace Atmosphere.Reverence.Seven
                 if (m != null)
                 {
                     writer.WriteStartElement("orb");
-                    writer.WriteAttributeString("id", m.ID);
+                    writer.WriteAttributeString("name", m.Name);
                     writer.WriteAttributeString("type", m.Type.ToString());
                     writer.WriteAttributeString("ap", m.AP.ToString());
                     writer.WriteAttributeString("slot", i.ToString());
@@ -433,7 +436,7 @@ namespace Atmosphere.Reverence.Seven
                 if (m != null)
                 {
                     writer.WriteStartElement("orb");
-                    writer.WriteAttributeString("id", m.ID);
+                    writer.WriteAttributeString("name", m.Name);
                     writer.WriteAttributeString("type", m.Type.ToString());
                     writer.WriteAttributeString("ap", m.AP.ToString());
                     writer.WriteAttributeString("slot", i.ToString());

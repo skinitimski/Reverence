@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenInitialState = Atmosphere.Reverence.Seven.State.InitialState;
 
 namespace Atmosphere.Reverence.Seven.Screen.InitialState
 {  
@@ -28,7 +29,7 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         #endregion Layout
 
         
-        public Prompt(Menu.ScreenState screenState)
+        public Prompt(SevenInitialState initialState, ScreenState screenState)
             : base(
                 screenState.Width / 2 - width / 2,
                 screenState.Height / 2 - height / 2,
@@ -36,6 +37,8 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
                 height)
         {
             Visible = false;
+
+            InitialState = initialState;
         }
 
         public override void ControlHandle(Key k)
@@ -65,13 +68,13 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
                 case Key.Circle:
                     if (Option == 0)
                     {
-                        Seven.Instance.LoadNewGame();
+                        InitialState.Seven.LoadNewGame();
                     }
                     else
                     {
-                        if (Seven.Instance.CanLoadSavedGame(Option - 1))
+                        if (InitialState.Seven.CanLoadSavedGame(Option - 1))
                         {
-                            Seven.Instance.LoadSavedGame(Option - 1);
+                            InitialState.Seven.LoadSavedGame(Option - 1);
                         }
                         else
                         {
@@ -124,7 +127,8 @@ namespace Atmosphere.Reverence.Seven.Screen.InitialState
         
         public override string Info
         { get { return ""; } }
-        
+
+        private SevenInitialState InitialState { get; set; }
     }
 }
 

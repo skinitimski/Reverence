@@ -23,10 +23,11 @@ namespace Atmosphere.Reverence.Seven.Screen.LossState
         
         private int option = 0;
         
-        public Prompt()
+        public Prompt(Seven seven)
             : base(265, 200, 270, 150)
         {
             Visible = false;
+            Seven = seven;
         }
 
         public override void ControlHandle(Key k)
@@ -44,11 +45,11 @@ namespace Atmosphere.Reverence.Seven.Screen.LossState
                     {
                         case 0:
                             // Yes
-                            Seven.Instance.Reset();
+                            Seven.Reset();
                             break;
                         case 1:
                             // No
-                            Seven.Instance.Quit();
+                            Seven.Quit();
                             break;
                     }
                     break;
@@ -96,7 +97,8 @@ namespace Atmosphere.Reverence.Seven.Screen.LossState
         
         public override string Info
         { get { return ""; } }
-        
+
+        private Seven Seven { get; set; }
     }
 }
 

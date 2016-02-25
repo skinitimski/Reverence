@@ -109,11 +109,6 @@
     <Compile Include="Asset\Materia\MateriaType.cs" />
     <Compile Include="Materiatory.cs" />
     <Compile Include="Inventory.cs" />
-    <Compile Include="Asset\Materia\CommandMateria.cs" />
-    <Compile Include="Asset\Materia\IndependentMateria.cs" />
-    <Compile Include="Asset\Materia\MagicMateria.cs" />
-    <Compile Include="Asset\Materia\SummonMateria.cs" />
-    <Compile Include="Asset\Materia\SupportMateria.cs" />
     <Compile Include="Asset\Materia\EnemySkillMateria.cs" />
     <Compile Include="Asset\Item.cs" />
     <Compile Include="Screen\MenuState\Equip\Info.cs" />
@@ -212,14 +207,14 @@
     <Compile Include="Screen\PostBattleState\Victory\MateriaInfo.cs" />
     <Compile Include="Screen\BattleState\RecoveryIcon.cs" />
     <Compile Include="Battle\AbilityModifiers.cs" />
-    <Compile Include="Asset\MagicSpell.cs" />
     <Compile Include="Asset\Spell.cs" />
-    <Compile Include="Asset\SummonSpell.cs" />
-    <Compile Include="Asset\EnemySkillSpell.cs" />
     <Compile Include="Battle\SenseEvent.cs" />
     <Compile Include="Battle\StealEvent.cs" />
     <Compile Include="Battle\CombatantActionEvent.cs" />
     <Compile Include="Battle\Ability.cs" />
+    <Compile Include="State\State.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Asset\Materia\MasterMateria.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

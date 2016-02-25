@@ -6,6 +6,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using GameItem = Atmosphere.Reverence.Seven.Asset.Item;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 {
@@ -25,7 +26,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         private int topRow = 0;
         private int x2;         // count
 
-        public List(Menu.ScreenState screenState)
+        public List(SevenMenuState menuState, ScreenState screenState)
             : base(
                 screenState.Width / 2,
                 screenState.Height * 11 / 60,
@@ -33,6 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                 screenState.Height * 23 / 30)
         {
             x2 = screenState.Width / 2 - 24; // count
+            MenuState = menuState;
         }
         
         public override void ControlHandle(Key k)
@@ -60,7 +62,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                     }
                     break;
                 case Key.X:
-                    Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemTop);
+                    MenuState.ItemScreen.ChangeControl(MenuState.ItemTop);
                     break;
                 case Key.Circle:
 
@@ -72,13 +74,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                         {
                             case FieldTarget.Character:
                             case FieldTarget.Party:
-                                Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemStats);
+                                MenuState.ItemScreen.ChangeControl(MenuState.ItemStats);
                                 break;
                         }
                     }
                     else
                     {
-                        Seven.Instance.ShowMessage(c => "!");
+                        MenuState.Seven.ShowMessage(c => "!");
                     }
 
                     break;
@@ -102,10 +104,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             
             for (int i = topRow; i < j; i++)
             {
-                IInventoryItem item = Seven.Party.Inventory.GetItem(i);
+                IInventoryItem item = MenuState.Party.Inventory.GetItem(i);
                 if (item != null)
                 {
-                    int count = Seven.Party.Inventory.GetCount(i);
+                    int count = MenuState.Party.Inventory.GetCount(i);
                     te = g.TextExtents(count.ToString());
 
                     if (item.CanUseInField)
@@ -147,7 +149,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
 
 
-        public IInventoryItem SelectedItem { get { return Seven.Party.Inventory.GetItem(option); } }
+        public IInventoryItem SelectedItem { get { return MenuState.Party.Inventory.GetItem(option); } }
 
         public int InventorySlot { get { return option; } }
         
@@ -155,10 +157,28 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
         {
             get
             {
-                IInventoryItem i = Seven.Party.Inventory.GetItem(option);
-                return (i == null) ? "" : i.Description;
+                string info = String.Empty;
+
+                IInventoryItem i = MenuState.Party.Inventory.GetItem(option);
+
+                if (i != null)
+                {
+                    Weapon w = i as Weapon;
+
+                    if (w != null)
+                    {
+                        info = "A weapon for " + w.Wielder;
+                    }
+                    else
+                    {
+                        info = i.Description;
+                    }
+                }
+                return info;
             }
         }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

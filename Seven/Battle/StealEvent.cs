@@ -62,7 +62,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     if (Stolen != null)
                     {
                         // TODO: this doesn't work
-                        info = "Stole " + Stolen.Name + "!";
+                        info = "Stole " + Stolen + "!";
                     }
                     else
                     {
@@ -82,7 +82,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         private bool HasStolen { get; set; }
         
-        private IInventoryItem Stolen { get; set; }
+        private string Stolen { get; set; }
 
     }
 }

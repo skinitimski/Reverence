@@ -8,6 +8,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
@@ -15,7 +16,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
     {
         private BattleTargetGroup _selectedGroup;
 
-        public GroupSelector()
+        public GroupSelector(SevenBattleState battleState)
+            : base(battleState)
         {
         }
         
@@ -24,13 +26,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             switch (k)
             {
 //                case Key.R1:
-//                    if (Seven.BattleState.Screen.AllAble)
+//                    if (BattleState.Screen.AllAble)
 //                    {
-//                    if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
+//                    if (BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
 //                    {
-//                        Seven.BattleState.Screen.PopControl();
-//                        Seven.BattleState.Screen.Type = TargetType.Combatant;
-//                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.TargetSelector);
+//                        BattleState.Screen.PopControl();
+//                        BattleState.Screen.Type = TargetType.Combatant;
+//                        BattleState.Screen.PushControl(BattleState.Screen.TargetSelector);
 //                    }
 //                    }
 //                    break;
@@ -62,7 +64,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 switch (_selectedGroup)
                 {
                     case BattleTargetGroup.Allies:
-                        foreach (Combatant a in Seven.BattleState.Allies)
+                        foreach (Combatant a in BattleState.Allies)
                         {
                             if (a != null)
                             {
@@ -71,7 +73,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                         }
                         break;
                     case BattleTargetGroup.Enemies:
-                        foreach (Combatant e in Seven.BattleState.EnemyList)
+                        foreach (Combatant e in BattleState.EnemyList)
                         {
                             Shapes.RenderCursor(g, e.X - CURSOR_SPACING, e.Y);
                         }
@@ -138,10 +140,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 switch (_selectedGroup)
                 {
                     case BattleTargetGroup.Allies:
-                        selected =  Seven.BattleState.Allies.Cast<Combatant>();
+                        selected =  BattleState.Allies.Cast<Combatant>();
                         break;
                     case BattleTargetGroup.Enemies:
-                        selected =  Seven.BattleState.EnemyList.Cast<Combatant>();
+                        selected =  BattleState.EnemyList.Cast<Combatant>();
                         break;
                 }
 

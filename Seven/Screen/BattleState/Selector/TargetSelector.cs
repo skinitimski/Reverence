@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
@@ -20,7 +21,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         private int _option;
         private List<Combatant> _targets;
 
-        public TargetSelector()
+        public TargetSelector(SevenBattleState battleState)
+            : base(battleState)
         {
             _targets = new List<Combatant>();
         }
@@ -32,11 +34,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 case Key.R1:
 //                    if (AllAble)
 //                    {
-//                        if (Seven.BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
+//                        if (BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
 //                        {
-//                            Seven.BattleState.Screen.PopControl();
-//                            Seven.BattleState.Screen.Type = TargetType.Group;
-//                            Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.GroupSelector);
+//                            BattleState.Screen.PopControl();
+//                            BattleState.Screen.Type = TargetType.Group;
+//                            BattleState.Screen.PushControl(BattleState.Screen.GroupSelector);
 //                        }
 //                    }
                     break;
@@ -79,7 +81,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             int y0 = _targets[_option].Y;
             
             // length (squared) of the screen's diagonal (largest fathomable distance)
-            int min = Seven.Config.WindowHeight * Seven.Config.WindowHeight + Seven.Config.WindowWidth * Seven.Config.WindowWidth; 
+            int min = BattleState.Seven.Configuration.WindowHeight * BattleState.Seven.Configuration.WindowHeight + 
+                BattleState.Seven.Configuration.WindowWidth * BattleState.Seven.Configuration.WindowWidth; 
             
             int pick = -1;
             for (int i = 0; i < _targets.Count; i++)
@@ -149,7 +152,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
             if (CanTargetAllies)
             {
-                foreach (Ally a in Seven.BattleState.Allies)
+                foreach (Ally a in BattleState.Allies)
                 {
                     if (a != null)
                     {
@@ -161,7 +164,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
             if (CanTargetEnemies)
             {                
-                foreach (Enemy e in Seven.BattleState.EnemyList)
+                foreach (Enemy e in BattleState.EnemyList)
                 {
                     _targets.Add(e);
                 }

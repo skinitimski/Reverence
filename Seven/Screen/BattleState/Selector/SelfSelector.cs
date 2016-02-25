@@ -6,6 +6,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
@@ -16,7 +17,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         private List<Combatant> _targets;
         
 
-        public SelfSelector()
+        public SelfSelector(SevenBattleState battleState)
+            : base(battleState)
         {
             _targets = new List<Combatant>();
         }
@@ -39,7 +41,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         {
             _isControl = true;
             _targets = new List<Combatant>();
-            _targets.Add(Seven.BattleState.Commanding);
+            _targets.Add(BattleState.Commanding);
             
             _option = 0;
         }

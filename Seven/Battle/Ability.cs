@@ -273,7 +273,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
 
-        protected DamageFormula GetFormula(XmlNode formulaNode)
+        protected DamageFormula GetFormula(XmlNode formulaNode, Lua lua)
         {
             DamageFormula formula = null;
 
@@ -288,7 +288,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                     try
                     {
-                        customFormula = (LuaFunction)Seven.Lua.DoString(code).First();
+                        customFormula = (LuaFunction)lua.DoString(code).First();
                     }
                     catch (Exception ex)
                     {
@@ -365,13 +365,13 @@ namespace Atmosphere.Reverence.Seven.Asset
             {                 
                 UseAbilityEvent e = UseAbilityEvent.Create(this, modifiers, source, targets.ToArray());
                 
-                Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
+                source.CurrentBattle.EnqueueAction(e, modifiers.CounterAttack);
             }
             else
             {   
                 UseAbilityFailEvent e = new UseAbilityFailEvent(source, this, modifiers.ResetTurnTimer);
                 
-                Seven.BattleState.EnqueueAction(e, modifiers.CounterAttack);
+                source.CurrentBattle.EnqueueAction(e, modifiers.CounterAttack);
             }
         }
         
@@ -410,7 +410,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         dam = Formula.RunElementalChecks(dam, target, Elements);
                         dam = Formula.LowerSanityCkeck(dam);
                         dam = Formula.UpperSanityCheck(dam);
-                        
+                                                
                         target.AcceptDamage(source, dam, Type);
                     }
                     
@@ -453,7 +453,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 }
                 else
                 {
-                    Seven.BattleState.AddMissIcon(target);
+                    source.CurrentBattle.AddMissIcon(target);
                 }
             }
 

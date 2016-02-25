@@ -10,6 +10,7 @@ using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 {
@@ -30,26 +31,33 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         private int _xopt;
         private int _yopt;
         private int _topRow;
-        private int _totalRows = (EnemySkillMateria.TOTAL_ENEMY_SKILLS / COLUMNS) + ((EnemySkillMateria.TOTAL_ENEMY_SKILLS % COLUMNS == 0) ? 0 : 1);
+        private int _totalRows;
         private readonly int _visibleRows = 3;
         
         /// <summary>Spells: row, column.</summary>
         private Spell[,] _spells;
         
-        public Main(EnemySkillMateria esm, Menu.ScreenState screenState)
+        public Main(SevenBattleState battleState, EnemySkillMateria esm, Menu.ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 7 / 10 + 20,
                 screenState.Width * 3 / 4,
                 (screenState.Height * 5 / 20) - 25)
         {
+            BattleState = battleState;
+
+            int enemySkillCount = battleState.Seven.Data.EnemySkillCount;
+
+            _totalRows = (enemySkillCount / COLUMNS) + ((enemySkillCount % COLUMNS == 0) ? 0 : 1);
+
             _spells = new Spell[_totalRows, COLUMNS];
             
-            for (int i = 0; i < EnemySkillMateria.TOTAL_ENEMY_SKILLS; i++)
+            for (int i = 0; i < enemySkillCount; i++)
             {
                 if (((esm.AP >> i) & 1) > 0)
                 {
-                    Spell s = esm.EnemySkills[i];
+                    Spell s = battleState.Seven.Data.GetEnemySkill(esm.Abilities.ElementAt(i));
+
                     _spells[s.Order / COLUMNS, s.Order % COLUMNS] = s;
                 }
             }
@@ -98,7 +106,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
                 case Key.X:
                     Visible = false;
-                    Seven.BattleState.Screen.PopControl();
+                    BattleState.Screen.PopControl();
                     Reset();
                     break;
 
@@ -107,13 +115,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
                     {
                         Spell spell = Selected;
                         
-                        if (Seven.BattleState.Commanding.MP >= spell.MPCost)
+                        if (BattleState.Commanding.MP >= spell.MPCost)
                         {
-                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
+                            BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                         else
                         {
-                            Seven.Instance.ShowMessage(c => "!", 500);
+                            BattleState.Seven.ShowMessage(c => "!", 500);
                         }
                     }
                     break;
@@ -131,7 +139,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         {
             Ability spell = _spells[yopt, xopt];
             
-            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
+            spell.Use(BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
         }
 
 
@@ -172,7 +180,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             }
 
 
-            Seven.BattleState.Screen.EnemySkillInfo.Draw(d);
+            BattleState.Screen.EnemySkillInfo.Draw(d);
             
             
             ((IDisposable)g.Target).Dispose();
@@ -183,14 +191,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         {
             _topRow = 0;
             Visible = false;
-            Seven.BattleState.Screen.EnemySkillInfo.Visible = false;
+            BattleState.Screen.EnemySkillInfo.Visible = false;
         }
         
         public override void SetAsControl()
         {
             base.SetAsControl();
             Visible = true;
-            Seven.BattleState.Screen.EnemySkillInfo.Visible = true;
+            BattleState.Screen.EnemySkillInfo.Visible = true;
         }
         
         public bool IsValid { get { return _totalRows > 0; } }
@@ -204,6 +212,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         }
 
         public Spell Selected { get { return _spells[_yopt, _xopt]; } }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 }
 

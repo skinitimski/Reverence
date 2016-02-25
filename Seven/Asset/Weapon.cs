@@ -6,18 +6,16 @@ using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using NLua;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Weapon : SlotHolder
     {
-        private static readonly Dictionary<string, WeaponData> _table;
-
-
-        private class WeaponData : SlotHolder.SlotHolderData
+        internal class WeaponData : SlotHolder.SlotHolderData
         {
-            public WeaponData(XmlNode node)
-                : base(node)
+            public WeaponData(XmlNode node, Lua lua)
+                : base(node, lua)
             {     
                 Attack = Int32.Parse(node.SelectSingleNode("atk").InnerText);
                 AttackPercent = Int32.Parse(node.SelectSingleNode("atkp").InnerText);
@@ -47,29 +45,10 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
 
 
-        
-        static Weapon()
-        {
-            _table = new Dictionary<string, WeaponData>();
-            
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.weapons.xml", typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("./weapons/weapon"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-
-                WeaponData weapon = new WeaponData(node);
-                
-                _table.Add(weapon.ID, weapon);
-            }
-        }
 
 
 
-        private Weapon(WeaponData data)
+        public Weapon(WeaponData data)
             : base(data)
         {     
             Attack = data.Attack;
@@ -83,11 +62,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
 
 
-
-        public static Weapon Get(string id)
-        {
-            return new Weapon(_table[id]);
-        }
 
 
 
@@ -116,29 +90,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             Slots[slot] = orb;
         }
         
-        public static void SwapMateria(Weapon before, Weapon after, Character c)
-        {
-            for (int i = 0; i < before.Slots.Length; i++)
-            {
-                MateriaOrb m = before.Slots[i];
-
-                if (m != null)
-                {
-                    if (i > after.Slots.Length)
-                    {
-                        m.Detach(c);
-                        Seven.Party.Materiatory.Put(m);
-                    }
-                    else
-                    {
-                        after.Slots[i] = m;
-                    }
-                }
-
-                before.Slots[i] = null;
-            }
-        }
-        
         #endregion Methods
         
         
@@ -149,11 +100,6 @@ namespace Atmosphere.Reverence.Seven.Asset
             get
             {
                 string desc = Desc;
-
-                if (Seven.MenuState.ActiveLayer == Seven.MenuState.ItemScreen)
-                {
-                    return String.Format("A weapon for {0}", Wielder.ToString());
-                }
 
                 if (LongRange)
                 {

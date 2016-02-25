@@ -44,7 +44,8 @@ namespace Atmosphere.Reverence
 
             private double r, g, b;
 
-            public InitialState(Color splashScreenColor)
+            public InitialState(Game game, Color splashScreenColor)
+                : base(game)
             {
                 _timer = new Time.Timer(2000);
 
@@ -67,7 +68,7 @@ namespace Atmosphere.Reverence
             {                
             }
             
-            public override void Draw(Gdk.Drawable d, int width, int height)
+            public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
             {                
                 Cairo.Context g = Gdk.CairoHelper.Create(d);
 
@@ -126,31 +127,15 @@ namespace Atmosphere.Reverence
         }
 
         protected Game(string configPath)
+            : this()
         {
 #if DRAWGRID
             _gridColor = Config.Instance.Grid;
 #endif
             Configuration = new Config(configPath);
 
-            State = new InitialState(Configuration.SplashScreenColor);
-            InitLua();
+            State = new InitialState(this, Configuration.SplashScreenColor);
         }
-
-
-        private void InitLua()
-        {
-            LuaEnvironment = new Lua();
-            LuaEnvironment.LoadCLRPackage();
-            
-            LuaEnvironment.DoString(@" import ('Systen') ");
-            LuaEnvironment.DoString(@" import ('Systen.IO') ");
-            LuaEnvironment.DoString(@" import ('Systen.Text') ");
-            LuaEnvironment.DoString(@" import ('Systen.Text.RegularExpressions') ");
-
-            PrimeLua();
-        }
-
-        protected abstract void PrimeLua();
 
 
 
@@ -187,6 +172,9 @@ namespace Atmosphere.Reverence
                 int w, h;
                 
                 _pixmap.GetSize(out w, out h);
+
+                bool screenChanged = w != _oldWidth || h != _oldHeight;
+
                 Gdk.GC gc = new Gdk.GC(_pixmap);            
                 _pixmap.DrawRectangle(gc, true, 0, 0, w, h);
                 
@@ -220,7 +208,7 @@ namespace Atmosphere.Reverence
 
                     try
                     {
-                        State.Draw(_pixmap, w, h);
+                        State.Draw(_pixmap, w, h, screenChanged);
 
                         if (MessageBox != null)
                         {
@@ -462,8 +450,7 @@ namespace Atmosphere.Reverence
                       
             Configuration.ResetMenuColors();
 
-            State = new InitialState(Configuration.SplashScreenColor);
-            InitLua();
+            State = new InitialState(this, Configuration.SplashScreenColor);
 
             QueueInitialState();
         }
@@ -605,12 +592,10 @@ namespace Atmosphere.Reverence
             MessageBox = new MessageBox(screenState, message, timeout);            
         }
 
-        
+
         protected State State { get; private set; }
 
-        protected Lua LuaEnvironment { get; private set; }
-
-        protected Config Configuration { get; private set; }
+        public Config Configuration { get; private set; }
         
         private MessageBox MessageBox { get; set; }
     }

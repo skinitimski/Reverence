@@ -1,14 +1,14 @@
 using System;
 
 using Atmosphere.Reverence.Menu;
-using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Screen.InitialState;
 
 namespace Atmosphere.Reverence.Seven.State
 {
-    internal class InitialState : GameState
+    internal class InitialState : State
     {
-        public InitialState()
+        public InitialState(Seven seven)
+            : base(seven)
         {
         }
 
@@ -20,14 +20,14 @@ namespace Atmosphere.Reverence.Seven.State
         {
             ScreenState state = new ScreenState
             {
-                Width = Seven.Config.WindowWidth,
-                Height = Seven.Config.WindowHeight
+                Width = Parent.Configuration.WindowWidth,
+                Height = Parent.Configuration.WindowHeight
             };
 
-            Screen = new Prompt(state);
+            Screen = new Prompt(this, state);
         }
         
-        public override void Draw(Gdk.Drawable d, int width, int height)
+        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
         {
             Screen.Draw(d);
             Screen.Visible = true;

@@ -8,12 +8,14 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class AreaSelector : Selector
     {
-        public AreaSelector()
+        public AreaSelector(SevenBattleState battleState)
+            : base(battleState)
         {
         }
 
@@ -24,11 +26,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             if (IsControl)
             {
-                foreach (Combatant a in Seven.BattleState.Allies)
+                foreach (Combatant a in BattleState.Allies)
                 {
                     Shapes.RenderCursor(g, a.X - CURSOR_SPACING, a.Y);
                 }
-                foreach (Combatant e in Seven.BattleState.EnemyList)
+                foreach (Combatant e in BattleState.EnemyList)
                 {
                     Shapes.RenderCursor(g, e.X - CURSOR_SPACING, e.Y);
                 }
@@ -47,8 +49,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             {
                 List<Combatant> selected = new List<Combatant>();
 
-                selected.AddRange(Seven.BattleState.Allies);
-                selected.AddRange(Seven.BattleState.EnemyList);
+                selected.AddRange(BattleState.Allies);
+                selected.AddRange(BattleState.EnemyList);
 
                 return selected;
             }

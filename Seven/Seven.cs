@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -7,7 +8,6 @@ using NLua;
 using Atmosphere.Reverence;
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
-using GameState = Atmosphere.Reverence.State;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Battle;
@@ -20,16 +20,15 @@ namespace Atmosphere.Reverence.Seven
         public const int SAVE_FILES = 6;
 
 
-        private Party _party;
+        internal Party Party { get; set; }
+        internal Data Data { get; set; }
         private MenuState _menuState;
         private BattleState _battleState;
         private PostBattleState _postBattleState;
 
-        private Random _random = new Random();
+        
+        private Dictionary<string, Item> _items;
 
-
-
-        internal static Seven Instance { get; private set; }
 
 
 
@@ -38,17 +37,28 @@ namespace Atmosphere.Reverence.Seven
         private Seven(string configPath)
             : base(configPath)
         {
+            Data = new Data(typeof(Seven).Assembly);
         }
 
-        protected override void PrimeLua()
+        
+        
+        public static Lua GetLua()
         {            
-            LuaEnvironment.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
-            LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
-            LuaEnvironment.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
-            LuaEnvironment.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
-            LuaEnvironment.DoString("Status = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Status\")");
-            LuaEnvironment.DoString("Party = luanet.import_type(\"Atmosphere.Reverence.Seven.Party\")");
-            LuaEnvironment[typeof(Seven).Name] = this;
+            Lua lua = new Lua();
+            lua.LoadCLRPackage();
+            
+            lua.DoString(@" import ('Systen') ");
+            lua.DoString(@" import ('Systen.IO') ");
+            lua.DoString(@" import ('Systen.Text') ");
+            lua.DoString(@" import ('Systen.Text.RegularExpressions') ");
+
+            lua.DoString(" import ('" + typeof(Seven).Assembly.GetName().Name + "') ");
+            lua.DoString(Resource.GetTextFromResource("lua.scripts", typeof(Seven).Assembly));
+            lua.DoString("Element = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Element\")");
+            lua.DoString("Status = luanet.import_type(\"Atmosphere.Reverence.Seven.Asset.Status\")");
+            lua.DoString("Party = luanet.import_type(\"Atmosphere.Reverence.Seven.Party\")");
+
+            return lua;
         }
 
         protected override void Cleanup()
@@ -66,12 +76,12 @@ namespace Atmosphere.Reverence.Seven
                 _postBattleState.Dispose();
             }
 
-            _party = null;
+            Party = null;
         }
 
         protected override Atmosphere.Reverence.State GetInitialState()
         {
-            return new InitialState();
+            return new InitialState(this);
         }
 
         public new void Reset()
@@ -88,10 +98,9 @@ namespace Atmosphere.Reverence.Seven
 
         public void LoadNewGame()
         {
-            _party = new Party();
+            Party = new Party(Data);
 
-
-            _menuState = new MenuState();
+            _menuState = new MenuState(this);
             _menuState.Init();
 
             SetState(_menuState);
@@ -104,7 +113,7 @@ namespace Atmosphere.Reverence.Seven
             string savefile = String.Format("savegame.{0}.xml", save);
             string path = Path.Combine(Configuration.SavePath, savefile);
 
-            _party.SaveToFile(path);
+            Party.SaveToFile(path);
         }
 
         public bool CanLoadSavedGame(int save)
@@ -119,10 +128,10 @@ namespace Atmosphere.Reverence.Seven
             XmlNode saveGame = doc.SelectSingleNode("*");
 
 
-            _party = new Party(saveGame);
+            Party = new Party(Data, saveGame);
 
 
-            _menuState = new MenuState();
+            _menuState = new MenuState(this);
             _menuState.Init();
 
             SetState(_menuState);
@@ -145,11 +154,9 @@ namespace Atmosphere.Reverence.Seven
             String battleId = "debug" + i;
             //battleId = "gelnika.e";
 
-            _battleState = new BattleState(battleId);
+            _battleState = new BattleState(this, battleId);
             _battleState.Init();
 
-            LuaEnvironment[typeof(BattleState).Name] = _battleState;
-            
             SetState(_battleState);
         }
         
@@ -177,7 +184,7 @@ namespace Atmosphere.Reverence.Seven
             
             _battleState.Dispose();
 
-            LossState loss = new LossState();
+            LossState loss = new LossState(this);
             loss.Init();
             
             SetState(loss);
@@ -208,11 +215,11 @@ namespace Atmosphere.Reverence.Seven
             int gil = 100000;
 
             System.Collections.Generic.List<IInventoryItem> items = new System.Collections.Generic.List<IInventoryItem>();
-            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
-            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
-            items.Add(Item.GetItem("fairytale", InventoryItemType.weapon));
+//            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
+//            items.Add(Item.GetItem("titanbangle", InventoryItemType.armor));
+//            items.Add(Item.GetItem("fairytale", InventoryItemType.weapon));
 
-            _postBattleState = new PostBattleState(exp, ap, gil, items);
+            _postBattleState = new PostBattleState(this, exp, ap, gil, items);
             _postBattleState.Init();
             SetState(_postBattleState);
         }
@@ -222,24 +229,10 @@ namespace Atmosphere.Reverence.Seven
 
         public static void Main(string[] args)
         {
-            Instance = new Seven(args[0]);
-            Game.RunGame(Instance);
+            Seven seven = new Seven(args[0]);
+
+            Game.RunGame(seven);
         }
-
-
-        internal static GameState CurrentState { get { return Instance.State; } }
-        
-        internal static Lua Lua { get { return Instance.LuaEnvironment; } }
-        
-        internal static Config Config { get { return Instance.Configuration; } }
-        
-        internal static MenuState MenuState { get { return Instance._menuState; } }
-        
-        internal static BattleState BattleState { get { return Instance._battleState; } }
-        
-        internal static PostBattleState PostBattleState { get { return Instance._postBattleState; } }
-
-        internal static Party Party { get { return Instance._party; } }
     }
 }
 

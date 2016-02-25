@@ -3,12 +3,14 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using System.Xml.XPath;
 
 namespace Atmosphere.Reverence
 {
     public static class Resource
     {        
         public static readonly XmlWriterSettings XmlWriterSettings;
+        public static readonly XmlReaderSettings XmlReaderSettings;
 
         static Resource()
         {
@@ -18,6 +20,14 @@ namespace Atmosphere.Reverence
                 IndentChars = "    ",
                 OmitXmlDeclaration = true,
                 NewLineChars = Environment.NewLine
+            };
+
+            XmlReaderSettings = new XmlReaderSettings
+            {
+                DtdProcessing = DtdProcessing.Ignore,
+                IgnoreWhitespace = true,
+                IgnoreComments = true,
+                IgnoreProcessingInstructions = true
             };
         }
 
@@ -46,8 +56,6 @@ namespace Atmosphere.Reverence
         {
             return GetXmlFromResource(id, typeof(Resource).Assembly);
         }
-
-
 
 
 

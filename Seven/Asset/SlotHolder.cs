@@ -6,15 +6,16 @@ using System.Xml;
 
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using NLua;
 
 namespace Atmosphere.Reverence.Seven.Asset
 {
     internal abstract class SlotHolder : Equipment
     {
-        protected class SlotHolderData : Equipment.EquipmentData
+        internal class SlotHolderData : Equipment.EquipmentData
         {   
-            public SlotHolderData(XmlNode node)
-                : base(node)
+            public SlotHolderData(XmlNode node, Lua lua)
+                : base(node, lua)
             {     
                 Slots = Int32.Parse(node.SelectSingleNode("slots").InnerText);
                 Links = Int32.Parse(node.SelectSingleNode("links").InnerText);

@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 {      
@@ -48,17 +49,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
                     break;
                 case Key.X:
 
-                    if (Seven.Party[0] == null && Seven.Party[1] == null && Seven.Party[2] == null)
+                    if (MenuState.Party[0] == null && MenuState.Party[1] == null && MenuState.Party[2] == null)
                     {
-                        Seven.Instance.ShowMessage(c => "No party!");
+                        MenuState.Parent.ShowMessage(c => "No party!");
                     }
                     else
                     {
-                        Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                        MenuState.ChangeScreen(MenuState.MainScreen);
                     }
                     break;
                 case Key.Circle:
-                    Seven.MenuState.PhsScreen.ChangeControl(Seven.MenuState.PhsList);
+                    MenuState.PhsScreen.ChangeControl(MenuState.PhsList);
                     break;
             }
         }
@@ -74,9 +75,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
 
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                if (MenuState.Party[i] != null)
                 {
-                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                    DrawCharacterStatus(d, gc, g, MenuState.Party[i], y_firstRow + i * row_height);
                 }
             }        
 
@@ -104,13 +105,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         public override void SetAsControl()
         {
             base.SetAsControl();
-            Seven.MenuState.PhsList.Update();
+            PhsList.Update();
         }
         
         public int Option { get { return option; } }
         
         public override string Info
         {  get { return ""; } }
+
+        private List PhsList { get;set; }
+
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

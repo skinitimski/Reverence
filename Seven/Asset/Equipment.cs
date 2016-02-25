@@ -14,20 +14,17 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal abstract class Equipment : IInventoryItem
     {
-        protected class EquipmentData
+        internal class EquipmentData
         {   
             public static readonly EquipmentData EMPTY = new EquipmentData();
 
-            public EquipmentData()
+            private EquipmentData()
             {
                 Name = String.Empty;
                 Desc = String.Empty;
-                
-                DoAttach = (LuaFunction)Seven.Lua.DoString("return function (c) end").First();
-                DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c) end").First();
             }
             
-            public EquipmentData(XmlNode node)
+            public EquipmentData(XmlNode node, Lua lua)
                 : this()
             {     
                 Name = node.SelectSingleNode("name").InnerText;
@@ -42,7 +39,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     
                     try
                     {
-                        DoAttach = (LuaFunction)Seven.Lua.DoString(attachFunction).First();
+                        DoAttach = (LuaFunction)lua.DoString(attachFunction).First();
                     }
                     catch (Exception e)
                     {
@@ -59,7 +56,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                     
                     try
                     {
-                        DoDetach = (LuaFunction)Seven.Lua.DoString(detachFunction).First();
+                        DoDetach = (LuaFunction)lua.DoString(detachFunction).First();
                     }
                     catch (Exception e)
                     {
@@ -88,9 +85,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             Name = String.Empty;
             Desc = String.Empty;
-            
-            DoAttach = (LuaFunction)Seven.Lua.DoString("return function (c) end").First();
-            DoDetach = (LuaFunction)Seven.Lua.DoString("return function (c) end").First();
         }
 
         protected Equipment(EquipmentData data)
@@ -105,24 +99,30 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         public void Attach(Character c)
         {
-            try
+            if (DoAttach != null)
             {
-                DoAttach.Call(c);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error calling equipment attach script; id = " + ID, e);
+                try
+                {
+                    DoAttach.Call(c);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error calling equipment attach script; id = " + ID, e);
+                }
             }
         }
         public void Detach(Character c)
         {
-            try
+            if (DoDetach != null)
             {
-                DoDetach.Call(c);
-            }
-            catch (Exception e)
-            {
-                throw new ImplementationException("Error calling equipment detach script; id = " + ID, e);
+                try
+                {
+                    DoDetach.Call(c);
+                }
+                catch (Exception e)
+                {
+                    throw new ImplementationException("Error calling equipment detach script; id = " + ID, e);
+                }
             }
         }
         

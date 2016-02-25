@@ -16,15 +16,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             QMagicCount = 0;
         }
         
-        public void AddAbility(SupportMateria s)
+        public void AddAbility(MateriaOrb s)
         {
-            switch (s.ID)
+            switch (s.Name)
             {
-                case "all":
+                case "All":
                     AllCount = s.Level + 1;
                     break;
-                case "quadramagic":
-                    if (s.ID != "knightsofround")
+
+                case "Quadra Magic":
+                    if (s.Name != "Knights of Round")
                     {
                         QMagicCount = s.Level + 1;
                     }

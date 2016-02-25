@@ -3,42 +3,45 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 {      
     internal sealed class Label : ControlMenu
     {
-        public Label(Menu.ScreenState screenState)
+        public Label(SevenMenuState menuState, Menu.ScreenState screenState)
             : base(
                 screenState.Width * 3 / 4,
                 screenState.Height / 20,
                 screenState.Width / 4 - 10,
                 screenState.Height / 15)
-        { }
+        {
+            MenuState = menuState;
+        }
 
         public override void ControlHandle(Key k)
         {
             switch (k)
             {
                 case Key.Circle:
-                    if (Seven.MenuState.StatusOne.Visible)
+                    if (MenuState.StatusOne.Visible)
                     {
-                        Seven.MenuState.StatusOne.Visible = false;
-                        Seven.MenuState.StatusTwo.Visible = true;
+                        MenuState.StatusOne.Visible = false;
+                        MenuState.StatusTwo.Visible = true;
                     }
-                    else if (Seven.MenuState.StatusTwo.Visible)
+                    else if (MenuState.StatusTwo.Visible)
                     {
-                        Seven.MenuState.StatusTwo.Visible = false;
-                        Seven.MenuState.StatusThree.Visible = true;
+                        MenuState.StatusTwo.Visible = false;
+                        MenuState.StatusThree.Visible = true;
                     }
                     else
                     {
-                        Seven.MenuState.StatusThree.Visible = false;
-                        Seven.MenuState.StatusOne.Visible = true;
+                        MenuState.StatusThree.Visible = false;
+                        MenuState.StatusOne.Visible = true;
                     }
                     break;
                 case Key.X:
-                    Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                    MenuState.ChangeScreen(MenuState.MainScreen);
                     break;
                 default:
                     break;
@@ -62,12 +65,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
         {
             base.SetAsControl();
             
-            Seven.MenuState.StatusOne.Visible = true;
-            Seven.MenuState.StatusTwo.Visible = false;
-            Seven.MenuState.StatusThree.Visible = false;
+            MenuState.StatusOne.Visible = true;
+            MenuState.StatusTwo.Visible = false;
+            MenuState.StatusThree.Visible = false;
         }
         
         public override string Info { get { return ""; } }
+
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

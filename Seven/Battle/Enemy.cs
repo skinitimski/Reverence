@@ -19,16 +19,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class Enemy : Combatant
     {
-        //     Name: SOLDIER:3rd
-        // Lvl: 13         EXP: 54            Win: [ 8] Loco weed
-        //  HP: 250         AP: 6           Steal: [ 8] Hardedge
-        //  MP: 40         Gil: 116         Morph:      Bolt Plume
-        // ---
-        //Weak:   Fire, 'Confusion' Status Abilities
-        // ---
-        // Att: 27         Def: 38          Df%: 12          Dex: 60
-        // MAt: 8          MDf: 72                           Lck: 8
-        
         #region Nested
 
         private class EnemyAbility : Ability
@@ -105,26 +95,23 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         private struct EnemyItem
         {
-            private IInventoryItem _item;
-            private int _chance;
-            
-            public EnemyItem(string xmlstring)
-            {
-                XmlDocument xml = new XmlDocument();
-                xml.Load(new MemoryStream(Encoding.UTF8.GetBytes(xmlstring)));
-                
-                XmlNode node = xml.DocumentElement;
-                
-                string id = node.Attributes["id"].Value;
-                InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), node.Attributes["type"].Value);
-                _chance = Int32.Parse(node.Attributes["chance"].Value);
-                
-                _item = Asset.Item.GetItem(id, type);
-            }
-            
-            public IInventoryItem Item { get { return _item; } }
+            public EnemyItem(XmlNode node)
+                : this()
+            {               
+                Id = node.Attributes["id"].Value;
+                Type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), node.Attributes["type"].Value);
 
-            public int Chance { get { return _chance; } }
+                if (node.Name != "morph")
+                {
+                    Chance = Int32.Parse(node.Attributes["chance"].Value);
+                }
+            }
+
+            public string Id { get; private set; }
+
+            public InventoryItemType Type { get; private set; }
+
+            public int Chance { get; private set; }
         }
         
         #endregion Nested
@@ -158,32 +145,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         private List<Status> _immune;
         private List<EnemyItem> _win;
         private List<EnemyItem> _steal;
-        private IInventoryItem _morph;
-        private static Dictionary<string, XmlNode> _table;
+        private EnemyItem _morph;
 
         #endregion Member Data
         
+
         
-        static Enemy()
-        {
-            _table = new Dictionary<string, XmlNode>();
-            
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.enemies.xml", typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("//enemies/enemy"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-                                
-                string name = node.SelectSingleNode("name").InnerText;
-                
-                _table.Add(name, node);
-            }
-        }
-        
-        private Enemy(BattleState battle, XmlNode node, int x, int y, int e, string designation)
+        public Enemy(BattleState battle, XmlNode node, int x, int y, int e, string designation = "")
             : base(battle, x, y)
         {         
             _weak = new List<Element>();
@@ -244,22 +212,15 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             foreach (XmlNode win in node.SelectNodes("win/item"))
             {
-                _win.Add(new EnemyItem(win.OuterXml));
+                _win.Add(new EnemyItem(win));
             }
             foreach (XmlNode steal in node.SelectNodes("steal/item"))
             {
-                _steal.Add(new EnemyItem(steal.OuterXml));
+                _steal.Add(new EnemyItem(steal));
             }
             foreach (XmlNode morph in node.SelectNodes("morph/item"))
             {
-                if (morph.Attributes["id"] != null)
-                {
-                    string id = morph.Attributes["id"].Value;
-
-                    InventoryItemType type = (InventoryItemType)Enum.Parse(typeof(InventoryItemType), morph.Attributes["type"].Value);
-
-                    _morph = Item.GetItem(id, type);
-                }
+                _morph = new EnemyItem(morph);
             }
 
             foreach (XmlNode attackNode in node.SelectNodes("attacks/attack"))
@@ -280,7 +241,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                 try
                 {
-                    AISetup = (LuaFunction)Seven.Lua.DoString(setup).First();
+                    AISetup = (LuaFunction) battle.Lua.DoString(setup).First();
                 }
                 catch (Exception ex)
                 {
@@ -295,7 +256,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             try
             {
-                AIMain = (LuaFunction)Seven.Lua.DoString(main).First();
+                AIMain = (LuaFunction) battle.Lua.DoString(main).First();
             }
             catch (Exception ex)
             {
@@ -313,7 +274,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
                 try
                 {
-                    AICounter = (LuaFunction)Seven.Lua.DoString(counter).First();
+                    AICounter = (LuaFunction) battle.Lua.DoString(counter).First();
                 }
                 catch (Exception ex)
                 {
@@ -332,7 +293,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
                 try
                 {
-                    AICounterPhysical = (LuaFunction)Seven.Lua.DoString(counter).First();
+                    AICounterPhysical = (LuaFunction) battle.Lua.DoString(counter).First();
                 }
                 catch (Exception ex)
                 {
@@ -351,7 +312,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
                 try
                 {
-                    AICounterMagical = (LuaFunction)Seven.Lua.DoString(counter).First();
+                    AICounterMagical = (LuaFunction) battle.Lua.DoString(counter).First();
                 }
                 catch (Exception ex)
                 {
@@ -370,7 +331,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
                 try
                 {
-                    AICounterDeath = (LuaFunction)Seven.Lua.DoString(counter).First();
+                    AICounterDeath = (LuaFunction) battle.Lua.DoString(counter).First();
                 }
                 catch (Exception ex)
                 {
@@ -392,7 +353,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new GameDataException("Specified confu attack '{0}' is not configured; enemy = {1}", confuAttack, Name);
                 }
             
-                AIConfu = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
+                AIConfu = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
             }
             else
             {
@@ -417,7 +378,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new GameDataException("Specified berserk attack '{0}' is not configured; enemy = {1}", berserkAttack, Name);
                 }
             
-                AIBerserk = (LuaFunction)Seven.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
+                AIBerserk = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
             }
             else
             {
@@ -430,41 +391,19 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             // Timers
             
-            int vStep = Seven.Party.BattleSpeed;
+            int vStep = CurrentBattle.Party.BattleSpeed;
             
             C_Timer = CurrentBattle.TimeFactory.CreateClock();
             V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
             TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
         }
 
-        public static Enemy CreateEnemy(BattleState battle, string name, int x, int y, int e, string designation = "")
-        {       
-            if (!_table.ContainsKey(name))
-            {
-                throw new GameDataException("No enemy defined with name = " + name);
-            }
-
-            Enemy enemy = null;
-
-            try
-            {
-                enemy = new Enemy(battle, _table[name], x, y, e, designation);
-            }
-            catch (Exception ex)
-            {
-                throw new GameDataException("Error creating enemy with name = " + name, ex);
-            }
-
-            return enemy;
-        }
-
-
 
         #region Methods
         
         public override void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None)
         {
-            Seven.BattleState.AddDamageIcon(delta, this);
+            CurrentBattle.AddDamageIcon(delta, this);
 
             if (type == AttackType.Physical)
             {
@@ -515,7 +454,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override void AcceptMPLoss(Combatant source, int delta)
         {
-            Seven.BattleState.AddDamageIcon(delta, this, true);
+            CurrentBattle.AddDamageIcon(delta, this, true);
 
             _mp -= delta;
 
@@ -536,7 +475,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void Recover(Combatant source)
         {
-            Seven.BattleState.AddRecoveryIcon(this);
+            CurrentBattle.AddRecoveryIcon(this);
             
             if (Death)
             {
@@ -636,7 +575,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         protected override int GetTurnTimerStep(int vStep)
         {
-            return Dexterity * vStep / Seven.Party.NormalSpeed();
+            return Dexterity * vStep / CurrentBattle.Party.NormalSpeed();
         }
 
         public void EnterBattle()
@@ -845,7 +784,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         private void CastMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
-            Spell spell = MagicSpell.Get(id);
+            Spell spell = CurrentBattle.Seven.Data.GetMagicSpell(id);
             
             if (spell == null)
             {
@@ -867,7 +806,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         private void CounterWithMagicSpell(string id, IEnumerable<Combatant> targets, bool resetTurnTimer)
         {
-            Spell spell = MagicSpell.Get(id);
+            Spell spell = CurrentBattle.Seven.Data.GetMagicSpell(id);
             
             if (spell == null)
             {
@@ -933,9 +872,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             return _immune.Contains(s);
         }
         
-        public IInventoryItem StealItem(Ally thief)
+        public string StealItem(Ally thief)
         {
-            IInventoryItem stolen = null;
+            string id = null;
 
             if (HasItems)
             {
@@ -945,32 +884,41 @@ namespace Atmosphere.Reverence.Seven.Battle
                 foreach (EnemyItem item in _steal)
                 {
                     int chance = item.Chance * stealMod / 256;
-                    int r = Seven.BattleState.Random.Next(64);
+                    int r = CurrentBattle.Random.Next(64);
 
                     if (r <= chance)
                     {
-                        stolen = item.Item;
-                        Seven.Party.Inventory.AddToInventory(item.Item);
+                        IInventoryItem stolen = CurrentBattle.Seven.Data.GetInventoryItem(item.Id, item.Type);
+
+                        id = stolen.ID;
+
+                        CurrentBattle.Party.Inventory.AddToInventory(stolen);
                         _steal.Clear();
                         break;
                     }
                 }
             }
 
-            return stolen;
+            return id;
         }
 
         public IInventoryItem WinItem()
         {
+            IInventoryItem won = null;
+
             foreach (EnemyItem item in _win)
             {
-                int r = Seven.BattleState.Random.Next(64);
+                int r = CurrentBattle.Random.Next(64);
+
                 if (r <= item.Chance)
                 {
-                    return item.Item;
+                    won = CurrentBattle.Seven.Data.GetInventoryItem(item.Id, item.Type);
+
+                    break;
                 }
             }
-            return null;
+
+            return won;
         }
         
         

@@ -7,6 +7,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Graphics;
 using GameItem = Atmosphere.Reverence.Seven.Asset.Item;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 {
@@ -31,25 +32,26 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
         private GameItem _selectedItem;
         
-        public Stats(Menu.ScreenState screenState)
+        public Stats(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 11 / 60,
                 screenState.Width / 2,
                 screenState.Height * 23 / 30)
         {
+            MenuState = menuState;
         }
 
         public override void SetAsControl()
         {
             base.SetAsControl();
 
-            if (!Seven.MenuState.ItemList.SelectedItem.CanUseInField)
+            if (!MenuState.ItemList.SelectedItem.CanUseInField)
             {
                 throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
             }
             
-            _selectedItem = (GameItem)Seven.MenuState.ItemList.SelectedItem;
+            _selectedItem = (GameItem)MenuState.ItemList.SelectedItem;
         }
         
         public override void ControlHandle(Key k)
@@ -59,38 +61,53 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                 case Key.Up:
                     if (option > 0)
                     {
-                        Seven.Party.DecrementSelection();
+                        MenuState.Party.DecrementSelection();
                         option--;
                     }
                     break;
                 case Key.Down:
                     if (option < 2)
                     {
-                        Seven.Party.IncrementSelection();
+                        MenuState.Party.IncrementSelection();
                         option++;
                     }
                     break;
                 case Key.X:
-                    Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemList);
+                    MenuState.ItemScreen.ChangeControl(MenuState.ItemList);
                     break;
                 case Key.Circle:
 
-                    if (_selectedItem.FieldTarget == FieldTarget.Character && Seven.Party.Selected == null)
+                    if (_selectedItem.FieldTarget == FieldTarget.Character && MenuState.Party.Selected == null)
                     {
-                        Seven.Instance.ShowMessage(c => "!");
+                        MenuState.Seven.ShowMessage(c => "!");
                         break;
                     }
 
-                    if (Seven.Party.Inventory.UseItemInField(Seven.MenuState.ItemList.InventorySlot))
+                    int slot = MenuState.ItemList.InventorySlot;
+
+
+
+                    IInventoryItem item = MenuState.Party.Inventory.GetItem(slot);
+                    
+                    if (!item.CanUseInField)
                     {
-                        if (Seven.Party.Inventory.GetCount(Seven.MenuState.ItemList.InventorySlot) == 0)
+                        throw new ImplementationException("Tried to use an item in the field that can't be used in the field.");
+                    }
+                    
+                    bool used = ((GameItem)item).UseInField(MenuState.Party);
+                    
+                    if (used)
+                    {
+                        MenuState.Party.Inventory.DecreaseCount(slot);
+
+                        if (MenuState.Party.Inventory.GetCount(slot) == 0)
                         {
-                            Seven.MenuState.ItemScreen.ChangeControl(Seven.MenuState.ItemList);
+                            MenuState.ItemScreen.ChangeControl(MenuState.ItemList);
                         }
                     }
                     else
                     {
-                        Seven.Instance.ShowMessage(c => "!");
+                        MenuState.Seven.ShowMessage(c => "!");
                     }
 
                     break;
@@ -108,9 +125,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                if (MenuState.Party[i] != null)
                 {
-                    DrawCharacterStatus(d, gc, g, Seven.Party[i], y_firstRow + i * row_height);
+                    DrawCharacterStatus(d, gc, g, MenuState.Party[i], y_firstRow + i * row_height);
                 }
             } 
 
@@ -145,7 +162,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
 
 
         public override string Info
-        { get { return Seven.MenuState.ItemList.Info; } }
+        { get { return MenuState.ItemList.Info; } }
+        
+        private SevenMenuState MenuState { get; set; }
     }
 }
 

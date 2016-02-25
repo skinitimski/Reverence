@@ -8,14 +8,16 @@ namespace Atmosphere.Reverence.Menu
         {
         }
 
-        public ScreenState(int w, int h)
+        public ScreenState(int w, int h, bool hasChanged)
         {
             Width = w;
             Height = h;
+            HasChanged = hasChanged;
         }
 
         public int Width { get; set; }
         public int Height { get; set; }
+        public bool HasChanged { get; set; }
     }
 }
 

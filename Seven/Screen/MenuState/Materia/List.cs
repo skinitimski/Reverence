@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 {  
@@ -24,13 +25,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         private int topRow = 0;
         private bool trashing = false;
         
-        public List(Menu.ScreenState screenState)
+        public List(SevenMenuState menuState, ScreenState screenState)
             : base(
                 screenState.Width * 5 / 8,
                 screenState.Height * 5 / 12,
                 screenState.Width * 3 / 8 - 8,
                 screenState.Height * 8 / 15)
-        { }
+        { 
+            MenuState = menuState;
+        }
         
         public override void ControlHandle(Key k)
         {
@@ -47,43 +50,43 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 case Key.X:
                     if (trashing)
                     {
-                        Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaArrange);
+                        MenuState.MateriaScreen.ChangeControl(MenuState.MateriaArrange);
                     }
                     else
                     {
-                        Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
+                        MenuState.MateriaScreen.ChangeToDefaultControl();
                     }
                     trashing = false;
                     break;
                 case Key.Circle:
                     if (Trashing)
                     {
-                        Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaPrompt);
+                        MenuState.MateriaScreen.ChangeControl(MenuState.MateriaPrompt);
                         break;
                     }
-                    MateriaOrb neworb = Seven.Party.Materiatory.Get(option);
+                    MateriaOrb neworb = MenuState.Party.Materiatory.Get(option);
                     MateriaOrb oldorb;
-                    switch (Seven.MenuState.MateriaTop.OptionY)
+                    switch (MenuState.MateriaTop.OptionY)
                     {
                         case 0:
-                            oldorb = Seven.Party.Selected.Weapon.Slots[Seven.MenuState.MateriaTop.OptionX];
+                            oldorb = MenuState.Party.Selected.Weapon.Slots[MenuState.MateriaTop.OptionX];
                             if (oldorb != null)
-                                oldorb.Detach(Seven.Party.Selected);
-                            Seven.Party.Materiatory.Put(oldorb, option);
+                                oldorb.Detach(MenuState.Party.Selected);
+                            MenuState.Party.Materiatory.Put(oldorb, option);
                             if (neworb != null)
-                                neworb.Attach(Seven.Party.Selected);
-                            Seven.Party.Selected.Weapon.AttachMateria(neworb, Seven.MenuState.MateriaTop.OptionX);
-                            Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
+                                neworb.Attach(MenuState.Party.Selected);
+                            MenuState.Party.Selected.Weapon.AttachMateria(neworb, MenuState.MateriaTop.OptionX);
+                            MenuState.MateriaScreen.ChangeToDefaultControl();
                             break;
                         case 1:
-                            oldorb = Seven.Party.Selected.Armor.Slots[Seven.MenuState.MateriaTop.OptionX];
+                            oldorb = MenuState.Party.Selected.Armor.Slots[MenuState.MateriaTop.OptionX];
                             if (oldorb != null)
-                                oldorb.Detach(Seven.Party.Selected);
-                            Seven.Party.Materiatory.Put(oldorb, option);
+                                oldorb.Detach(MenuState.Party.Selected);
+                            MenuState.Party.Materiatory.Put(oldorb, option);
                             if (neworb != null)
-                                neworb.Attach(Seven.Party.Selected);
-                            Seven.Party.Selected.Armor.AttachMateria(neworb, Seven.MenuState.MateriaTop.OptionX);
-                            Seven.MenuState.MateriaScreen.ChangeToDefaultControl();
+                                neworb.Attach(MenuState.Party.Selected);
+                            MenuState.Party.Selected.Armor.AttachMateria(neworb, MenuState.MateriaTop.OptionX);
+                            MenuState.MateriaScreen.ChangeToDefaultControl();
                             break;
                         default: break;
                     }
@@ -100,13 +103,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             g.SetFontSize(24);
 
             
-            if (IsControl || Seven.MenuState.MateriaArrange.IsControl || Seven.MenuState.MateriaPrompt.IsControl)
+            if (IsControl || MenuState.MateriaArrange.IsControl || MenuState.MateriaPrompt.IsControl)
             {
                 int j = Math.Min(rows + topRow, Materiatory.MATERIATORY_SIZE);
                 
                 for (int i = topRow; i < j; i++)
                 {
-                    MateriaOrb orb = Seven.Party.Materiatory.Get(i);
+                    MateriaOrb orb = MenuState.Party.Materiatory.Get(i);
                     if (orb != null)
                     {
                         Shapes.RenderCircle(g, Colors.WHITE, 9, X + x1, Y + cy + (i - topRow) * y);
@@ -130,7 +133,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         {
             get
             {
-                MateriaOrb o = Seven.Party.Materiatory.Get(option);
+                MateriaOrb o = MenuState.Party.Materiatory.Get(option);
                 return (o == null) ? "" : o.Description;
             }
         }
@@ -144,10 +147,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         {
             get
             {
-                if (IsControl || Seven.MenuState.MateriaPrompt.IsControl) return Seven.Party.Materiatory.Get(option);
+                if (IsControl || MenuState.MateriaPrompt.IsControl) return MenuState.Party.Materiatory.Get(option);
                 else return null;
             }
         }
+        
+        private SevenMenuState MenuState { get; set; }
         
     }
 

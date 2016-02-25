@@ -3,6 +3,7 @@ using System.Text;
 using System.Xml;
 
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Seven.Asset;
 
 namespace Atmosphere.Reverence.Seven
 {
@@ -11,12 +12,12 @@ namespace Atmosphere.Reverence.Seven
         public const int MATERIATORY_SIZE = 200;
         private MateriaOrb[] _materiatory;
 
-        public Materiatory()
+        public Materiatory() 
         {
             _materiatory = new MateriaOrb[MATERIATORY_SIZE];
         }
         
-        public Materiatory(XmlNode savegame)
+        public Materiatory(Data data, XmlNode savegame)
             : this()
         {            
             foreach (XmlNode node in savegame.SelectNodes("./materiatory/orb"))
@@ -27,11 +28,10 @@ namespace Atmosphere.Reverence.Seven
                 }
                                 
                 string id = node.Attributes ["id"].Value;
-                MateriaType type = (MateriaType)Enum.Parse(typeof(MateriaType), node.Attributes ["type"].Value);
                 int ap = Int32.Parse(node.Attributes ["ap"].Value);
                 int slot = Int32.Parse(node.Attributes ["slot"].Value);
                 
-                _materiatory [slot] = MateriaOrb.Create(id, ap, type);
+                _materiatory[slot] = data.GetMateria(id, ap);
             }
         }
         
@@ -55,6 +55,53 @@ namespace Atmosphere.Reverence.Seven
             }
             
             _materiatory [i] = orb;
+        }
+
+        
+        public void Swap(Weapon from, Weapon to, Character c)
+        {
+            for (int i = 0; i < @from.Slots.Length; i++)
+            {
+                MateriaOrb m = to.Slots[i];
+                
+                if (m != null)
+                {
+                    if (i > to.Slots.Length)
+                    {
+                        m.Detach(c);
+                        Put(m);
+                    }
+                    else
+                    {
+                        to.Slots[i] = m;
+                    }
+                }
+                
+                @from.Slots[i] = null;
+            }
+        }
+        
+        public void Swap(Armor before, Armor after, Character c)
+        {
+            for (int i = 0; i < before.Slots.Length; i++)
+            {
+                MateriaOrb m = before.Slots[i];
+                
+                if (m != null)
+                {
+                    if (i > after.Slots.Length)
+                    {
+                        m.Detach(c);
+                        Put(m);
+                    }
+                    else
+                    {
+                        after.Slots[i] = m;
+                    }
+                }
+                
+                before.Slots[i] = null;
+            }
         }
 
         public void Sort()
@@ -157,19 +204,12 @@ namespace Atmosphere.Reverence.Seven
                 {
                     writer.WriteStartElement("orb");
                     
-                    writer.WriteAttributeString("id", materia.ID);
+                    writer.WriteAttributeString("name", materia.Name);
                     writer.WriteAttributeString("type", materia.Type.ToString());
                     writer.WriteAttributeString("ap", materia.AP.ToString());
                     writer.WriteAttributeString("slot", i.ToString());
                     
                     writer.WriteEndElement();
-
-                    /*
-        <orb id="fire" type="Magic" ap="1400" slot="1" />
-        <orb id="ice" type="Magic" ap="30000" slot="2" />
-        <orb id="lightning" type="Magic" ap="20000" slot="3" />
-                     * 
-                     */
                 }
             }
 

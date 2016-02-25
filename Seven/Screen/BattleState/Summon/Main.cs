@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 {
@@ -25,11 +26,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
         protected int _option;
         private int _topRow;
-        private int _totalRows = SummonSpell.Count;
+        private int _totalRows;
         private readonly int _visibleRows = 3;
         protected SummonMenuEntry[] _summons;
 
-        public Main(IEnumerable<SummonMenuEntry> summons, Menu.ScreenState screenState)
+        public Main(SevenBattleState battleState, IEnumerable<SummonMenuEntry> summons, Menu.ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 7 / 10 + 20,
@@ -38,10 +39,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             _summons = new SummonMenuEntry[_totalRows];
 
+            _totalRows = battleState.Seven.Data.SummonSpellCount;
+
             foreach (SummonMenuEntry s in summons)
             {
                 _summons[s.Order] = s;
             }
+
+            BattleState = battleState;
 
             Reset();
         }
@@ -72,7 +77,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     break;
                 case Key.X:
                     Visible = false;
-                    Seven.BattleState.Screen.PopControl();
+                    BattleState.Screen.PopControl();
                     Reset();
                     break;
                 case Key.Circle:
@@ -82,11 +87,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
                         if (CommandingAvailableMP >= spell.MPCost)
                         {
-                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
+                            BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                         else
                         {
-                            Seven.Instance.ShowMessage(c => "!", 500);
+                            BattleState.Seven.ShowMessage(c => "!", 500);
                         }
                     }
                     break;
@@ -104,7 +109,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         {
             Ability spell = _summons[option].Spell;
             
-            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
+            spell.Use(BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -131,7 +136,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     Y + cy + (_option - _topRow + 1) * ys);
             }
 
-            Seven.BattleState.Screen.SummonMenuInfo.Draw(d);
+            BattleState.Screen.SummonMenuInfo.Draw(d);
 
 
             ((IDisposable)g.Target).Dispose();
@@ -143,14 +148,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             _option = 0;
             _topRow = 0;
             Visible = false;
-            Seven.BattleState.Screen.SummonMenuInfo.Visible = false;
+            BattleState.Screen.SummonMenuInfo.Visible = false;
         }
 
         public override void SetAsControl()
         {
             base.SetAsControl();
             Visible = true;
-            Seven.BattleState.Screen.SummonMenuInfo.Visible = true;
+            BattleState.Screen.SummonMenuInfo.Visible = true;
         }
 
         public bool IsValid
@@ -172,7 +177,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
         public SummonMenuEntry Selected { get { return _summons[_option]; } }
         
-        protected virtual int CommandingAvailableMP { get { return Seven.BattleState.Commanding.MP; } }
+        protected virtual int CommandingAvailableMP { get { return BattleState.Commanding.MP; } }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 
 

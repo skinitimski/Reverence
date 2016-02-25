@@ -12,6 +12,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
     internal static class Formula
     {
+        private static Random _random = new Random();
+
         public static int PhysicalBase(Combatant er)
         {
             return er.Atk + ((er.Atk + er.Level) / 32) * (er.Atk * er.Level / 32);
@@ -57,7 +59,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 hitp = 1;
             }
 
-            int lucky = Seven.BattleState.Random.Next(0, 100);
+            int lucky = _random.Next(0, 100);
 
             // Lucky Hit
             if (lucky < Math.Floor(source.Luck / 4.0d))
@@ -73,7 +75,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 }
             }
 
-            int r = Seven.BattleState.Random.Next(65536) * 99 / 65536 + 1;
+            int r = _random.Next(65536) * 99 / 65536 + 1;
 
             return r < hitp;
         }
@@ -114,14 +116,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             // Magic Defense Percent
-            if (Seven.BattleState.Random.Next(1, 101) < target.MDefp)
+            if (_random.Next(1, 101) < target.MDefp)
             {
                 return false;
             }
 
             int hitp = matp + source.Level - target.Level / 2 - 1;
 
-            return Seven.BattleState.Random.Next(100) < hitp;
+            return _random.Next(100) < hitp;
         }
 
         public static bool StatusHit(Combatant source, Combatant target, int odds, IEnumerable<Status> statuses, AbilityModifiers modifiers)
@@ -155,7 +157,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             odds -= 1;
 
-            return Seven.BattleState.Random.Next(99) < odds;
+            return _random.Next(99) < odds;
         }
 
         public static int Critical(int dam, Combatant source, Combatant target)
@@ -180,7 +182,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 critp = critp + er.Weapon.CriticalPercent;
             }
 
-            int r = (Seven.BattleState.Random.Next(65536) * 99 / 65536) + 1;
+            int r = (_random.Next(65536) * 99 / 65536) + 1;
 
             if (r <= critp)
             {
@@ -297,7 +299,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public static int RandomVariation(int dam)
         {
-            dam = dam * (3841 + Seven.BattleState.Random.Next(256)) / 4096;
+            dam = dam * (3841 + _random.Next(256)) / 4096;
 
             return dam;
         }
@@ -377,7 +379,5 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return dam;
         }
-
-
     }
 }

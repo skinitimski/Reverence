@@ -3,6 +3,7 @@ using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 {  
@@ -23,10 +24,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         private int option = 0;
         
-        public Prompt(Menu.ScreenState screenState)
+        public Prompt(SevenMenuState menuState, ScreenState screenState)
             : base(265, 200, 270, 150)
         {
             Visible = false;
+            MenuState = menuState;
         }
 
         public override void ControlHandle(Key k)
@@ -43,17 +45,17 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     switch (option)
                     {
                         case 0:
-                            Seven.Party.Materiatory.Put(null, Seven.MenuState.MateriaList.Option);
-                            Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
+                            MenuState.Party.Materiatory.Put(null, MenuState.MateriaList.Option);
+                            MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
                             break;
                         case 1:
-                            Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
+                            MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
                             break;
                         default: break;
                     }
                     break;
                 case Key.X:
-                    Seven.MenuState.MateriaScreen.ChangeControl(Seven.MenuState.MateriaList);
+                    MenuState.MateriaScreen.ChangeControl(MenuState.MateriaList);
                     break;
                 default: break;
             }
@@ -99,6 +101,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
         public override string Info
         { get { return ""; } }
+        
+        private SevenMenuState MenuState { get; set; }
         
     }
 }

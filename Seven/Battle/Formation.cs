@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 
 using Atmosphere.Reverence.Seven.State;
+using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
@@ -143,20 +144,31 @@ namespace Atmosphere.Reverence.Seven.Battle
             for (int i = 0; i < Enemies.Count; i++)
             {
                 EnemyRecord record = Enemies[i];
+                
+                XmlDocument gamedata = Resource.GetXmlFromResource("data.enemies.xml", battle.Seven.Data.Assembly);
 
-                enemies.Add(Enemy.CreateEnemy(battle, record.Name, record.X, record.Y, e[i], record.Designation));
+                XmlNode node = gamedata.SelectSingleNode(String.Format("//enemy[name = '{0}']", record.Name));
+
+                if (node == null)
+                {
+                    throw new GameDataException("Formation '{0}' references nonexistent enemy '{1}'", ID, record.Name);
+                }
+
+                Enemy enemy = new Enemy(battle, node, record.X, record.Y, e[i], record.Designation);
+
+                enemies.Add(enemy);
             }
 
             return enemies;
         }
 
-        public int[] GetAllyTurnTimersElapsed()
+        public int[] GetAllyTurnTimersElapsed(Party party)
         {
             int[] e = new int[Party.PARTY_SIZE];
             
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (Seven.Party[i] != null)
+                if (party[i] != null)
                 {
                     e[i] = RANDOM.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
                 }

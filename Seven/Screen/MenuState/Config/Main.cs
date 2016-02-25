@@ -4,6 +4,7 @@ using Cairo;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Graphics;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 {    
@@ -43,17 +44,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         private int option = 0;
 
 
-        public Main(Menu.ScreenState screenState)
+        public Main(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 7 / 60,
                 screenState.Width - 10,
                 screenState.Height * 5 / 6)
         {
+            MenuState = menuState;
+
             int wc_x = x_options + 300;
             int wc_y = Y + 15;
 
-            WindowColorMenu = new WindowColor(wc_x, wc_y, this);
+            WindowColorMenu = new WindowColor(menuState, wc_x, wc_y, this);
         }
 
         public override void ControlHandle(Key k)
@@ -80,7 +83,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                         break;
                     case Key.X:
                         option = 0;
-                        Seven.MenuState.ChangeScreen(Seven.MenuState.MainScreen);
+                        MenuState.ChangeScreen(MenuState.MainScreen);
                         break;
                     case Key.Circle:
                         switch (option)
@@ -138,6 +141,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         private ControlMenu SubMenu { get; set; }
 
         private WindowColor WindowColorMenu { get; set; }
+
+        private SevenMenuState MenuState { get; set; }
     }
 
 }

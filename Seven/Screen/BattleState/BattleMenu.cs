@@ -47,7 +47,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private bool _wmagic = false;
         private bool _wsummon = false;
         private int _option;
-        private int _options;
         private int _columns;
         private readonly int _rows = 4;
 
@@ -71,7 +70,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             {
-                if (m != null && m.ID == "witem")
+                if (m != null && m.Name == "W-Item")
                 {
                     _witem = true;
                 }
@@ -90,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 if (m != null)
                 {
-                    if (m.ID == "doublecut")
+                    if (m.Name == "Double Cut")
                     {
                         if (m.Level == 0)
                         {
@@ -105,7 +104,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         _slashAllOption = -1;
                         _flashOption = -1;
                     }
-                    else if (m.ID == "slashall")
+                    else if (m.Name == "Slash-All")
                     {
                         if (m.Level == 0)
                         {
@@ -152,7 +151,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 o++;
                 foreach (MateriaOrb m in a.Materia)
                 {
-                    if (m != null && m.ID == "wmagic")
+                    if (m != null && m.Name == "W-Magic")
                     {
                         _wmagic = true;
                     }
@@ -185,7 +184,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 o++;
                 foreach (MateriaOrb m in a.Materia)
                 {
-                    if (m != null && m.ID == "wsummon")
+                    if (m != null && m.Name == "W-Summon")
                     {
                         _wsummon = true;
                     }
@@ -207,7 +206,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             {
-                if (m != null && m.ID == "sense")
+                if (m != null && m.Name == "Sense")
                 {
                     _senseOption = o;
                     o++;
@@ -230,7 +229,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             { 
-                if (m != null && m.ID == "enemyskill")
+                if (m != null && m.Name == "Enemy Skill")
                 {
                     _enemySkillMenuOption = o;
                     o++;
@@ -252,7 +251,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             {
-                if (m != null && m.ID == "mime")
+                if (m != null && m.Name == "Mime")
                 {
                     _mimeOption = o;
                     o++;
@@ -275,7 +274,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             {
-                if (m != null && m.ID == "deathblow")
+                if (m != null && m.Name == "Deathblow")
                 {
                     _deathblowOption = o;
                     o++;
@@ -297,7 +296,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             foreach (MateriaOrb m in a.Materia)
             {
-                if (m != null && m.ID == "steal")
+                if (m != null && m.Name == "Steal")
                 {
                     if (m.Level == 0)
                     {
@@ -373,61 +372,61 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 case Key.Circle:
                     if (_option == _attackOption)
                     {
-                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _doubleCutOption2)
                     {
-                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _doubleCutOption4)
                     {
-                        Seven.BattleState.Screen.SelectEitherGroup(BattleTargetGroup.Enemies);
+                        AssociatedAlly.CurrentBattle.Screen.SelectEitherGroup(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _slashAllOption)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.GroupNS);
+                        //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Area, TargetType.GroupNS);
                     }
                     else if (_option == _flashOption)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
+                        //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
                     }
-                    else if (_option == _magicMenuOption && !Seven.BattleState.Commanding.Silence)
+                    else if (_option == _magicMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
                     {
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.MagicMenu);
+                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.MagicMenu);
                     }
-                    else if (_option == _enemySkillMenuOption && !Seven.BattleState.Commanding.Silence)
+                    else if (_option == _enemySkillMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
                     {
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.EnemySkillMenu);
+                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.EnemySkillMenu);
                     }
-                    else if (_option == _summonMenuOption && !Seven.BattleState.Commanding.Silence)
+                    else if (_option == _summonMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
                     {
-                        Seven.BattleState.Screen.PushControl(Seven.BattleState.Commanding.SummonMenu);
+                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.SummonMenu);
                     }
                     else if (_option == _senseOption)
                     {
-                        Seven.BattleState.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _mimeOption)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Self);
+                        //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Area, TargetType.Self);
                     }
                     else if (_option == _deathblowOption)
                     {
-                        //Seven.BattleState.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
+                        //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
                     }
                     else if (_option == _stealOption || _option == _mugOption)
                     {
-                        Seven.BattleState.Screen.SelectEnemy();
+                        AssociatedAlly.CurrentBattle.Screen.SelectEnemy();
                     }
                     else if (_option == _itemMenuOption)
                     {
                         if (_witem)
                         {
-                            Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.WItemMenu);
+                            AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Screen.WItemMenu);
                         }
                         else
                         {
-                            Seven.BattleState.Screen.PushControl(Seven.BattleState.Screen.ItemMenu);
+                            AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Screen.ItemMenu);
                         }
                     }
                     break;
@@ -439,7 +438,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public bool ActOnSelection(IEnumerable<Combatant> targets)
         {
             Combatant target;
-            Ally performer = Seven.BattleState.Commanding;
+            Ally performer = AssociatedAlly.CurrentBattle.Commanding;
 
             #region Attack
 
@@ -479,7 +478,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 BattleEvent sense = SenseEvent.Create(AssociatedAlly, targets);
 
-                Seven.BattleState.EnqueueAction(sense);
+                AssociatedAlly.CurrentBattle.EnqueueAction(sense);
             }
 
             #endregion Sense
@@ -488,17 +487,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _mimeOption)
             {
-//                if (Seven.BattleState.LastPartyAbility == null)
+//                if (AssociatedAlly.CurrentBattle.LastPartyAbility == null)
 //                {
 ////                    DisableActionHook(true);
-//                    Seven.BattleState.Commanding.TurnTimer.Reset();
+//                    AssociatedAlly.CurrentBattle.Commanding.TurnTimer.Reset();
 //                }
 //                else
 //                {
-//                    Seven.BattleState.Commanding.Ability = Seven.BattleState.LastPartyAbility;
+//                    AssociatedAlly.CurrentBattle.Commanding.Ability = AssociatedAlly.CurrentBattle.LastPartyAbility;
 //                    try
 //                    {
-//                        Seven.BattleState.Commanding.Ability.Performer = performer;
+//                        AssociatedAlly.CurrentBattle.Commanding.Ability.Performer = performer;
 //                    }
 //                    catch (Exception e)
 //                    {
@@ -514,16 +513,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = targets.First();
 
-                int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
+                int bd = Formula.PhysicalBase(AssociatedAlly.CurrentBattle.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target) * 2;
 
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                AbilityState state = AssociatedAlly.CurrentBattle.Commanding.Ability;
 //                state.LongRange = performer.LongRange;
 //                state.QuadraMagic = false;
 //                state.Type = AttackType.Physical;
 //                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam); };
+//                state.Target = AssociatedAlly.CurrentBattle.Screen.TargetSelector.Selected;
+//                state.Action += delegate() { target.AcceptDamage(AssociatedAlly.CurrentBattle.ActiveAbility.Performer, dam); };
             }
 
             #endregion Deathblow
@@ -533,7 +532,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {                
                 StealEvent e = StealEvent.Create(AssociatedAlly, targets);
                 
-                Seven.BattleState.EnqueueAction(e);
+                AssociatedAlly.CurrentBattle.EnqueueAction(e);
             }
             #endregion Steal
             #region Mug
@@ -541,16 +540,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 target = targets.First();
 
-                int bd = Formula.PhysicalBase(Seven.BattleState.Commanding);
+                int bd = Formula.PhysicalBase(AssociatedAlly.CurrentBattle.Commanding);
                 int dam = Formula.PhysicalDamage(bd, 16, target);
 
-//                AbilityState state = Seven.BattleState.Commanding.Ability;
+//                AbilityState state = AssociatedAlly.CurrentBattle.Commanding.Ability;
 //                state.Type = AttackType.Physical;
 //                state.Performer = performer;
-//                state.Target = Seven.BattleState.Screen.TargetSelector.Selected;
+//                state.Target = AssociatedAlly.CurrentBattle.Screen.TargetSelector.Selected;
 //                state.Action += delegate() 
 //                { 
-//                    target.AcceptDamage(Seven.BattleState.ActiveAbility.Performer, dam);
+//                    target.AcceptDamage(AssociatedAlly.CurrentBattle.ActiveAbility.Performer, dam);
 //                    ((Enemy)target).StealItem(performer);
 //                };
             }
@@ -606,7 +605,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Magic
             if (_magicMenuOption != -1)
             {
-                if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
                 {
                     c = gray;
                 }
@@ -622,7 +621,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Summon
             if (_summonMenuOption != -1)
             {
-                if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
                 {
                     c = gray;
                 }
@@ -647,7 +646,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Enemy Skill
             if (_enemySkillMenuOption != -1)
             {
-                if (Seven.BattleState.Commanding.Silence || Seven.BattleState.Commanding.Frog)
+                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
                 {
                     c = gray;
                 }

@@ -1,9 +1,11 @@
 using System;
+using System.Linq;
 using Cairo;
 
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using SevenMenuState = Atmosphere.Reverence.Seven.State.MenuState;
 
 namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
 {      
@@ -31,13 +33,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
         
 #endregion
         
-        public Stats(Menu.ScreenState screenState)
+        public Stats(SevenMenuState menuState, ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 5 / 12,
                 screenState.Width * 5 / 8,
                 screenState.Height * 8 / 15)
         {
+            MenuState = menuState;
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -49,11 +52,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             TextExtents te;
             
-            MateriaOrb orb = Seven.MenuState.MateriaTop.Selection;
+            MateriaOrb orb = MenuState.MateriaTop.Selection;
 
             if (orb == null)
             {
-                orb = Seven.MenuState.MateriaList.Selection;
+                orb = MenuState.MateriaList.Selection;
             }
             
             
@@ -66,14 +69,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                 Cairo.Color greenish = Colors.TEXT_TEAL;
                 Cairo.Color yellow = Colors.TEXT_YELLOW;
                 Cairo.Color red = Colors.TEXT_RED;
-                Cairo.Color gray = new Color(.4, .4, .4);
                                 
-                if (orb.ID == "enemyskill")
+                if (orb is EnemySkillMateria)
                 {
                     EnemySkillMateria esm = (EnemySkillMateria)orb;
                     
                     string mask = "";
-                    for (int i = 0; i < EnemySkillMateria.TOTAL_ENEMY_SKILLS; i++)
+                    for (int i = 0; i < MenuState.Seven.Data.EnemySkillCount; i++)
                     {
                         mask += ((esm.AP >> i) & 1) > 0 ? "1" : "0";
                     }
@@ -126,18 +128,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
                     Text.ShadowedText(g, greenish, "Ability List", X + x0, Y + y3);
                     
                     int k = 0;
-                    foreach (string s in orb.AllAbilities)
+                    foreach (string s in orb.AbilityDescriptions)
                     {
                         if (!String.IsNullOrEmpty(s))
                         {
-                            if (orb.Abilities.Contains(s))
+                            Color abilityTextColor = Colors.GRAY_4;
+
+                            if (orb is MasterMateria || orb.Abilities.Contains(s))
                             {
-                                Text.ShadowedText(g, s, X + x1, Y + y4 + (ys * k));
+                                abilityTextColor = Colors.WHITE;
                             }
-                            else
-                            {
-                                Text.ShadowedText(g, gray, s, X + x1, Y + y4 + (ys * k));
-                            }
+                            
+                            Text.ShadowedText(g, abilityTextColor, s, X + x1, Y + y4 + (ys * k));
+
                             k++;
                         }
                     }
@@ -359,6 +362,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             ((IDisposable)g.Target).Dispose();
             ((IDisposable)g).Dispose();
         }
+        
+        private SevenMenuState MenuState { get; set; }
     }
     
 

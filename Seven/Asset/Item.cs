@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -14,8 +15,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Item : IInventoryItem
     {       
-        private static Dictionary<string, Item> _table;
-        public static readonly Item EMPTY;
+        public static readonly Item EMPTY = new Item();
 
 
 
@@ -40,27 +40,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
 
-        static Item()
-        {
-            _table = new Dictionary<string, Item>();
-
-            EMPTY = new Item();
-                        
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.items.xml", typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("//items/item"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-                
-                Item i = new Item(node);
-                
-                _table.Add(i.ID, i);
-            }
-        }
-
         private Item()
         {
             Name = String.Empty;
@@ -68,7 +47,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         }
         
         [LuaFunctionCaller]
-        private Item(XmlNode node)
+        public Item(XmlNode node, Lua lua)
             : this()
         {
             Name = node.SelectSingleNode("name").InnerText;
@@ -89,8 +68,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 try
                 {
-                    FieldUsage.CanUse = (LuaFunction)Seven.Lua.DoString(canUse).First();
-                    FieldUsage.Use = (LuaFunction)Seven.Lua.DoString(use).First();
+                    FieldUsage.CanUse = (LuaFunction)lua.DoString(canUse).First();
+                    FieldUsage.Use = (LuaFunction)lua.DoString(use).First();
                 }
                 catch (Exception e)
                 {
@@ -117,7 +96,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                 
                 try
                 {
-                    BattleUsage.Use = (LuaFunction)Seven.Lua.DoString(use).First();
+                    BattleUsage.Use = (LuaFunction)lua.DoString(use).First();
                 }
                 catch (Exception e)
                 {
@@ -131,7 +110,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         /// Uses an item in the field.
         /// </summary>
         [LuaFunctionCaller]
-        public bool UseInField()
+        public bool UseInField(Party party)
         {
             if (CanUseInField)
             {
@@ -142,10 +121,10 @@ namespace Atmosphere.Reverence.Seven.Asset
                     switch (FieldUsage.Target)
                     {
                         case FieldTarget.Character:
-                            canUse = (bool)FieldUsage.CanUse.Call(Seven.Party.Selected).First();
+                            canUse = (bool)FieldUsage.CanUse.Call(party.Selected).First();
                             break;
                         case FieldTarget.Party:
-                            canUse = (bool)FieldUsage.CanUse.Call(Seven.Party).First();
+                            canUse = (bool)FieldUsage.CanUse.Call(party).First();
                             break;
                         case FieldTarget.World:
                             canUse = (bool)FieldUsage.CanUse.Call().First();
@@ -157,10 +136,10 @@ namespace Atmosphere.Reverence.Seven.Asset
                         switch (FieldUsage.Target)
                         {
                             case FieldTarget.Character:
-                                FieldUsage.Use.Call(Seven.Party.Selected);
+                                FieldUsage.Use.Call(party.Selected);
                                 break;
                             case FieldTarget.Party:
-                                FieldUsage.Use.Call(Seven.Party);
+                                FieldUsage.Use.Call(party);
                                 break;
                             case FieldTarget.World:
                                 FieldUsage.Use.Call();
@@ -227,36 +206,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
 
-        
-        public static IInventoryItem GetItem(string id, InventoryItemType type)
-        {
-            IInventoryItem item = null;
 
-            switch (type)
-            {
-                case InventoryItemType.item:
-
-                    item = ItemTable[id];
-
-                    if (item == null)
-                    {
-                        throw new GameDataException("Could not find item with id " + id);
-                    }
-
-                    break;
-                case InventoryItemType.weapon:
-                    item = Weapon.Get(id);
-                    break;
-                case InventoryItemType.armor:
-                    item = Armor.Get(id);
-                    break;
-                case InventoryItemType.accessory:
-                    item = Accessory.Get(id);
-                    break;
-            }
-
-            return item;
-        }
 
         public string Name { get; private set; }
 
@@ -275,8 +225,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         private FieldUsageRecord FieldUsage { get; set; }
 
         private BattleUsageRecord BattleUsage { get; set; }
-
-        public static Dictionary<string, Item> ItemTable { get { return _table; } }
 
         public bool IntendedForEnemies { get { return BattleUsage == null ? false : BattleUsage.IntendedForEnemies; } }
     }

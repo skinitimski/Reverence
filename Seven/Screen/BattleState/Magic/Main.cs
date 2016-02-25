@@ -9,6 +9,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
+using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {       
@@ -29,17 +30,23 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         protected int _xopt;
         protected int _yopt;
         private int _topRow;
-        private int _totalRows = (MagicSpell.Count / COLUMNS) + ((MagicSpell.Count % COLUMNS == 0) ? 0 : 1);
+        private int _totalRows;
         private readonly int _visibleRows = 3;
         protected MagicMenuEntry[,] _spells;
 
-        public Main(IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
+        public Main(SevenBattleState battleState, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 7 / 10 + 20,
                 screenState.Width * 3 / 4,
                 (screenState.Height * 5 / 20) - 25)
         {
+            BattleState = battleState;
+
+            int magicSpellCount = battleState.Seven.Data.MagicSpellCount;
+
+            _totalRows = (magicSpellCount / COLUMNS) + ((magicSpellCount % COLUMNS == 0) ? 0 : 1);
+
             _spells = new MagicMenuEntry[_totalRows, COLUMNS];
 
             foreach (MagicMenuEntry s in spells)
@@ -127,7 +134,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                 case Key.X:
                     Visible = false;
-                    Seven.BattleState.Screen.PopControl();
+                    BattleState.Screen.PopControl();
                     Reset();
                     break;
 
@@ -138,11 +145,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         
                         if (CommandingAvailableMP >= spell.MPCost)
                         {
-                            Seven.BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
+                            BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                         else
                         {
-                            Seven.Instance.ShowMessage(c => "!", 500);
+                            BattleState.Seven.ShowMessage(c => "!", 500);
                         }
                     }
                     break;
@@ -160,7 +167,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             Ability spell = _spells[yopt, xopt].Spell;
 
-            spell.Use(Seven.BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
+            spell.Use(BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -198,7 +205,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             }
 
 
-            Seven.BattleState.Screen.MagicInfo.Draw(d);
+            BattleState.Screen.MagicInfo.Draw(d);
 
 
             ((IDisposable)g.Target).Dispose();
@@ -211,14 +218,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             //_yopt = 0;
             //_xopt = 0;
             Visible = false;
-            Seven.BattleState.Screen.MagicInfo.Visible = false;
+            BattleState.Screen.MagicInfo.Visible = false;
         }
 
         public override void SetAsControl()
         {
             base.SetAsControl();
             Visible = true;
-            Seven.BattleState.Screen.MagicInfo.Visible = true;
+            BattleState.Screen.MagicInfo.Visible = true;
         }
 
         public bool IsValid { get { return _totalRows > 0; } }
@@ -233,7 +240,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         public MagicMenuEntry Selected { get { return _spells[_yopt, _xopt]; } }
 
-        protected virtual int CommandingAvailableMP { get { return Seven.BattleState.Commanding.MP; } }
+        protected virtual int CommandingAvailableMP { get { return BattleState.Commanding.MP; } }
+        
+        private SevenBattleState BattleState { get; set; }
     }
 
 

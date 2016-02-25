@@ -84,7 +84,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 InflictDeath(null);
             }
 
-            int vStep = Seven.Party.BattleSpeed;
+            int vStep = CurrentBattle.Party.BattleSpeed;
             
             C_Timer = CurrentBattle.TimeFactory.CreateClock();
             V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
@@ -101,11 +101,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (BattleMenu.WMagic)
             {
-                MagicMenu = new Screens.Magic.WMagic(MagicSpells, state);
+                MagicMenu = new Screens.Magic.WMagic(CurrentBattle, MagicSpells, state);
             }
             else
             {
-                MagicMenu = new Screens.Magic.Main(MagicSpells, state);
+                MagicMenu = new Screens.Magic.Main(CurrentBattle, MagicSpells, state);
             }
             
             if (!MagicMenu.IsValid)
@@ -115,11 +115,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (BattleMenu.WSummon)
             {
-                SummonMenu = new Screens.Summon.WSummon(Summons, state);
+                SummonMenu = new Screens.Summon.WSummon(CurrentBattle, Summons, state);
             }
             else
             {
-                SummonMenu = new Screens.Summon.Main(Summons, state);
+                SummonMenu = new Screens.Summon.Main(CurrentBattle, Summons, state);
             }
             
             if (!SummonMenu.IsValid)
@@ -127,11 +127,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                 SummonMenu = null;
             }
             
-            EnemySkillMateria m = new EnemySkillMateria(GetEnemySkillMask());
-            
+            EnemySkillMateria m = EnemySkillMateria.Merge(Materia.Where(x => x is EnemySkillMateria).Cast<EnemySkillMateria>());
+                        
             if (m.AP > 0)
             {
-                EnemySkillMenu = new Screens.EnemySkill.Main(m, state);
+                EnemySkillMenu = new Screens.EnemySkill.Main(CurrentBattle, m, state);
             }
         }
         
@@ -140,13 +140,15 @@ namespace Atmosphere.Reverence.Seven.Battle
             // First, add all the new magic spells.
             foreach (MateriaOrb m in sh.Slots)
             {
-                if (m is MagicMateria)
+                if (m != null && m.Type == MateriaType.Magic)
                 {
-                    foreach (Spell s in ((MagicMateria)m).GetSpells)
+                    foreach (string ability in m.Abilities)
                     {
-                        if (!list.Any(x => x.Name == m.Name))
+                        Spell magicSpell = CurrentBattle.Seven.Data.GetMagicSpell(ability);
+
+                        if (!list.Any(x => x.Name == magicSpell.Name))
                         {
-                            list.Add(new MagicMenuEntry(s));
+                            list.Add(new MagicMenuEntry(magicSpell));
                         }
                     }
                 }
@@ -156,23 +158,25 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 MateriaOrb left = sh.Slots[i * 2];
                 MateriaOrb right = sh.Slots[(i * 2) + 1];
-                
-                if (left is MagicMateria && right is SupportMateria)
-                {
-                    MateriaOrb temp = left;
-                    left = right;
-                    right = temp;
-                }
 
-                if (right is MagicMateria && left is SupportMateria)
+                if (left != null && right != null)
                 {
-                    foreach (Ability s in ((MagicMateria)right).GetSpells)
+                    if (left.Type == MateriaType.Magic && right.Type == MateriaType.Support)
                     {
-                        for (int j = 0; j < list.Count; j++)
+                        MateriaOrb temp = left;
+                        left = right;
+                        right = temp;
+                    }
+
+                    if (right.Type == MateriaType.Magic && left.Type == MateriaType.Support)
+                    {
+                        foreach (string ability in right.Abilities)
                         {
-                            if (list[j].Name == s.Name)
+                            Spell magicSpell = CurrentBattle.Seven.Data.GetMagicSpell(ability);
+
+                            foreach (MagicMenuEntry entry in list.Where(x => x.Name == magicSpell.Name))
                             {
-                                list[j].AddAbility((SupportMateria)left);
+                                entry.AddAbility(left);
                             }
                         }
                     }
@@ -196,13 +200,15 @@ namespace Atmosphere.Reverence.Seven.Battle
             // First, add all the new summons.
             foreach (MateriaOrb m in sh.Slots)
             {
-                if (m is SummonMateria)
+                if (m != null && m.Type == MateriaType.Summon)
                 {
-                    if (!list.Any(x => x.Name == m.Name))
+                    foreach (string ability in m.Abilities)
                     {
-                        foreach (Spell s in ((SummonMateria)m).GetSpells)
+                        Spell summon = CurrentBattle.Seven.Data.GetSummonSpell(ability);
+                        
+                        if (!list.Any(x => x.Name == summon.Name))
                         {
-                            list.Add(new SummonMenuEntry(m.Name, s));
+                            list.Add(new SummonMenuEntry(m.Name, summon));
                         }
                     }
                 }
@@ -213,24 +219,27 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 MateriaOrb left = sh.Slots[i * 2];
                 MateriaOrb right = sh.Slots[(i * 2) + 1];
-
-                // If we have a summon-support pair, swap 'em
-                if (left is SummonMateria && right is SupportMateria)
+                
+                
+                if (left != null && right != null)
                 {
-                    MateriaOrb temp = left;
-                    left = right;
-                    right = temp;
-                }
-
-                // Now if we have a support-summon pair (and, inclusively, if we previously had
-                //     a summon-support pair), match 'em up
-                if (right is SummonMateria && left is SupportMateria)
-                {
-                    for (int j = 0; j < list.Count; j++)
+                    if (left.Type == MateriaType.Summon && right.Type == MateriaType.Support)
                     {
-                        if (list[j].Name == right.Name)
+                        MateriaOrb temp = left;
+                        left = right;
+                        right = temp;
+                    }
+
+                    if (right.Type == MateriaType.Summon && left.Type == MateriaType.Support)
+                    {
+                        foreach (string ability in right.Abilities)
                         {
-                            list[j].AddAbility((SupportMateria)left);
+                            Spell summon = CurrentBattle.Seven.Data.GetSummonSpell(ability);
+                            
+                            foreach (SummonMenuEntry entry in list.Where(x => x.Name == summon.Name))
+                            {
+                                entry.AddAbility(left);
+                            }
                         }
                     }
                 }
@@ -249,28 +258,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             _summons = summons;
         }
         
-        private int GetEnemySkillMask()
-        {
-            int ap = 0;
-
-            foreach (MateriaOrb m in Materia)
-            {
-                if (m is EnemySkillMateria)
-                {
-                    ap = ap | m.AP;
-                }
-            }
-
-            return ap;
-        }
-        
 
         
         #region Methods
         
         public override void AcceptDamage(Combatant source, int delta, AttackType type = AttackType.None)
         {
-            Seven.BattleState.AddDamageIcon(delta, this);
+            CurrentBattle.AddDamageIcon(delta, this);
 
             // limit shtuff goes here
             
@@ -322,7 +316,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override void AcceptMPLoss(Combatant source, int delta)
         {
-            Seven.BattleState.AddDamageIcon(delta, this, true);
+            CurrentBattle.AddDamageIcon(delta, this, true);
 
             _c.MP -= delta;
             
@@ -334,7 +328,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override void Recover(Combatant source)
         {
-            Seven.BattleState.AddRecoveryIcon(this);
+            CurrentBattle.AddRecoveryIcon(this);
 
             if (Death)
             {
@@ -401,7 +395,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         protected override int GetTurnTimerStep(int vStep)
         {
-            return (Dexterity + 50) * vStep / Seven.Party.NormalSpeed();
+            return (Dexterity + 50) * vStep / CurrentBattle.Party.NormalSpeed();
         }
 
 
@@ -415,14 +409,14 @@ namespace Atmosphere.Reverence.Seven.Battle
         public void RunAIConfu()
         {
             Ally target;
-            int i = Seven.BattleState.Random.Next(3);
+            int i = CurrentBattle.Random.Next(3);
                     
-            while (Seven.BattleState.Allies[i] == null)
+            while (CurrentBattle.Allies[i] == null)
             {
                 i = (i + 1) % 3;
             }
 
-            target = Seven.BattleState.Allies[i];
+            target = CurrentBattle.Allies[i];
             
             PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
         }
@@ -431,9 +425,9 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             Enemy target;
 
-            int i = Seven.BattleState.Random.Next(Seven.BattleState.EnemyList.Count);
+            int i = CurrentBattle.Random.Next(CurrentBattle.EnemyList.Count);
                     
-            target = Seven.BattleState.EnemyList[i];
+            target = CurrentBattle.EnemyList[i];
             
             PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
         }
@@ -707,7 +701,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 {
                     foreach (MateriaOrb m in Materia)
                     {
-                        if (m != null && m.ID == "longrange")
+                        if (m != null && m.Name == "Long Range")
                         {
                             longRange = true;
                             break;
