@@ -17,7 +17,7 @@ namespace Atmosphere.Reverence.Seven
             _materiatory = new MateriaOrb[MATERIATORY_SIZE];
         }
         
-        public Materiatory(Data data, XmlNode savegame)
+        public Materiatory(DataStore data, XmlNode savegame)
             : this()
         {            
             foreach (XmlNode node in savegame.SelectNodes("./materiatory/orb"))

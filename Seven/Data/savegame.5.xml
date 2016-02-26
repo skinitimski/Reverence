@@ -154,7 +154,7 @@
                 <name>diamondbangle</name>
                 <materia>
                     <orb id="Master Magic" ap="0" slot="0" />
-                    <orb id="Enemy Skill"  ap="16777215"  slot="1" />
+                    <orb id="Enemy Skill"  ap="800"  slot="1" />
                 </materia>
             </armor>
             <accessory />

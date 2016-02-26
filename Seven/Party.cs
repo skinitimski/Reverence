@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven
         {
         }
         
-        public Party(Data data)
+        public Party(DataStore data)
             : this()
         {
             Clock = new Clock();
@@ -41,7 +41,7 @@ namespace Atmosphere.Reverence.Seven
             BattleSpeed = CalculateBattleSpeed();
         }
 
-        public Party(Data data, XmlNode savegame)
+        public Party(DataStore data, XmlNode savegame)
             : this()
         {
             InitCharacters(savegame, data);
@@ -105,7 +105,7 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
-        private void InitCharacters(XmlNode savegame, Data data)
+        private void InitCharacters(XmlNode savegame, DataStore data)
         {
             XmlDocument characterData = Resource.GetXmlFromResource("data.characters.xml", data.Assembly);
 
@@ -131,7 +131,7 @@ namespace Atmosphere.Reverence.Seven
                                       characterData.SelectSingleNode("./characters/Sephiroth"), data);
         }
         
-        private void InitCharacters(Data data)
+        private void InitCharacters(DataStore data)
         {
             XmlDocument characterData = Resource.GetXmlFromResource("data.characters.xml", data.Assembly);
 

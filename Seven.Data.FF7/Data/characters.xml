@@ -390,7 +390,7 @@
             <materia>
                 <orb id="Ice"       type="Magic"   ap="35000" slot="0" />
                 <orb id="All"       type="Support" ap="35000" slot="1" />
-                <orb id="lightning" type="Magic"   ap="35000" slot="2" />
+                <orb id="Lightning" type="Magic"   ap="35000" slot="2" />
                 <orb id="All"       type="Support" ap="35000" slot="3" />            
             </materia>
         </armor>

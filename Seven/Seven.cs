@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Xml;
 
 using NLua;
@@ -11,6 +12,7 @@ using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Data;
 using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven
@@ -21,13 +23,11 @@ namespace Atmosphere.Reverence.Seven
 
 
         internal Party Party { get; set; }
-        internal Data Data { get; set; }
+        internal DataStore Data { get; set; }
         private MenuState _menuState;
         private BattleState _battleState;
         private PostBattleState _postBattleState;
 
-        
-        private Dictionary<string, Item> _items;
 
 
 
@@ -37,7 +37,7 @@ namespace Atmosphere.Reverence.Seven
         private Seven(string configPath)
             : base(configPath)
         {
-            Data = new Data(typeof(Seven).Assembly);
+            Data = new DataStore(typeof(FF7).Assembly);
         }
 
         

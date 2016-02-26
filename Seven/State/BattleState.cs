@@ -85,11 +85,10 @@ namespace Atmosphere.Reverence.Seven.State
             Lua = Seven.GetLua();            
             Lua.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
             Lua[typeof(BattleState).Name] = this;
-
-            
+                        
             Items = new List<IInventoryItem>();
             
-            _formation = Formation.Get(formationId);
+            _formation = seven.Data.GetFormation(formationId);
         }
         
         protected override void InternalInit()

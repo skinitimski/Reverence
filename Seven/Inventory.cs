@@ -106,7 +106,7 @@ namespace Atmosphere.Reverence.Seven
             }
         }
 
-        public Inventory(Data data, XmlNode savegame)
+        public Inventory(DataStore data, XmlNode savegame)
             : this()
         {
             foreach (XmlNode node in savegame.SelectNodes("./inventory/*"))

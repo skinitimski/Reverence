@@ -10,10 +10,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class Formation
     {       
-        private static readonly Random RANDOM;
+        private static readonly Random RANDOM = new Random();
 
-        private static Dictionary<string, Formation> _table;
-                
 
         private class EnemyRecord
         {
@@ -33,34 +31,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             public string Designation { get; set; }
         }
 
-        
-        static Formation()
-        {
-            RANDOM = new Random();
 
-            _table = new Dictionary<string, Formation>();
-            
-            XmlDocument gamedata = Resource.GetXmlFromResource("data.formations.xml", typeof(Seven).Assembly);
-            
-            foreach (XmlNode node in gamedata.SelectNodes("//formations/formation"))
-            {
-                if (node.NodeType == XmlNodeType.Comment)
-                {
-                    continue;
-                }
-                
-                Formation formation = new Formation(node);
-                
-                _table.Add(formation.ID, formation);
-            }
-        }
 
         private Formation() 
         {
             Enemies = new List<EnemyRecord>();
         }
 
-        private Formation(XmlNode node)
+        public Formation(XmlNode node)
             : this()
         {
             ID = node.SelectSingleNode("@id").Value;
@@ -111,10 +89,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public static Formation Get(string id)
-        {
-            return _table[id];
-        }
 
 
         public List<Enemy> GetEnemyList(BattleState battle)

@@ -9,7 +9,7 @@ namespace Atmosphere.Reverence.Seven.Test
     {
         public static string GetCharacterStats(string character, int level)
         {
-            Data data = new Data(typeof(Seven).Assembly);
+            DataStore data = new DataStore(typeof(Seven).Assembly);
 
             Party p = new Party(data);
 

@@ -6,18 +6,19 @@ using System.Xml;
 
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
+using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Exceptions;
 using NLua;
 
 namespace Atmosphere.Reverence.Seven
 {
-    internal class Data
+    internal class DataStore
     {
-        private Data()
+        private DataStore()
         {
         }
 
-        public Data(Assembly assembly)
+        public DataStore(Assembly assembly)
             : this()
         {
             Assembly = assembly;
@@ -31,6 +32,9 @@ namespace Atmosphere.Reverence.Seven
             LoadMagicSpells();
             LoadSummonSpells();
             LoadEnemySkills();
+            LoadFormations();
+
+            CharacterMetrics = new Character.Metrics(assembly);
         }
 
 
@@ -43,7 +47,7 @@ namespace Atmosphere.Reverence.Seven
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.items.xml", Assembly);
             
-            foreach (XmlNode node in gamedata.SelectNodes("//items/item"))
+            foreach (XmlNode node in gamedata.SelectNodes("/items/item"))
             {
                 Item i = new Item(node, Lua);
                 
@@ -57,7 +61,7 @@ namespace Atmosphere.Reverence.Seven
 
             XmlDocument gamedata = Resource.GetXmlFromResource("data.weapons.xml", Assembly);
             
-            foreach (XmlNode node in gamedata.SelectNodes("./weapons/weapon"))
+            foreach (XmlNode node in gamedata.SelectNodes("/weapons/weapon"))
             {
                 Weapon.WeaponData weapon = new Weapon.WeaponData(node, Lua);
 
@@ -74,7 +78,7 @@ namespace Atmosphere.Reverence.Seven
 
             XmlDocument gamedata = Resource.GetXmlFromResource("data.armour.xml", Assembly);
             
-            foreach (XmlNode node in gamedata.SelectNodes("//armour/armor"))
+            foreach (XmlNode node in gamedata.SelectNodes("/armour/armor"))
             {                
                 Armor.ArmorData armor = new Armor.ArmorData(node, Lua);
                 
@@ -89,7 +93,7 @@ namespace Atmosphere.Reverence.Seven
             
             XmlDocument gamedata = Resource.GetXmlFromResource("data.accessories.xml", Assembly);
 
-            foreach (XmlNode node in gamedata.SelectNodes("//accessories/accessory"))
+            foreach (XmlNode node in gamedata.SelectNodes("/accessories/accessory"))
             {
                 Equipment.EquipmentData a = new Equipment.EquipmentData(node, Lua);
                 
@@ -102,7 +106,7 @@ namespace Atmosphere.Reverence.Seven
 
 
         
-        public void LoadMagicSpells()
+        private void LoadMagicSpells()
         {
             MagicSpells = new Dictionary<string, Spell>();
             
@@ -116,7 +120,7 @@ namespace Atmosphere.Reverence.Seven
             } 
         }
         
-        public void LoadSummonSpells()
+        private void LoadSummonSpells()
         {
             SummonSpells = new Dictionary<string, Spell>();
             
@@ -130,7 +134,7 @@ namespace Atmosphere.Reverence.Seven
             } 
         }
         
-        public void LoadEnemySkills()
+        private void LoadEnemySkills()
         {
             EnemySkills = new Dictionary<string, Spell>();
             
@@ -145,6 +149,27 @@ namespace Atmosphere.Reverence.Seven
         }
 
 
+
+
+        
+        private void LoadFormations()
+        {
+            Formations = new Dictionary<string, Formation>();
+            
+            XmlDocument gamedata = Resource.GetXmlFromResource("data.formations.xml", Assembly);
+            
+            foreach (XmlNode node in gamedata.SelectNodes("/formations/formation"))
+            {
+                if (node.NodeType == XmlNodeType.Comment)
+                {
+                    continue;
+                }
+                
+                Formation formation = new Formation(node);
+                
+                Formations.Add(formation.ID, formation);
+            }
+        }
 
 
 
@@ -276,6 +301,16 @@ namespace Atmosphere.Reverence.Seven
             return materia;
         }
 
+
+        public Formation GetFormation(string id)
+        {
+            if (!Formations.ContainsKey(id))
+            {
+                throw new GameDataException("Could not find formation with id " + id);
+            }
+
+            return Formations[id];
+        }
         
         
         
@@ -321,8 +356,10 @@ namespace Atmosphere.Reverence.Seven
         public int MagicSpellCount { get { return MagicSpells.Count; } }
         
         public int SummonSpellCount { get { return SummonSpells.Count; } }
-        
+
         public int EnemySkillCount { get { return EnemySkills.Count; } }
+        
+        public Character.Metrics CharacterMetrics { get; private set; }
 
         private Dictionary<string, Item> Items { get; set; }
 
@@ -337,6 +374,8 @@ namespace Atmosphere.Reverence.Seven
         private Dictionary<string, Spell> SummonSpells { get; set; }
         
         private Dictionary<string, Spell> EnemySkills { get; set; }
+
+        private Dictionary<string, Formation> Formations { get; set; }
 
         private Lua Lua { get; set; }
     }

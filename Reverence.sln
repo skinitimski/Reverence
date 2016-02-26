@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "Seven\Seven.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyMechanicsParser", "EnemyMechanicsParser\EnemyMechanicsParser.csproj", "{3887B9E0-C819-4610-899F-08D2E1ED618F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven.Data.FF7", "..\..\..\home\timski\vol\mono\Reverence\Seven.Data.FF7\Seven.Data.FF7.csproj", "{DA28E7AF-122F-4BF4-B462-C85A663C3356}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA28E7AF-122F-4BF4-B462-C85A663C3356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA28E7AF-122F-4BF4-B462-C85A663C3356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA28E7AF-122F-4BF4-B462-C85A663C3356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA28E7AF-122F-4BF4-B462-C85A663C3356}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Seven\Seven.csproj

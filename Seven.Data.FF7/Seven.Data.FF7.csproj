@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DA28E7AF-122F-4BF4-B462-C85A663C3356}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Seven.Data.FF7</RootNamespace>
+    <AssemblyName>Seven.Data.FF7</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FF7.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Images\aeris.jpg">
+      <LogicalName>charfull.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\aeris_small.jpg">
+      <LogicalName>charsmall.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\aeris_tiny.jpg">
+      <LogicalName>chartiny.aeris.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret.jpg">
+      <LogicalName>charfull.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret_small.jpg">
+      <LogicalName>charsmall.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\barret_tiny.jpg">
+      <LogicalName>chartiny.barret.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith.jpg">
+      <LogicalName>charfull.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith_small.jpg">
+      <LogicalName>charsmall.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\caitsith_tiny.jpg">
+      <LogicalName>chartiny.caitsith.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid.jpg">
+      <LogicalName>charfull.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid_small.jpg">
+      <LogicalName>charsmall.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cid_tiny.jpg">
+      <LogicalName>chartiny.cid.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud.jpg">
+      <LogicalName>charfull.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud_small.jpg">
+      <LogicalName>charsmall.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\cloud_tiny.jpg">
+      <LogicalName>chartiny.cloud.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii.jpg">
+      <LogicalName>charfull.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii_small.jpg">
+      <LogicalName>charsmall.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\redxiii_tiny.jpg">
+      <LogicalName>chartiny.redxiii.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth.jpg">
+      <LogicalName>charfull.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth_small.jpg">
+      <LogicalName>charsmall.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\sephiroth_tiny.jpg">
+      <LogicalName>chartiny.sephiroth.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa.jpg">
+      <LogicalName>charfull.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa_small.jpg">
+      <LogicalName>charsmall.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\tifa_tiny.jpg">
+      <LogicalName>chartiny.tifa.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent.jpg">
+      <LogicalName>charfull.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent_small.jpg">
+      <LogicalName>charsmall.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\vincent_tiny.jpg">
+      <LogicalName>chartiny.vincent.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie.jpg">
+      <LogicalName>charfull.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie_small.jpg">
+      <LogicalName>charsmall.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\Images\yuffie_tiny.jpg">
+      <LogicalName>chartiny.yuffie.jpg</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\characters.xml">
+      <LogicalName>data.characters.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\diffs.table">
+      <LogicalName>data.diffs.table</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\accessories.xml">
+      <LogicalName>data.accessories.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\armour.xml">
+      <LogicalName>data.armour.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\items.xml">
+      <LogicalName>data.items.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\materia.xml">
+      <LogicalName>data.materia.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\weapons.xml">
+      <LogicalName>data.weapons.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\enemies.xml">
+      <LogicalName>data.enemies.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\formations.xml">
+      <LogicalName>data.formations.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.summon.xml">
+      <LogicalName>data.spells.summon.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.magic.xml">
+      <LogicalName>data.spells.magic.xml</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Data\spells.enemyskill.xml">
+      <LogicalName>data.spells.enemyskill.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

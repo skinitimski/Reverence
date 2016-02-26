@@ -16,7 +16,7 @@ namespace Atmosphere.Reverence.Seven
 {
     internal class Character
     {
-        private static readonly Random RANDOM;
+        private static readonly Random RANDOM = new Random();
 
         public const int MAX_HP = 9999;
         public const int MAX_MP = 999;
@@ -31,7 +31,7 @@ namespace Atmosphere.Reverence.Seven
         public const int PROFILE_WIDTH_TINY = 36;
         public const int PROFILE_HEIGHT_TINY = 41;
 
-        #region Member Data
+
         
         private int _level;
         private int _strength_base;
@@ -72,143 +72,116 @@ namespace Atmosphere.Reverence.Seven
         /// <summary>Rank values for stat gains, indexed as follows: str(0), vit(1), mag(2), spi(3), dex(4).</summary>
         private int[] _stat_ranks;
 
-        
-        /// <summary>Aggregate for stat gradient arrays. Indexed by level bracket.</summary>
-        private static List<int[]> _stat_gradient;
-        /// <summary>Aggregate for stat base arrays. Indexed by level bracket.</summary>
-        private static List<int[]> _stat_base;
-        
-        /// <summary>Gradient values for level bracket 0, indexed by rank.</summary>
-        private static int[] _L2_11_gradient;
-        /// <summary>Gradient values for level bracket 1, indexed by rank.</summary>
-        private static int[] _L12_21_gradient;
-        /// <summary>Gradient values for level bracket 2, indexed by rank.</summary>
-        private static int[] _L22_31_gradient;
-        /// <summary>Gradient values for level bracket 3, indexed by rank.</summary>
-        private static int[] _L32_41_gradient;
-        /// <summary>Gradient values for level bracket 4, indexed by rank.</summary>
-        private static int[] _L42_51_gradient;
-        /// <summary>Gradient values for level bracket 5, indexed by rank.</summary>
-        private static int[] _L52_61_gradient;
-        /// <summary>Gradient values for level bracket 6, indexed by rank.</summary>
-        private static int[] _L62_81_gradient;
-        /// <summary>Gradient values for level bracket 7, indexed by rank.</summary>
-        private static int[] _L82_99_gradient;
-        
-        /// <summary>Base values for level bracket 0, indexed by rank.</summary>
-        private static int[] _L2_11_base;
-        /// <summary>Base values for level bracket 1, indexed by rank.</summary>
-        private static int[] _L12_21_base;
-        /// <summary>Base values for level bracket 2, indexed by rank.</summary>
-        private static int[] _L22_31_base;
-        /// <summary>Base values for level bracket 3, indexed by rank.</summary>
-        private static int[] _L32_41_base;
-        /// <summary>Base values for level bracket 4, indexed by rank.</summary>
-        private static int[] _L42_51_base;
-        /// <summary>Base values for level bracket 5, indexed by rank.</summary>
-        private static int[] _L52_61_base;
-        /// <summary>Base values for level bracket 6, indexed by rank.</summary>
-        private static int[] _L62_81_base;
-        /// <summary>Base values for level bracket 7, indexed by rank.</summary>
-        private static int[] _L82_99_base;
-        
-        /// <summary>Lookup for stat gains, indexed by difference.</summary>
-        private static int[] _diff_gain;
-        /// <summary>Lookup for HP percent gains, indexed by difference.</summary>
-        private static int[] _diff_gain_hp;
-        /// <summary>Lookup for MP percent gains, indexed by difference.</summary>
-        private static int[] _diff_gain_mp;
-        
-        #endregion Member Data
-        
-        
-        /// <summary>
-        /// Creates tables and the game Characters
-        /// </summary>
-        static Character()
-        {
-            InitTables();
 
-            RANDOM = new Random();
-        }
-        /// <summary>
-        /// Initializes tables used in stat gains
-        /// </summary>
-        private static void InitTables()
-        {
-            using (StreamReader reader = Resource.GetStreamReaderFromResource("data.gradient.table", typeof(Seven).Assembly))
-            {
-                InitTable(ref _L2_11_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L12_21_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L22_31_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L32_41_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L42_51_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L52_61_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L62_81_gradient, reader.ReadLine(), '\t');
-                InitTable(ref _L82_99_gradient, reader.ReadLine(), '\t');
-            }
-            
-            using (StreamReader reader = Resource.GetStreamReaderFromResource("data.base.table", typeof(Seven).Assembly))
-            {
-                InitTable(ref _L2_11_base, reader.ReadLine(), '\t');
-                InitTable(ref _L12_21_base, reader.ReadLine(), '\t');
-                InitTable(ref _L22_31_base, reader.ReadLine(), '\t');
-                InitTable(ref _L32_41_base, reader.ReadLine(), '\t');
-                InitTable(ref _L42_51_base, reader.ReadLine(), '\t');
-                InitTable(ref _L52_61_base, reader.ReadLine(), '\t');
-                InitTable(ref _L62_81_base, reader.ReadLine(), '\t');
-                InitTable(ref _L82_99_base, reader.ReadLine(), '\t');
-            }
-            
-            using (StreamReader reader = Resource.GetStreamReaderFromResource("data.diffs.table", typeof(Seven).Assembly))
-            {
-                reader.ReadLine(); // [diff_gain]
-                InitTable(ref _diff_gain, reader.ReadLine(), '\t');
-                reader.ReadLine(); // [diff_gain_hp]
-                InitTable(ref _diff_gain_hp, reader.ReadLine(), '\t');
-                reader.ReadLine(); // [diff_gain_mp]
-                InitTable(ref _diff_gain_mp, reader.ReadLine(), '\t');
-            }
-            
-            _stat_base = new List<int[]>();
-            _stat_gradient = new List<int[]>();
-            
-            _stat_base.Add(_L2_11_base);
-            _stat_base.Add(_L12_21_base);
-            _stat_base.Add(_L22_31_base);
-            _stat_base.Add(_L32_41_base);
-            _stat_base.Add(_L42_51_base);
-            _stat_base.Add(_L52_61_base);
-            _stat_base.Add(_L62_81_base);
-            _stat_base.Add(_L82_99_base);
-            
-            _stat_gradient.Add(_L2_11_gradient);
-            _stat_gradient.Add(_L12_21_gradient);
-            _stat_gradient.Add(_L22_31_gradient);
-            _stat_gradient.Add(_L32_41_gradient);
-            _stat_gradient.Add(_L42_51_gradient);
-            _stat_gradient.Add(_L52_61_gradient);
-            _stat_gradient.Add(_L62_81_gradient);
-            _stat_gradient.Add(_L82_99_gradient);
-        }
 
+
+        internal class Metrics
+        {        
+            /// <summary>Aggregate for stat gradient arrays. Indexed by level bracket.</summary>
+            private List<int[]> _stat_gradient;
+            /// <summary>Aggregate for stat base arrays. Indexed by level bracket.</summary>
+            private List<int[]> _stat_base;
+
+            
+            
+            /// <summary>
+            /// Initializes tables used in stat gains
+            /// </summary>
+            public Metrics(Assembly assembly)
+            {
+                using (StreamReader reader = Resource.GetStreamReaderFromResource("data.diffs.table", assembly))
+                {
+                    reader.ReadLine(); // [stat_gradient]
+
+                    _stat_gradient = new List<int[]>
+                    {
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine())
+                    };
+                    
+                    reader.ReadLine(); // [stat_base]
+
+                    _stat_base = new List<int[]>
+                    {
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine()),
+                        InitTable(reader.ReadLine())
+                    };
+                
+
+                    reader.ReadLine(); // [diff_gain]
+
+                    DiffGain = InitTable(reader.ReadLine());
+
+                    reader.ReadLine(); // [diff_gain_hp]
+
+                    DiffGainHP = InitTable(reader.ReadLine());
+
+                    reader.ReadLine(); // [diff_gain_mp]
+
+                    DiffGainMP = InitTable(reader.ReadLine());
+                }
+            }
+
+
+            
+            /// <summary>
+            /// Gets the "base" stat for calculating stat gains on level ups.
+            /// </summary>
+            /// <param name="level">Level you want the base modifier for.</param>
+            /// <param name="rank">Rank of the modifier (0-29 incl).</param>
+            /// <remarks>Applies to Strength, Vitality, Magic, Spirit, and Dexterity.</remarks>
+            /// <returns>The "base" modifier for a given rank and level.</returns>
+            public int StatBase(int level, int rank)
+            {
+                return _stat_base[LevelBracket(level)][rank];
+            }
+            
+            /// <summary>
+            /// Gets the "gradient" for calculating stat gains on level ups.
+            /// </summary>
+            /// <param name="level">Level you want the base modifier for.</param>
+            /// <param name="rank">Rank of the modifier (0-29 incl).</param>
+            /// <remarks>Applies to Strength, Vitality, Magic, Spirit, and Dexterity.</remarks>
+            /// <returns>The "gradient" modifier for a given rank and level.</returns>
+            public int StatGradient(int level, int rank)
+            {
+                return _stat_gradient[LevelBracket(level)][rank];
+            }
+            
+            /// <summary>Lookup for stat gains, indexed by difference.</summary>
+            public int[] DiffGain { get; private set; }
+            /// <summary>Lookup for HP percent gains, indexed by difference.</summary>
+            public int[] DiffGainHP { get; private set; }
+            /// <summary>Lookup for MP percent gains, indexed by difference.</summary>
+            public int[] DiffGainMP { get; private set; }
+        }
+        
         /// <summary>
         /// Populates an array with the values in given line, splitting on sep.
         /// </summary>
         /// <param name="table">Array to populate</param>
         /// <param name="line">Data to put into the array</param>
         /// <param name="sep">Used to split the line parameter into array parts</param>
-        private static void InitTable(ref int[] table, string line, char sep)
+        protected static int[] InitTable(string line)
         {
-            string[] parts = line.Split(new char[] { sep }, StringSplitOptions.RemoveEmptyEntries);
-
-            table = new int[parts.Length];
-
-            for (int i = 0; i < table.Length; i++)
-            {
-                table[i] = Int32.Parse(parts[i]);
-            }
+            return line.Split(new char[] { '\t', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries).Select(x => Int32.Parse(x)).ToArray();
         }
+
+
+
+
 
         private Character()
         {
@@ -218,7 +191,7 @@ namespace Atmosphere.Reverence.Seven
         /// Creates a character from scratch with initial stats/equipment.
         /// </summary>
         /// <param name="dataxmlstring"></param>
-        public Character(XmlNode dataxml, Data data)
+        public Character(XmlNode dataxml, DataStore data)
             : this(dataxml, dataxml, data)
         {
         }
@@ -228,7 +201,7 @@ namespace Atmosphere.Reverence.Seven
         /// </summary>
         /// <param name="savexmlstring"></param>
         /// <param name="dataxmlstring"></param>
-        public Character(XmlNode savexml, XmlNode dataxml, Data data)
+        public Character(XmlNode savexml, XmlNode dataxml, DataStore data)
             : this()
         {
             _halve = new List<Element>();
@@ -320,27 +293,27 @@ namespace Atmosphere.Reverence.Seven
             
             
             // Q-Values
-            InitTable(ref _qvals, dataxml.SelectSingleNode("./qvals").InnerText, ',');
+            _qvals = InitTable(dataxml.SelectSingleNode("./qvals").InnerText);
             
             // Luck base/gradient tables
-            InitTable(ref _lck_base, dataxml.SelectSingleNode("./lbvals").InnerText, ',');
-            InitTable(ref _lck_gradient, dataxml.SelectSingleNode("./lgvals").InnerText, ',');
+            _lck_base = InitTable(dataxml.SelectSingleNode("./lbvals").InnerText);
+            _lck_gradient = InitTable(dataxml.SelectSingleNode("./lgvals").InnerText);
             
             // HP base/gradient tables
-            InitTable(ref _hp_base, dataxml.SelectSingleNode("./hpbvals").InnerText, ',');
-            InitTable(ref _hp_gradient, dataxml.SelectSingleNode("./hpgvals").InnerText, ',');
+            _hp_base = InitTable(dataxml.SelectSingleNode("./hpbvals").InnerText);
+            _hp_gradient = InitTable(dataxml.SelectSingleNode("./hpgvals").InnerText);
             
             // MP base/gradient tables
-            InitTable(ref _mp_base, dataxml.SelectSingleNode("./mpbvals").InnerText, ',');
-            InitTable(ref _mp_gradient, dataxml.SelectSingleNode("./mpgvals").InnerText, ',');
+            _mp_base = InitTable(dataxml.SelectSingleNode("./mpbvals").InnerText);
+            _mp_gradient = InitTable(dataxml.SelectSingleNode("./mpgvals").InnerText);
             
             // Stat ranks
-            InitTable(ref _stat_ranks, dataxml.SelectSingleNode("./ranks").InnerText, ',');
+            _stat_ranks = InitTable(dataxml.SelectSingleNode("./ranks").InnerText);
 
 
-            Profile = new Gdk.Pixbuf(typeof(Seven).Assembly, "charfull." + Name.ToLower() + ".jpg");
-            ProfileSmall = new Gdk.Pixbuf(typeof(Seven).Assembly, "charsmall." + Name.ToLower() + ".jpg");
-            ProfileTiny = new Gdk.Pixbuf(typeof(Seven).Assembly, "chartiny." + Name.ToLower() + ".jpg");
+            Profile = new Gdk.Pixbuf(data.Assembly, "charfull." + Name.ToLower() + ".jpg");
+            ProfileSmall = new Gdk.Pixbuf(data.Assembly, "charsmall." + Name.ToLower() + ".jpg");
+            ProfileTiny = new Gdk.Pixbuf(data.Assembly, "chartiny." + Name.ToLower() + ".jpg");
 
 
             // Sanity checks. Sometimes we'll load materia onto a save file which
@@ -365,6 +338,8 @@ namespace Atmosphere.Reverence.Seven
             {
                 _mp = 0;
             }
+
+            CharacterMetrics = data.CharacterMetrics;
         }
         
         
@@ -516,30 +491,6 @@ namespace Atmosphere.Reverence.Seven
         }
         
         /// <summary>
-        /// Gets the "base" stat for calculating stat gains on level ups.
-        /// </summary>
-        /// <param name="level">Level you want the base modifier for.</param>
-        /// <param name="rank">Rank of the modifier (0-29 incl).</param>
-        /// <remarks>Applies to Strength, Vitality, Magic, Spirit, and Dexterity.</remarks>
-        /// <returns>The "base" modifier for a given rank and level.</returns>
-        private static int StatBase(int level, int rank)
-        {
-            return _stat_base[LevelBracket(level)][rank];
-        }
-        
-        /// <summary>
-        /// Gets the "gradient" for calculating stat gains on level ups.
-        /// </summary>
-        /// <param name="level">Level you want the base modifier for.</param>
-        /// <param name="rank">Rank of the modifier (0-29 incl).</param>
-        /// <remarks>Applies to Strength, Vitality, Magic, Spirit, and Dexterity.</remarks>
-        /// <returns>The "gradient" modifier for a given rank and level.</returns>
-        private static int StatGradient(int level, int rank)
-        {
-            return _stat_gradient[LevelBracket(level)][rank];
-        }
-        
-        /// <summary>
         /// Gets the "base" for calculating luck gains on level ups.
         /// </summary>
         /// <param name="level">Level you want the base modifier for.</param>
@@ -612,8 +563,8 @@ namespace Atmosphere.Reverence.Seven
         /// <returns>The baseline for given stat and current level.</returns>
         private int Baseline(int statrank)
         {
-            int b = StatBase(_level, _stat_ranks[statrank]);
-            int g = StatGradient(_level, _stat_ranks[statrank]);
+            int b = CharacterMetrics.StatBase(_level, _stat_ranks[statrank]);
+            int g = CharacterMetrics.StatGradient(_level, _stat_ranks[statrank]);
             return b + (g * _level / 100);
         }
         
@@ -659,7 +610,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_str = 11;
             }
-            _strength_base += _diff_gain[diff_str];
+            _strength_base += CharacterMetrics.DiffGain[diff_str];
             
             
             int diff_vit = RANDOM.Next(1, 9) + Baseline(1) - _vitality_base;
@@ -671,7 +622,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_vit = 11;
             }
-            _vitality_base += _diff_gain[diff_vit];
+            _vitality_base += CharacterMetrics.DiffGain[diff_vit];
             
             
             int diff_mag = RANDOM.Next(1, 9) + Baseline(2) - _magic_base;
@@ -683,7 +634,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_mag = 11;
             }
-            _magic_base += _diff_gain[diff_mag];
+            _magic_base += CharacterMetrics.DiffGain[diff_mag];
             
             
             int diff_spi = RANDOM.Next(1, 9) + Baseline(3) - _spirit_base;
@@ -695,7 +646,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_spi = 11;
             }
-            _spirit_base += _diff_gain[diff_spi];
+            _spirit_base += CharacterMetrics.DiffGain[diff_spi];
             
             
             int diff_dex = RANDOM.Next(1, 9) + Baseline(4) - _dexterity_base;
@@ -707,7 +658,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_dex = 11;
             }
-            _dexterity_base += _diff_gain[diff_dex];
+            _dexterity_base += CharacterMetrics.DiffGain[diff_dex];
             
 #endregion
             
@@ -724,7 +675,7 @@ namespace Atmosphere.Reverence.Seven
             {
                 diff_lck = 11;
             }
-            _luck_base += _diff_gain[diff_lck];
+            _luck_base += CharacterMetrics.DiffGain[diff_lck];
             
             
             int hpb = HPBase(_level);
@@ -740,7 +691,7 @@ namespace Atmosphere.Reverence.Seven
                 diff_hp = 11;
             }
             int base_hp_gain = HPGradient(_level);
-            _maxhp += _diff_gain_hp[diff_hp] * base_hp_gain / 100;
+            _maxhp += CharacterMetrics.DiffGainHP[diff_hp] * base_hp_gain / 100;
             
             
             int mpb = MPBase(_level);
@@ -756,7 +707,7 @@ namespace Atmosphere.Reverence.Seven
                 diff_mp = 11;
             }
             int base_mp_gain = (_level * mpg / 10) - ((_level - 1) * mpg / 10);
-            _maxmp += _diff_gain_mp[diff_mp] * base_mp_gain / 100;
+            _maxmp += CharacterMetrics.DiffGainMP[diff_mp] * base_mp_gain / 100;
             
         }
         
@@ -1310,5 +1261,7 @@ namespace Atmosphere.Reverence.Seven
         public Gdk.Pixbuf ProfileSmall { get; private set; }
         
         public Gdk.Pixbuf ProfileTiny { get; private set; }
+
+        private Metrics CharacterMetrics { get; set; }
     }
 }

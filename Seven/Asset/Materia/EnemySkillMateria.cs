@@ -14,13 +14,13 @@ using Atmosphere.Reverence.Exceptions;
 namespace Atmosphere.Reverence.Seven.Asset.Materia
 {
     internal class EnemySkillMateria : MateriaOrb
-    {
+    {   
         public const string NAME = "Enemy Skill";
         public const string DESCRIPTION = "Use skills learned from enemies";
        
 
 
-        public EnemySkillMateria(int ap, Data data) 
+        public EnemySkillMateria(int ap, DataStore data) 
             : base() 
         {
             Name = NAME;
@@ -74,7 +74,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
             }
         }
 
-        private Data Data { get; set; }
+        private DataStore Data { get; set; }
     }
 }
 

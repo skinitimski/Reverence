@@ -17,7 +17,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
     {
         private List<string> _abilities;
 
-        public MasterMateria(MateriaType type, Data data)
+        public MasterMateria(MateriaType type, DataStore data)
             : base()
         {
             Name = "Master" + type.ToString();
