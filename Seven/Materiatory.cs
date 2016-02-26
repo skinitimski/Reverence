@@ -57,16 +57,15 @@ namespace Atmosphere.Reverence.Seven
             _materiatory [i] = orb;
         }
 
-        
-        public void Swap(Weapon from, Weapon to, Character c)
+        public void Swap(SlotHolder @from, SlotHolder to, Character c)
         {
             for (int i = 0; i < @from.Slots.Length; i++)
             {
-                MateriaOrb m = to.Slots[i];
+                MateriaOrb m = @from.Slots[i];
                 
                 if (m != null)
                 {
-                    if (i > to.Slots.Length)
+                    if (i >= to.Slots.Length)
                     {
                         m.Detach(c);
                         Put(m);
@@ -78,29 +77,6 @@ namespace Atmosphere.Reverence.Seven
                 }
                 
                 @from.Slots[i] = null;
-            }
-        }
-        
-        public void Swap(Armor before, Armor after, Character c)
-        {
-            for (int i = 0; i < before.Slots.Length; i++)
-            {
-                MateriaOrb m = before.Slots[i];
-                
-                if (m != null)
-                {
-                    if (i > after.Slots.Length)
-                    {
-                        m.Detach(c);
-                        Put(m);
-                    }
-                    else
-                    {
-                        after.Slots[i] = m;
-                    }
-                }
-                
-                before.Slots[i] = null;
             }
         }
 
