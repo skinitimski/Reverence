@@ -28,13 +28,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" {0} : {1}{2}", GetType().Name, GetStatus(), Environment.NewLine);
             sb.AppendFormat("\tsource {0}", Source == null ? "" : Source.Name);
-            sb.AppendLine();
             return sb.ToString();
         }
 
 
 
-        protected Combatant Source { get; set; }
+        public Combatant Source { get; private set; }
 
         
         /// <summary>

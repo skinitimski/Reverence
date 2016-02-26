@@ -44,7 +44,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 Item = item;
                 Slot = slot;
-                Source = source;
                 Targets = targets;
                 Status = source.Name + " uses item " + item.Name;
                 

@@ -58,10 +58,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override string ToString()
         {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat(" {0} : {1}{2}", GetType().Name, GetStatus(), Environment.NewLine);
-            sb.AppendLine();
-            return sb.ToString();
+            return String.Format(" {0} : {1}", GetType().Name, GetStatus());
         }
 
 
