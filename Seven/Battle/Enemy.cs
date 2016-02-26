@@ -1113,6 +1113,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override bool Sadness { get { return _sadness; } }
 
         public override bool Fury { get { return _fury; } }
+
+        public bool FlaggedForRemoval { get; set; }
         
         private LuaFunction AISetup { get; set; }
         

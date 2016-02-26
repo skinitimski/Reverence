@@ -25,6 +25,15 @@ namespace Atmosphere.Reverence.Seven.State
 {    
     internal class BattleState : State
     {
+        private enum EventPriority
+        {
+            System = 0,
+            Limit = 1,
+            Counter = 2,
+            Normal = 3,
+        }
+
+
         #region Member Data
         
         private Queue<BattleIcon> _battleIcons;
@@ -39,6 +48,166 @@ namespace Atmosphere.Reverence.Seven.State
         private BattleEvent _lossEvent;
                 
         #endregion
+
+
+
+
+        
+        private class PriorityQueue
+        {
+            private static readonly int QUEUE_COUNT = Enum.GetValues(typeof(EventPriority)).Length;
+            
+            private Queue<BattleEvent>[] _queues;
+            
+            public PriorityQueue()
+            {
+                _queues = new Queue<BattleEvent>[QUEUE_COUNT];
+                
+                for (int i = 0; i < QUEUE_COUNT; i++)
+                {
+                    _queues[i] = new Queue<BattleEvent>();
+                }
+            }
+            
+            public void Enqueue(BattleEvent @event, EventPriority priority)
+            {
+                lock (_queues)
+                {
+                    _queues[(int)priority].Enqueue(@event);
+                }
+            }
+            
+            public BattleEvent Dequeue()
+            {
+                BattleEvent @event = null;
+                
+                lock (_queues)
+                {
+                    for (int i = 0; i < QUEUE_COUNT; i++)
+                    {
+                        if (_queues[i].Count > 0)
+                        {
+                            @event = _queues[i].Dequeue();
+                            break;
+                        }
+                    }
+                }
+                
+                return @event;
+            }
+            
+            public void ClearEventsFromSource(Combatant source)
+            {
+                lock (_queues)
+                {
+                    // start at 1 since we can skip the System queue
+                    
+                    for (int i = 1; i < QUEUE_COUNT; i++)
+                    {
+                        Queue<BattleEvent> temp = new Queue<BattleEvent>();
+                        
+                        while (_queues[i].Count > 0)
+                        {
+                            BattleEvent e = _queues[i].Dequeue();
+                            
+                            CombatantActionEvent action = e as CombatantActionEvent;
+                            
+                            if (action == null || action.Source != source)
+                            {
+                                temp.Enqueue(e);
+                            }
+                            else
+                            {
+#if DEBUG
+                                Console.WriteLine("Dropped event: " + e);
+#endif
+                            }
+                        }
+                        
+                        _queues[i] = temp;
+                    }
+                }
+            }
+            
+            public override string ToString()
+            {     
+                StringBuilder rep = new StringBuilder();
+                
+                Array values = Enum.GetValues(typeof(EventPriority));
+                
+                for (int i = 0; i < values.Length; i++)
+                {
+                    rep.AppendLine("Events (last-in first) of priority " + values.GetValue(i));
+                    
+                    foreach (BattleEvent s in _queues[i])
+                    {
+                        rep.AppendLine(s.ToString());
+                    }
+                }
+                
+                return rep.ToString();
+            }
+            
+            public int Count 
+            {
+                get
+                {
+                    lock (_queues)
+                    {
+                        int count = 0;
+                        
+                        for (int i = 0; i < _queues.Length; i++)
+                        {
+                            count += _queues[i].Count;
+                        }
+                        
+                        return count;
+                    }
+                }
+            }
+        }
+
+        private class RemoveEnemyEvent : BattleEvent
+        {
+            public const int DURATION = 500;
+            public const int PAUSE = DURATION / 2;
+
+            public RemoveEnemyEvent(BattleState battle, List<Enemy> enemies)
+                : base(battle.TimeFactory, DURATION)
+            {
+                Enemies = enemies;
+                Battle = battle;
+                Text = "(clear dead)";
+            }
+            
+            protected override void RunIteration(long elapsed, bool isLast)
+            {
+                if (DURATION > PAUSE && !HasRemoved)
+                {
+                    foreach (Enemy enemy in Enemies)
+                    {
+                        int index = Battle.EnemyList.IndexOf(enemy);
+                        Battle.EnemyList.RemoveAt(index);                
+                        Battle.DeadEnemies.Add(enemy);
+                        Battle.EventQueue.ClearEventsFromSource(enemy);
+
+                        // TODO: remove this target from all abilities
+                    }
+
+                    HasRemoved = true;
+                }                
+            }
+            
+            protected override string GetStatus(long elapsed)
+            {
+                return Text;
+            }
+            
+            private bool HasRemoved { get; set; }
+            private string Text { get; set; }
+            private List<Enemy> Enemies { get; set; }
+            private BattleState Battle { get; set; }
+        }
 
 
         private class EndOfBattleEvent : BattleEvent
@@ -76,17 +245,16 @@ namespace Atmosphere.Reverence.Seven.State
         {            
             _turnQueue = new Queue<Ally>();
             _battleIcons = new Queue<BattleIcon>();
-            
-            EventQueue = new Queue<BattleEvent>();
-            PriorityQueue = new Queue<BattleEvent>();
+
+            EventQueue = new PriorityQueue();
             
             Random = new Random();
 
             Lua = Seven.GetLua();            
             Lua.DoString(Resource.GetTextFromResource("lua.scripts.battle", typeof(Seven).Assembly));
             Lua[typeof(BattleState).Name] = this;
-                        
-            Items = new List<IInventoryItem>();
+
+            DeadEnemies = new List<Enemy>();
             
             _formation = seven.Data.GetFormation(formationId);
         }
@@ -167,14 +335,14 @@ namespace Atmosphere.Reverence.Seven.State
                 {
                     Loss = true;
 
-                    EnqueueAction(_lossEvent, true);
+                    EnqueueAction(_lossEvent, EventPriority.System);
                 }
             
                 if (!Loss && !Victory && CheckForVictory())
                 {
                     Victory = true;
 
-                    EnqueueAction(_victoryEvent, true);
+                    EnqueueAction(_victoryEvent, EventPriority.System);
                 }
 
                 SetControl();
@@ -186,8 +354,6 @@ namespace Atmosphere.Reverence.Seven.State
                 CheckEnemyTurnTimers();
             
                 CheckIcons();
-            
-                ClearDeadEnemies();
             }
         }
         
@@ -250,17 +416,17 @@ namespace Atmosphere.Reverence.Seven.State
                 // Dequeue next ability if none is in progress
                 if (ActiveAbility == null)
                 {
-                    if (PriorityQueue.Count > 0)
-                    {
-                        ActiveAbility = PriorityQueue.Dequeue();
-                    }
-                    else if (EventQueue.Count > 0)
+                    if (EventQueue.Count > 0)
                     {
                         ActiveAbility = EventQueue.Dequeue();
                     }
 
                     if (ActiveAbility != null)
                     {
+#if DEBUG
+                        Console.WriteLine("Event has begun:" + ActiveAbility.ToString());
+#endif
+
                         ActiveAbility.Begin();
                     }
                 }
@@ -273,8 +439,7 @@ namespace Atmosphere.Reverence.Seven.State
                     if (isDone)
                     {
 #if DEBUG
-                        Console.WriteLine("Event has completed:");
-                        Console.WriteLine(ActiveAbility.ToString());
+                        Console.WriteLine("Event has completed:" + ActiveAbility.ToString());
 #endif
     //                if (ActiveAbility.Performer is Ally)
     //                {
@@ -283,7 +448,24 @@ namespace Atmosphere.Reverence.Seven.State
 
                         if (ActiveAbility == _victoryEvent)
                         {
-                            Seven.EndBattle();
+                            int exp = 0;
+                            int ap = 0;
+                            int gil = 0;
+                            List<IInventoryItem> items = new List<IInventoryItem>();
+
+                            foreach (Enemy enemy in DeadEnemies)
+                            {
+                                exp += enemy.Exp;
+                                ap += enemy.AP;
+                                gil += enemy.Gil;
+                                IInventoryItem item = enemy.WinItem();
+                                if (item != null)
+                                {
+                                    items.Add(item);
+                                }
+                            }
+
+                            Seven.EndBattle(exp, ap, gil, items);
                         }
 
                         if (ActiveAbility == _lossEvent)
@@ -292,6 +474,8 @@ namespace Atmosphere.Reverence.Seven.State
                         }
 
                         ActiveAbility = null;
+
+                        CheckForDeadEnemies();
                     }
                 }
             }
@@ -311,6 +495,8 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 e.CheckTimers();
             }
+
+            CheckForDeadEnemies();
         }
         
         private void CheckEnemyTurnTimers()
@@ -344,25 +530,29 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
         
-        private void ClearDeadEnemies()
+        private void CheckForDeadEnemies()
         {
-            IEnumerable<Enemy> liveEnemies = EnemyList.Where(e => !e.Death);
+            List<Enemy> enemiesToClear = new List<Enemy>();
 
-            foreach (Enemy e in EnemyList.Except(liveEnemies))
+            for (int i = 0; i < EnemyList.Count(); i++)
             {
-                Exp += e.Exp;
-                AP += e.AP;
-                Gil += e.Gil;
-                IInventoryItem temp = e.WinItem();
-                if (temp != null)
+                Enemy enemy = EnemyList[i];
+
+                if (enemy.Death && !enemy.FlaggedForRemoval)
                 {
-                    Items.Add(temp);
+                    enemy.FlaggedForRemoval = true;
+                    enemiesToClear.Add(enemy);
                 }
-                e.Dispose();
             }
 
-            EnemyList = liveEnemies.ToList();
+            if (enemiesToClear.Count > 0)
+            {
+                RemoveEnemyEvent remove = new RemoveEnemyEvent(this, enemiesToClear);
+                
+                EnqueueAction(remove, EventPriority.System);
+            }
         }
+
         
         private bool CheckForVictory()
         {
@@ -386,35 +576,29 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         
+        public void EnqueueAction(BattleEvent e)
+        {
+            EnqueueAction(e, EventPriority.Normal);
+        }
         
+        public void EnqueueCounterAction(BattleEvent e)
+        {
+            EnqueueAction(e, EventPriority.Counter);
+        }
         
-        public void EnqueueAction(BattleEvent a, bool priority = false)
+        public void EnqueueLimit(BattleEvent e)
+        {
+            EnqueueAction(e, EventPriority.Limit);
+        }
+        
+        private void EnqueueAction(BattleEvent a, EventPriority priority)
         {
             lock (EventQueue)
             {
-                if (priority)
-                {
-                    PriorityQueue.Enqueue(a);
-                }
-                else
-                {
-                    EventQueue.Enqueue(a);
-                }
+                EventQueue.Enqueue(a, priority);
 #if DEBUG
                 Console.WriteLine("Added event to queue.");
-                Console.WriteLine("Priority events (last-in first):");
-                
-                foreach (BattleEvent s in PriorityQueue)
-                {
-                    Console.WriteLine(s.ToString());
-                }
-
-                Console.WriteLine("Events (last-in first):");
-                
-                foreach (BattleEvent s in EventQueue)
-                {
-                    Console.WriteLine(s.ToString());
-                }
+                Console.WriteLine(EventQueue.ToString());
 #endif
             }
         }
@@ -646,6 +830,7 @@ namespace Atmosphere.Reverence.Seven.State
         public Ally Commanding { get; private set; }
         public Ally[] Allies  { get; private set; }
         public List<Enemy> EnemyList { get; private set; }
+        protected List<Enemy> DeadEnemies { get; set; }
         public Clock BattleClock  { get; private set; }
         public BattleEvent ActiveAbility { get; private set; }
         public BattleEvent LastPartyAbility { get; private set; }
@@ -654,18 +839,12 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool Victory { get; set; }
         private bool Loss { get; set; }
-        public int Exp  { get; private set; }
-        public int AP { get; private set; }
-        public int Gil  { get; private set; }
-        public List<IInventoryItem> Items { get; private set; }
 
         public Lua Lua { get; private set; }
 
         public Random Random { get; private set; }
 
-        public Queue<BattleEvent> EventQueue { get; private set; }
-
-        public Queue<BattleEvent> PriorityQueue { get; private set; }
+        private PriorityQueue EventQueue { get; set; }
 
         private PauseState Paused { get; set; }
         

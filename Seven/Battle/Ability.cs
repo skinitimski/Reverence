@@ -360,18 +360,25 @@ namespace Atmosphere.Reverence.Seven.Asset
                     canUse = false;
                 }
             }
+
+            BattleEvent e = null;
             
             if (canUse)
             {                 
-                UseAbilityEvent e = UseAbilityEvent.Create(this, modifiers, source, targets.ToArray());
-                
-                source.CurrentBattle.EnqueueAction(e, modifiers.CounterAttack);
+                e = UseAbilityEvent.Create(this, modifiers, source, targets.ToArray());
             }
             else
             {   
-                UseAbilityFailEvent e = new UseAbilityFailEvent(source, this, modifiers.ResetTurnTimer);
-                
-                source.CurrentBattle.EnqueueAction(e, modifiers.CounterAttack);
+                e = new UseAbilityFailEvent(source, this, modifiers.ResetTurnTimer);
+            }
+
+            if (modifiers.CounterAttack)
+            {
+                source.CurrentBattle.EnqueueCounterAction(e);
+            }
+            else
+            {
+                source.CurrentBattle.EnqueueAction(e);
             }
         }
         

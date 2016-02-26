@@ -103,10 +103,7 @@ namespace Atmosphere.Reverence.Seven.State
         }
 
 
-        public PostBattleState(BattleState battle)
-            : this(battle.Seven, battle.Exp, battle.AP, battle.Gil, battle.Items)
-        {
-        }
+
 
         private void CollectItems(List<IInventoryItem> items)
         {

@@ -147,7 +147,7 @@ namespace Atmosphere.Reverence.Seven
             return savefile;
         }
         
-        public void BeginBattle()
+        internal void BeginBattle()
         {
             int i = 1; //_random.Next(2);
 
@@ -160,14 +160,14 @@ namespace Atmosphere.Reverence.Seven
             SetState(_battleState);
         }
         
-        public void EndBattle()
+        internal void EndBattle(int exp, int ap, int gil, List<IInventoryItem> items)
         {
             if (State != _battleState)
             {
                 throw new ImplementationException("Cannot go to Post-Battle state except from Battle state");
             }
 
-            _postBattleState = new PostBattleState(_battleState);
+            _postBattleState = new PostBattleState(this, exp, ap, gil, items);
             _postBattleState.Init();
 
             _battleState.Dispose();
@@ -175,7 +175,7 @@ namespace Atmosphere.Reverence.Seven
             SetState(_postBattleState);
         }
 
-        public void LoseGame()
+        internal void LoseGame()
         {
             if (State != _battleState)
             {
@@ -190,14 +190,14 @@ namespace Atmosphere.Reverence.Seven
             SetState(loss);
         }
         
-        public void EndPostBattle()
+        internal void EndPostBattle()
         {
             _postBattleState.Dispose();
 
             GoToMenu();
         }
         
-        public void GoToMenu()
+        internal void GoToMenu()
         {
             SetState(_menuState);
         }
