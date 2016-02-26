@@ -409,7 +409,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public void RunAIConfu()
         {
             Ally target;
-            int i = CurrentBattle.Random.Next(3);
+            int i = CurrentBattle.Random.Next(Party.PARTY_SIZE);
                     
             while (CurrentBattle.Allies[i] == null)
             {
