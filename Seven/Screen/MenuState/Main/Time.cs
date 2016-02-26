@@ -52,10 +52,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             m = GameClock.Minutes;
             h = GameClock.Hours;
             
-            string time = String.Format("{0}{1}:{2}{3}:{4}{5}",
-                                        h < 10 ? "0" : "", h,
-                                        m < 10 ? "0" : "", m,
-                                        s < 10 ? "0" : "", s);
+            string time = String.Format("{0:D2}:{1:D2}:{2:D2}", h, m, s);
 
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x2 - te.Width, Y + y1);
