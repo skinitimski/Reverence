@@ -231,6 +231,7 @@ namespace Atmosphere.Reverence.Seven
             _inventory[slot].Count--;
         }
 
+
         public void AddToInventory(IInventoryItem item)
         {
             int i = IndexOf(item);
@@ -246,6 +247,11 @@ namespace Atmosphere.Reverence.Seven
                 while (_inventory[j].IsEmpty)
                 {
                     j++;
+
+                    if (j > _inventory.Length)
+                    {
+                        throw new ImplementationException("Inventory is full.");
+                    }
                 }
 
                 _inventory[j].Item = item;
