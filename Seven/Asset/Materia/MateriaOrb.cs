@@ -251,7 +251,7 @@ namespace Atmosphere.Reverence.Seven.Asset.Materia
                     case MateriaType.Independent:
                         return ORB_COLOR_INDEPENDENT;
                     case MateriaType.Summon:
-                        return ORB_COLOR_SUPPORT;
+                        return ORB_COLOR_SUMMON;
                     default:
                         throw new GameDataException("Materia has no type, name " + Name);
                 }
