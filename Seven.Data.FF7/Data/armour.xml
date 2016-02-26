@@ -465,7 +465,13 @@
         <slots>4</slots>
         <links>0</links>
         <growth>Normal</growth>
-        <attach>c.DexterityBonus = c.DexterityBonus + 30; c.LuckBonus = c.LuckBonus + 20</attach>
-        <detach>c.DexterityBonus = c.DexterityBonus - 30; c.LuckBonus = c.LuckBonus - 20</detach>
+        <attach>
+            c.DexterityBonus = c.DexterityBonus + 30
+            c.LuckBonus = c.LuckBonus + 20
+        </attach>
+        <detach>
+            c.DexterityBonus = c.DexterityBonus - 30
+            c.LuckBonus = c.LuckBonus - 20
+        </detach>
     </armor>
 </armour>
