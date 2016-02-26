@@ -157,22 +157,7 @@ namespace Atmosphere.Reverence.Seven.State
 
 
 
-        
-        private bool IsReady(Ally a)
-        {
-            bool ready = true;
 
-            ready = ready && a != null;                         // they're not null
-            ready = ready && a.TurnTimer.IsUp;                  // they're ready
-            //ready = ready && !AbilityQueue.Contains(a.Ability); // they're not in the ability queue
-            //ready = ready && ActiveAbility != a.Ability;        // they're not acting now
-            ready = ready && !a.WaitingToResolve;
-            ready = ready && !a.CannotAct;                      // they're able to act
-            ready = ready && !_turnQueue.Contains(a);           // they're not already in the turn queue
-            ready = ready && Commanding != a;                   // they're not in control
-
-            return ready;
-        }
         
         public override void RunIteration()
         {
@@ -220,19 +205,29 @@ namespace Atmosphere.Reverence.Seven.State
             // Check turn timers and enqueue if up
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
-                if (IsReady(Allies[i]))
+                Ally ally = Allies[i];
+
+                bool isReady = ally != null     // they're not null
+                    && ally.TurnTimer.IsUp      // they're ready
+                    && !ally.WaitingToResolve   // they're not already acting
+                    && !ally.CannotAct;         // they can actually act
+
+                if (isReady)
                 {
-                    if (Allies[i].Confusion)
+                    if (ally.Confusion)
                     {
-                        Allies[i].RunAIConfu();
+                        ally.RunAIConfu();
                     }
-                    else if (Allies[i].Berserk)
+                    else if (ally.Berserk)
                     {
-                        Allies[i].RunAIBerserk();
+                        ally.RunAIBerserk();
                     }
                     else
                     {
-                        _turnQueue.Enqueue(Allies[i]);
+                        if (!_turnQueue.Contains(ally) && ally != Commanding)
+                        {
+                            _turnQueue.Enqueue(ally);
+                        }
                     }
                 }
             }
