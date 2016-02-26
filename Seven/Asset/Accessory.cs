@@ -13,9 +13,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 {
     internal class Accessory : Equipment
     {        
-        public static readonly Accessory EMPTY = new Accessory(Equipment.EquipmentData.EMPTY);
-
-
         public Accessory(Equipment.EquipmentData data)
             : base(data)
         {

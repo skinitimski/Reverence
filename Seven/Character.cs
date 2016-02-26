@@ -289,7 +289,7 @@ namespace Atmosphere.Reverence.Seven
             }
             
             string acc = savexml.SelectSingleNode("./accessory").InnerText;
-            _accessory = String.IsNullOrEmpty(acc) ? Accessory.EMPTY : data.GetAccessory(acc);
+            _accessory = String.IsNullOrEmpty(acc) ? null : data.GetAccessory(acc);
             
             
             // Q-Values
@@ -1222,6 +1222,7 @@ namespace Atmosphere.Reverence.Seven
                 {
                     throw new ImplementationException("Cannot remove armor. Must replace with new armor.");
                 }
+
                 _armor.Detach(this);
                 _armor = value;
                 _armor.Attach(this);
@@ -1233,14 +1234,17 @@ namespace Atmosphere.Reverence.Seven
             get { return _accessory; }
             set
             {
-                if (value == null)
+                if (_accessory != null)
                 {
-                    throw new ImplementationException("Cannot remove accessory. Must replace with new accessory (or empty accessory).");
+                    _accessory.Detach(this);
                 }
 
-                _accessory.Detach(this);
                 _accessory = value;
-                _accessory.Attach(this);
+                
+                if (_accessory != null)
+                {
+                    _accessory.Attach(this);
+                }
             }
         }
 

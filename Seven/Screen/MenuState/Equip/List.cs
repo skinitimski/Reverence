@@ -46,37 +46,46 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                     if (_option > 0) _option--;
                     if (_topRow > _option) _topRow--;
                     break;
+
                 case Key.Down:
                     if (_option < _equipment.Count - 1) _option++;
                     if (_topRow < _option - rows + 1) _topRow++;
                     break;
+
                 case Key.Circle:
-                    int slot = _equipment[_option].Slot;
+
                     MenuState.EquipTop.Changed = true;
+
                     switch (MenuState.EquipTop.Option)
                     {
                         case 0:
                             MenuState.Party.Materiatory.Swap(MenuState.Party.Selected.Weapon, (Weapon)_equipment[_option].Item, MenuState.Party.Selected);
-                            MenuState.Party.Selected.Weapon = (Weapon)MenuState.Party.Inventory.SwapOut(MenuState.Party.Selected.Weapon, slot);
+                            MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Weapon);
+                            MenuState.Party.Selected.Weapon = (Weapon)_equipment[_option].Item;
                             break;
                         case 1:
                             MenuState.Party.Materiatory.Swap(MenuState.Party.Selected.Armor, (Armor)_equipment[_option].Item, MenuState.Party.Selected);
                             MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Armor);
                             MenuState.Party.Selected.Armor = (Armor)_equipment[_option].Item;
-                            MenuState.Party.Inventory.DecreaseCount(slot);
                             break;
                         case 2:
-                            MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Accessory);
+
+                            if (MenuState.Party.Selected.Accessory != null) 
+                            {
+                                MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Accessory);
+                            }
+
                             MenuState.Party.Selected.Accessory = (Accessory)_equipment[_option].Item;
-                            MenuState.Party.Inventory.DecreaseCount(slot);
                             break;
                     }
+
+                    MenuState.Party.Inventory.DecreaseCount(_equipment[_option].Slot);
                     MenuState.EquipScreen.ChangeToDefaultControl();
+
                     break;
+
                 case Key.X:
                     MenuState.EquipScreen.ChangeToDefaultControl();
-                    break;
-                default:
                     break;
             }
         }

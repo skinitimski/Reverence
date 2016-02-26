@@ -78,10 +78,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                 case Key.Triangle:
                     if (_option == 2)
                     {
-                        if (MenuState.Party.Selected.Accessory != Accessory.EMPTY)
+                        if (MenuState.Party.Selected.Accessory != null)
                         {
                             MenuState.Party.Inventory.AddToInventory(MenuState.Party.Selected.Accessory);
-                            MenuState.Party.Selected.Accessory = Accessory.EMPTY;
+                            MenuState.Party.Selected.Accessory = null;
                         }
                     }
                     break;
@@ -111,8 +111,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            TextExtents te;
 
             string weapon, armor, acc;
             
@@ -138,13 +136,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
             
             weapon = MenuState.Party.Selected.Weapon.Name;
             armor = MenuState.Party.Selected.Armor.Name;
-            acc = MenuState.Party.Selected.Accessory.Name;
-            
-            te = g.TextExtents(weapon);
+            acc = MenuState.Party.Selected.Accessory == null ? String.Empty : MenuState.Party.Selected.Accessory.Name;
+
             Text.ShadowedText(g, weapon, X + x8, Y + yi);
-            te = g.TextExtents(armor);
             Text.ShadowedText(g, armor, X + x8, Y + yj);
-            te = g.TextExtents(acc);
             Text.ShadowedText(g, acc, X + x8, Y + yk);
             
             #endregion Equipment
@@ -175,7 +170,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Equip
                     case 1:
                         return MenuState.Party.Selected.Armor.Description;
                     case 2:
-                        return MenuState.Party.Selected.Accessory.Description;
+                        return MenuState.Party.Selected.Accessory == null ? String.Empty : MenuState.Party.Selected.Accessory.Description;
                     default:
                         return "";
                 }

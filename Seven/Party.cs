@@ -13,7 +13,7 @@ namespace Atmosphere.Reverence.Seven
     {
         public const int PARTY_SIZE = 3;
         private Character[] _party = new Character[PARTY_SIZE];
-        private static Dictionary<string, Character> _characters;
+        private Dictionary<string, Character> _characters;
         private int _selectionIndex;
 
 
