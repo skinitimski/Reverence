@@ -262,7 +262,7 @@
     <!-- TODO: hit only if tar.Lvl=N*5 -->
     <spell>
         <name>L5 Death</name>
-        <desc>Inflicts [Slp,Psn,Cnfu,Sil,Frg,Sml]</desc>
+        <desc>Inflicts [Death] if Lvl=N*5</desc>
         <order>19</order>
         <type>Magical</type>
         <cost>22</cost>
@@ -274,7 +274,7 @@
     </spell>
     <spell>
         <name>Death Sentence</name>
-        <desc>Inflicts [Slp,Psn,Cnfu,Sil,Frg,Sml]</desc>
+        <desc>Inflicts [Death-Sentence]</desc>
         <order>20</order>
         <type>Magical</type>
         <cost>10</cost>
