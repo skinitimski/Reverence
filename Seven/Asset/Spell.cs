@@ -45,6 +45,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             Hits = hitsNode == null ? 1 : Int32.Parse(hitsNode.InnerText);
 
             DamageFormula = GetFormula(xml.SelectSingleNode("formula"), lua);
+            HitFormula = GetHitFormula(xml.SelectSingleNode("hitFormula"), lua);
         }
 
 

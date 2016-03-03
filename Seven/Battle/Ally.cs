@@ -63,6 +63,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 Hits = hits;
 
                 DamageFormula = PhysicalAttack;
+                HitFormula = PhysicalHit;
             }
 
             protected override string GetMessage(Combatant source)
@@ -719,7 +720,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override bool Death { get { return _c.Death; } }
 
-        public override bool NearDeath { get { return _c.NearDeath; } }
+        public override bool NearDeath { get { return _c.NearDeath && !Death; } }
 
         public override bool Sadness { get { return _c.Sadness; } }
 

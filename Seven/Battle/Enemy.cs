@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         private class EnemyAbility : Ability
         {
-            public EnemyAbility(XmlNode xml)
+            public EnemyAbility(XmlNode xml, Lua lua)
                 : base()
             {
                 Name = xml.SelectSingleNode("@id").Value;
@@ -51,27 +51,9 @@ namespace Atmosphere.Reverence.Seven.Battle
                 {
                     Hits = Int32.Parse(hitsNode.InnerText);
                 }
-                
-                XmlNode formulaNode = xml.SelectSingleNode("formula");
-                
-                if (formulaNode != null)
-                {
-                    DamageFormula = (DamageFormula)Delegate.CreateDelegate(typeof(DamageFormula), this, formulaNode.InnerText);
-                }
-                else
-                {
-                    switch (Type)
-                    {
-                        case AttackType.Magical:
-                            DamageFormula = MagicalAttack;
-                            break;
-                        case AttackType.Physical:
-                            DamageFormula = PhysicalAttack;
-                            break;
-                        default:
-                            throw new GameDataException("Neither a formula nor an attack type -- ability '{0}'", Name);
-                    }
-                }
+
+                DamageFormula = GetFormula(xml.SelectSingleNode("formula"), lua);
+                HitFormula = GetHitFormula(xml.SelectSingleNode("hitFormula"), lua);
             }
 
             protected override string GetMessage(Combatant source)
@@ -225,7 +207,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             foreach (XmlNode attackNode in node.SelectNodes("attacks/attack"))
             {
-                EnemyAbility attack = new EnemyAbility(attackNode);
+                EnemyAbility attack = new EnemyAbility(attackNode, battle.Lua);
 
                 Attacks.Add(attack.Name, attack);
             }
@@ -1108,7 +1090,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override bool Death { get { return _death; } }
 
-        public override bool NearDeath { get { return HP <= (MaxHP / 4); } }
+        public override bool NearDeath { get { return !Death && HP <= (MaxHP / 4); } }
 
         public override bool Sadness { get { return _sadness; } }
 

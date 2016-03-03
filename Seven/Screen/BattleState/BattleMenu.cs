@@ -444,9 +444,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             if (_option == _attackOption)
             {
-                target = targets.First();
-
-                performer.Attack(target);
+                performer.Attack(targets.First());
             }
 
             #endregion Attack
@@ -456,9 +454,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _doubleCutOption2)
             {
-                target = targets.First();
-
-                performer.AttackX2(target);
+                performer.AttackX2(targets.First());
             }
 
             #endregion 2x-Cut
@@ -511,18 +507,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _deathblowOption)
             {
-                target = targets.First();
-
-                int bd = Formula.PhysicalBase(AssociatedAlly.CurrentBattle.Commanding);
-                int dam = Formula.PhysicalDamage(bd, 16, target) * 2;
-
-//                AbilityState state = AssociatedAlly.CurrentBattle.Commanding.Ability;
-//                state.LongRange = performer.LongRange;
-//                state.QuadraMagic = false;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = AssociatedAlly.CurrentBattle.Screen.TargetSelector.Selected;
-//                state.Action += delegate() { target.AcceptDamage(AssociatedAlly.CurrentBattle.ActiveAbility.Performer, dam); };
+//                DeathblowEvent e = DeathblowEvent.Create(AssociatedAlly, targets);
+//                
+//                AssociatedAlly.CurrentBattle.EnqueueAction(e);
             }
 
             #endregion Deathblow
@@ -538,20 +525,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Mug
             else if (_option == _mugOption)
             {
-                target = targets.First();
-
-                int bd = Formula.PhysicalBase(AssociatedAlly.CurrentBattle.Commanding);
-                int dam = Formula.PhysicalDamage(bd, 16, target);
-
-//                AbilityState state = AssociatedAlly.CurrentBattle.Commanding.Ability;
-//                state.Type = AttackType.Physical;
-//                state.Performer = performer;
-//                state.Target = AssociatedAlly.CurrentBattle.Screen.TargetSelector.Selected;
-//                state.Action += delegate() 
-//                { 
-//                    target.AcceptDamage(AssociatedAlly.CurrentBattle.ActiveAbility.Performer, dam);
-//                    ((Enemy)target).StealItem(performer);
-//                };
+//                MugEvent e = MugEvent.Create(AssociatedAlly, targets);
+//                
+//                AssociatedAlly.CurrentBattle.EnqueueAction(e);
             }
             #endregion Mug
 

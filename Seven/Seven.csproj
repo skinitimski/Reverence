@@ -157,7 +157,6 @@
     <Compile Include="Screen\BattleState\StatusBarRight.cs" />
     <Compile Include="Battle\BattleEvent.cs" />
     <Compile Include="Battle\Status.cs" />
-    <Compile Include="Battle\Formula.cs" />
     <Compile Include="State\PostBattleState.cs" />
     <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
     <Compile Include="Screen\BattleState\WItemMenu.cs" />
