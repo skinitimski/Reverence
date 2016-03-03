@@ -12,6 +12,7 @@ using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState

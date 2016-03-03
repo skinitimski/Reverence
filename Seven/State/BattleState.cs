@@ -18,6 +18,7 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
 using NLua;
 

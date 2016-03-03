@@ -79,6 +79,7 @@
     <Folder Include="Test\" />
     <Folder Include="Screen\MenuState\Save\" />
     <Folder Include="Screen\MenuState\Config\" />
+    <Folder Include="Battle\Event\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -155,7 +156,6 @@
     <Compile Include="Screen\BattleState\Selector\GroupSelector.cs" />
     <Compile Include="Screen\BattleState\StatusBarLeft.cs" />
     <Compile Include="Screen\BattleState\StatusBarRight.cs" />
-    <Compile Include="Battle\BattleEvent.cs" />
     <Compile Include="Battle\Status.cs" />
     <Compile Include="State\PostBattleState.cs" />
     <Compile Include="Screen\BattleState\Selector\AreaSelector.cs" />
@@ -207,13 +207,14 @@
     <Compile Include="Screen\BattleState\RecoveryIcon.cs" />
     <Compile Include="Battle\AbilityModifiers.cs" />
     <Compile Include="Asset\Spell.cs" />
-    <Compile Include="Battle\SenseEvent.cs" />
-    <Compile Include="Battle\StealEvent.cs" />
-    <Compile Include="Battle\CombatantActionEvent.cs" />
     <Compile Include="Battle\Ability.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="Asset\Materia\MasterMateria.cs" />
     <Compile Include="DataStore.cs" />
+    <Compile Include="Battle\Event\BattleEvent.cs" />
+    <Compile Include="Battle\Event\SenseEvent.cs" />
+    <Compile Include="Battle\Event\StealEvent.cs" />
+    <Compile Include="Battle\Event\CombatantActionEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

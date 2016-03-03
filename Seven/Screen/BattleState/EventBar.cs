@@ -7,6 +7,7 @@ using Cairo;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
 using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 

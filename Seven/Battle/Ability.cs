@@ -12,6 +12,7 @@ using NLua;
 using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Battle;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Asset

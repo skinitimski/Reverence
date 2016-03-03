@@ -7,7 +7,7 @@ using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.State;
 
-namespace Atmosphere.Reverence.Seven.Battle
+namespace Atmosphere.Reverence.Seven.Battle.Event
 {
     internal abstract class BattleEvent
     {

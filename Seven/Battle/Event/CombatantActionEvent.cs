@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Atmosphere.Reverence.Seven.Battle
+namespace Atmosphere.Reverence.Seven.Battle.Event
 {
     internal abstract class CombatantActionEvent : BattleEvent
     {
