@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Thread = System.Threading.Thread;
 using System.Xml;
 
 using NLua;
@@ -74,127 +73,8 @@ namespace Atmosphere.Reverence.Seven.Asset
 
             public int Odds { get; set; }
         }
-        
-        protected class UseAbilityEvent : CombatantActionEvent
-        {
-            protected UseAbilityEvent(Combatant source, bool resetSourceTurnTimer, int duration)
-                : base(source, resetSourceTurnTimer, duration)
-            {
-            }
-
-            public static UseAbilityEvent Create(Ability ability, AbilityModifiers modifiers, Combatant source, Combatant[] targets)
-            {            
-                string msg = ability.GetMessage(source);
-                
-                if (source.Confusion)
-                {
-                    msg += " (confused)";
-                }
-                else if (source.Berserk)
-                {
-                    msg += " (berserk)";
-                }
 
 
-                int duration = ability.PauseDuration + ability.SpellDuration * ability.Hits;
-
-                UseAbilityEvent @event = new UseAbilityEvent(source, modifiers.ResetTurnTimer, duration)
-                {
-                    Hits = new bool[ability.Hits],
-                    Records = new bool[targets.Count()],
-                    Status = msg,
-                    Targets = targets,
-                    Ability = ability,
-                    Modifiers = modifiers
-                };
-
-                return @event;
-            }
-            
-            protected override void RunIteration(long elapsed, bool lastIteration)
-            {
-                if (elapsed >= Ability.PauseDuration)
-                {
-                    if (CurrentHit < Hits.Length)
-                    {
-                        if (!Hits[CurrentHit] && elapsed >= Ability.PauseDuration + Ability.SpellDuration * CurrentHit)
-                        {
-                            bool[] whoWasHit = Ability.Cast(Source, Targets, Modifiers);
-
-                            for (int i = 0; i < whoWasHit.Length; i++)
-                            {
-                                if (!Records[i] && whoWasHit[i])
-                                {
-                                    Records[i] = true;
-                                }
-                            }
-
-                            CurrentHit++;
-                        }
-                    }
-                }
-
-                if (lastIteration)
-                {
-                    for (int i = 0; i < Records.Length; i++)
-                    {
-                        if (Records[i])
-                        {
-                            Targets[i].Respond(Ability);
-                        }
-                    }
-                }
-            }
-            
-            protected override string GetStatus(long elapsed)
-            {
-                return Status;
-            }
-
-            private String Status { get; set; }
-
-            private bool[] Hits { get; set; }
-
-            private int CurrentHit { get; set; }
-
-            private Combatant[] Targets { get; set; }
-
-            private bool[] Records { get; set; }
-
-            private Ability Ability { get; set; }
-
-            private AbilityModifiers Modifiers { get; set; }
-        }
-        
-        protected class UseAbilityFailEvent : CombatantActionEvent
-        {
-            private const int DURATION = 2000;
-
-            public UseAbilityFailEvent(Combatant source, Ability ability, bool resetSourceTurnTimer)
-                : base(source, resetSourceTurnTimer, DURATION)
-            {
-                if (source is Ally)
-                {
-                    Status = "Not enough MP for " + ability.Name + "!";
-                }
-                else // is Enemy
-                {
-                    Status = source.Name + "'s skill power is used up.";
-                }
-            }
-            
-            protected override void RunIteration(long elapsed, bool lastIteration)
-            {
-                
-            }
-            
-            protected override string GetStatus(long elapsed)
-            {
-                return Status;
-            }
-
-            private string Status { get; set; }
-        }
 
 
         protected Ability()
@@ -770,7 +650,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             return hitFormula;
         }
                 
-        protected abstract String GetMessage(Combatant source);
+        public abstract String GetMessage(Combatant source);
 
 
 
@@ -807,14 +687,14 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
 
             BattleEvent e = null;
-            
+
             if (canUse)
             {                 
-                e = UseAbilityEvent.Create(this, modifiers, source, targets.ToArray());
+                e = new AbilityEvent(this, modifiers, source, targets.ToArray());
             }
             else
             {   
-                e = new UseAbilityFailEvent(source, this, modifiers.ResetTurnTimer);
+                e = new AbilityFailEvent(source, this, modifiers.ResetTurnTimer);
             }
 
             if (modifiers.CounterAttack)
@@ -827,7 +707,7 @@ namespace Atmosphere.Reverence.Seven.Asset
             }
         }
         
-        private bool[] Cast(Combatant source, Combatant[] targets, AbilityModifiers modifiers)
+        public bool[] Cast(Combatant source, Combatant[] targets, AbilityModifiers modifiers)
         {
             if (RandomTarget && targets.Count() > 1)
             {
@@ -915,7 +795,42 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         public int MPCost { get; protected set; }
         
-        protected int Hits { get; set; }
+        public virtual int PauseDuration
+        {
+            get
+            {
+                int pause = 0;
+                
+                switch (Type)
+                {
+                    case AttackType.Magical:
+                        pause = 1500;
+                        break;
+                    case AttackType.Physical:
+                        pause = 800;
+                        break;
+                }
+                
+                return pause;
+            }
+        }
+        
+        public virtual int SpellDuration
+        {
+            get
+            {
+                int duration = BattleIcon.ANIMATION_DURATION;
+                
+                if (Hits > 1)
+                {
+                    duration = duration * 2 / 3;
+                }
+                
+                return duration;
+            }
+        }
+        
+        public int Hits { get; protected set; }
 
         protected HitFormula HitFormula { get; set; }
 
@@ -930,41 +845,6 @@ namespace Atmosphere.Reverence.Seven.Asset
         protected IEnumerable<StatusChange> Statuses { get; set; }
 
         private bool RandomTarget { get { return Target == BattleTarget.GroupRandom || Target == BattleTarget.AlliesRandom || Target == BattleTarget.EnemiesRandom; } }
-
-        private int PauseDuration
-        {
-            get
-            {
-                int pause = 0;
-
-                switch (Type)
-                {
-                    case AttackType.Magical:
-                        pause = 1500;
-                        break;
-                    case AttackType.Physical:
-                        pause = 800;
-                        break;
-                }
-
-                return pause;
-            }
-        }
-
-        private int SpellDuration
-        {
-            get
-            {
-                int duration = BattleIcon.ANIMATION_DURATION;
-
-                if (Hits > 1)
-                {
-                    duration = duration * 2 / 3;
-                }
-
-                return duration;
-            }
-        }
     }
 }
 

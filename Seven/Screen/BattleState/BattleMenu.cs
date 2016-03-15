@@ -413,7 +413,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _deathblowOption)
                     {
-                        //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Area, TargetType.Combatant);
+                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
                     }
                     else if (_option == _stealOption || _option == _mugOption)
                     {
@@ -473,7 +473,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             else if (_option == _senseOption)
             {
-                BattleEvent sense = SenseEvent.Create(AssociatedAlly, targets);
+                BattleEvent sense = new SenseEvent(AssociatedAlly, targets);
 
                 AssociatedAlly.CurrentBattle.EnqueueAction(sense);
             }

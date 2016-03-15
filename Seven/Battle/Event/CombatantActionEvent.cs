@@ -5,8 +5,8 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
 {
     internal abstract class CombatantActionEvent : BattleEvent
     {
-        protected CombatantActionEvent(Combatant source, bool resetSourceTurnTimer, int duration)
-            : base(source.CurrentBattle.TimeFactory, duration)
+        protected CombatantActionEvent(Combatant source, bool resetSourceTurnTimer)
+            : base()
         {
             Source = source;
             ResetSourceTurnTimer = resetSourceTurnTimer;
@@ -22,14 +22,6 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
             }
         }
         
-        
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendFormat(" {0} : {1}{2}", GetType().Name, GetStatus(), Environment.NewLine);
-            sb.AppendFormat("\tsource {0}", Source == null ? "" : Source.Name);
-            return sb.ToString();
-        }
 
 
 

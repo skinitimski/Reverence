@@ -16,12 +16,10 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         private const int PAUSE = 1000;
         private const int MESSAGE_DURATION = 1500; // TODO: config value
 
-        private SenseEvent(Ally source, int duration)
-            : base(source, true, duration)
-        {
-        }
+        private int _duration;
 
-        public static SenseEvent Create(Ally source, IEnumerable<Combatant> targets)
+        public SenseEvent(Ally source, IEnumerable<Combatant> targets)
+            : base(source, true)
         {
             Combatant target = targets.First();
 
@@ -46,16 +44,10 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
 
 
             int dialogue_duration = messages.Count * MESSAGE_DURATION;
-            int duration = PAUSE + dialogue_duration;
+            _duration = PAUSE + dialogue_duration;
                 
 
-            SenseEvent @event = new SenseEvent(source, duration)
-            {
-                Messages = messages
-            };
-
-            return @event;
-
+            Messages = messages;
         }
 
         protected override void RunIteration(long elapsed, bool isLast)
@@ -92,7 +84,13 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
             
             return info;
         }
+        
+        public override string ToString()
+        {
+            return String.Format(" {0} senses {1}", Source.Name, Target.Name);
+        }
 
+        protected override int Duration { get { return _duration; } }
 
         private Combatant Target { get; set; }
         

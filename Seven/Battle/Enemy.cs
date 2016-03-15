@@ -56,7 +56,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 HitFormula = GetHitFormula(xml.SelectSingleNode("hitFormula"), lua);
             }
 
-            protected override string GetMessage(Combatant source)
+            public override string GetMessage(Combatant source)
             {
                 string msg;
 

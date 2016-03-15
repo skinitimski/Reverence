@@ -13,6 +13,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public int MPTurboFactor { get; set; }
         public bool CostsNothing { get; set; }
         public bool NoSplit { get; set; }
+        public bool StealAsWell { get; set; }
 
         public bool CounterAttack { get; set; }
         public bool ResetTurnTimer { get; set; }

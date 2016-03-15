@@ -14,10 +14,10 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
     internal class StealEvent : CombatantActionEvent
     {
         private const int PAUSE = 1000;
-        private const int DURATION = 2000;
+        public const int DURATION = 2000;
 
-        private StealEvent(Combatant source)
-            : base(source, true, PAUSE + DURATION)
+        public StealEvent(Combatant source)
+            : base(source, true)
         {
         }
 
@@ -77,6 +77,13 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
             
             return info;
         }
+        
+        public override string ToString()
+        {
+            return String.Format(" {0} steals from {1}", Source.Name, Target.Name);
+        }
+
+        protected override int Duration { get { return PAUSE + DURATION; } }
 
         private Enemy Target { get; set; }
 

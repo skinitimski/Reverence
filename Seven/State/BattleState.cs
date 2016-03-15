@@ -99,6 +99,16 @@ namespace Atmosphere.Reverence.Seven.State
             
             public void ClearEventsFromSource(Combatant source)
             {
+                CheckEventSources(x => x.Source == source, "source removed from battle");
+            }
+            
+            public void ClearSourcesWhoCannotAct()
+            {
+                CheckEventSources(x => x.Source.CannotAct, "source cannot act");
+            }
+
+            public void CheckEventSources(Predicate<CombatantActionEvent> shouldDrop, string msg)
+            {
                 lock (_queues)
                 {
                     // start at 1 since we can skip the System queue
@@ -113,14 +123,14 @@ namespace Atmosphere.Reverence.Seven.State
                             
                             CombatantActionEvent action = e as CombatantActionEvent;
                             
-                            if (action == null || action.Source != source)
+                            if (action == null || !shouldDrop(action))
                             {
                                 temp.Enqueue(e);
                             }
                             else
                             {
 #if DEBUG
-                                Console.WriteLine("Dropped event: " + e);
+                                Console.WriteLine("Dropped event ({0}): {1}", msg, e);
 #endif
                             }
                         }
@@ -174,7 +184,7 @@ namespace Atmosphere.Reverence.Seven.State
             public const int PAUSE = DURATION / 2;
 
             public RemoveEnemyEvent(BattleState battle, List<Enemy> enemies)
-                : base(battle.TimeFactory, DURATION)
+                : base()
             {
                 Enemies = enemies;
                 Battle = battle;
@@ -204,6 +214,19 @@ namespace Atmosphere.Reverence.Seven.State
                 return Text;
             }
             
+            public override string ToString()
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(" Removing the following enemies:");
+                foreach (Enemy enemy in Enemies)
+                {
+                    sb.AppendLine("    " + enemy.Name);
+                }
+                return sb.ToString();
+            }
+
+
+            protected override int Duration { get { return DURATION; } }
             private bool HasRemoved { get; set; }
             private string Text { get; set; }
             private List<Enemy> Enemies { get; set; }
@@ -216,8 +239,8 @@ namespace Atmosphere.Reverence.Seven.State
             public const int DURATION = 4000;
 
             
-            public EndOfBattleEvent(TimeFactory factory, string text)
-                : base(factory, DURATION)
+            public EndOfBattleEvent(string text)
+                : base()
             {
                 Text = text;
             }
@@ -231,7 +254,13 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 return Text;
             }
-
+            
+            public override string ToString()
+            {
+                return " Battle is ending; status = " + Text;
+            }
+            
+            protected override int Duration { get { return DURATION; } }
             private string Text { get; set; }
         }
         
@@ -268,8 +297,8 @@ namespace Atmosphere.Reverence.Seven.State
                 Height = Seven.Configuration.WindowHeight
             };
                         
-            _victoryEvent = new EndOfBattleEvent(TimeFactory, "Victory!");
-            _lossEvent = new EndOfBattleEvent(TimeFactory, "Annihilated!");
+            _victoryEvent = new EndOfBattleEvent("Victory!");
+            _lossEvent = new EndOfBattleEvent("Annihilated!");
 
             Screen = new BattleScreen(this, state);
 
@@ -419,16 +448,17 @@ namespace Atmosphere.Reverence.Seven.State
                 {
                     if (EventQueue.Count > 0)
                     {
-                        ActiveAbility = EventQueue.Dequeue();
-                    }
+                        BattleEvent activeEvent = EventQueue.Dequeue();
 
-                    if (ActiveAbility != null)
-                    {
+                        if (activeEvent != null)
+                        {
+                            activeEvent.Begin(TimeFactory);
+
+                            ActiveAbility = activeEvent;
 #if DEBUG
-                        Console.WriteLine("Event has begun:" + ActiveAbility.ToString());
+                            Console.WriteLine("Event has begun:" + ActiveAbility.ToString());
 #endif
-
-                        ActiveAbility.Begin();
+                        }
                     }
                 }
 
@@ -477,6 +507,7 @@ namespace Atmosphere.Reverence.Seven.State
                         ActiveAbility = null;
 
                         CheckForDeadEnemies();
+                        EventQueue.ClearSourcesWhoCannotAct();
                     }
                 }
             }
@@ -497,7 +528,8 @@ namespace Atmosphere.Reverence.Seven.State
                 e.CheckTimers();
             }
 
-            CheckForDeadEnemies();
+            // Instead of doing this, things like poison should be entered as battle events
+            //CheckForDeadEnemies();
         }
         
         private void CheckEnemyTurnTimers()
@@ -598,7 +630,9 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 EventQueue.Enqueue(a, priority);
 #if DEBUG
-                Console.WriteLine("Added event to queue.");
+                Console.WriteLine();
+                Console.WriteLine(" An event has been added to the queue!");
+                Console.WriteLine();
                 Console.WriteLine(EventQueue.ToString());
 #endif
             }

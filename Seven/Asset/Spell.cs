@@ -51,7 +51,7 @@ namespace Atmosphere.Reverence.Seven.Asset
 
 
 
-        protected override string GetMessage(Combatant source)
+        public override string GetMessage(Combatant source)
         {
             return source.Name + " casts " + Name;
         }

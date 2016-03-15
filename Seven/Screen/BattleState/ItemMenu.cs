@@ -34,49 +34,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
 
 
-        
-        
-        private class UseItemEvent : CombatantActionEvent
-        {
-            private const int DURATION = 2000;
-            
-            public UseItemEvent(Item item, int slot, Ally source, IEnumerable<Combatant> targets, bool resetSourceTurnTimer)
-                : base(source, resetSourceTurnTimer, DURATION)
-            {
-                Item = item;
-                Slot = slot;
-                Targets = targets;
-                Status = source.Name + " uses item " + item.Name;
-                
-            }
-            
-            protected override void RunIteration(long elapsed, bool isLast)
-            {
-                if (!HasUsed)
-                {
-                    Item.UseInBattle((Ally)Source, Targets);
-                    HasUsed = true;
-                }
-                
-                if (isLast)
-                {
-                    Source.CurrentBattle.Party.Inventory.DecreaseCount(Slot);
-                }
-            }
-            
-            protected override string GetStatus(long elapsed)
-            {
-                return Status;
-            }
-            
-            private Item Item { get; set; }
-            private int Slot { get; set; }
-            private IEnumerable<Combatant> Targets { get; set; }
-            private string Status { get; set; }
-            
-            private bool HasUsed { get; set; }
-        }
-
 
 
         public ItemMenu(SevenBattleState battleState, ScreenState screenState)

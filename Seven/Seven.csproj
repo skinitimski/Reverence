@@ -215,6 +215,9 @@
     <Compile Include="Battle\Event\SenseEvent.cs" />
     <Compile Include="Battle\Event\StealEvent.cs" />
     <Compile Include="Battle\Event\CombatantActionEvent.cs" />
+    <Compile Include="Battle\Event\AbilityEvent.cs" />
+    <Compile Include="Battle\Event\AbilityFailEvent.cs" />
+    <Compile Include="Battle\Event\UseItemEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
