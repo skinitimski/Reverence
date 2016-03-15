@@ -518,9 +518,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Steal
             else if (_option == _stealOption)
             {                
-                StealEvent e = new StealEvent(AssociatedAlly, targets);
+                StealEvent steal = new StealEvent(AssociatedAlly, targets);
                 
-                AssociatedAlly.CurrentBattle.EnqueueAction(e);
+                AssociatedAlly.CurrentBattle.EnqueueAction(steal);
             }
             #endregion Steal
             #region Mug
