@@ -518,7 +518,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             #region Steal
             else if (_option == _stealOption)
             {                
-                StealEvent e = StealEvent.Create(AssociatedAlly, targets);
+                StealEvent e = new StealEvent(AssociatedAlly, targets);
                 
                 AssociatedAlly.CurrentBattle.EnqueueAction(e);
             }

@@ -25,6 +25,7 @@
                     <orb id="Master Magic"  ap="0"         slot="0" />
                     <orb id="Master Summon" ap="0"         slot="1" />
                     <orb id="Enemy Skill"   ap="16777215"  slot="2" />
+                    <orb id="Steal"         ap="0"         slot="3" />
                 </materia>
             </weapon>
             <armor>

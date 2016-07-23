@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Atmosphere.Reverence;
+using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Asset.Materia;
@@ -16,25 +17,17 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         private const int PAUSE = 1000;
         public const int DURATION = 2000;
 
-        public StealEvent(Combatant source)
+        public StealEvent(Ally source, IEnumerable<Combatant> targets)
             : base(source, true)
         {
-        }
+            Enemy enemy = targets.First() as Enemy;
 
-
-        public static StealEvent Create(Ally source, IEnumerable<Combatant> targets)
-        {            
-            Enemy enemy = (Enemy)targets.First();
-                        
-            bool canSteal = enemy.HasItems;
-
-                        
-            StealEvent @event = new StealEvent(source)
+            if (enemy == null)
             {
-                Target = enemy
-            };
-
-            return @event;
+                throw new ImplementationException("Cannot steal from an Ally.");
+            }
+            
+            Target = enemy;
         }
 
         protected override void RunIteration(long elapsed, bool isLast)
