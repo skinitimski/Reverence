@@ -25,7 +25,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         {
             switch (k)
             {
-//                case Key.R1:
+                case Key.R1:
+                    // TODO: all
 //                    if (BattleState.Screen.AllAble)
 //                    {
 //                    if (BattleState.Commanding.MagicMenu.Selected.AllCount > 0)
@@ -35,7 +36,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 //                        BattleState.Screen.PushControl(BattleState.Screen.TargetSelector);
 //                    }
 //                    }
-//                    break;
+                    break;
             }
             if (CanTargetEither)
             {
