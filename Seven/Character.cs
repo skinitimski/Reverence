@@ -422,7 +422,7 @@ namespace Atmosphere.Reverence.Seven
             writer.WriteEndElement();
 
 
-            writer.WriteElementString("accessory", Accessory.ID);
+            writer.WriteElementString("accessory", Accessory == null ? "" : Accessory.ID);
             
             writer.WriteEndElement();
         }
