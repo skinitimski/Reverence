@@ -613,8 +613,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool CheckForVictory()
         {
-            // TODO: -- what about petrified individuals?
-            return EnemyList.Count == 0;
+            return EnemyList.Count == 0 || EnemyList.All(e => e.IsDead);
         }
 
         private bool CheckForLoss()
