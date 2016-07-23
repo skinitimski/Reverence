@@ -684,6 +684,13 @@ namespace Atmosphere.Reverence.Seven.State
             _battleIcons.Enqueue(icon);
         }
         
+        public void AddDeathIcon(Combatant receiver)
+        {
+            DeathIcon icon = new DeathIcon(this, receiver);
+            
+            _battleIcons.Enqueue(icon);
+        }
+        
         
         
         

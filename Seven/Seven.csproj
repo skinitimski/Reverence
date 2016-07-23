@@ -218,6 +218,7 @@
     <Compile Include="Battle\Event\AbilityEvent.cs" />
     <Compile Include="Battle\Event\AbilityFailEvent.cs" />
     <Compile Include="Battle\Event\UseItemEvent.cs" />
+    <Compile Include="Screen\BattleState\DeathIcon.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

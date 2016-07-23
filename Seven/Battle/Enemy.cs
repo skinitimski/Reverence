@@ -949,6 +949,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                 if (!_death)
                 {                 
+                    CurrentBattle.AddDeathIcon(this);
+
                     Kill(source);
 
                     _death = true;
