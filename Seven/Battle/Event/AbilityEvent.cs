@@ -83,6 +83,70 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
                 }
             }
         }
+
+        protected override void BeginHook()
+        {
+            // Check our target(s).
+
+            switch (Ability.Target)
+            {
+                case BattleTarget.Ally:
+                case BattleTarget.Enemy:
+                case BattleTarget.Combatant:
+                    
+                    // If we're just targeting one thing, and that thing is dead, then we need a new target.
+
+                    if (Targets[0].Death)
+                    {
+                        ChooseNewTarget();
+                    }
+
+                    break;
+                    
+                case BattleTarget.Allies:
+                case BattleTarget.AlliesRandom:
+                case BattleTarget.Enemies:
+                case BattleTarget.EnemiesRandom:
+                case BattleTarget.Group:
+                case BattleTarget.GroupRandom:
+                case BattleTarget.Area:
+                case BattleTarget.AreaRandom:
+
+                    // If we're targeting a group of things, then if any one of those is dead, then we can prune that target.
+
+                    Targets = Targets.Where(t => !t.Death).ToArray();
+
+                    break;
+            }
+        }
+
+        private void ChooseNewTarget()
+        {
+            List<Combatant> possibleTargets = new List<Combatant>();
+            
+            if (Ability.Target == BattleTarget.Ally || Ability.Target == BattleTarget.Combatant)
+            {
+                foreach (Ally a in Source.CurrentBattle.Allies)
+                {
+                    if (a != null)
+                    {
+                        possibleTargets.Add(a);
+                    }
+                }
+            }
+            
+            if (Ability.Target == BattleTarget.Enemy || Ability.Target == BattleTarget.Combatant)
+            {                
+                foreach (Enemy e in Source.CurrentBattle.EnemyList)
+                {
+                    possibleTargets.Add(e);
+                }
+            }
+
+            int i = Source.CurrentBattle.Random.Next(possibleTargets.Count);
+
+            Targets = new Combatant[] { possibleTargets[i] };
+        }
         
         protected override string GetStatus(long elapsed)
         {
