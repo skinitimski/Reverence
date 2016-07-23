@@ -231,7 +231,7 @@
         <name>Loco Weed</name>
         <desc>Inflicts [Confu]</desc>
         <battle target="Combatant">
-            <use>t:InflictConfusion()</use>
+            <use>t:InflictConfusion(s)</use>
         </battle>
     </item>
     <item>
@@ -242,21 +242,21 @@
             <use>c:CureFury() c:CureSadness()</use>
         </field>
         <battle target="Combatant">
-            <use>t:CureFury() c:CureSadness()</use>
+            <use>t:CureFury(s) c:CureSadness(s)</use>
         </battle>
     </item>
     <item>
         <name>Vagyrisk Claw</name>
         <desc>Inflicts [Petrify]</desc>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>t:InflictPetrify()</use>
+            <use>t:InflictPetrify(s)</use>
         </battle>
     </item>
     <item>
         <name>Soft</name>
         <desc>Cures [Petrify]</desc>
         <battle target="Combatant" intendedForEnemies="true">
-            <use>t:CurePetrify()</use>
+            <use>t:CurePetrify(s)</use>
         </battle>
     </item>
 </items>
