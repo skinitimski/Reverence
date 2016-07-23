@@ -733,6 +733,11 @@ namespace Atmosphere.Reverence.Seven.Asset
                         dam = RunElementalChecks(dam, target, Elements);
                         dam = LowerSanityCkeck(dam);
                         dam = UpperSanityCheck(dam);
+
+                        if (target.Peerless || target.Petrify)
+                        {
+                            dam = 0;
+                        }
                                                 
                         target.AcceptDamage(source, dam, Type);
                     }
