@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven", "Seven\Seven.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnemyMechanicsParser", "EnemyMechanicsParser\EnemyMechanicsParser.csproj", "{3887B9E0-C819-4610-899F-08D2E1ED618F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven.Data.FF7", "..\..\..\home\timski\vol\mono\Reverence\Seven.Data.FF7\Seven.Data.FF7.csproj", "{DA28E7AF-122F-4BF4-B462-C85A663C3356}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seven.Data.FF7", "Seven.Data.FF7\Seven.Data.FF7.csproj", "{DA28E7AF-122F-4BF4-B462-C85A663C3356}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
