@@ -97,17 +97,23 @@ namespace Atmosphere.Reverence.Seven.State
                 return @event;
             }
             
-            public void ClearEventsFromSource(Combatant source)
+            public void PruneEventsFromSource(Combatant source)
             {
-                CheckEventSources(x => x.Source == source, "source removed from battle");
+                lock (_queues)
+                {
+                    PruneEvents(x => x.Source == source, "source removed from battle");
+                }
             }
             
-            public void ClearSourcesWhoCannotAct()
+            public void PruneSourcesWhoCannotAct()
             {
-                CheckEventSources(x => x.Source.CannotAct, "source cannot act");
+                lock (_queues)
+                {
+                    PruneEvents(x => x.Source.CannotAct, "source cannot act");
+                }
             }
 
-            public void CheckEventSources(Predicate<CombatantActionEvent> shouldDrop, string msg)
+            public void PruneEvents(Predicate<CombatantActionEvent> shouldDrop, string msg)
             {
                 lock (_queues)
                 {
@@ -198,9 +204,10 @@ namespace Atmosphere.Reverence.Seven.State
                     foreach (Enemy enemy in Enemies)
                     {
                         int index = Battle.EnemyList.IndexOf(enemy);
+
                         Battle.EnemyList.RemoveAt(index);                
                         Battle.DeadEnemies.Add(enemy);
-                        Battle.EventQueue.ClearEventsFromSource(enemy);
+                        Battle.EventQueue.PruneEventsFromSource(enemy);
 
                         // TODO: remove this target from all abilities
                     }
@@ -507,7 +514,7 @@ namespace Atmosphere.Reverence.Seven.State
                         ActiveAbility = null;
 
                         CheckForDeadEnemies();
-                        EventQueue.ClearSourcesWhoCannotAct();
+                        EventQueue.PruneSourcesWhoCannotAct();
                     }
                 }
             }
@@ -527,9 +534,6 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 e.CheckTimers();
             }
-
-            // Instead of doing this, things like poison should be entered as battle events
-            //CheckForDeadEnemies();
         }
         
         private void CheckEnemyTurnTimers()
