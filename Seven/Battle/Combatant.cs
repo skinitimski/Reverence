@@ -395,6 +395,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             CureSlowNumb(source);
 
             Petrify = true;
+            PauseTimers();
 
             return true;
         }
