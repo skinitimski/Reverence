@@ -128,7 +128,12 @@ namespace Atmosphere.Reverence.Seven.State
                             BattleEvent e = _queues[i].Dequeue();
                             
                             CombatantActionEvent action = e as CombatantActionEvent;
-                            
+
+                            // If this isn't a combatant action
+                            //    OR
+                            // If our predicate holds
+                            //   ...
+                            // Put that action right back into the queue.
                             if (action == null || !shouldDrop(action))
                             {
                                 temp.Enqueue(e);
@@ -457,6 +462,7 @@ namespace Atmosphere.Reverence.Seven.State
                     {
                         BattleEvent activeEvent = EventQueue.Dequeue();
 
+
                         if (activeEvent != null)
                         {
                             activeEvent.Begin(TimeFactory);
@@ -514,6 +520,20 @@ namespace Atmosphere.Reverence.Seven.State
                         ActiveAbility = null;
 
                         CheckForDeadEnemies();
+
+                        // We need to prune all events from a source who cannot act.
+                        // We must do the whole queue at once. We can't just look at
+                        //   the head of the queue.
+                        // Example. You attack with a character -- an event goes in the 
+                        //   queue, possibly behind many other events. Then that ally is 
+                        //   paralyzed. Then that ally is attacked, and it reaches its
+                        //   limit break. Then that character is cured by, say, one of 
+                        //   Aeris's limit breaks (all of these things went in the queue
+                        //   before said ally's attack). Then you use that ally's limit 
+                        //   break immediately upon regaining control of it.
+                        // In theory, the attack event could still happen AFTER the limit
+                        //   break. It needs to come out of the queue NOW if the ally
+                        //   cannot act.
                         EventQueue.PruneSourcesWhoCannotAct();
                     }
                 }
@@ -593,6 +613,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         private bool CheckForVictory()
         {
+            // TODO: -- what about petrified individuals?
             return EnemyList.Count == 0;
         }
 
