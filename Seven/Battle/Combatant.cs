@@ -854,7 +854,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public bool IsDead { get { return Petrify || Imprisoned || Death; } }
         
-        public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed || Imprisoned; } }
+        public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed; } }
 
         private bool _waiting;
         public bool WaitingToResolve
