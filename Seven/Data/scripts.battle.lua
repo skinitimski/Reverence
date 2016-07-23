@@ -5,7 +5,7 @@ math.randomseed(os.time())
 
 function chooseRandomAlly()
     
-    local i = math.random(3) - 1 --BattleState.Random:Next(3)
+    local i = math.random(Party.PARTY_SIZE) - 1 --BattleState.Random:Next(Party.PARTY_SIZE)
     local limit = 0
     
     while BattleState.Allies[i] == nil or BattleState.Allies[i].IsDead do
@@ -22,7 +22,7 @@ end
 
 function chooseRandomAllyWithHighestHP()
     
-    local i = math.random(3) - 1 --BattleState.Random:Next(3)
+    local i = math.random(Party.PARTY_SIZE) - 1 --BattleState.Random:Next(Party.PARTY_SIZE)
     local limit = 0
     
     local a = BattleState.Allies[i]
@@ -131,7 +131,7 @@ function roll(min, max, test)
     
 end
 
--- roll: returns a value between min and max inclusive
+-- roll(min,max): returns a value between min and max inclusive
 function roll(min, max)
 
     return math.random(min, max)
