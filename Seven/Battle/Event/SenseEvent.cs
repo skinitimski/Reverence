@@ -21,14 +21,14 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         public SenseEvent(Ally source, IEnumerable<Combatant> targets)
             : base(source, true)
         {
-            Combatant target = targets.First();
+            Target = targets.First();
 
             List<String> messages = new List<String>();
 
-            messages.Add(target.Name + " Lvl: " + target.Level);
-            messages.Add(String.Format("HP: {0}/{1} MP: {2}/{3}", target.HP, + target.MaxHP, + target.MP, + target.MaxMP));
+            messages.Add(Target.Name + " Lvl: " + Target.Level);
+            messages.Add(String.Format("HP: {0}/{1} MP: {2}/{3}", Target.HP, + Target.MaxHP, + Target.MP, + Target.MaxMP));
 
-            foreach (Element element in target.Weaknesses)
+            foreach (Element element in Target.Weaknesses)
             {
                 string description = element.ToString();
 
