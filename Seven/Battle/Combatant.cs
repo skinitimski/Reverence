@@ -20,7 +20,7 @@ namespace Atmosphere.Reverence.Seven.Battle
     internal abstract class Combatant
     {
         public const long SLEEP_DURATION = 100; // 100 v-timer units
-        public const long POISON_INTERVAL = 3000; // 10 v-timer units
+        public const long POISON_INTERVAL = 10; // 10 v-timer units
         public const long SLOWNUMB_DURATION = 30000; // 30 seconds
         public const long REGEN_INTERVAL = 1200; // 4 v-timer units
         public const long REGEN_DURATION = 38100; // 127 v-timer units
@@ -133,14 +133,14 @@ namespace Atmosphere.Reverence.Seven.Battle
                 CureSleep(this);
             }
             
-//            
-//            if (Poison && V_Timer.TotalMilliseconds - PoisonTime >= POISON_INTERVAL)
-//            {
-//                AcceptDamage(Poisoner, MaxHP / 32);
-//                PoisonTime = V_Timer.TotalMilliseconds;
-//            }
-//            
-//            
+            
+            if (Poison && V_Timer.ElapsedUnits - PoisonTime >= POISON_INTERVAL)
+            {
+                AcceptDamage(Poisoner, MaxHP / 32);
+                PoisonTime = V_Timer.ElapsedUnits;
+            }
+            
+            
 //            if (SlowNumb && C_Timer.TotalMilliseconds - _slownumbTime >= SLOWNUMB_DURATION)
 //            {
 //                InflictPetrify(Petrifier);
@@ -276,16 +276,23 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer.Pause();
             return true;
         }
+
         public bool InflictPoison(Combatant source)
         {
             if (Immune(Status.Poison))
                 return false;
-            if (Poison) return false;
+            if (Voids(Element.Poison))
+                return false;
+            if (Poison) 
+                return false;
+
             Poison = true;
             Poisoner = source;
             PoisonTime = V_Timer.ElapsedUnits;
+
             return true;
         }
+
         public bool InflictConfusion(Combatant source)
         {
             if (Immune(Status.Confusion))
