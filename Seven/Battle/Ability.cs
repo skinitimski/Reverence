@@ -440,6 +440,11 @@ namespace Atmosphere.Reverence.Seven.Asset
         protected static int RandomVariation(Random random, int dam)
         {
             dam = dam * (3841 + random.Next(256)) / 4096;
+
+            if (dam == 0)
+            {
+                dam = 1;
+            }
             
             return dam;
         }
@@ -502,9 +507,9 @@ namespace Atmosphere.Reverence.Seven.Asset
         
         protected static int LowerSanityCkeck(int dam)
         {
-            if (dam == 0)
+            if (dam < 0)
             {
-                dam = 1;
+                dam = 0;
             }
             
             return dam;
@@ -734,7 +739,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         int dam = DamageFormula(source, target, modifiers);
 
                         dam = RunElementalChecks(dam, target, Elements);
-                        dam = LowerSanityCkeck(dam);
+                        dam = LowerSanityCkeck(dam); // not required as per the guides
                         dam = UpperSanityCheck(dam);
 
                         if (target.Peerless || target.Petrify)
