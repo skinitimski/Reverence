@@ -9,7 +9,7 @@ namespace Atmosphere.Reverence.Seven.Battle.Time
         public const long TURN_TIMER_MAX_VALUE = 65535;
 
         public TurnTimer(Combatant combatant, long elapsed)
-            : base(0, 0, false)
+            : base(0, elapsed, false)
         {     
             Combatant = combatant;
         }
