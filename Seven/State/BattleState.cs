@@ -257,10 +257,7 @@ namespace Atmosphere.Reverence.Seven.State
                 Text = text;
             }
 
-            protected override void RunIteration(long elapsed, bool isLast)
-            {
-
-            }
+            protected override void RunIteration(long elapsed, bool isLast) { }
             
             protected override string GetStatus(long elapsed)
             {
@@ -273,6 +270,7 @@ namespace Atmosphere.Reverence.Seven.State
             }
             
             protected override int Duration { get { return DURATION; } }
+
             private string Text { get; set; }
         }
         
@@ -313,6 +311,8 @@ namespace Atmosphere.Reverence.Seven.State
             _lossEvent = new EndOfBattleEvent("Annihilated!");
 
             Screen = new BattleScreen(this, state);
+
+            SpeedValue = (32768 / (120 + (Seven.Party.BattleSpeed * 15 / 8)));
 
             BattleClock = TimeFactory.CreateClock(Party.BattleSpeed);
                        
@@ -902,6 +902,8 @@ namespace Atmosphere.Reverence.Seven.State
         public BattleEvent LastPartyAbility { get; private set; }
         public Queue<BattleEvent> PendingAbilities { get; private set; }
         public BattleScreen Screen { get; private set; }
+        
+        public int SpeedValue { get; private set; }
         
         private bool Victory { get; set; }
         private bool Loss { get; set; }
