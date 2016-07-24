@@ -30,10 +30,9 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         }
 
 
-        public void Begin(TimeFactory factory)
+        public void Begin()
         {
-            ActionTimer = factory.CreateTimer(Duration, false);
-            ActionTimer.Unpause();
+            ActionTimer = new Timer(Duration);
 
             BeginHook();
         }
@@ -70,7 +69,7 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
 
         protected long ElapsedMilliseconds { get { return ActionTimer.TotalMilliseconds; } }
         
-        private Timer ActionTimer { get; set; }
+        public Timer ActionTimer { get; private set; }
     }
 }
 

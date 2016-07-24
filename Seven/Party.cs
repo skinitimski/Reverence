@@ -291,26 +291,7 @@ namespace Atmosphere.Reverence.Seven
 
 
 
-        
-        public int NormalSpeed()
-        {
-            int sum = 0;
-            int count = 0;
 
-            for (int i = 0; i < PARTY_SIZE; i++)
-            {
-                if (this[i] != null)
-                {
-                    sum += this[i].Dexterity;
-                    count++;
-                }
-            }
-
-            // round up
-            if (sum % 2 == 1) sum++;
-            
-            return (sum / count) + 50;
-        }
 
 
 
@@ -366,6 +347,32 @@ namespace Atmosphere.Reverence.Seven
         /// Multiple of 16.
         /// </summary>            
         public int BattleSpeed { get; set; }
+
+        public int NormalSpeed
+        {
+            get
+            {
+                int sum = 0;
+                int count = 0;
+            
+                for (int i = 0; i < PARTY_SIZE; i++)
+                {
+                    if (this[i] != null)
+                    {
+                        sum += this[i].Dexterity;
+                        count++;
+                    }
+                }
+            
+                // round up
+                if (sum % 2 == 1)
+                {
+                    sum++;
+                }
+            
+                return (sum / count) + 50;
+            }
+        }
     }
 }
 

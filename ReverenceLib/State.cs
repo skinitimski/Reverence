@@ -25,7 +25,6 @@ namespace Atmosphere.Reverence
 
         protected State(Game game)
         {
-            TimeFactory = new TimeFactory();
             Parent = game;
         }
         
@@ -46,8 +45,6 @@ namespace Atmosphere.Reverence
         }
         
         protected abstract void InternalDispose();
-        
-        public TimeFactory TimeFactory { get; private set; }
 
         public Game Parent { get; private set; }
     }

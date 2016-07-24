@@ -13,6 +13,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle.Time;
 using Atmosphere.Reverence.Seven.State;
 
 namespace Atmosphere.Reverence.Seven.Battle
@@ -372,12 +373,10 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
             // Timers
-            
-            int vStep = CurrentBattle.Party.BattleSpeed;
-            
-            C_Timer = CurrentBattle.TimeFactory.CreateClock();
-            V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
-            //TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+
+
+            V_Timer = new BattleClock(battle.SpeedValue * 2);
+            TurnTimer = new EnemyTurnTimer(this, e);
         }
 
 
@@ -504,10 +503,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (Sensed)
             {
-                description = String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}/{6}",
-                                     Name, HP, MaxHP, MP, MaxMP,
-                                     (TurnTimer.TotalMilliseconds > TurnTimer.Timeout) ? TurnTimer.Timeout : TurnTimer.TotalMilliseconds,
-                                     TurnTimer.Timeout);
+                description = String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}%",
+                                     Name, HP, MaxHP, MP, MaxMP, TurnTimer.PercentComplete);
             }
 
             return description;
@@ -553,11 +550,6 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
 
             return variables.ToString();
-        }
-
-        protected override int GetTurnTimerStep(int vStep)
-        {
-            return Dexterity * vStep / CurrentBattle.Party.NormalSpeed();
         }
 
         public void EnterBattle()

@@ -66,25 +66,6 @@ namespace Atmosphere.Reverence.Time
         /// Gets the timeout in ms.
         /// </summary>
         public long Timeout { get { return _timeoutMs; } }
-
-        public int PercentElapsed
-        {
-            get
-            {
-                int pe = 0;
-
-                if (IsUp)
-                {
-                    pe = 100;
-                }
-                else
-                {
-                    pe = (int)((GetTotalElapsedTicks() * 100L) / _timeoutTicks);
-                }
-
-                return pe;
-            }
-        }
         
         #endregion Properties
     }

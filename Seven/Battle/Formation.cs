@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml;
 
 using Atmosphere.Reverence.Seven.State;
+using Atmosphere.Reverence.Seven.Battle.Time;
 using Atmosphere.Reverence.Exceptions;
 
 namespace Atmosphere.Reverence.Seven.Battle
@@ -97,7 +98,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             for (int i = 0; i < Enemies.Count; i++)
             {
-                e[i] = RANDOM.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+                e[i] = RANDOM.Next(0, (int)TurnTimer.TURN_TIMER_MAX_VALUE / 2);
             }
                         
             switch (Type)
@@ -144,7 +145,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 if (party[i] != null)
                 {
-                    e[i] = RANDOM.Next(0, Combatant.TURN_TIMER_TIMEOUT / 2);
+                    e[i] = RANDOM.Next(0, (int)TurnTimer.TURN_TIMER_MAX_VALUE / 2);
                 }
             }
 
@@ -154,7 +155,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                     int max = e.Max();
 
-                    int increase = ((Combatant.TURN_TIMER_TIMEOUT * 87) / 100) - max;
+                    int increase = (((int)TurnTimer.TURN_TIMER_MAX_VALUE * 87) / 100) - max;
 
                     for (int i = 0; i < Party.PARTY_SIZE; i++)
                     {
@@ -168,7 +169,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
                     for (int i = 0; i < Party.PARTY_SIZE; i++)
                     {
-                        e[i] = Combatant.TURN_TIMER_TIMEOUT - 1;
+                        e[i] = (int)TurnTimer.TURN_TIMER_MAX_VALUE - 1;
                     }
                     
                     break;

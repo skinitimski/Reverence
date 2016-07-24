@@ -314,7 +314,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             SpeedValue = (32768 / (120 + (Seven.Party.BattleSpeed * 15 / 8)));
 
-            BattleClock = TimeFactory.CreateClock(Party.BattleSpeed);
+            GlobalClock = new BattleClock(SpeedValue);
                        
             Allies = new Ally[Party.PARTY_SIZE];
 
@@ -349,12 +349,18 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 if (ally != null)
                 {
+                    CombatantClocks.Add(ally.TurnTimer);
+                    CombatantClocks.Add(ally.V_Timer);
+                    CombatantClocks.Add(ally.C_Timer);
                     ally.TurnTimer.Unpause();
                 }
             }
             
             foreach (Enemy enemy in EnemyList)
             {
+                CombatantClocks.Add(enemy.TurnTimer);
+                CombatantClocks.Add(enemy.V_Timer);
+                CombatantClocks.Add(enemy.C_Timer);
                 enemy.EnterBattle();
             }
 
@@ -371,7 +377,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         public override void RunIteration()
         {
-            if (Paused == null)
+            if (!Paused)
             {
                 if (!Loss && CheckForLoss())
                 {
@@ -462,10 +468,9 @@ namespace Atmosphere.Reverence.Seven.State
                     {
                         BattleEvent activeEvent = EventQueue.Dequeue();
 
-
                         if (activeEvent != null)
                         {
-                            activeEvent.Begin(TimeFactory);
+                            activeEvent.Begin();
 
                             ActiveAbility = activeEvent;
 #if DEBUG
@@ -766,7 +771,6 @@ namespace Atmosphere.Reverence.Seven.State
 
         private class PauseState
         {
-
             public bool WasPartyClockPaused { get; set; }
         }
         
@@ -775,29 +779,45 @@ namespace Atmosphere.Reverence.Seven.State
         {
             if (k == Key.Start)
             {
-                if (Paused == null)
+                if (!Paused)
                 {
-                    Paused = new PauseState
-                    {
-                        WasPartyClockPaused = Party.Clock.Pause()
-                    };
+                    Paused = true;
                     
-                    TimeFactory.PauseAllClocks();
+                    if (ActiveAbility != null)
+                    {
+                        ActiveAbility.ActionTimer.Pause();
+                    }
+
+                    foreach (BattleIcon icon in _battleIcons)
+                    {
+                        icon.AnimationTimer.Pause();
+                    }
+
+                    Party.Clock.Pause();
+
+                    CombatantClocks.PauseAllClocks();
                 }
-                else if (Paused != null)
+                else
                 {
-                    TimeFactory.UnpauseAllClocks();
+                    CombatantClocks.UnpauseAllClocks();
+
+                    Party.Clock.Unpause();
                     
-                    if (Paused.WasPartyClockPaused)
+                    foreach (BattleIcon icon in _battleIcons)
                     {
-                        Party.Clock.Unpause();
+                        icon.AnimationTimer.Unpause();
                     }
                     
-                    Paused = null;
+                    if (ActiveAbility != null)
+                    {
+                        ActiveAbility.ActionTimer.Unpause();
+                    }
+
+                    Paused = false;
                 }
             }
 
-            if (Paused == null)
+            if (!Paused)
             {
                 switch (k)
                 {
@@ -897,7 +917,7 @@ namespace Atmosphere.Reverence.Seven.State
         public Ally[] Allies  { get; private set; }
         public List<Enemy> EnemyList { get; private set; }
         protected List<Enemy> DeadEnemies { get; set; }
-        public Clock BattleClock  { get; private set; }
+        public BattleClock GlobalClock  { get; private set; }
         public BattleEvent ActiveAbility { get; private set; }
         public BattleEvent LastPartyAbility { get; private set; }
         public Queue<BattleEvent> PendingAbilities { get; private set; }
@@ -914,7 +934,9 @@ namespace Atmosphere.Reverence.Seven.State
 
         private PriorityQueue EventQueue { get; set; }
 
-        private PauseState Paused { get; set; }
+        private bool Paused { get; set; }
+
+        private ClockCollection CombatantClocks { get; set; }
         
         #endregion Properties
     }

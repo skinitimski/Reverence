@@ -2,7 +2,7 @@ using System;
 
 namespace Atmosphere.Reverence.Time
 {
-    public class Clock
+    public class Clock : IClock
     {
         #region Constants
 
@@ -70,7 +70,7 @@ namespace Atmosphere.Reverence.Time
         
         #region Methods
         
-        protected static long GetCurrentTime()
+        public static long GetCurrentTime()
         {
             return DateTime.Now.Ticks;
         }
@@ -78,7 +78,7 @@ namespace Atmosphere.Reverence.Time
         /// <summary>
         /// Gets the elapsed time of the current session
         /// </summary>
-        protected virtual long GetElapsedTicks()
+        protected long GetElapsedTicks()
         {
             lock (_sync)
             {
@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Time
         /// <summary>
         /// Sums up the total elapsed time in ticks.
         /// </summary>
-        protected virtual long GetTotalElapsedTicks()
+        protected long GetTotalElapsedTicks()
         {
             lock (_sync)
             {

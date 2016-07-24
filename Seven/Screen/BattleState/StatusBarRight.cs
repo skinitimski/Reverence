@@ -139,7 +139,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
             // TURN TIMER
             
-            time = a.TurnTimer.PercentElapsed + "%";
+            time = a.TurnTimer.PercentComplete + "%";
             
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x_time - te.Width + te.XBearing, Y + y);

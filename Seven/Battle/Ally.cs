@@ -13,6 +13,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle.Time;
 using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
@@ -85,11 +86,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 InflictDeath(null);
             }
 
-            int vStep = CurrentBattle.Party.BattleSpeed;
-            
-            C_Timer = CurrentBattle.TimeFactory.CreateClock();
-            V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
-            //TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            V_Timer = new BattleClock(battle.SpeedValue * 2);
+            TurnTimer = new AllyTurnTimer(this, e);
             
             PrimaryAttack = new WeaponAttack(this);
             PrimaryAttackX2 = new WeaponAttack(this, 2);
@@ -355,10 +353,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public override string ToString()
         {
-            return String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}/{6}",
-                                 Name, HP, MaxHP, MP, MaxMP, 
-                                 (TurnTimer.IsUp) ? TurnTimer.Timeout : TurnTimer.TotalMilliseconds,
-                                 TurnTimer.Timeout);
+            return String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}%",
+                                 Name, HP, MaxHP, MP, MaxMP, TurnTimer.PercentComplete);
         }
         
         protected override void DrawIcon(Gdk.Drawable d, Cairo.Context g)
@@ -386,17 +382,6 @@ namespace Atmosphere.Reverence.Seven.Battle
         public void AttackX4(IEnumerable<Combatant> targets, bool resetTurnTimer = true)
         {
             PrimaryAttackX4.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
-        }
-
-
-
-
-
-
-
-        protected override int GetTurnTimerStep(int vStep)
-        {
-            return (Dexterity + 50) * vStep / CurrentBattle.Party.NormalSpeed();
         }
 
 

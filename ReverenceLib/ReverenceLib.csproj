@@ -84,7 +84,9 @@
     <Compile Include="Menu\MenuScreen.cs" />
     <Compile Include="Menu\ScreenState.cs" />
     <Compile Include="Menu\MessageBox.cs" />
-    <Compile Include="Time\TimeFactory.cs" />
     <Compile Include="Time\TimedDialogue.cs" />
+    <Compile Include="Time\IClock.cs" />
+    <Compile Include="Time\BattleClock.cs" />
+    <Compile Include="Time\ClockCollection.cs" />
   </ItemGroup>
 </Project>

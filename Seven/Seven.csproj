@@ -80,6 +80,7 @@
     <Folder Include="Screen\MenuState\Save\" />
     <Folder Include="Screen\MenuState\Config\" />
     <Folder Include="Battle\Event\" />
+    <Folder Include="Battle\Time\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -220,6 +221,9 @@
     <Compile Include="Battle\Event\UseItemEvent.cs" />
     <Compile Include="Screen\BattleState\DeathIcon.cs" />
     <Compile Include="Screen\MenuState\Config\BattleSpeed.cs" />
+    <Compile Include="Battle\Time\TurnTimer.cs" />
+    <Compile Include="Battle\Time\EnemyTurnTimer.cs" />
+    <Compile Include="Battle\Time\AllyTurnTimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

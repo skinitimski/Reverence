@@ -28,7 +28,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             Y = receiver.Y;
 
             Color = Colors.WHITE;
-            AnimationTimer = battle.TimeFactory.CreateTimer(ANIMATION_DURATION);
+            AnimationTimer = new Timer(ANIMATION_DURATION);
         }
 
         
@@ -77,7 +77,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         
         protected string Message { get; set; }
         
-        private Timer AnimationTimer { get; set; }
+        public Timer AnimationTimer { get; private set; }
         
         private int X { get; set; }
         private int Y { get; set; }
