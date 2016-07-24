@@ -23,7 +23,7 @@ namespace Atmosphere.UnitTests
             //                                           120000 (2 m)
             //                                        + 3600000 (1 h)
 
-            Clock clock = new Clock(Clock.TICKS_PER_MS, 3723100, false);
+            Clock clock = new Clock(3723100, false);
             
             Console.WriteLine(clock.ToString());
 
@@ -40,7 +40,7 @@ namespace Atmosphere.UnitTests
 
             long elapsed1, elapsed2, elapsed3;
 
-            int msWait = (int)(20L * Clock.TICKS_PER_MS / clock.TicksPer);
+            int msWait = (int)(20L);
             
             elapsed1 = clock.TotalMilliseconds;
             SystemThread.Sleep(msWait);
@@ -94,8 +94,8 @@ namespace Atmosphere.UnitTests
         [Test]
         public void TimerTest()
         {
-            //TestClock(new Timer(500));
-            //TestTimer(new Timer(500, false));
+            TestClock(new Timer(500));
+            TestTimer(new Timer(500, false));
             
             //TestClock(new Timer(500));
             //TestTimer(new Timer(500, false));

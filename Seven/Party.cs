@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Seven
             Gil = Int32.Parse(savegame.SelectSingleNode("./gil").InnerXml);
             
             int time = Int32.Parse(savegame.SelectSingleNode("./time").InnerText);
-            Clock = new Clock(Clock.TICKS_PER_MS, time, true);
+            Clock = new Clock(time, true);
             
             BattleSpeed = Int32.Parse(savegame.SelectSingleNode("./battleSpeed").InnerText);
 

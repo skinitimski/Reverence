@@ -208,20 +208,20 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         protected void DoubleTimers()
         {
-            C_Timer.DoubleSpeed();
-            V_Timer.DoubleSpeed();
-            ReLinkTimers();
+            //C_Timer.DoubleSpeed();
+            //V_Timer.DoubleSpeed();
+            //ReLinkTimers();
         }
         protected void HalveTimers()
         {
-            C_Timer.HalveSpeed();
-            V_Timer.HalveSpeed();
-            ReLinkTimers();
+            //C_Timer.HalveSpeed();
+            //V_Timer.HalveSpeed();
+            //ReLinkTimers();
         }
 
         protected void ReLinkTimers()
         {
-            TurnTimer.TicksPer = GetTurnTimerStep(V_Timer.TicksPer);
+            //TurnTimer.TicksPer = GetTurnTimerStep(V_Timer.TicksPer);
         }
 
         protected void PauseTimers()

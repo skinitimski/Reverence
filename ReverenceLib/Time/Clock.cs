@@ -19,7 +19,7 @@ namespace Atmosphere.Reverence.Time
         /// <summary>
         /// Clock starting epoch (in ticks).
         /// </summary>
-        private long _startTime;
+        private long _start;
         
         /// <summary>
         /// How much time has elapsed (in ticks).
@@ -30,11 +30,6 @@ namespace Atmosphere.Reverence.Time
         /// Value indicating whether or not this clock is paused.
         /// </summary>
         private bool _isPaused;
-                
-        /// <summary>
-        /// The number of ticks per millisecond. A lesser value makes time fly, a greater value makes time drag.
-        /// </summary>
-        private int _ticksPerUnit;
 
         private object _sync = new Object();
         
@@ -50,25 +45,18 @@ namespace Atmosphere.Reverence.Time
         }
 
         public Clock(bool start)
-            : this(TICKS_PER_MS, start)
+            : this(DEFAULT_ELAPSED, start)
         {
         }
 
-        public Clock(int ticksPerMs)
-            : this(ticksPerMs, DEFAULT_START)
+        public Clock(int elapsed)
+            : this(elapsed, DEFAULT_START)
         {
         }
 
-        public Clock(int ticksPerMs, bool start)
-            : this(ticksPerMs, DEFAULT_ELAPSED, start)
-        {
-        }
-
-        public Clock(int ticksPerMs, int elapsed, bool start)
+        public Clock(int elapsed, bool start)
         {            
             _isPaused = true;
-            _ticksPerUnit = ticksPerMs;
-
             _elapsed_hold = (long)elapsed * TICKS_PER_MS;
             
             if (start)
@@ -94,7 +82,7 @@ namespace Atmosphere.Reverence.Time
         {
             lock (_sync)
             {
-                return GetCurrentTime() - _startTime;
+                return GetCurrentTime() - _start;
             }
         }
         
@@ -128,7 +116,7 @@ namespace Atmosphere.Reverence.Time
                 if (!_isPaused)
                 {
                     _isPaused = true;
-                    _elapsed_hold += GetCurrentTime() - _startTime;
+                    _elapsed_hold += GetCurrentTime() - _start;
                     ret = true;
                 }
             }
@@ -149,7 +137,7 @@ namespace Atmosphere.Reverence.Time
 
                 if (_isPaused)
                 {
-                    _startTime = current;
+                    _start = current;
                     _isPaused = false;
                     ret = true;
                 }
@@ -180,21 +168,6 @@ namespace Atmosphere.Reverence.Time
             return restart ? Unpause() : restart;
         }
 
-        
-        public void DoubleSpeed()
-        {
-            Pause();
-            _ticksPerUnit = _ticksPerUnit / 2;
-            Unpause();
-        }
-        
-        public void HalveSpeed()
-        {
-            Pause();
-            _ticksPerUnit = _ticksPerUnit * 2;
-            Unpause();
-        }
-
         public override string ToString()
         {
             return String.Format("{0:D2}:{1:D2}:{2:D2}.{3}", Hours, Minutes, Seconds, Milliseconds);
@@ -214,18 +187,12 @@ namespace Atmosphere.Reverence.Time
             get { return _isPaused; }
         }
         
-        public int TicksPer
-        {
-            get { return _ticksPerUnit; }
-            set { _ticksPerUnit = value; }
-        }
-        
         /// <summary>
         /// Gets the (total) elapsed time in ms (scaled).
         /// </summary>
         public long TotalMilliseconds
         {
-            get { return GetTotalElapsedTicks() / TicksPer; }
+            get { return GetTotalElapsedTicks() / TICKS_PER_MS; }
         }
         
         /// <summary>

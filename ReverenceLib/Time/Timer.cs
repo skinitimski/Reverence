@@ -7,12 +7,8 @@ namespace Atmosphere.Reverence.Time
         
         #region Member Data
 
-        /// <summary>
-        /// Timeout in ticks.
-        /// </summary>
-        protected long _timeout;
-
         protected long _timeoutMs;
+        protected long _timeoutTicks;
         
         #endregion Member Data
         
@@ -29,28 +25,23 @@ namespace Atmosphere.Reverence.Time
         }
         
         public Timer(int timeout, bool start)
-            : this(timeout, TICKS_PER_MS, start)
+            : this(timeout, DEFAULT_ELAPSED, start)
         {
         }
         
-        public Timer(int timeout, int ticksPerMs)
-            : this(timeout, ticksPerMs, DEFAULT_START)
-        {
-        }
-        
-        public Timer(int timeout, int ticksPerMs, bool start) 
-            : this(timeout, ticksPerMs, DEFAULT_ELAPSED, start)
+        public Timer(int timeout, int elapsed)
+            : this(timeout, elapsed, DEFAULT_START)
         {
         }
         
         /// <summary>
         /// Returns an optionally running timer with specified timeout (in ms) and elapsed time (in ms).
         /// </summary>
-        public Timer(int timeout, int ticksPerMs, int elapsed, bool start)
-            : base(ticksPerMs, elapsed, start)
+        public Timer(int timeout, int elapsed, bool start)
+            : base(elapsed, start)
         {
             _timeoutMs = timeout;
-            _timeout = timeout * TICKS_PER_MS;
+            _timeoutTicks = _timeoutMs * TICKS_PER_MS;
         }
 
 
@@ -68,7 +59,7 @@ namespace Atmosphere.Reverence.Time
         /// </summary>
         public bool IsUp
         {
-            get { return GetTotalElapsedTicks() > _timeout; }
+            get { return GetTotalElapsedTicks() > _timeoutTicks; }
         }
 
         /// <summary>
@@ -88,7 +79,7 @@ namespace Atmosphere.Reverence.Time
                 }
                 else
                 {
-                    pe = (int)((GetTotalElapsedTicks() * 100L) / _timeout);
+                    pe = (int)((GetTotalElapsedTicks() * 100L) / _timeoutTicks);
                 }
 
                 return pe;

@@ -98,7 +98,7 @@ namespace Atmosphere.Reverence.Time
             }
         }
         
-        public Clock CreateClock(int ticksPerMs)
+        public Clock CreateClock(int elapsed)
         {
             lock (_sync)
             {
@@ -107,7 +107,7 @@ namespace Atmosphere.Reverence.Time
                     throw new ImplementationException("Cannot create new clocks when paused.");
                 }
 
-                Clock c = new Clock(ticksPerMs);
+                Clock c = new Clock(elapsed);
 
                 _all.Add(c);
 
@@ -115,7 +115,7 @@ namespace Atmosphere.Reverence.Time
             }
         }
         
-        public Clock CreateClock(int ticksPerMs, bool start)
+        public Clock CreateClock(int elapsed, bool start)
         {
             lock (_sync)
             {
@@ -124,23 +124,7 @@ namespace Atmosphere.Reverence.Time
                     throw new ImplementationException("Cannot create new clocks when paused.");
                 }
 
-                Clock c = new Clock(ticksPerMs, start);
-            
-                _all.Add(c);
-            
-                return c;
-            }
-        }
-        
-        public Clock CreateClock(int ticksPerMs, int elapsed, bool start)
-        {      
-            lock (_sync)
-            {
-                if (_pauseState != null)
-                {
-                    throw new ImplementationException("Cannot create new clocks when paused.");
-                }      
-                Clock c = new Clock(ticksPerMs, elapsed, start);
+                Clock c = new Clock(elapsed, start);
             
                 _all.Add(c);
             
@@ -190,7 +174,7 @@ namespace Atmosphere.Reverence.Time
             }
         }
         
-        public Timer CreateTimer(int timeout, int ticksPerMs)
+        public Timer CreateTimer(int timeout, int elapsed)
         {
             lock (_sync)
             {
@@ -199,7 +183,7 @@ namespace Atmosphere.Reverence.Time
                     throw new ImplementationException("Cannot create new timers when paused.");
                 }
 
-                Timer t = new Timer(timeout, ticksPerMs);
+                Timer t = new Timer(timeout, elapsed);
             
                 _all.Add(t);
             
@@ -207,7 +191,7 @@ namespace Atmosphere.Reverence.Time
             }
         }
         
-        public Timer CreateTimer(int timeout, int ticksPerMs, bool start)
+        public Timer CreateTimer(int timeout, int elapsed, bool start)
         {
             lock (_sync)
             {
@@ -216,27 +200,7 @@ namespace Atmosphere.Reverence.Time
                     throw new ImplementationException("Cannot create new timers when paused.");
                 }
 
-                Timer t = new Timer(timeout, ticksPerMs, start);
-            
-                _all.Add(t);
-            
-                return t;
-            }
-        }
-        
-        /// <summary>
-        /// Returns an optionally running timer with specified timeout (in ms) and elapsed time (in ms).
-        /// </summary>
-        public Timer CreateTimer(int timeout, int ticksPerMs, int elapsed, bool start)
-        {
-            lock (_sync)
-            {
-                if (_pauseState != null)
-                {
-                    throw new ImplementationException("Cannot create new timers when paused.");
-                }
-
-                Timer t = new Timer(timeout, ticksPerMs, elapsed, start);
+                Timer t = new Timer(timeout, elapsed, start);
             
                 _all.Add(t);
             

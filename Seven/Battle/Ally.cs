@@ -89,7 +89,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             C_Timer = CurrentBattle.TimeFactory.CreateClock();
             V_Timer = CurrentBattle.TimeFactory.CreateClock(vStep);
-            TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
+            //TurnTimer = CurrentBattle.TimeFactory.CreateTimer(TURN_TIMER_TIMEOUT, GetTurnTimerStep(vStep), e, false);
             
             PrimaryAttack = new WeaponAttack(this);
             PrimaryAttackX2 = new WeaponAttack(this, 2);
