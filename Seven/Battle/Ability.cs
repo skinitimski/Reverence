@@ -26,18 +26,27 @@ namespace Atmosphere.Reverence.Seven.Asset
 
         protected class StatusChange
         {
+            private readonly int _odds;
+
             public enum Effect
             {
                 Inflict,
                 Cure,
                 Toggle
             }
+
+            public StatusChange(XmlNode node)
+            {
+                _odds = Int32.Parse(node.SelectSingleNode("@odds").Value);
+                ChangeType = (StatusChange.Effect)Enum.Parse(typeof(StatusChange.Effect), node.SelectSingleNode("@type").Value);
+                Statuses = node.SelectSingleNode("@statuses").Value.Split(',').Select(s => (Status)Enum.Parse(typeof(Status), s));
+            }
                       
             public bool Hits(Combatant source, Combatant target, AbilityModifiers modifiers)
             {
                 // auto hit conditions
                 
-                if (Odds >= 100)
+                if (_odds >= 100)
                 {
                     return true;
                 }            
@@ -57,21 +66,19 @@ namespace Atmosphere.Reverence.Seven.Asset
                 {
                     return true;
                 }
+
+                int odds = _odds;
                 
-                Odds = MPTurbo(Odds, modifiers);
+                odds = MPTurbo(odds, modifiers);                
+                odds = Split(odds, modifiers);                
+                odds -= 1;
                 
-                Odds = Split(Odds, modifiers);
-                
-                Odds -= 1;
-                
-                return source.CurrentBattle.Random.Next(99) < Odds;
+                return source.CurrentBattle.Random.Next(99) < odds;
             }
 
-            public IEnumerable<Status> Statuses { get; set; }
+            public IEnumerable<Status> Statuses { get; private set; }
 
-            public Effect ChangeType { get; set; }
-
-            public int Odds { get; set; }
+            public Effect ChangeType { get; private set; }
         }
 
 
@@ -535,14 +542,7 @@ namespace Atmosphere.Reverence.Seven.Asset
         {
             foreach (XmlNode node in inflictionNodes)
             {
-                StatusChange change = new StatusChange
-                {
-                    Odds = Int32.Parse(node.SelectSingleNode("@odds").Value),
-                    ChangeType = (StatusChange.Effect)Enum.Parse(typeof(StatusChange.Effect), node.SelectSingleNode("@type").Value),
-                    Statuses = node.SelectSingleNode("@statuses").Value.Split(',').Select(s => (Status)Enum.Parse(typeof(Status), s))
-                };
-
-                yield return change;
+                yield return new StatusChange(node);
             }
         }
 
@@ -724,6 +724,9 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                 bool hit = HitFormula(source, target, modifiers);
 
+                // We can still miss if each of the status changes misses
+                bool actuallyHit = false;
+
                 if (hit)
                 {       
                     if (Power > 0)
@@ -740,6 +743,8 @@ namespace Atmosphere.Reverence.Seven.Asset
                         }
                                                 
                         target.AcceptDamage(source, dam, Type);
+
+                        actuallyHit = true;
                     }
                     
                     foreach (StatusChange statusChange in Statuses)
@@ -752,8 +757,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                                     foreach (Status status in statusChange.Statuses)
                                     {
-                                        Console.WriteLine(status);
-
                                         target.GetType().GetMethod("Cure" + status).Invoke(target, new object[] { source });
                                     }
 
@@ -763,8 +766,6 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                                     foreach (Status status in statusChange.Statuses)
                                     {
-                                        Console.WriteLine(status);
-                                        
                                         target.GetType().GetMethod("Inflict" + status).Invoke(target, new object[] { source });
                                     }
 
@@ -774,12 +775,15 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                                     throw new NotImplementedException("Haven't implemented status change toggle");
                             }
+
+                            actuallyHit = true;
                         }
                     }       
 
                     hits[i] = true;
                 }
-                else
+
+                if (!actuallyHit)
                 {
                     source.CurrentBattle.AddMissIcon(target);
                 }
