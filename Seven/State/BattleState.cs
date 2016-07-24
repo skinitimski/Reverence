@@ -295,6 +295,8 @@ namespace Atmosphere.Reverence.Seven.State
             Lua[typeof(BattleState).Name] = this;
 
             DeadEnemies = new List<Enemy>();
+
+            CombatantClocks = new ClockCollection();
             
             _formation = seven.Data.GetFormation(formationId);
         }

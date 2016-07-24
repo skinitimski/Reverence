@@ -205,24 +205,6 @@ namespace Atmosphere.Reverence.Seven.Battle
 //            }
         }
 
-        protected void DoubleTimers()
-        {
-            //C_Timer.DoubleSpeed();
-            //V_Timer.DoubleSpeed();
-            //ReLinkTimers();
-        }
-        protected void HalveTimers()
-        {
-            //C_Timer.HalveSpeed();
-            //V_Timer.HalveSpeed();
-            //ReLinkTimers();
-        }
-
-        protected void ReLinkTimers()
-        {
-            //TurnTimer.TicksPer = GetTurnTimerStep(V_Timer.TicksPer);
-        }
-
         protected void PauseTimers()
         {
             C_Timer.Pause();
@@ -331,7 +313,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Slow)
                 CureSlow(source);
             Haste = true;
-            DoubleTimers();
+            C_Timer.DoubleRate();
+            V_Timer.DoubleRate();
             return true;
         }
         public bool InflictSlow(Combatant source)
@@ -343,7 +326,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Haste)
                 CureHaste(source);
             Slow = true;
-            HalveTimers();
+            C_Timer.HalfRate();
+            V_Timer.HalfRate();
             return true;
         }
         public bool InflictStop(Combatant source)
@@ -595,13 +579,17 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureHaste(Combatant source)
         {
             Haste = false;
-            HalveTimers();
+            C_Timer.NormalRate();
+            V_Timer.NormalRate();
+
             return true;
         }
         public bool CureSlow(Combatant source)
         {
             Slow = false;
-            DoubleTimers();
+            C_Timer.NormalRate();
+            V_Timer.NormalRate();
+
             return true;
         }
         public bool CureStop(Combatant source)

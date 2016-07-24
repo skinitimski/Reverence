@@ -30,6 +30,12 @@ namespace Atmosphere.Reverence.Time
         private bool _isPaused;
 
 
+        
+        private readonly long _increasePerGameTick_double;
+        private readonly long _increasePerGameTick_normal;
+        private readonly long _increasePerGameTick_half;
+
+
                 
         public BattleClock(long increasePerGameTick)
             : this(increasePerGameTick, 0, true)
@@ -41,6 +47,12 @@ namespace Atmosphere.Reverence.Time
             _isPaused = true;
             _increasePerGameTick = increasePerGameTick;
             _value = elapsed;
+
+            // Note that we do this in case the original increase is an odd number -- if 
+            //   we were to halve it we'd lose information if we tried to double it again
+            _increasePerGameTick_double = _increasePerGameTick * 2;
+            _increasePerGameTick_normal = _increasePerGameTick;
+            _increasePerGameTick_half   = _increasePerGameTick / 2;
 
             if (start)
             {
@@ -98,7 +110,26 @@ namespace Atmosphere.Reverence.Time
             return ret;
         }
         
+        public void NormalRate()
+        {
+            Pause();
+            _increasePerGameTick = _increasePerGameTick_normal;
+            Unpause();
+        }
         
+        public void DoubleRate()
+        {
+            Pause();
+            _increasePerGameTick = _increasePerGameTick_double;
+            Unpause();
+        }
+        
+        public void HalfRate()
+        {
+            Pause();
+            _increasePerGameTick = _increasePerGameTick_half;
+            Unpause();
+        }
         
         /// <summary>
         /// Resets this clock and restarts it.
