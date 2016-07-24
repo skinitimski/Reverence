@@ -332,8 +332,9 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 if (Party[i] != null)
                 {
-                    int x = x0 + (i * xs);
-                    int y = y0 + (i * ys);
+                    // the (i * 1) is for separation for targeting purposes.
+                    int x = x0 + (i * 1) + (Party[i].BackRow ? xs : 0);
+                    int y = y0 + (i * 1) + (i * ys);
 
                     Allies[i] = new Ally(this, Party[i], x, y, e[i]);
                     Allies[i].InitMenu(state);
