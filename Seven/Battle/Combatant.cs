@@ -8,6 +8,7 @@ using System.Xml;
 using System.Xml.XPath;
 using Cairo;
 
+using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
@@ -47,7 +48,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         protected int _y;
         
         protected long SleepTime = -1;
-        protected long PoisonTime = -1;
+        private long? PoisonTime { get; set; }
         protected long _slownumbTime = -1;
         protected long _regenTimeInt = -1;
         protected long _regenTimeEnd = -1;
@@ -134,10 +135,10 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             
-            if (Poison && V_Timer.ElapsedUnits - PoisonTime >= POISON_INTERVAL)
+            if (Poison && PoisonTime != null && V_Timer.ElapsedUnits - PoisonTime >= POISON_INTERVAL)
             {
-                AcceptDamage(Poisoner, MaxHP / 32);
-                PoisonTime = V_Timer.ElapsedUnits;
+                PoisonAbility.Use(Poisoner, this);
+                PoisonTime = null;
             }
             
             
@@ -218,6 +219,16 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer.Unpause();
         }
 
+        public void SetPoisonTime()
+        {
+            if (!Poison)
+            {
+                throw new ImplementationException("Not poisoned -- why are we setting poision time?");
+            }
+
+            PoisonTime = V_Timer.ElapsedUnits;
+        }
+
         private String StatusText()
         {            
             StringBuilder statuses = new StringBuilder();
@@ -288,7 +299,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             Poison = true;
             Poisoner = source;
-            PoisonTime = V_Timer.ElapsedUnits;
+            SetPoisonTime();
 
             return true;
         }
@@ -568,7 +579,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public bool CurePoison(Combatant source)
         {
-            PoisonTime = -1;
+            PoisonTime = null;
             Poisoner = null;
             Poison = false;
             return true;

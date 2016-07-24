@@ -470,18 +470,21 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override void Respond(Ability ability)
         {
             if (!CannotAct)
-            {                                                                                                                                                                                                                                                                                                                                                                                                       
-                if (ability.Type == AttackType.Physical)
+            {   
+                if (!(ability is PoisonAbility))
                 {
-                    RunAICounterPhysical();
-                }
-                else if (ability.Type == AttackType.Magical)
-                {
-                    RunAICounterMagical();
-                }
-                else
-                {
-                    RunAICounter();
+                    if (ability.Type == AttackType.Physical)
+                    {
+                        RunAICounterPhysical();
+                    }
+                    else if (ability.Type == AttackType.Magical)
+                    {
+                        RunAICounterMagical();
+                    }
+                    else
+                    {
+                        RunAICounter();
+                    }
                 }
             }
         }

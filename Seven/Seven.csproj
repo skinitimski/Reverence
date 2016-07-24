@@ -224,6 +224,7 @@
     <Compile Include="Battle\Time\TurnTimer.cs" />
     <Compile Include="Battle\Time\EnemyTurnTimer.cs" />
     <Compile Include="Battle\Time\AllyTurnTimer.cs" />
+    <Compile Include="Battle\PoisonAbility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
