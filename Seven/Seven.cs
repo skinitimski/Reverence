@@ -29,7 +29,9 @@ namespace Atmosphere.Reverence.Seven
         private PostBattleState _postBattleState;
 
 
-
+        
+        
+        private string SavePath { get; set; }
 
 
 
@@ -38,6 +40,8 @@ namespace Atmosphere.Reverence.Seven
             : base(configPath)
         {
             Data = new DataStore(typeof(FF7).Assembly);
+
+            SavePath = Configuration.GetNode("/config/savePath").InnerText;
         }
 
         
@@ -111,7 +115,7 @@ namespace Atmosphere.Reverence.Seven
         public void SaveGame(int save)
         {
             string savefile = String.Format("savegame.{0}.xml", save);
-            string path = Path.Combine(Configuration.SavePath, savefile);
+            string path = Path.Combine(SavePath, savefile);
 
             Party.SaveToFile(path);
         }
@@ -124,7 +128,7 @@ namespace Atmosphere.Reverence.Seven
         public void LoadSavedGame(int save)
         {
             XmlDocument doc = new XmlDocument();
-            doc.Load(Path.Combine(Configuration.SavePath, GetSaveFilePath(save)));
+            doc.Load(Path.Combine(SavePath, GetSaveFilePath(save)));
             XmlNode saveGame = doc.SelectSingleNode("*");
 
 
@@ -142,14 +146,14 @@ namespace Atmosphere.Reverence.Seven
         {
             string savefile = String.Format("savegame.{0}.xml", save);
             
-            savefile = Path.Combine(Configuration.SavePath, savefile);
+            savefile = Path.Combine(SavePath, savefile);
 
             return savefile;
         }
         
         internal void BeginBattle()
         {
-            int i = 9; //_random.Next(2);
+            int i = 1; //_random.Next(2);
 
             String battleId = "debug" + i;
             //battleId = "gelnika.e";
@@ -229,6 +233,16 @@ namespace Atmosphere.Reverence.Seven
 
         public static void Main(string[] args)
         {
+            if (args.Length < 1)
+            {
+                throw new ArgumentException("No first argument. First argument must be path to config xml.");
+            }
+
+            if (!File.Exists(args[0]))
+            {
+                throw new ArgumentException("Cannot find config xml at following path: " + args[0]);
+            }
+
             Seven seven = new Seven(args[0]);
 
             Game.RunGame(seven);

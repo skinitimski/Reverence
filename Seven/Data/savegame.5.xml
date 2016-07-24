@@ -345,6 +345,8 @@
         <item id="tent" count="5" slot="10" />
         <item id="tranquilizer" count="15" slot="11" />
         <item id="hyper" count="15" slot="12" />
+        <item id="vagyriskclaw" count="16" slot="12" />
+        <item id="soft" count="17" slot="13" />
         <item id="powersource" count="4" slot="21" />
         <item id="guardsource" count="3" slot="22" />
         <item id="speedsource" count="6" slot="23" />
@@ -592,6 +594,7 @@
     </materiatory>
     <gil>26890</gil>
     <time>41359984</time>
+    <battleSpeed>128</battleSpeed>
     <config>
         <menu>
             <corner0 r="1" g="6" b="2" />

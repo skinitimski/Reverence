@@ -12,6 +12,8 @@ namespace Atmosphere.Reverence.Seven
     internal class Party
     {
         public const int PARTY_SIZE = 3;
+        public const int DEFAULT_BATTLE_SPEED = 128;
+
         private Character[] _party = new Character[PARTY_SIZE];
         private Dictionary<string, Character> _characters;
         private int _selectionIndex;
@@ -38,7 +40,7 @@ namespace Atmosphere.Reverence.Seven
 
             Gil = 100;
             
-            BattleSpeed = CalculateBattleSpeed();
+            BattleSpeed = DEFAULT_BATTLE_SPEED;
         }
 
         public Party(DataStore data, XmlNode savegame)
@@ -89,7 +91,7 @@ namespace Atmosphere.Reverence.Seven
             int time = Int32.Parse(savegame.SelectSingleNode("./time").InnerText);
             Clock = new Clock(Clock.TICKS_PER_MS, time, true);
             
-            BattleSpeed = CalculateBattleSpeed();
+            BattleSpeed = Int32.Parse(savegame.SelectSingleNode("./battleSpeed").InnerText);
 
             
 
@@ -205,12 +207,6 @@ namespace Atmosphere.Reverence.Seven
 
 
 
-
-
-        private static int CalculateBattleSpeed()
-        {
-            return Clock.TICKS_PER_MS;
-        }
 
 
 
@@ -366,7 +362,9 @@ namespace Atmosphere.Reverence.Seven
         public Clock Clock { get; private set; }
 
         
-        /// <summary>If set to Clock.TICKS_PER_MS, realtime; if less, faster; if greater, slower</summary>
+        /// <summary>
+        /// Multiple of 16.
+        /// </summary>            
         public int BattleSpeed { get; set; }
     }
 }

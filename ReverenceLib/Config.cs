@@ -15,8 +15,6 @@ namespace Atmosphere.Reverence
             Doc.Load(configPath);
 
 
-            SavePath = GetNode("/config/savePath").InnerText;
-
             WindowTitle = GetNode("/config/window/title").InnerText;
             WindowWidth = Int32.Parse(GetNode("/config/window/width").InnerText);
             WindowHeight = Int32.Parse(GetNode("/config/window/height").InnerText);
@@ -75,8 +73,6 @@ namespace Atmosphere.Reverence
         public Color BackgroundColor { get; private set; }
         
         public Color Grid { get; private set; }
-
-        public string SavePath { get; private set; }
 
         private XmlDocument Doc { get; set; }
     }

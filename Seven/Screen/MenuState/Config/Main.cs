@@ -18,7 +18,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         const int y_displacement_cursor = -10;
 
         const int y_windowColor = 50;
-        const int y_atb = y_windowColor + WindowColor.HEIGHT + 10;
+        const int y_battleSpeed = y_windowColor + WindowColor.HEIGHT + 10;
         
         #endregion
 
@@ -37,7 +37,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         private Option[] _options = new Option[]
         {
             new Option(y_windowColor, "Window Color"),
-            new Option(y_atb, "ATB"),
+            new Option(y_battleSpeed, "Battle Speed"),
         };
 
         
@@ -53,10 +53,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         {
             MenuState = menuState;
 
-            int wc_x = x_options + 300;
+            int x = x_options + 300;
             int wc_y = Y + 15;
+            int bs_y = wc_y + WindowColor.HEIGHT + 10;
 
-            WindowColorMenu = new WindowColor(menuState, wc_x, wc_y, this);
+            WindowColorMenu = new WindowColor(menuState, x, wc_y, this);
+            BattleSpeedMenu = new BattleSpeed(menuState, x, bs_y, this);
         }
 
         public override void ControlHandle(Key k)
@@ -92,7 +94,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                                 SubMenu = WindowColorMenu;
                                 SubMenu.SetAsControl();
                                 break;
-                            case 1:
+                            case 1:  
+                                SubMenu = BattleSpeedMenu;
+                                SubMenu.SetAsControl();
                                 break;
                         }
                         break;
@@ -116,6 +120,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             }
 
             WindowColorMenu.Draw(d);
+            BattleSpeedMenu.Draw(d);
                                      
             if (IsControl)
             {
@@ -137,10 +142,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         }
         
         public override string Info { get { return ""; } }
+        
+        public WindowColor WindowColorMenu { get; set; }
+        
+        public BattleSpeed BattleSpeedMenu { get; set; }
 
         private ControlMenu SubMenu { get; set; }
-
-        private WindowColor WindowColorMenu { get; set; }
 
         private SevenMenuState MenuState { get; set; }
     }

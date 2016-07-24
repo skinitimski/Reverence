@@ -10,7 +10,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 {
     internal sealed class WindowColor : ControlMenu
     {
-        public const int WIDTH = 200;
+        public const int WIDTH = 250;
         public const int HEIGHT = 120;
 
         const int spacing = 15;
@@ -34,7 +34,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             const int yg = yr + 38;
             const int yb = yg + 38;
 
-            int x_spacing;
+            int x_spacing = (WIDTH - x0 * 2) / 13; // 13 comes from 10 options plus the color indicator plus two borders
 
 
             int corner;
@@ -47,8 +47,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 : base(x, y, WIDTH, HEIGHT)
             {
                 Owner = owner;
-
-                x_spacing = (Width - x0 * 2) / 11;
 
                 this.corner = corner;
 

@@ -219,13 +219,14 @@
     <Compile Include="Battle\Event\AbilityFailEvent.cs" />
     <Compile Include="Battle\Event\UseItemEvent.cs" />
     <Compile Include="Screen\BattleState\DeathIcon.cs" />
+    <Compile Include="Screen\MenuState\Config\BattleSpeed.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">
       <Project>{61C5CB50-E30F-4C9B-8FA7-A9190C546B27}</Project>
       <Name>ReverenceLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\home\timski\vol\mono\Reverence\Seven.Data.FF7\Seven.Data.FF7.csproj">
+    <ProjectReference Include="..\Seven.Data.FF7\Seven.Data.FF7.csproj">
       <Project>{DA28E7AF-122F-4BF4-B462-C85A663C3356}</Project>
       <Name>Seven.Data.FF7</Name>
     </ProjectReference>

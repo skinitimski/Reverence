@@ -584,6 +584,7 @@
     </materiatory>
     <gil>26890</gil>
     <time>41316431</time>
+    <battleSpeed>128</battleSpeed>
     <config>
         <menu>
             <corner0 r="1" g="6" b="2" />

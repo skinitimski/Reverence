@@ -134,6 +134,8 @@ namespace Atmosphere.Reverence.Seven.State
             configMenus.Add(new Screens.Config.Info(this,state));
             configMenus.Add(new Screens.Config.Label(state));
             configMenus.Add(ConfigMain);
+            configMenus.Add(ConfigMain.WindowColorMenu);
+            configMenus.Add(ConfigMain.BattleSpeedMenu);
 
             ConfigScreen = new MenuScreen(configMenus, ConfigMain);
             
