@@ -19,7 +19,7 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
 #if DEBUG
         private const string STATUS = "(change row)";
 #else
-        private const string STATUS = String.Empty;
+        private const string STATUS = "";
 #endif
 
         public ChangeRowEvent(Ally source)

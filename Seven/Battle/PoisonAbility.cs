@@ -20,7 +20,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 #if DEBUG
         private const string STATUS = "(poison damage)";
 #else
-        private const string STATUS = String.Empty;
+        private const string STATUS = "";
 #endif
 
         private class PoisonEvent : AbilityEvent
