@@ -134,6 +134,24 @@ namespace Atmosphere.Reverence.Seven.State
                     }
                 }
             }
+
+            public List<CombatantActionEvent> GetEventsFromSource(Combatant source)
+            {
+                List<CombatantActionEvent> events = new List<CombatantActionEvent>();
+
+                lock (_queues)
+                {
+                    // start at 1 since we can skip the System queue
+                    
+                    for (int i = 1; i < QUEUE_COUNT; i++)
+                    {                      
+                        events.AddRange(_queues[i].Where(e => e is CombatantActionEvent && ((CombatantActionEvent)e).Source == source).Cast<CombatantActionEvent>());
+                    }
+                }
+
+                return events;
+            }
+
             
             public override string ToString()
             {     
@@ -859,7 +877,10 @@ namespace Atmosphere.Reverence.Seven.State
             EventQueue.PruneEvents(x => x.Source == source, msg);
         }
 
-
+        public List<CombatantActionEvent> GetEventsFromSource(Combatant source)
+        {
+            return EventQueue.GetEventsFromSource(source);
+        }
         
         
         protected override void InternalDispose()

@@ -13,6 +13,7 @@ using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using Atmosphere.Reverence.Seven.Battle.Time;
 using Atmosphere.Reverence.Seven.Graphics;
 using Atmosphere.Reverence.Seven.Asset.Materia;
@@ -386,17 +387,17 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public void Attack(Combatant target, bool resetTurnTimer = true)
         {
-            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer });
         }
         
         public void AttackX2(Combatant target, bool resetTurnTimer = true)
         {
-            PrimaryAttackX2.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+            PrimaryAttackX2.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = resetTurnTimer });
         }
 
         public void AttackX4(IEnumerable<Combatant> targets, bool resetTurnTimer = true)
         {
-            PrimaryAttackX4.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer});
+            PrimaryAttackX4.Use(this, targets, new AbilityModifiers { ResetTurnTimer = resetTurnTimer });
         }
 
 
@@ -414,6 +415,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             _c.BackRow = !BackRow;
         }
 
+        public override void BecomeConfused()
+        {
+            foreach (CombatantActionEvent e in CurrentBattle.GetEventsFromSource(this))
+            {
+                // TODO: each event needs a new set of targets.
+            }
+        }
 
 
 
@@ -432,7 +440,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             target = CurrentBattle.Allies[i];
             
-            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = true });
+
+            WaitingToResolve = true;
         }
         
         public void RunAIBerserk()
@@ -443,7 +453,9 @@ namespace Atmosphere.Reverence.Seven.Battle
                     
             target = CurrentBattle.EnemyList[i];
             
-            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers());
+            PrimaryAttack.Use(this, new Combatant[] { target }, new AbilityModifiers { ResetTurnTimer = true });
+            
+            WaitingToResolve = true;
         }
         
         #endregion AI
@@ -504,7 +516,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             TurnTimer.Reset();
             PauseTimers();
 
-            // FINAL ATTACK !!!
+            // TODO: final attack
         }
 
         #endregion Inflict
