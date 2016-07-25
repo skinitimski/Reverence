@@ -139,7 +139,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         {
             Ability spell = _spells[yopt, xopt];
             
-            spell.Use(BattleState.Commanding, targets, new AbilityModifiers{ ResetTurnTimer = releaseAlly});
+            spell.Use(BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
         }
 
 
