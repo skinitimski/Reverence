@@ -136,11 +136,16 @@ namespace Atmosphere.Reverence.Seven.Battle
                 SummonMenu = null;
             }
             
-            EnemySkillMateria m = EnemySkillMateria.Merge(Materia.Where(x => x is EnemySkillMateria).Cast<EnemySkillMateria>());
-
-            if (m.AP > 0)
+            IEnumerable<EnemySkillMateria> esms = Materia.Where(x => x is EnemySkillMateria).Cast<EnemySkillMateria>();
+            
+            if (esms.Count() > 0)
             {
-                EnemySkillMenu = new Screens.EnemySkill.Main(CurrentBattle, m, state);
+                EnemySkillMateria m = EnemySkillMateria.Merge(esms);
+                
+                if (m.AP > 0)
+                {
+                    EnemySkillMenu = new Screens.EnemySkill.Main(CurrentBattle, m, state);
+                }
             }
         }
         
