@@ -45,7 +45,7 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         
         public override string ToString()
         {
-            return String.Format(" {0} uses {1}", Source.Name, Source.Name);
+            return String.Format("{0} uses {1}", Source.Name, Item.Name);
         }
 
         protected override int Duration { get { return DURATION; } }
