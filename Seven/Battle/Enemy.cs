@@ -1098,17 +1098,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         { 
             get
             {
-                int minRow = _row;
-
-                foreach (Enemy e in CurrentBattle.EnemyList)
-                {
-                    if (e._row < minRow)
-                    {
-                        minRow = e._row;
-                    }
-                }
-
-                return _row == minRow;
+                return _row != CurrentBattle.EnemyList.Min(e => e._row);
             }
         }
 
