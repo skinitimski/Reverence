@@ -345,7 +345,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new GameDataException("Specified confu attack '{0}' is not configured; enemy = {1}", confuAttack, Name);
                 }
             
-                AIConfu = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:UseAttack(\"{0}\", a) end", confuAttack)).First();
+                AIConfu = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomEnemy(); self:Attack(\"{0}\", a) end", confuAttack)).First();
             }
             else
             {
@@ -370,7 +370,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new GameDataException("Specified berserk attack '{0}' is not configured; enemy = {1}", berserkAttack, Name);
                 }
             
-                AIBerserk = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:UseAttack(\"{0}\", a) end", berserkAttack)).First();
+                AIBerserk = (LuaFunction) battle.Lua.DoString(String.Format("return function (self) a = chooseRandomAlly(); self:Attack(\"{0}\", a) end", berserkAttack)).First();
             }
             else
             {
