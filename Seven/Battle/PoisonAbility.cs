@@ -17,6 +17,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         private static readonly PoisonAbility INSTANCE = new PoisonAbility();
         private static readonly AbilityModifiers MODIFIERS = new AbilityModifiers();
 
+#if DEBUG
+        private const string STATUS = "(poison damage)";
+#else
+        private const string STATUS = String.Empty;
+#endif
+
         private class PoisonEvent : AbilityEvent
         {
             public PoisonEvent(Combatant source, Combatant target)
@@ -60,13 +66,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override string GetMessage(Combatant source)
         {
-            string msg = String.Empty;
-            
-#if DEBUG
-            msg = "(poison damage)";
-#endif
-            
-            return msg;
+            return STATUS;
         }
     }
 }
