@@ -88,7 +88,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         
         public override void SetAsControl()
         {
-            _isControl = true;
+            base.SetAsControl();
 
             switch (DefaultSelection)            
             {
@@ -99,11 +99,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     _selectedGroup = BattleTargetGroup.Enemies;
                     break;
             }
-        }
-
-        public override void SetNotControl()
-        {
-            _isControl = false;
         }
 
 

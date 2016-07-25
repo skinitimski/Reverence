@@ -12,15 +12,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 {
     internal sealed class SelfSelector : Selector
     {
-        private int _option;
-        
-        private List<Combatant> _targets;
+        private Combatant _target;
         
 
         public SelfSelector(SevenBattleState battleState)
             : base(battleState)
         {
-            _targets = new List<Combatant>();
         }
 
         
@@ -30,7 +27,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             
             if (IsControl)
             {
-                Shapes.RenderCursor(g, _targets[_option].X - CURSOR_SPACING, _targets[_option].Y);
+                Shapes.RenderCursor(g, _target.X - CURSOR_SPACING, _target.Y);
             }
             
             ((IDisposable)g.Target).Dispose();
@@ -39,25 +36,19 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         
         public override void SetAsControl()
         {
-            _isControl = true;
-            _targets = new List<Combatant>();
-            _targets.Add(BattleState.Commanding);
-            
-            _option = 0;
+            base.SetAsControl();
+            _target = BattleState.Commanding;
         }
-
-        public override void SetNotControl() { _isControl = false; }
 
         protected override IEnumerable<Combatant> Selected
         {
             get
             {
-                return new List<Combatant> { _targets[_option] };
+                return new List<Combatant> { _target };
             }
         }
 
-        public override string Info
-        { get { return _targets[_option].ToString(); } }
+        public override string Info { get { return _target.ToString(); } }
     }
 }
 

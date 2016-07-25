@@ -40,9 +40,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             ((IDisposable)g).Dispose();
         }
         
-        public override void SetAsControl() { _isControl = true; }
-        public override void SetNotControl() { _isControl = false; }
-        
         protected override IEnumerable<Combatant> Selected
         {
             get
@@ -55,8 +52,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 return selected;
             }
         }
-        public override string Info
-        { get { return "All combatants"; } }
+        public override string Info { get { return "All combatants"; } }
     }
 }
 

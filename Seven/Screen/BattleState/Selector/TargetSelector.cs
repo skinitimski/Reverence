@@ -144,8 +144,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
         public override void SetAsControl()
         {
+            base.SetAsControl();
+
             _option = 0;
-            _isControl = true;
             _targets = new List<Combatant>();
 
             int numAllies = 0;
@@ -186,7 +187,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
 
         public override void SetNotControl()
         {
-            _isControl = false;
+            base.SetNotControl();
         }
         
         protected override IEnumerable<Combatant> Selected

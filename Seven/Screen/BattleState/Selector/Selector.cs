@@ -15,8 +15,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
     {
         protected const int CURSOR_SPACING = 25;
 
-        protected bool _isControl = false;
-
         protected Selector(SevenBattleState battleState)
         {
             BattleState = battleState;
@@ -45,17 +43,24 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                 case Key.X:
                     BattleState.ActionAbort();
                     break;
+
                 default:
                     break;
             }
         }
 
         public abstract void Draw(Gdk.Drawable d);
+        
+        public virtual void SetAsControl() 
+        {
+            IsControl = true;
+        }
+        public virtual void SetNotControl()
+        {
+            IsControl = false;
+        }
 
-        public abstract void SetAsControl();
-        public abstract void SetNotControl();
-
-        public bool IsControl { get { return _isControl; } }
+        public bool IsControl { get; private set; }
         
         public void Reset() 
         {
