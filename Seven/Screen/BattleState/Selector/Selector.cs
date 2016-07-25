@@ -41,7 +41,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     break;
 
                 case Key.X:
-                    BattleState.ActionAbort();
+                    BattleState.Screen.PopControl();
                     break;
 
                 default:

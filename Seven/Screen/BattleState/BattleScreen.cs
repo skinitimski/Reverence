@@ -109,6 +109,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 _controller.SetAsControl();
             }
         }
+
+        /// <summary>
+        ///  Call BattleState.ClearControl() instead!!!!! Clears the stack of controlling menus from the screen.
+        /// </summary>
+        /// <remarks>
+        /// This is intended to be called only by the BattleState.
+        /// </remarks>            
         public void ClearControl()
         {
             if (_controller == null)

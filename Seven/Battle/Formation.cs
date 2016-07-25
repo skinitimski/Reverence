@@ -129,7 +129,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                     throw new GameDataException("Formation '{0}' references nonexistent enemy '{1}'", ID, record.Name);
                 }
 
-                Enemy enemy = new Enemy(battle, node, record.X, record.Y, e[i], record.Designation);
+                Enemy enemy = new Enemy(battle, node, record.X, record.Y, record.Row, e[i], record.Designation);
 
                 enemies.Add(enemy);
             }

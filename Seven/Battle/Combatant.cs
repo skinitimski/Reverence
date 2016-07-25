@@ -43,10 +43,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         protected const int _text_offset_y = _icon_half_height - 30;
         protected const int _text_spacing_y = 20;
 
-
-        protected int _x;
-        protected int _y;
-        
+                
         protected long SleepTime = -1;
         private long? PoisonTime { get; set; }
         protected long _slownumbTime = -1;
@@ -64,11 +61,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
 
 
-        protected Combatant(BattleState battle, int x, int y)
-        {            
-            _x = x;
-            _y = y;
-
+        protected Combatant(BattleState battle)
+        {          
             CurrentBattle = battle;
             C_Timer = new BattleClock(136);
         }
@@ -883,8 +877,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        public int X { get { return _x; } }
-        public int Y { get { return _y; } }
+        public abstract int X { get; }
+        public abstract int Y { get; }
 
         public Color NameColor
         {

@@ -101,7 +101,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Member Data
-        
+
         private int _level;
         private int _hp;
         private int _mp;
@@ -114,8 +114,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         private int _magicAttack;
         private int _magicDefense;
         private int _luck;
+
+        private int _x;
+        private int _y;
+        private int _row;
+
         private string _name;
-        private bool _backRow = false;
         private bool _sensed = false;
         private bool _fury = false;
         private bool _sadness = false;
@@ -134,9 +138,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         
 
         
-        public Enemy(BattleState battle, XmlNode node, int x, int y, int e, string designation = "")
-            : base(battle, x, y)
+        public Enemy(BattleState battle, XmlNode node, int x, int y, int row, int e, string designation = "")
+            : base(battle)
         {         
+            _x = x;
+            _y = y;
+
             _weak = new List<Element>();
             _halve = new List<Element>();
             _void = new List<Element>();
@@ -165,6 +172,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             Exp = Int32.Parse(node.SelectSingleNode("exp").InnerText);
             AP = Int32.Parse(node.SelectSingleNode("ap").InnerText);
             Gil = Int32.Parse(node.SelectSingleNode("gil").InnerText);
+
+            _row = row;
 
             if (!String.IsNullOrEmpty(designation))
             {
@@ -506,8 +515,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (Sensed)
             {
-                description = String.Format("{0} - HP:{1}/{2} MP:{3}/{4} - Time: {5}%",
-                                     Name, HP, MaxHP, MP, MaxMP, TurnTimer.PercentComplete);
+                description = String.Format("{0} {1}- HP:{2}/{3} MP:{4}/{5} - Time: {6}%",
+                                     Name, BackRow ? "(back row)" : String.Empty, HP, MaxHP, MP, MaxMP, TurnTimer.PercentComplete);
             }
 
             return description;
@@ -1034,6 +1043,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Properties
+        
+        public override int X { get { return _x; } }
+        
+        public override int Y { get { return _y; } }
 
         public bool HasItems { get { return _steal.Count > 0; } }
 
@@ -1081,7 +1094,23 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override bool LongRange { get { return false; } }
 
-        public override bool BackRow { get { return _backRow; } }
+        public override bool BackRow
+        { 
+            get
+            {
+                int minRow = _row;
+
+                foreach (Enemy e in CurrentBattle.EnemyList)
+                {
+                    if (e._row < minRow)
+                    {
+                        minRow = e._row;
+                    }
+                }
+
+                return _row == minRow;
+            }
+        }
 
         public override bool Sensed { get { return _sensed; } }
 

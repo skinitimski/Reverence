@@ -320,23 +320,13 @@ namespace Atmosphere.Reverence.Seven.State
                        
             Allies = new Ally[Party.PARTY_SIZE];
 
-            int x0 = 550;
-            int y0 = 125;
-
-            int xs = 30;
-            int ys = 250 / Party.PARTY_SIZE;
-
             int[] e = _formation.GetAllyTurnTimersElapsed(Party);
 
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
                 if (Party[i] != null)
                 {
-                    // the (i * 1) is for separation for targeting purposes.
-                    int x = x0 + (i * 1) + (Party[i].BackRow ? xs : 0);
-                    int y = y0 + (i * 1) + (i * ys);
-
-                    Allies[i] = new Ally(this, Party[i], x, y, e[i]);
+                    Allies[i] = new Ally(this, i, e[i]);
                     Allies[i].InitMenu(state);
                 }
             }
@@ -871,7 +861,7 @@ namespace Atmosphere.Reverence.Seven.State
         
         
         
-        
+
         
         
         
@@ -887,11 +877,6 @@ namespace Atmosphere.Reverence.Seven.State
             ClearControl();
         }
 
-        public void ActionAbort()
-        {
-            Screen.PopControl();
-        }
-        
         
         
         protected override void InternalDispose()

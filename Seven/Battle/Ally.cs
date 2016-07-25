@@ -24,14 +24,20 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class Ally : Combatant
     {
-        
-        #region Member Data
-                
+        private const int xs = 30;
+        private const int X_FRONT_ROW = 550;
+        private const int X_BACK_ROW = X_FRONT_ROW + xs;
+
+
+        private const int y0 = 125;
+        private const int ys = 250 / Party.PARTY_SIZE;
+
         private Character _c;
         private List<MagicMenuEntry> _magicSpells;
         private List<SummonMenuEntry> _summons;
-                        
-        #endregion Member Data
+
+        private int _x;
+        private int _y;
 
 
         private class WeaponAttack : Ability
@@ -73,10 +79,14 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
         
-        public Ally(BattleState battle, Character c, int x, int y, int e)
-            : base(battle, x, y)
+        public Ally(BattleState battle, int index, int e)
+            : base(battle)
         {
-            _c = c;
+            _c = battle.Party[index];
+            
+            // the (index * 1) is for separation for targeting purposes.
+            _x = (index * 1) + (_c.BackRow ? X_BACK_ROW : X_FRONT_ROW);
+            _y = (index * 1) + y0 + (index * ys);
                         
             GetMagicSpells();
             GetSummons();
@@ -127,7 +137,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             EnemySkillMateria m = EnemySkillMateria.Merge(Materia.Where(x => x is EnemySkillMateria).Cast<EnemySkillMateria>());
-                        
+
             if (m.AP > 0)
             {
                 EnemySkillMenu = new Screens.EnemySkill.Main(CurrentBattle, m, state);
@@ -385,6 +395,19 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
 
 
+        public void ChangeRow()
+        {
+            if (BackRow)
+            {
+                _x -= xs;
+            }
+            else
+            {
+                _x += xs;
+            }
+
+            _c.BackRow = !BackRow;
+        }
 
 
 
@@ -599,6 +622,10 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         
         #region Properties
+        
+        public override int X { get { return _x; } }
+        
+        public override int Y { get { return _y; } }
 
         public override IList<Element> Weaknesses
         {

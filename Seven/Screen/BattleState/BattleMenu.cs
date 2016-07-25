@@ -51,6 +51,99 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         private int _columns;
         private readonly int _rows = 4;
 
+        
+        private class ChangeMenu : ControlMenu
+        {            
+            #region Layout
+
+            private const int x_cursor = 15;
+            private const int y_cursor = 15;
+
+            private const int x_text = 30;
+            private const int y_text = 32;
+                        
+            #endregion Layout
+
+            
+            public ChangeMenu(BattleMenu owner, Menu.ScreenState screenState)
+                : base(
+                    screenState.Width * 3 / 16,
+                    screenState.Height * 7 / 10 + 10,
+                    screenState.Width / 5,
+                    (screenState.Height / 10) - 7)
+            {
+                Owner = owner;
+                YOrig = Y;
+            }
+                        
+            public override void ControlHandle(Key k)
+            {
+                switch (k)
+                {
+                    case Key.Right:
+                        
+                        Owner.AssociatedAlly.CurrentBattle.Screen.PopControl();
+
+                        break;
+                        
+                    case Key.Circle:
+
+                        Owner.AssociatedAlly.CurrentBattle.EnqueueAction(new ChangeRowEvent(Owner.AssociatedAlly));
+                        Owner.AssociatedAlly.WaitingToResolve = true;
+                        Owner.AssociatedAlly.CurrentBattle.ClearControl();
+
+                        break;
+                }
+            }
+            
+            protected override void DrawContents(Gdk.Drawable d)
+            {
+                Cairo.Context g = Gdk.CairoHelper.Create(d);
+                
+                g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
+                g.SetFontSize(24);
+                                
+                if (IsControl)
+                {
+                    Shapes.RenderCursor(g, X + cx, Y + cy);
+                }
+                
+                Text.ShadowedText(g, Colors.WHITE, "Change", X + x, Y + y0 + y);                                     
+                               
+                ((IDisposable)g.Target).Dispose();
+                ((IDisposable)g).Dispose();
+            }
+            
+            public override void Reset()
+            {
+                Visible = false;
+            }
+            
+            public override void SetAsControl()
+            {
+                base.SetAsControl();
+                this.Move(X, YOrig + cy * Row);
+                Visible = true;
+            }
+            
+            public override string Info { get { return String.Empty; } }
+
+            public int Row { get; set; }
+
+            private int YOrig { get; set; }
+
+            private BattleMenu Owner { get; set; }
+        }
+
+
+
+
+
+
+
+
+
+
         public BattleMenu(Ally a, Menu.ScreenState screenState)
             : base(
                 screenState.Width / 4,
@@ -63,6 +156,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             xs = screenState.Width / 5;
 
             Visible = false;
+
+            ChangeMenuInstance = new ChangeMenu(this, screenState);
 
 
             // Always an option
@@ -349,28 +444,38 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         _option--;
                     }
                     break;
+
                 case Key.Down:
-                    //if (_option < _rows * _columns - 1) _option++;
+
                     if (row < _rows - 1)
                     {
                         _option++;
                     }
                     break;
+
                 case Key.Right:
-                    //if (_option + _rows < _rows * _columns - 1)
+
                     if (col < _columns - 1)
                     {
                         _option += _rows;
                     }
                     break;
+
                 case Key.Left:
-                    //if (_option - _rows >= 0)
+
                     if (col > 0)
                     {
                         _option -= _rows;
                     }
+                    else
+                    {
+                        ChangeMenuInstance.Row = _option % _rows;
+                        AssociatedAlly.CurrentBattle.Screen.PushControl(ChangeMenuInstance);
+                    }
                     break;
+
                 case Key.Circle:
+
                     if (_option == _attackOption)
                     {
                         AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
@@ -431,6 +536,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                         }
                     }
                     break;
+
                 default:
                     break;
             }
@@ -721,6 +827,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public bool WSummon { get { return _wsummon; } }
 
         private Ally AssociatedAlly { get; set; }
+
+        private ChangeMenu ChangeMenuInstance { get; set; }
     }
 
 
