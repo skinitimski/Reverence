@@ -502,7 +502,7 @@
         <allable>true</allable>
         <power>0</power>
         <hitp>100</hitp>
-        <statusChange type="Toggle" statuses="Toad" odds="72" />
+        <statusChange type="Toggle" statuses="Frog" odds="72" />
     </spell>
     <spell>
         <name>Berserk</name>
