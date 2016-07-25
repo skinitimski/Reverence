@@ -9,7 +9,7 @@
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <power>0</power>
         <hitp>5</hitp>
-        <statusChange type="Inflict" statuses="Frog,Sleep" odds="100" />
+        <statusChange type="Toggle" statuses="Frog,Sleep" odds="100" />
     </spell>
     <!-- TODO: hit only if tar.Lvl=N*4 -->
     <spell>

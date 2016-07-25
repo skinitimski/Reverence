@@ -22,8 +22,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             public IEnumerable<Combatant> Targets;
         }
         
-        public WMagic(SevenBattleState battleState, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
-            : base(battleState, spells, screenState)
+        public WMagic(Ally ally, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
+            : base(ally, spells, screenState)
         {
         }
         

@@ -181,6 +181,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             int o = 0;
 
             #region Attack
+
             foreach (MateriaOrb m in a.Materia)
             {
                 if (m != null)
@@ -223,6 +224,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 _attackOption = o;
             }
             o++;
+
             #endregion Attack
 
 
@@ -327,8 +329,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             { 
                 if (m != null && m.Name == "Enemy Skill")
                 {
-                    _enemySkillMenuOption = o;
-                    o++;
+                    if (_enemySkillMenuOption < 0)
+                    {
+                        _enemySkillMenuOption = o;
+                        o++;
+                    }
                 }
             }
             #endregion
@@ -351,6 +356,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 {
                     _mimeOption = o;
                     o++;
+                    break;
                 }
             }
 
@@ -374,6 +380,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 {
                     _deathblowOption = o;
                     o++;
+                    break;
                 }
             }
             #endregion
@@ -496,21 +503,49 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     {
                         //AssociatedAlly.CurrentBattle.Screen.GetSelection(TargetGroup.Enemies, TargetType.GroupNS);
                     }
-                    else if (_option == _magicMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
+                    else if (_option == _magicMenuOption)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.MagicMenu);
+                        if (AssociatedAlly.Silence || (AssociatedAlly.Frog && !AssociatedAlly.MagicMenu.HasToad))
+                        {                            
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.MagicMenu);
+                        }
                     }
-                    else if (_option == _enemySkillMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
+                    else if (_option == _enemySkillMenuOption)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.EnemySkillMenu);
+                        if (AssociatedAlly.Frog || AssociatedAlly.Silence)
+                        {
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.EnemySkillMenu);
+                        }
                     }
-                    else if (_option == _summonMenuOption && !AssociatedAlly.CurrentBattle.Commanding.Silence)
+                    else if (_option == _summonMenuOption && !AssociatedAlly.Silence)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Commanding.SummonMenu);
+                        if (AssociatedAlly.Frog || AssociatedAlly.Silence)
+                        {                            
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.SummonMenu);
+                        }
                     }
                     else if (_option == _senseOption)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        if (AssociatedAlly.Frog)
+                        {                            
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        }
                     }
                     else if (_option == _mimeOption)
                     {
@@ -518,11 +553,25 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     }
                     else if (_option == _deathblowOption)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        if (AssociatedAlly.Frog)
+                        {                            
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.SelectCombatant(BattleTargetGroup.Enemies);
+                        }
                     }
                     else if (_option == _stealOption || _option == _mugOption)
                     {
-                        AssociatedAlly.CurrentBattle.Screen.SelectEnemy();
+                        if (AssociatedAlly.Frog)
+                        {                            
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!");
+                        }
+                        else
+                        {
+                            AssociatedAlly.CurrentBattle.Screen.SelectEnemy();
+                        }
                     }
                     else if (_option == _itemMenuOption)
                     {
@@ -535,6 +584,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                             AssociatedAlly.CurrentBattle.Screen.PushControl(AssociatedAlly.CurrentBattle.Screen.ItemMenu);
                         }
                     }
+
                     break;
 
                 default:
@@ -544,8 +594,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 
         public bool ActOnSelection(IEnumerable<Combatant> targets)
         {
-            Combatant target;
-            Ally performer = AssociatedAlly.CurrentBattle.Commanding;
+            Ally performer = AssociatedAlly;
 
             #region Attack
 
@@ -593,14 +642,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
 //                if (AssociatedAlly.CurrentBattle.LastPartyAbility == null)
 //                {
 ////                    DisableActionHook(true);
-//                    AssociatedAlly.CurrentBattle.Commanding.TurnTimer.Reset();
+//                    AssociatedAlly.TurnTimer.Reset();
 //                }
 //                else
 //                {
-//                    AssociatedAlly.CurrentBattle.Commanding.Ability = AssociatedAlly.CurrentBattle.LastPartyAbility;
+//                    AssociatedAlly.Ability = AssociatedAlly.CurrentBattle.LastPartyAbility;
 //                    try
 //                    {
-//                        AssociatedAlly.CurrentBattle.Commanding.Ability.Performer = performer;
+//                        AssociatedAlly.Ability.Performer = performer;
 //                    }
 //                    catch (Exception e)
 //                    {
@@ -648,9 +697,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
-            Color white = new Color(1, 1, 1);
-            Color gray = new Color(.4, .4, .4);
-            Color c = white;
+            Color c = Colors.WHITE;
 
 
 
@@ -688,14 +735,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Magic
             if (_magicMenuOption != -1)
             {
-                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
+                if (AssociatedAlly.Silence || (AssociatedAlly.Frog && !AssociatedAlly.MagicMenu.HasToad))
                 {
-                    c = gray;
+                    c = Colors.GRAY_4;
                 }
                 else
                 {
-                    c = white;
+                    c = Colors.WHITE;
                 }
+
                 Text.ShadowedText(g, c, _wmagic ? "W-Magic" : "Magic", 
                     X + x + xs * (_magicMenuOption / _rows), 
                     Y + ((_magicMenuOption % _rows + 1) * y) + y0);
@@ -704,13 +752,13 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Summon
             if (_summonMenuOption != -1)
             {
-                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
+                if (AssociatedAlly.Silence || AssociatedAlly.Frog)
                 {
-                    c = gray;
+                    c = Colors.GRAY_4;
                 }
                 else
                 {
-                    c = white;
+                    c = Colors.WHITE;
                 }
                 Text.ShadowedText(g, c, _wsummon ? "W-Summon" : "Summon", 
                     X + x + xs * (_summonMenuOption / _rows),
@@ -720,7 +768,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Sense
             if (_senseOption != -1)
             {
-                c = white;
+                if (AssociatedAlly.Frog)
+                {
+                    c = Colors.GRAY_4;
+                }
+                else
+                {
+                    c = Colors.WHITE;
+                }
                 Text.ShadowedText(g, c, "Sense",
                     X + x + xs * (_senseOption / _rows),
                     Y + ((_senseOption % _rows + 1) * y) + y0);
@@ -729,14 +784,15 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Enemy Skill
             if (_enemySkillMenuOption != -1)
             {
-                if (AssociatedAlly.CurrentBattle.Commanding.Silence || AssociatedAlly.CurrentBattle.Commanding.Frog)
+                if (AssociatedAlly.Silence || AssociatedAlly.Frog)
                 {
-                    c = gray;
+                    c = Colors.GRAY_4;
                 }
                 else
                 {
-                    c = white;
+                    c = Colors.WHITE;
                 }
+
                 Text.ShadowedText(g, c, "E.Skill",
                     X + x + xs * (_enemySkillMenuOption / _rows),
                     Y + ((_enemySkillMenuOption % _rows + 1) * y) + y0);
@@ -745,7 +801,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Mime
             if (_mimeOption != -1)
             {
-                c = white;
+                if (AssociatedAlly.Frog)
+                {
+                    c = Colors.GRAY_4;
+                }
+                else
+                {
+                    c = Colors.WHITE;
+                }
                 Text.ShadowedText(g, c, "Mime",
                     X + x + xs * (_mimeOption / _rows),
                     Y + ((_mimeOption % _rows + 1) * y) + y0);
@@ -754,7 +817,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // D.Blow
             if (_deathblowOption != -1)
             {
-                c = white;
+                if (AssociatedAlly.Frog)
+                {
+                    c = Colors.GRAY_4;
+                }
+                else
+                {
+                    c = Colors.WHITE;
+                }
                 Text.ShadowedText(g, c, "D.Blow",
                     X + x + xs * (_deathblowOption / _rows),
                     Y + ((_deathblowOption % _rows + 1) * y) + y0);
@@ -763,14 +833,28 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Steal/Mug
             if (_stealOption != -1)
             {
-                c = white;
+                if (AssociatedAlly.Frog)
+                {
+                    c = Colors.GRAY_4;
+                }
+                else
+                {
+                    c = Colors.WHITE;
+                }
                 Text.ShadowedText(g, c, "Steal",
                     X + x + xs * (_stealOption / _rows),
                     Y + ((_stealOption % _rows + 1) * y) + y0);
             }
             else if (_mugOption != -1)
             {
-                c = white;
+                if (AssociatedAlly.Frog)
+                {
+                    c = Colors.GRAY_4;
+                }
+                else
+                {
+                    c = Colors.WHITE;
+                }
                 Text.ShadowedText(g, c, "Mug",
                     X + x + xs * (_mugOption / _rows),
                     Y + ((_mugOption % _rows + 1) * y) + y0);
@@ -779,7 +863,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             // Item
             if (_itemMenuOption != -1)
             {
-                c = white;
+                c = Colors.WHITE;
                 Text.ShadowedText(g, c, _witem ? "W-Item" : "Item", 
                     X + x + xs * (_itemMenuOption / _rows),
                     Y + ((_itemMenuOption % _rows + 1) * y) + y0);

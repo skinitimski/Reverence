@@ -9,7 +9,6 @@ using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Asset;
 using Atmosphere.Reverence.Seven.Battle;
 using Atmosphere.Reverence.Seven.Screen.BattleState.Selector;
-using SevenBattleState = Atmosphere.Reverence.Seven.State.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 {       
@@ -34,16 +33,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         private readonly int _visibleRows = 3;
         protected MagicMenuEntry[,] _spells;
 
-        public Main(SevenBattleState battleState, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
+        public Main(Ally ally, IEnumerable<MagicMenuEntry> spells, Menu.ScreenState screenState)
             : base(
                 5,
                 screenState.Height * 7 / 10 + 20,
                 screenState.Width * 3 / 4,
                 (screenState.Height * 5 / 20) - 25)
         {
-            BattleState = battleState;
+            AssociatedAlly = ally;
 
-            int magicSpellCount = battleState.Seven.Data.MagicSpellCount;
+            int magicSpellCount = AssociatedAlly.CurrentBattle.Seven.Data.MagicSpellCount;
 
             _totalRows = (magicSpellCount / COLUMNS) + ((magicSpellCount % COLUMNS == 0) ? 0 : 1);
 
@@ -51,6 +50,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
             foreach (MagicMenuEntry s in spells)
             {
+                if (s.Spell.Name == "Toad") HasToad = true;
+
                 _spells[s.Spell.Order / COLUMNS, s.Spell.Order % COLUMNS] = s;
             }
 
@@ -100,6 +101,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             switch (k)
             {
                 case Key.Up:
+
                     if (_yopt > 0)
                     {
                         _yopt--;
@@ -109,7 +111,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         _topRow--;
                     }
                     break;
+
                 case Key.Down:
+
                     if (_yopt < _totalRows - 1)
                     {
                         _yopt++;
@@ -119,13 +123,17 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                         _topRow++;
                     }
                     break;
+
                 case Key.Left:
+
                     if (_xopt > 0)
                     {
                         _xopt--;
                     }
                     break;
+
                 case Key.Right:
+
                     if (_xopt < COLUMNS - 1)
                     {
                         _xopt++;
@@ -133,23 +141,29 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
                     break;
 
                 case Key.X:
+
                     Visible = false;
-                    BattleState.Screen.PopControl();
+                    AssociatedAlly.CurrentBattle.Screen.PopControl();
                     Reset();
                     break;
 
                 case Key.Circle:
+
                     if (Selected != null)
                     {
                         Spell spell = Selected.Spell;
                         
-                        if (CommandingAvailableMP >= spell.MPCost)
+                        if (AssociatedAlly.Frog && spell.Name != "Toad")
+                        {                        
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!", 500);
+                        }
+                        else if (CommandingAvailableMP < spell.MPCost)
                         {
-                            BattleState.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
+                            AssociatedAlly.CurrentBattle.Seven.ShowMessage(c => "!", 500);
                         }
                         else
                         {
-                            BattleState.Seven.ShowMessage(c => "!", 500);
+                            AssociatedAlly.CurrentBattle.Screen.ActivateSelector(spell.Target, spell.TargetEnemiesFirst);
                         }
                     }
                     break;
@@ -167,7 +181,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         {
             Ability spell = _spells[yopt, xopt].Spell;
 
-            spell.Use(BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
+            spell.Use(AssociatedAlly.CurrentBattle.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
         }
 
         protected override void DrawContents(Gdk.Drawable d)
@@ -177,6 +191,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
+            Color c;
 
             int j = Math.Min(_visibleRows + _topRow, _totalRows);
 
@@ -189,7 +204,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
                     if (spell != null)
                     {
-                        Text.ShadowedText(g, spell.Spell.Name,
+                        if (AssociatedAlly.Frog && spell.Name != "Toad")
+                        {
+                            c = Colors.GRAY_4;
+                        }
+                        else
+                        {
+                            c = Colors.WHITE;
+                        }
+
+                        Text.ShadowedText(g, c, spell.Spell.Name,
                             X + x1 + a * xs,
                             Y + (b - _topRow + 1) * ys);
                     }
@@ -205,7 +229,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             }
 
 
-            BattleState.Screen.MagicInfo.Draw(d);
+            AssociatedAlly.CurrentBattle.Screen.MagicInfo.Draw(d);
 
 
             ((IDisposable)g.Target).Dispose();
@@ -218,14 +242,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
             //_yopt = 0;
             //_xopt = 0;
             Visible = false;
-            BattleState.Screen.MagicInfo.Visible = false;
+            AssociatedAlly.CurrentBattle.Screen.MagicInfo.Visible = false;
         }
 
         public override void SetAsControl()
         {
             base.SetAsControl();
             Visible = true;
-            BattleState.Screen.MagicInfo.Visible = true;
+            AssociatedAlly.CurrentBattle.Screen.MagicInfo.Visible = true;
         }
 
         public bool IsValid { get { return _totalRows > 0; } }
@@ -240,9 +264,11 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
 
         public MagicMenuEntry Selected { get { return _spells[_yopt, _xopt]; } }
 
-        protected virtual int CommandingAvailableMP { get { return BattleState.Commanding.MP; } }
+        public bool HasToad { get; private set; }
+
+        protected virtual int CommandingAvailableMP { get { return AssociatedAlly.CurrentBattle.Commanding.MP; } }
         
-        private SevenBattleState BattleState { get; set; }
+        protected Ally AssociatedAlly { get; private set; }
     }
 
 

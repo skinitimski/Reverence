@@ -107,6 +107,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public virtual void Sense() { }
 
         public virtual void BecomeConfused() { }
+        public virtual void BecomeSilenced() { }
+        public virtual void BecomeFrog() { }
 
 
 
@@ -320,7 +322,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Silence || Petrify || Peerless || Resist)
                 return false;
+
             Silence = true;
+
+            BecomeSilenced();
+
             return true;
         }
         public bool InflictHaste(Combatant source)
@@ -365,7 +371,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Frog || Petrify || Peerless || Resist)
                 return false;
+
             Frog = true;
+
+            BecomeFrog();
+
             return true;
         }
         public bool InflictSmall(Combatant source)

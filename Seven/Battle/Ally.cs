@@ -111,11 +111,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (BattleMenu.WMagic)
             {
-                MagicMenu = new Screens.Magic.WMagic(CurrentBattle, MagicSpells, state);
+                MagicMenu = new Screens.Magic.WMagic(this, MagicSpells, state);
             }
             else
             {
-                MagicMenu = new Screens.Magic.Main(CurrentBattle, MagicSpells, state);
+                MagicMenu = new Screens.Magic.Main(this, MagicSpells, state);
             }
             
             if (!MagicMenu.IsValid)
@@ -420,6 +420,22 @@ namespace Atmosphere.Reverence.Seven.Battle
             foreach (CombatantActionEvent e in CurrentBattle.GetEventsFromSource(this))
             {
                 // TODO: each event needs a new set of targets.
+            }
+        }
+
+        public override void BecomeSilenced()
+        {
+            if (CurrentBattle.Commanding == this)
+            {
+                // TODO: clear magic/summon/enemyskill menus
+            }
+        }
+
+        public override void BecomeFrog()
+        {
+            if (CurrentBattle.Commanding == this)
+            {
+                // TODO: clear magic/summon/enemyskill menus
             }
         }
 
