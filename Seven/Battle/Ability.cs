@@ -778,7 +778,19 @@ namespace Atmosphere.Reverence.Seven.Asset
 
                                 case StatusChange.Effect.Toggle:
 
-                                    throw new NotImplementedException("Haven't implemented status change toggle");
+                                    foreach (Status status in statusChange.Statuses)
+                                    {
+                                        if ((bool)target.GetType().GetProperty(status.ToString()).GetValue(target, null))
+                                        {
+                                            target.GetType().GetMethod("Cure" + status).Invoke(target, new object[] { source });
+                                        }
+                                        else
+                                        {
+                                            target.GetType().GetMethod("Inflict" + status).Invoke(target, new object[] { source });
+                                        }
+                                    }
+                                    
+                                    break;
                             }
 
                             actuallyHit = true;
