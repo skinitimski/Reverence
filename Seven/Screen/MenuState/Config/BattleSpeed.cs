@@ -23,7 +23,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         int _option_orig;
         int _option;
 
-        public BattleSpeed(SevenMenuState menuState, int x, int y, ControlMenu owner)
+        public BattleSpeed(SevenMenuState menuState, int x, int y, Main owner)
                 : base(x, y, WIDTH, HEIGHT)
         {
             Owner = owner;
@@ -115,8 +115,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
         
         public override string Info { get { return String.Empty; } }
 
-
-        private ControlMenu Owner { get; set; }
+        private Main Owner { get; set; }
         
         private SevenMenuState MenuState { get; set; }
     }

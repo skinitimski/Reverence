@@ -150,7 +150,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
 
         
         
-        public WindowColor(SevenMenuState menuState, int x, int y, ControlMenu owner)
+        public WindowColor(SevenMenuState menuState, int x, int y, Main owner)
             : base(x, y, WIDTH, HEIGHT)
         {
             Owner = owner;
@@ -269,13 +269,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             Owner.SetAsControl();
         }
         
-        public override string Info
-        { get { return ""; } }
-
+        public override string Info { get { return String.Empty; } }
 
         private WindowCornerColor SubMenu { get; set; }
 
-        private ControlMenu Owner { get; set; }
+        private Main Owner { get; set; }
         
         private SevenMenuState MenuState { get; set; }
     }
