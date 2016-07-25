@@ -67,7 +67,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 }
                 else
                 {
-                    msg = " attacks";
+                    msg = source.Name + " attacks";
                 }
 
                 return msg;
