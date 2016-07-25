@@ -106,6 +106,8 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public virtual void Sense() { }
 
+        public virtual void BecomeConfused() { }
+
 
 
         
@@ -304,9 +306,14 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Confusion || Petrify || Peerless || Resist)
                 return false;
+
             Confusion = true;
+
+            BecomeConfused();
+
             return true;
         }
+
         public bool InflictSilence(Combatant source)
         {
             if (Immune(Status.Silence))
@@ -860,7 +867,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public bool IsDead { get { return Petrify || Imprisoned || Death; } }
         
-        public bool CannotAct { get { return IsDead || Sleep || Berserk || Confusion || Paralysed; } }
+        public bool CannotAct { get { return IsDead || Sleep || Paralysed || Stop; } }
 
         private bool _waiting;
         public bool WaitingToResolve

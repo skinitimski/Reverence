@@ -96,22 +96,6 @@ namespace Atmosphere.Reverence.Seven.State
                 
                 return @event;
             }
-            
-            public void PruneEventsFromSource(Combatant source)
-            {
-                lock (_queues)
-                {
-                    PruneEvents(x => x.Source == source, "source removed from battle");
-                }
-            }
-            
-            public void PruneSourcesWhoCannotAct()
-            {
-                lock (_queues)
-                {
-                    PruneEvents(x => x.Source.CannotAct, "source cannot act");
-                }
-            }
 
             public void PruneEvents(Predicate<CombatantActionEvent> shouldDrop, string msg)
             {
@@ -212,9 +196,7 @@ namespace Atmosphere.Reverence.Seven.State
 
                         Battle.EnemyList.RemoveAt(index);                
                         Battle.DeadEnemies.Add(enemy);
-                        Battle.EventQueue.PruneEventsFromSource(enemy);
-
-                        // TODO: remove this target from all abilities
+                        Battle.EventQueue.PruneEvents(x => Enemies.Contains(x.Source), "source removed from battle");
                     }
 
                     HasRemoved = true;
@@ -403,7 +385,7 @@ namespace Atmosphere.Reverence.Seven.State
             // Check for disabled controlling ally
             if (Commanding != null)
             {
-                if (Commanding.CannotAct)
+                if (Commanding.CannotAct || Commanding.Confusion)
                 {
                     ClearControl();
                 }
@@ -532,7 +514,7 @@ namespace Atmosphere.Reverence.Seven.State
                         // In theory, the attack event could still happen AFTER the limit
                         //   break. It needs to come out of the queue NOW if the ally
                         //   cannot act.
-                        EventQueue.PruneSourcesWhoCannotAct();
+                        EventQueue.PruneEvents(x => x.Source.CannotAct, "source cannot act");
                     }
                 }
             }
@@ -870,12 +852,13 @@ namespace Atmosphere.Reverence.Seven.State
             Commanding = null;
             Screen.ClearControl();
         }
-        
-        public void ActionHook()
+
+
+        public void PruneEventsFromSource(Combatant source, string msg)
         {
-            Commanding.WaitingToResolve = true;
-            ClearControl();
+            EventQueue.PruneEvents(x => x.Source == source, msg);
         }
+
 
         
         

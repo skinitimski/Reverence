@@ -478,7 +478,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public override void Respond(Ability ability)
         {
-            if (!CannotAct)
+            if (!IsDead || Sleep || Berserk || Confusion || Paralysed || Imprisoned)
             {   
                 if (!(ability is PoisonAbility))
                 {
@@ -811,6 +811,16 @@ namespace Atmosphere.Reverence.Seven.Battle
         public override void Sense()
         {
             _sensed = true;
+        }
+
+        public override void BecomeConfused()
+        {
+            if (WaitingToResolve)
+            {
+                CurrentBattle.PruneEventsFromSource(this, "became confused");
+
+                WaitingToResolve = false;
+            }
         }
 
         public override bool Weak(Element e)
