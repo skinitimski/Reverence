@@ -29,13 +29,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         
         private int option = 0;
 
-        public Stats(Menu.ScreenState screenState)
+        public Stats(SevenMenuState menuState, Menu.ScreenState screenState)
             : base(
                 2,
                 screenState.Height * 7 / 60,
                 screenState.Width / 2 - 6,
                 screenState.Height * 5 / 6)
-        { }
+        {
+            MenuState = menuState;
+        }
         
         public override void ControlHandle(Key k)
         {
@@ -105,15 +107,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
         public override void SetAsControl()
         {
             base.SetAsControl();
-            PhsList.Update();
+            MenuState.PhsList.Update();
         }
         
         public int Option { get { return option; } }
         
         public override string Info
         {  get { return ""; } }
-
-        private List PhsList { get;set; }
 
         private SevenMenuState MenuState { get; set; }
     }

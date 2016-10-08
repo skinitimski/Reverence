@@ -145,8 +145,8 @@ namespace Atmosphere.Reverence.Seven.State
             //
             
             PhsList = new Screens.Phs.List(this, state);
-            PhsStats = new Screens.Phs.Stats(state);
-            
+            PhsStats = new Screens.Phs.Stats(this, state);
+
             List<GameMenu> phsMenus = new List<GameMenu>();
             phsMenus.Add(new Screens.Phs.Top(state));
             phsMenus.Add(PhsStats);
