@@ -16,7 +16,9 @@ namespace Atmosphere.Reverence.Seven.Battle.Event
         {            
             if (ResetSourceTurnTimer)
             {
-                Source.TurnTimer.Reset();
+                bool restart = !Source.TurnTimer.IsPaused;
+
+                Source.TurnTimer.Reset(restart);
                 
                 Source.WaitingToResolve = false;
             }
