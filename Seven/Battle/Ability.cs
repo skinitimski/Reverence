@@ -739,7 +739,7 @@ namespace Atmosphere.Reverence.Seven.Asset
                         int dam = DamageFormula(source, target, modifiers);
 
                         dam = RunElementalChecks(dam, target, Elements);
-                        dam = LowerSanityCkeck(dam); // not required as per the guides
+                        //dam = LowerSanityCkeck(dam); // not required as per the guides (besides, negative damage is OK (think cure)
                         dam = UpperSanityCheck(dam);
 
                         if (target.Peerless || target.Petrify)
