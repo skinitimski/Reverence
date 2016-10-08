@@ -4,11 +4,11 @@
         <desc>Inflicts [Frog,Sleep]</desc>
         <order>0</order>
         <type>Magical</type>
-        <cost>100</cost>
+        <cost>5</cost>
         <target>Combatant</target>
         <targetEnemiesFirst>true</targetEnemiesFirst>
         <power>0</power>
-        <hitp>5</hitp>
+        <hitp>100</hitp>
         <statusChange type="Toggle" statuses="Frog,Sleep" odds="100" />
     </spell>
     <!-- TODO: hit only if tar.Lvl=N*4 -->
