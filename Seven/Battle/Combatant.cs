@@ -25,8 +25,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         public const long SLOWNUMB_DURATION = 30; // 30 c-timer units
         public const long REGEN_INTERVAL = 4; // 4 v-timer units
         public const long REGEN_DURATION = 127; // 127 v-timer units
-//        public const long BARRIER_DURATION = 38100; // 127 v-timer units
-//        public const long MBARRIER_DURATION = 38100; // 127 v-timer units
+        public const long BARRIER_DURATION = 127; // 127 v-timer units
+        public const long MBARRIER_DURATION = 127; // 127 v-timer units
 //        public const long SHIELD_DURATION = 18200; // 64 v-timer units
 //        public const long DEATHSENTENCE_DURATION = 60000; // 60 seconds
 //        public const long PEERLESS_DURATION = 18200; // 64 v-timer units
@@ -46,19 +46,19 @@ namespace Atmosphere.Reverence.Seven.Battle
         private int _countdown_offset_y = _icon_half_height - 50;
 
                 
-        protected long SleepTime = -1;
+        private long SleepTime = -1;
         private long? PoisonTime { get; set; }
-        protected long SlownumbTime = -1;
-        protected long RegenTimeInterval = -1;
-        protected long RegenTimeEnd = -1;
-        protected long BarrierTimeEnd = -1;
-        protected long MBarrierTimeEnd = -1;
-        protected long ShieldTimeEnd = -1;
-        protected long DeathSentenceTimeEnd = -1;
-        protected long PeerlessTimeEnd = -1;
-        protected long ParalyzedTimeEnd = -1;
-        protected long SeizureTimeInterval = -1;
-        protected long SeizureTimeEnd = -1;
+        private long SlownumbTime = -1;
+        private long RegenTimeInterval = -1;
+        private long RegenTimeEnd = -1;
+        private long BarrierTimeEnd = -1;
+        private long MBarrierTimeEnd = -1;
+        private long ShieldTimeEnd = -1;
+        private long DeathSentenceTimeEnd = -1;
+        private long PeerlessTimeEnd = -1;
+        private long ParalyzedTimeEnd = -1;
+        private long SeizureTimeInterval = -1;
+        private long SeizureTimeEnd = -1;
 
 
 
@@ -169,19 +169,19 @@ namespace Atmosphere.Reverence.Seven.Battle
                 AcceptDamage(Regenerator, MaxHP / -32);
                 RegenTimeInterval = V_Timer.ElapsedUnits;
             }
-//            
-//            
-//            if (Barrier && V_Timer.TotalMilliseconds - _barrierTime >= BARRIER_DURATION)
-//            {
-//                CureBarrier(this);
-//            }
-//            
-//            
-//            if (MBarrier && V_Timer.TotalMilliseconds - _barrierTime >= MBARRIER_DURATION)
-//            {
-//                CureMBarrier(this);
-//            }
-//            
+            
+            
+            if (Barrier && V_Timer.ElapsedUnits - BarrierTimeEnd >= BARRIER_DURATION)
+            {
+                CureBarrier(this);
+            }
+            
+            
+            if (MBarrier && V_Timer.ElapsedUnits - MBarrierTimeEnd >= MBARRIER_DURATION)
+            {
+                CureMBarrier(this);
+            }
+            
 //            
 //            if (Shield && V_Timer.TotalMilliseconds - _shieldTime >= SHIELD_DURATION)
 //            {
@@ -370,9 +370,11 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Haste)
                 CureHaste(source);
+
             Slow = true;
             C_Timer.HalfRate();
             V_Timer.HalfRate();
+
             return true;
         }
 
