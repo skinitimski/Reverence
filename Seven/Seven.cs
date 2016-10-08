@@ -153,7 +153,7 @@ namespace Atmosphere.Reverence.Seven
         
         internal void BeginBattle()
         {
-            int i = 1; //_random.Next(2);
+            int i = 0; //_random.Next(2);
 
             String battleId = "debug" + i;
             //battleId = "gelnika.e";

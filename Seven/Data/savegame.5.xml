@@ -348,6 +348,7 @@
         <item id="vagyriskclaw" count="16" slot="12" />
         <item id="soft" count="17" slot="13" />
         <item id="locoweed" count="10" slot="14" />
+        <item id="hard" count="17" slot="15" />
         <item id="powersource" count="4" slot="21" />
         <item id="guardsource" count="3" slot="22" />
         <item id="speedsource" count="6" slot="23" />

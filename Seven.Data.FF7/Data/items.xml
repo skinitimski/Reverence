@@ -30,6 +30,14 @@
             </use>
         </battle>
     </item>
+    <!-- NOTE: not a real item -->
+    <item>
+        <name>Hard</name>
+        <desc>Inflicts [Petrify]</desc>
+        <battle target="Combatant" intendedForEnemies="true">
+            <use>t:InflictPetrify(s)</use>
+        </battle>
+    </item>
     
     <item>
         <name>Potion</name>

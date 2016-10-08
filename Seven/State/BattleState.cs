@@ -28,10 +28,11 @@ namespace Atmosphere.Reverence.Seven.State
     {
         private enum EventPriority
         {
-            System = 0,
-            Limit = 1,
-            Counter = 2,
-            Normal = 3,
+            ClearEnemies = 0,
+            System,
+            Limit,
+            Counter,
+            Normal,
         }
 
 
@@ -378,11 +379,11 @@ namespace Atmosphere.Reverence.Seven.State
 
                     EnqueueAction(_lossEvent, EventPriority.System);
                 }
-            
+                
                 if (!Loss && !Victory && CheckForVictory())
                 {
                     Victory = true;
-
+                    
                     EnqueueAction(_victoryEvent, EventPriority.System);
                 }
 
@@ -604,7 +605,7 @@ namespace Atmosphere.Reverence.Seven.State
             {
                 RemoveEnemyEvent remove = new RemoveEnemyEvent(this, enemiesToClear);
                 
-                EnqueueAction(remove, EventPriority.System);
+                EnqueueAction(remove, EventPriority.ClearEnemies);
             }
         }
 
