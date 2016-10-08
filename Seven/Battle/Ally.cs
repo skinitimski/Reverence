@@ -415,7 +415,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _c.BackRow = !BackRow;
         }
 
-        public override void BecomeConfused()
+        protected override void BecomeConfused()
         {
             foreach (CombatantActionEvent e in CurrentBattle.GetEventsFromSource(this))
             {
@@ -423,7 +423,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public override void BecomeSilenced()
+        protected override void BecomeSilenced()
         {
             if (CurrentBattle.Commanding == this)
             {
@@ -431,7 +431,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
         }
 
-        public override void BecomeFrog()
+        protected override void BecomeFrog()
         {
             if (CurrentBattle.Commanding == this)
             {

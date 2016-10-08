@@ -22,7 +22,7 @@ namespace Atmosphere.Reverence.Seven.Battle
     {
         public const long SLEEP_DURATION = 100; // 100 v-timer units
         public const long POISON_INTERVAL = 10; // 10 v-timer units
-//        public const long SLOWNUMB_DURATION = 30000; // 30 seconds
+        public const long SLOWNUMB_DURATION = 30; // 30 c-timer units
         public const long REGEN_INTERVAL = 4; // 4 v-timer units
         public const long REGEN_DURATION = 127; // 127 v-timer units
 //        public const long BARRIER_DURATION = 38100; // 127 v-timer units
@@ -42,6 +42,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         protected const int _text_offset_x = _icon_half_width + 10;
         protected const int _text_offset_y = _icon_half_height - 30;
         protected const int _text_spacing_y = 20;
+        
+        private int _countdown_offset_y = _icon_half_height - 50;
 
                 
         protected long SleepTime = -1;
@@ -78,6 +80,20 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             Text.ShadowedText(g, NameColor, Name, X + _text_offset_x, Y + _text_offset_y, Text.MONOSPACE_FONT, 12);
 
+            if (SlowNumb)
+            {
+                string text = String.Format("{0}", 30 - (C_Timer.ElapsedUnits - SlownumbTime));
+                
+                int _countdown_offset_x = -10;
+
+                if (text.Length == 1)
+                {
+                    _countdown_offset_x += 10;
+                }
+
+                Text.ShadowedText(g, Colors.WHITE, text, X + _countdown_offset_x, Y + _countdown_offset_y, Text.MONOSPACE_FONT, 16);
+            }
+
 #if DEBUG
             string extraInfo = String.Format("{0}/{1} {2}/{3} {4}%", HP, MaxHP, MP, MaxMP, TurnTimer.PercentComplete);
             Text.ShadowedText(g, Colors.WHITE, extraInfo, X + _text_offset_x, Y + _text_offset_y + _text_spacing_y, Text.MONOSPACE_FONT, 12);
@@ -106,11 +122,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public virtual void Sense() { }
 
-        public virtual void BecomeConfused() { }
-        public virtual void BecomeSilenced() { }
-        public virtual void BecomeFrog() { }
-
-
+        protected virtual void BecomeConfused() { }
+        protected virtual void BecomeSilenced() { }
+        protected virtual void BecomeFrog() { }
 
         
 
@@ -140,12 +154,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             }
             
             
-//            if (SlowNumb && C_Timer.TotalMilliseconds - _slownumbTime >= SLOWNUMB_DURATION)
-//            {
-//                InflictPetrify(Petrifier);
-//            }
-//            
-//            
+            if (SlowNumb && C_Timer.ElapsedUnits - SlownumbTime >= SLOWNUMB_DURATION)
+            {
+                InflictPetrify(Petrifier);
+            }
+            
+            
             if (Regen && V_Timer.ElapsedUnits - RegenTimeEnd >= REGEN_DURATION)
             {
                 CureRegen(this);

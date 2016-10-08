@@ -813,7 +813,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             _sensed = true;
         }
 
-        public override void BecomeConfused()
+        protected override void BecomeConfused()
         {
             if (WaitingToResolve)
             {
