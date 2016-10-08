@@ -22,17 +22,17 @@ namespace Atmosphere.Reverence.Seven.Battle
     {
         public const long SLEEP_DURATION = 100; // 100 v-timer units
         public const long POISON_INTERVAL = 10; // 10 v-timer units
-        public const long SLOWNUMB_DURATION = 30000; // 30 seconds
-        public const long REGEN_INTERVAL = 1200; // 4 v-timer units
-        public const long REGEN_DURATION = 38100; // 127 v-timer units
-        public const long BARRIER_DURATION = 38100; // 127 v-timer units
-        public const long MBARRIER_DURATION = 38100; // 127 v-timer units
-        public const long SHIELD_DURATION = 18200; // 64 v-timer units
-        public const long DEATHSENTENCE_DURATION = 60000; // 60 seconds
-        public const long PEERLESS_DURATION = 18200; // 64 v-timer units
-        public const long PARALYZED_DURATION = 3000; // 20 v-timer units
-        public const long SEIZURE_INTERVAL = 1200; // 4 v-timer units
-        public const long SEIZURE_DURATION = 38100; // 127 v-timer units
+//        public const long SLOWNUMB_DURATION = 30000; // 30 seconds
+        public const long REGEN_INTERVAL = 4; // 4 v-timer units
+        public const long REGEN_DURATION = 127; // 127 v-timer units
+//        public const long BARRIER_DURATION = 38100; // 127 v-timer units
+//        public const long MBARRIER_DURATION = 38100; // 127 v-timer units
+//        public const long SHIELD_DURATION = 18200; // 64 v-timer units
+//        public const long DEATHSENTENCE_DURATION = 60000; // 60 seconds
+//        public const long PEERLESS_DURATION = 18200; // 64 v-timer units
+//        public const long PARALYZED_DURATION = 3000; // 20 v-timer units
+//        public const long SEIZURE_INTERVAL = 1200; // 4 v-timer units
+//        public const long SEIZURE_DURATION = 38100; // 127 v-timer units
 
         
         
@@ -46,17 +46,17 @@ namespace Atmosphere.Reverence.Seven.Battle
                 
         protected long SleepTime = -1;
         private long? PoisonTime { get; set; }
-        protected long _slownumbTime = -1;
-        protected long _regenTimeInt = -1;
-        protected long _regenTimeEnd = -1;
-        protected long _barrierTime = -1;
-        protected long _mbarrierTime = -1;
-        protected long _shieldTime = -1;
-        protected long _deathsentenceTime = -1;
-        protected long _peerlessTime = -1;
-        protected long _paralyzedTime = -1;
-        protected long _seizureTimeInt = -1;
-        protected long _seizureTimeEnd = -1;
+        protected long SlownumbTime = -1;
+        protected long RegenTimeInterval = -1;
+        protected long RegenTimeEnd = -1;
+        protected long BarrierTimeEnd = -1;
+        protected long MBarrierTimeEnd = -1;
+        protected long ShieldTimeEnd = -1;
+        protected long DeathSentenceTimeEnd = -1;
+        protected long PeerlessTimeEnd = -1;
+        protected long ParalyzedTimeEnd = -1;
+        protected long SeizureTimeInterval = -1;
+        protected long SeizureTimeEnd = -1;
 
 
 
@@ -146,15 +146,15 @@ namespace Atmosphere.Reverence.Seven.Battle
 //            }
 //            
 //            
-//            if (Regen && V_Timer.TotalMilliseconds - _regenTimeEnd >= REGEN_DURATION)
-//            {
-//                CureRegen(this);
-//            }
-//            if (Regen && V_Timer.TotalMilliseconds - _regenTimeInt >= REGEN_INTERVAL)
-//            {
-//                AcceptDamage(Regenerator, MaxHP / -32);
-//                _regenTimeInt = V_Timer.TotalMilliseconds;
-//            }
+            if (Regen && V_Timer.ElapsedUnits - RegenTimeEnd >= REGEN_DURATION)
+            {
+                CureRegen(this);
+            }
+            if (Regen && V_Timer.ElapsedUnits - RegenTimeInterval >= REGEN_INTERVAL)
+            {
+                AcceptDamage(Regenerator, MaxHP / -32);
+                RegenTimeInterval = V_Timer.ElapsedUnits;
+            }
 //            
 //            
 //            if (Barrier && V_Timer.TotalMilliseconds - _barrierTime >= BARRIER_DURATION)
@@ -281,6 +281,8 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Sleep || Petrify || Peerless || Resist) 
                 return false;
 
+            CureManipulate(source);
+
             SleepTime = V_Timer.ElapsedUnits;
             TurnTimer.Pause();
             return true;
@@ -329,6 +331,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             return true;
         }
+
         public bool InflictHaste(Combatant source)
         {
             if (Immune(Status.Haste))
@@ -337,11 +340,14 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Slow)
                 CureSlow(source);
+
             Haste = true;
             C_Timer.DoubleRate();
             V_Timer.DoubleRate();
+
             return true;
         }
+
         public bool InflictSlow(Combatant source)
         {
             if (Immune(Status.Slow))
@@ -355,16 +361,21 @@ namespace Atmosphere.Reverence.Seven.Battle
             V_Timer.HalfRate();
             return true;
         }
+
         public bool InflictStop(Combatant source)
         {
             if (Immune(Status.Stop))
                 return false;
             if (Stop || Petrify || Peerless || Resist)
                 return false;
+
+            CureManipulate(source);
+
             Stop = true;
             PauseTimers();
             return true;
         }
+
         public bool InflictFrog(Combatant source)
         {
             if (Immune(Status.Frog))
@@ -395,7 +406,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             SlowNumb = true;
             Petrifier = source;
-            _slownumbTime = C_Timer.ElapsedUnits;
+            SlownumbTime = C_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictPetrify(Combatant source)
@@ -406,6 +417,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
 
             CureSlowNumb(source);
+            CureManipulate(source);
 
             Petrify = true;
             PauseTimers();
@@ -420,8 +432,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             Regen = true;
             Regenerator = source;
-            _regenTimeEnd = V_Timer.ElapsedUnits;
-            _regenTimeInt = V_Timer.ElapsedUnits;
+            RegenTimeEnd = V_Timer.ElapsedUnits;
+            RegenTimeInterval = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictBarrier(Combatant source)
@@ -431,7 +443,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Barrier || Petrify || Peerless || Resist)
                 return false;
             Barrier = true;
-            _barrierTime = V_Timer.ElapsedUnits;
+            BarrierTimeEnd = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictMBarrier(Combatant source)
@@ -441,7 +453,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (MBarrier || Petrify || Peerless || Resist)
                 return false;
             MBarrier = true;
-            _mbarrierTime = V_Timer.ElapsedUnits;
+            MBarrierTimeEnd = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictReflect(Combatant source)
@@ -460,7 +472,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Shield || Petrify || Resist)
                 return false;
             Shield = true;
-            _shieldTime = V_Timer.ElapsedUnits;
+            ShieldTimeEnd = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictDeathSentence(Combatant source)
@@ -471,7 +483,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             DeathSentence = true;
             Sentencer = source;
-            _deathsentenceTime = C_Timer.ElapsedUnits;
+            DeathSentenceTimeEnd = C_Timer.ElapsedUnits;
             return true;
         }
 
@@ -493,7 +505,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Peerless || Petrify || Resist)
                 return false;
             Peerless = true;
-            _peerlessTime = V_Timer.ElapsedUnits;
+            PeerlessTimeEnd = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictParalyzed(Combatant source)
@@ -502,9 +514,13 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             if (Paralysed || Petrify || Peerless || Resist)
                 return false;
+
+            CureManipulate(source);
+
             Paralysed = true;
-            _paralyzedTime = V_Timer.ElapsedUnits;
+            ParalyzedTimeEnd = V_Timer.ElapsedUnits;
             TurnTimer.Pause();
+
             return true;
         }
         public bool InflictDarkness(Combatant source)
@@ -524,8 +540,8 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             Seizure = true;
             Seizer = source;
-            _seizureTimeEnd = V_Timer.ElapsedUnits;
-            _seizureTimeInt = V_Timer.ElapsedUnits;
+            SeizureTimeEnd = V_Timer.ElapsedUnits;
+            SeizureTimeInterval = V_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictDeathForce(Combatant source)
@@ -644,7 +660,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
         public bool CureSlowNumb(Combatant source)
         {
-            _slownumbTime = -1;
+            SlownumbTime = -1;
             SlowNumb = false;
             Petrifier = null;
             return true;
@@ -660,20 +676,20 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             Regen = false;
             Regenerator = null;
-            _regenTimeInt = -1;
-            _regenTimeEnd = -1;
+            RegenTimeInterval = -1;
+            RegenTimeEnd = -1;
             return true;
         }
         public bool CureBarrier(Combatant source)
         {
             Barrier = false;
-            _barrierTime = -1;
+            BarrierTimeEnd = -1;
             return true;
         }
         public bool CureMBarrier(Combatant source)
         {
             MBarrier = false;
-            _mbarrierTime = -1;
+            MBarrierTimeEnd = -1;
             return true;
         }
         public bool CureReflect(Combatant source)
@@ -684,13 +700,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureShield(Combatant source)
         {
             Shield = false;
-            _shieldTime = -1;
+            ShieldTimeEnd = -1;
             return true;
         }
         public bool CureDeathSentence(Combatant source)
         {
             DeathSentence = false;
-            _deathsentenceTime = -1;
+            DeathSentenceTimeEnd = -1;
             Sentencer = null;
             return true;
         }
@@ -706,13 +722,13 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CurePeerless(Combatant source)
         {
             Peerless = false;
-            _peerlessTime = -1;
+            PeerlessTimeEnd = -1;
             return true;
         }
         public bool CureParalyzed(Combatant source)
         {
             Paralysed = false;
-            _paralyzedTime = -1;
+            ParalyzedTimeEnd = -1;
             if (!(Sleep || Stop || Petrify || Imprisoned))
                 TurnTimer.Unpause();
             return true;
@@ -726,8 +742,8 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             Seizure = false;
             Seizer = null;
-            _seizureTimeEnd = -1;
-            _seizureTimeInt = -1;
+            SeizureTimeEnd = -1;
+            SeizureTimeInterval = -1;
             return true;
         }
         public bool CureDeathForce(Combatant source)
