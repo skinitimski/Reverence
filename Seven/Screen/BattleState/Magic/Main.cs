@@ -270,10 +270,4 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Magic
         
         protected Ally AssociatedAlly { get; private set; }
     }
-
-
-
-
-
-
 }

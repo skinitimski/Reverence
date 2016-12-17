@@ -145,8 +145,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
 
         public override void Reset()
         {
-            _option = 0;
-            _topRow = 0;
+            //_option = 0;
+            //_topRow = 0;
             Visible = false;
             BattleState.Screen.SummonMenuInfo.Visible = false;
         }
@@ -181,9 +181,4 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
         
         private SevenBattleState BattleState { get; set; }
     }
-
-
-
-
-
 }

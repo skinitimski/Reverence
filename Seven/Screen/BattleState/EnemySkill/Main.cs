@@ -189,7 +189,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         
         public override void Reset()
         {
-            _topRow = 0;
+            //_topRow = 0;
+            //_yopt = 0;
+            //_xopt = 0;
             Visible = false;
             BattleState.Screen.EnemySkillInfo.Visible = false;
         }
@@ -216,4 +218,3 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
         private SevenBattleState BattleState { get; set; }
     }
 }
-
