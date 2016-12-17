@@ -68,7 +68,7 @@ namespace Atmosphere.Reverence.Time
         /// <summary>
         /// Gets the elapsed time of the current session
         /// </summary>
-        private long GetAccumulatedValueSinceLastPause()
+        private long GetAccumulatedValueSinceLastUnpause()
         {
             long elapsedTicks = Clock.GetCurrentTime() - _lastUnpause;
             long elapsedGameTicks = elapsedTicks / TICKS_PER_GAME_TICK;
@@ -86,7 +86,7 @@ namespace Atmosphere.Reverence.Time
             if (!_isPaused)
             {
                 _isPaused = true;
-                _value += GetAccumulatedValueSinceLastPause();
+                _value += GetAccumulatedValueSinceLastUnpause();
                 ret = true;
             }
                         
@@ -181,7 +181,7 @@ namespace Atmosphere.Reverence.Time
                 
                 if (!_isPaused)
                 {
-                    currentValue += GetAccumulatedValueSinceLastPause();
+                    currentValue += GetAccumulatedValueSinceLastUnpause();
                 }
                 
                 return currentValue;
