@@ -14,59 +14,65 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class PoisonAbility : Ability
     {
-        private static readonly PoisonAbility INSTANCE = new PoisonAbility();
         private static readonly AbilityModifiers MODIFIERS = new AbilityModifiers();
-
-#if DEBUG
-        private const string STATUS = "(poison damage)";
-#else
-        private const string STATUS = "";
-#endif
-
+        
         private class PoisonEvent : AbilityEvent
         {
-            public PoisonEvent(Combatant source, Combatant target)
-                : base(INSTANCE, MODIFIERS, source, new Combatant[] { target })
+            public PoisonEvent(Combatant poisoner, Combatant poisonee)
+                : base(new PoisonAbility(poisoner, poisonee), MODIFIERS, poisoner, new Combatant[] { poisonee })
             {
-                Target = target;
+                Poisonee = poisonee;
             }
-
+            
             protected override void CompleteHook()
             {
-                Target.SetPoisonTime();
+                if (!Poisonee.Death)
+                {
+                    Poisonee.SetPoisonTime();
+                }
             }
-
-            private Combatant Target { get; set; }
+            
+            private Combatant Poisonee { get; set; }
         }
-
-        private PoisonAbility()
+        
+        private PoisonAbility(Combatant poisoner, Combatant poisonee)
         {
             Name = "Poison";
             Desc = "Damage as a result of the Poison Status";
             
             Type = AttackType.Physical;
             Target = BattleTarget.Combatant;
-
+            
             Elements = new Element[] { Element.Poison };
             
             Power = 1;
             Hitp = 255;
             
-            DamageFormula = HPPercent;
+            DamageFormula = MaxHPPercent;
             HitFormula = PhysicalHit;
+            
+#if DEBUG
+            Message = String.Format("[ {0} had poisoned {1} ]", poisoner, poisonee);
+#else
+            Message = String.Empty;
+#endif
         }
 
-        public static void Use(Combatant source, Combatant target)
+        public static void Use(Combatant poisoner, Combatant poisonee)
         {
-            source.CurrentBattle.EnqueueAction(new PoisonEvent(source, target));
+            poisonee.CurrentBattle.EnqueueAction(new PoisonEvent(poisoner, poisonee));
         }
-
+        
         public override int PauseDuration { get { return 0; } }
-
+        
+        public override int SpellDuration { get { return 200; } }
+        
         public override string GetMessage(Combatant source)
         {
-            return STATUS;
+            return Message;
         }
+        
+        private string Message { get; set; }
     }
 }
 

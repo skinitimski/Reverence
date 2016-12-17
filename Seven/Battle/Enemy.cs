@@ -438,7 +438,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (HP == 0)
             {
-                Kill(source);
+                Kill();
             }
         }
 
@@ -965,7 +965,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 {                 
                     CurrentBattle.AddDeathIcon(this);
 
-                    Kill(source);
+                    Kill();
 
                     _death = true;
                     inflicted = true;
@@ -1029,12 +1029,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             return cured;
         }
         
-        protected override void Kill(Combatant source)
+        protected override void Kill()
         {
             _hp = 0;
             _death = true;
 
-            CureAll(source);
+            CureAll(this);
             TurnTimer.Reset();
             PauseTimers();
 

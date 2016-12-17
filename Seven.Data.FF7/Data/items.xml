@@ -38,6 +38,14 @@
             <use>t:InflictPetrify(s)</use>
         </battle>
     </item>
+    <!-- NOTE: not a real item -->
+    <item>
+        <name>Harden</name>
+        <desc>Inflicts [Slow-Numb]</desc>
+        <battle target="Combatant" intendedForEnemies="true">
+            <use>t:InflictSlowNumb(s)</use>
+        </battle>
+    </item>
     
     <item>
         <name>Potion</name>

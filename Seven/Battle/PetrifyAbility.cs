@@ -14,16 +14,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class PetrifyAbility : Ability
     {
-        private static readonly PetrifyAbility INSTANCE = new PetrifyAbility();
         private static readonly AbilityModifiers MODIFIERS = new AbilityModifiers();
 
-#if DEBUG
-        private const string STATUS = "(petrification)";
-#else
-        private const string STATUS = "";
-#endif
-
-        private PetrifyAbility()
+        private PetrifyAbility(Combatant source, Combatant target)
         {
             Name = "Petrify";
             Desc = "Petrification as a result of Slow-Numb";
@@ -37,19 +30,31 @@ namespace Atmosphere.Reverence.Seven.Battle
             HitFormula = PhysicalHit;
 
             Statuses = new StatusChange[] { new StatusChange(Status.Petrify, 100, StatusChange.Effect.Inflict) };
+            
+#if DEBUG
+            Message = String.Format("[ {0} had slow-numbed {1} ]", source, target);
+#else
+            Message = String.Empty;
+#endif
         }
 
         public static void Use(Combatant source, Combatant target)
         {
-            source.CurrentBattle.EnqueueAction(new AbilityEvent(INSTANCE, MODIFIERS, source, new Combatant[] { target }));
-        }
+            PetrifyAbility ability = new PetrifyAbility(source, target);
 
+            source.CurrentBattle.EnqueueAction(new AbilityEvent(ability, MODIFIERS, source, new Combatant[] { target }));
+        }
+        
         public override int PauseDuration { get { return 0; } }
+        
+        public override int SpellDuration { get { return 200; } }
 
         public override string GetMessage(Combatant source)
         {
-            return STATUS;
+            return Message;
         }
+
+        private string Message { get; set; }
     }
 }
 

@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading;
 
 using Atmosphere.Reverence.Exceptions;
-using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;

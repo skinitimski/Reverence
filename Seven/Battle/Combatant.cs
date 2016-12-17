@@ -12,6 +12,7 @@ using Atmosphere.Reverence.Exceptions;
 using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Time;
 using Atmosphere.Reverence.Seven.Asset;
+using Atmosphere.Reverence.Seven.Battle.Event;
 using Atmosphere.Reverence.Seven.Battle.Time;
 using Atmosphere.Reverence.Seven.Screen.BattleState;
 using Atmosphere.Reverence.Seven.State;
@@ -46,19 +47,33 @@ namespace Atmosphere.Reverence.Seven.Battle
         private int _countdown_offset_y = _icon_half_height - 50;
 
                 
-        private long SleepTime = -1;
+        private long SleepTimeEnd = -1;
         private long? PoisonTime { get; set; }
-        private long SlownumbTime = -1;
+        private long? SlownumbTimeEnd { get; set; }
         private long RegenTimeInterval = -1;
         private long RegenTimeEnd = -1;
         private long BarrierTimeEnd = -1;
         private long MBarrierTimeEnd = -1;
         private long ShieldTimeEnd = -1;
-        private long DeathSentenceTimeEnd = -1;
+        private long? DeathSentenceTimeEnd { get; set; }
         private long PeerlessTimeEnd = -1;
         private long ParalyzedTimeEnd = -1;
         private long SeizureTimeInterval = -1;
         private long SeizureTimeEnd = -1;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -83,9 +98,13 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (SlowNumb || DeathSentence)
             {
                 long max = DeathSentence ? 60 : 30; // 60 units for ds, 30 for sn
-                long time = DeathSentence ? DeathSentenceTimeEnd : SlownumbTime;
+                long time = DeathSentenceTimeEnd ?? (SlownumbTimeEnd ?? 0);
 
-                string text = String.Format("{0}", max - (C_Timer.ElapsedUnits - time));
+                long countdown = max - (C_Timer.ElapsedUnits - time);
+
+                if (countdown < 0) countdown = 0;
+
+                string text = String.Format("{0}", countdown);
                 
                 int _countdown_offset_x = -10;
 
@@ -144,7 +163,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         
         public void CheckTimers()
         {           
-            if (Sleep && V_Timer.ElapsedUnits - SleepTime >= SLEEP_DURATION)
+            if (Sleep && V_Timer.ElapsedUnits - SleepTimeEnd >= SLEEP_DURATION)
             {
                 CureSleep(this);
             }
@@ -155,11 +174,17 @@ namespace Atmosphere.Reverence.Seven.Battle
                 PoisonAbility.Use(Poisoner, this);
                 PoisonTime = null;
             }
-            
-            
-            if (SlowNumb && C_Timer.ElapsedUnits - SlownumbTime >= SLOWNUMB_DURATION)
+                        
+            if (SlowNumb && SlownumbTimeEnd != null && C_Timer.ElapsedUnits - SlownumbTimeEnd >= SLOWNUMB_DURATION)
             {
                 PetrifyAbility.Use(Petrifier, this);
+                SlownumbTimeEnd = null;
+            }        
+            
+            if (DeathSentence && DeathSentenceTimeEnd != null && C_Timer.ElapsedUnits - DeathSentenceTimeEnd >= DEATHSENTENCE_DURATION)
+            {
+                DeathAbility.Use(Sentencer, this);
+                DeathSentenceTimeEnd = null;
             }
             
             
@@ -196,12 +221,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             if (Shield && V_Timer.ElapsedUnits - ShieldTimeEnd >= SHIELD_DURATION)
             {
                 CureShield(this);
-            }            
-            
-            if (DeathSentence && C_Timer.ElapsedUnits - DeathSentenceTimeEnd >= DEATHSENTENCE_DURATION)
-            {
-                DeathAbility.Use(Sentencer, this);
-            }
+            }    
                         
             if (Peerless && V_Timer.ElapsedUnits - PeerlessTimeEnd >= PEERLESS_DURATION)
             {
@@ -293,7 +313,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             CureManipulate(source);
 
-            SleepTime = V_Timer.ElapsedUnits;
+            SleepTimeEnd = V_Timer.ElapsedUnits;
             TurnTimer.Pause();
             return true;
         }
@@ -418,7 +438,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                 return false;
             SlowNumb = true;
             Petrifier = source;
-            SlownumbTime = C_Timer.ElapsedUnits;
+            SlownumbTimeEnd = C_Timer.ElapsedUnits;
             return true;
         }
         public bool InflictPetrify(Combatant source)
@@ -606,7 +626,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
         public bool CureSleep(Combatant source)
         {
-            SleepTime = -1;
+            SleepTimeEnd = -1;
 
             if (!(Stop || Petrify || Paralysed || Imprisoned))
             {
@@ -656,7 +676,9 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 UnpauseTimers();
                 if (Sleep || Petrify || Paralysed)
+                {
                     TurnTimer.Pause();
+                }
             }
             return true;
         }
@@ -672,7 +694,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         }
         public bool CureSlowNumb(Combatant source)
         {
-            SlownumbTime = -1;
+            SlownumbTimeEnd = null;
             SlowNumb = false;
             Petrifier = null;
             return true;
@@ -718,7 +740,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public bool CureDeathSentence(Combatant source)
         {
             DeathSentence = false;
-            DeathSentenceTimeEnd = -1;
+            DeathSentenceTimeEnd = null;
             Sentencer = null;
             return true;
         }
@@ -818,7 +840,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             CureImprisoned(source);
         }
 
-        protected abstract void Kill(Combatant source);
+        protected abstract void Kill();
 
 
         #endregion Cure
@@ -870,7 +892,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         public abstract bool Sadness { get; }
         public abstract bool Fury { get; }
 
-        public bool Sleep { get { return SleepTime >= 0; } } 
+        public bool Sleep { get { return SleepTimeEnd >= 0; } } 
         public bool Poison { get; protected set; } 
         public bool Confusion  { get; protected set; } 
         public bool Silence  { get; protected set; } 

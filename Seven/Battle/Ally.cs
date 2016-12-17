@@ -94,7 +94,7 @@ namespace Atmosphere.Reverence.Seven.Battle
                         
             if (HP == 0)
             {
-                InflictDeath(null);
+                Kill();
             }
 
             V_Timer = new BattleClock(battle.SpeedValue * 2);
@@ -310,7 +310,7 @@ namespace Atmosphere.Reverence.Seven.Battle
 
             if (HP == 0)
             {
-                Kill(source);
+                Kill();
             }
 
             if (source is Enemy)
@@ -493,8 +493,10 @@ namespace Atmosphere.Reverence.Seven.Battle
                 inflicted = _c.InflictDeath();
 
                 if (inflicted)
-                {                    
-                    Kill(source);
+                {
+                    CurrentBattle.AddDeathIcon(this);
+
+                    Kill();
                 }
             }
             
@@ -524,11 +526,11 @@ namespace Atmosphere.Reverence.Seven.Battle
             return false;
         }
 
-        protected override void Kill(Combatant source)
+        protected override void Kill()
         {
             _c.HP = 0;
 
-            CureAll(source);
+            CureAll(this);
             TurnTimer.Reset();
             PauseTimers();
 

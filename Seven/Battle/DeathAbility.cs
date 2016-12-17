@@ -14,16 +14,9 @@ namespace Atmosphere.Reverence.Seven.Battle
 {
     internal class DeathAbility : Ability
     {
-        private static readonly DeathAbility INSTANCE = new DeathAbility();
         private static readonly AbilityModifiers MODIFIERS = new AbilityModifiers();
 
-#if DEBUG
-        private const string STATUS = "(death)";
-#else
-        private const string STATUS = "";
-#endif
-
-        private DeathAbility()
+        private DeathAbility(Combatant source, Combatant target)
         {
             Name = "Death";
             Desc = "Death as a result of Death Sentence";
@@ -37,19 +30,31 @@ namespace Atmosphere.Reverence.Seven.Battle
             HitFormula = PhysicalHit;
             
             Statuses = new StatusChange[] { new StatusChange(Status.Death, 100, StatusChange.Effect.Inflict) };
+            
+#if DEBUG
+            Message = String.Format("[ {0} reaps {1} ]", source, target);
+#else
+            Message = String.Empty;
+#endif
         }
 
         public static void Use(Combatant source, Combatant target)
         {
-            source.CurrentBattle.EnqueueAction(new AbilityEvent(INSTANCE, MODIFIERS, source, new Combatant[] { target }));
+            DeathAbility ability = new DeathAbility(source, target);
+
+            source.CurrentBattle.EnqueueAction(new AbilityEvent(ability, MODIFIERS, source, new Combatant[] { target }));
         }
-
+        
         public override int PauseDuration { get { return 0; } }
-
+        
+        public override int SpellDuration { get { return 200; } }
+        
         public override string GetMessage(Combatant source)
         {
-            return STATUS;
+            return Message;
         }
+        
+        private string Message { get; set; }
     }
 }
 
