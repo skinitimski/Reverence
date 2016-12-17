@@ -51,6 +51,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             Power = 1;
             Hitp = 255;
+            Hits = 1;
             
             DamageFormula = HPPercent;
             HitFormula = PhysicalHit;

@@ -226,6 +226,8 @@
     <Compile Include="Battle\Time\AllyTurnTimer.cs" />
     <Compile Include="Battle\PoisonAbility.cs" />
     <Compile Include="Battle\Event\ChangeRowEvent.cs" />
+    <Compile Include="Battle\PetrifyAbility.cs" />
+    <Compile Include="Battle\DeathAbility.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

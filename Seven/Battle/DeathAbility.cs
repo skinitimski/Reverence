@@ -12,53 +12,36 @@ using Atmosphere.Reverence.Seven.Screen.BattleState;
 
 namespace Atmosphere.Reverence.Seven.Battle
 {
-    internal class PoisonAbility : Ability
+    internal class DeathAbility : Ability
     {
-        private static readonly PoisonAbility INSTANCE = new PoisonAbility();
+        private static readonly DeathAbility INSTANCE = new DeathAbility();
         private static readonly AbilityModifiers MODIFIERS = new AbilityModifiers();
 
 #if DEBUG
-        private const string STATUS = "(poison damage)";
+        private const string STATUS = "(death)";
 #else
         private const string STATUS = "";
 #endif
 
-        private class PoisonEvent : AbilityEvent
+        private DeathAbility()
         {
-            public PoisonEvent(Combatant source, Combatant target)
-                : base(INSTANCE, MODIFIERS, source, new Combatant[] { target })
-            {
-                Target = target;
-            }
-
-            protected override void CompleteHook()
-            {
-                Target.SetPoisonTime();
-            }
-
-            private Combatant Target { get; set; }
-        }
-
-        private PoisonAbility()
-        {
-            Name = "Poison";
-            Desc = "Damage as a result of the Poison Status";
+            Name = "Death";
+            Desc = "Death as a result of Death Sentence";
             
             Type = AttackType.Physical;
             Target = BattleTarget.Combatant;
-
-            Elements = new Element[] { Element.Poison };
             
-            Power = 1;
+            Power = 0;
             Hitp = 255;
             
-            DamageFormula = HPPercent;
             HitFormula = PhysicalHit;
+            
+            Statuses = new StatusChange[] { new StatusChange(Status.Death, 100, StatusChange.Effect.Inflict) };
         }
 
         public static void Use(Combatant source, Combatant target)
         {
-            source.CurrentBattle.EnqueueAction(new PoisonEvent(source, target));
+            source.CurrentBattle.EnqueueAction(new AbilityEvent(INSTANCE, MODIFIERS, source, new Combatant[] { target }));
         }
 
         public override int PauseDuration { get { return 0; } }

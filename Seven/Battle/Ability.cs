@@ -34,12 +34,19 @@ namespace Atmosphere.Reverence.Seven.Asset
                 Cure,
                 Toggle
             }
-
+            
             public StatusChange(XmlNode node)
             {
                 _odds = Int32.Parse(node.SelectSingleNode("@odds").Value);
                 ChangeType = (StatusChange.Effect)Enum.Parse(typeof(StatusChange.Effect), node.SelectSingleNode("@type").Value);
                 Statuses = node.SelectSingleNode("@statuses").Value.Split(',').Select(s => (Status)Enum.Parse(typeof(Status), s));
+            }
+            
+            public StatusChange(Status status, int odds, StatusChange.Effect effect)
+            {
+                _odds = 100;
+                ChangeType = effect;
+                Statuses = new Status[] { status };
             }
                       
             public bool Hits(Combatant source, Combatant target, AbilityModifiers modifiers)

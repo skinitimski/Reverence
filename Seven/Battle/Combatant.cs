@@ -27,12 +27,12 @@ namespace Atmosphere.Reverence.Seven.Battle
         public const long REGEN_DURATION = 127; // 127 v-timer units
         public const long BARRIER_DURATION = 127; // 127 v-timer units
         public const long MBARRIER_DURATION = 127; // 127 v-timer units
-//        public const long SHIELD_DURATION = 18200; // 64 v-timer units
-//        public const long DEATHSENTENCE_DURATION = 60000; // 60 seconds
-//        public const long PEERLESS_DURATION = 18200; // 64 v-timer units
-//        public const long PARALYZED_DURATION = 3000; // 20 v-timer units
-//        public const long SEIZURE_INTERVAL = 1200; // 4 v-timer units
-//        public const long SEIZURE_DURATION = 38100; // 127 v-timer units
+        public const long SHIELD_DURATION = 64; // 64 v-timer units
+        public const long DEATHSENTENCE_DURATION = 60; // 60 c-timer units
+        public const long PEERLESS_DURATION = 64; // 64 v-timer units
+        public const long PARALYZED_DURATION = 20; // 20 v-timer units
+        public const long SEIZURE_INTERVAL = 4; // 4 v-timer units
+        public const long SEIZURE_DURATION = 127; // 127 v-timer units
 
         
         
@@ -80,9 +80,12 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             Text.ShadowedText(g, NameColor, Name, X + _text_offset_x, Y + _text_offset_y, Text.MONOSPACE_FONT, 12);
 
-            if (SlowNumb)
+            if (SlowNumb || DeathSentence)
             {
-                string text = String.Format("{0}", 30 - (C_Timer.ElapsedUnits - SlownumbTime));
+                long max = DeathSentence ? 60 : 30; // 60 units for ds, 30 for sn
+                long time = DeathSentence ? DeathSentenceTimeEnd : SlownumbTime;
+
+                string text = String.Format("{0}", max - (C_Timer.ElapsedUnits - time));
                 
                 int _countdown_offset_x = -10;
 
@@ -156,7 +159,7 @@ namespace Atmosphere.Reverence.Seven.Battle
             
             if (SlowNumb && C_Timer.ElapsedUnits - SlownumbTime >= SLOWNUMB_DURATION)
             {
-                InflictPetrify(Petrifier);
+                PetrifyAbility.Use(Petrifier, this);
             }
             
             
@@ -164,58 +167,51 @@ namespace Atmosphere.Reverence.Seven.Battle
             {
                 CureRegen(this);
             }
-            if (Regen && V_Timer.ElapsedUnits - RegenTimeInterval >= REGEN_INTERVAL)
+            else if (Regen && V_Timer.ElapsedUnits - RegenTimeInterval >= REGEN_INTERVAL)
             {
                 AcceptDamage(Regenerator, MaxHP / -32);
                 RegenTimeInterval = V_Timer.ElapsedUnits;
             }
             
+            if (Seizure && V_Timer.ElapsedUnits - SeizureTimeEnd >= SEIZURE_DURATION)
+            {
+                CureSeizure(this);
+            }
+            else if (Seizure && V_Timer.ElapsedUnits - SeizureTimeInterval >= SEIZURE_INTERVAL)
+            {
+                AcceptDamage(Seizer, MaxHP / 32);
+                SeizureTimeInterval = V_Timer.ElapsedUnits;
+            }            
             
             if (Barrier && V_Timer.ElapsedUnits - BarrierTimeEnd >= BARRIER_DURATION)
             {
                 CureBarrier(this);
             }
-            
-            
+                        
             if (MBarrier && V_Timer.ElapsedUnits - MBarrierTimeEnd >= MBARRIER_DURATION)
             {
                 CureMBarrier(this);
             }
+                        
+            if (Shield && V_Timer.ElapsedUnits - ShieldTimeEnd >= SHIELD_DURATION)
+            {
+                CureShield(this);
+            }            
             
-//            
-//            if (Shield && V_Timer.TotalMilliseconds - _shieldTime >= SHIELD_DURATION)
-//            {
-//                CureShield(this);
-//            }
-//            
-//            
-//            if (DeathSentence && C_Timer.TotalMilliseconds - _deathsentenceTime >= DEATHSENTENCE_DURATION)
-//            {
-//                InflictDeath(Sentencer);
-//            }
-//            
-//            
-//            if (Peerless && V_Timer.TotalMilliseconds - _peerlessTime >= PEERLESS_DURATION)
-//            {
-//                CurePeerless(this);
-//            }
-//            
-//            
-//            if (Paralysed && V_Timer.TotalMilliseconds - _paralyzedTime >= PARALYZED_DURATION)
-//            {
-//                CureParalyzed(this);
-//            }
-//            
-//            
-//            if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeEnd >= SEIZURE_DURATION)
-//            {
-//                CureSeizure(this);
-//            }
-//            if (Seizure && V_Timer.TotalMilliseconds - _seizureTimeInt >= SEIZURE_INTERVAL)
-//            {
-//                AcceptDamage(Seizer, MaxHP / 32);
-//                _seizureTimeInt = V_Timer.TotalMilliseconds;
-//            }
+            if (DeathSentence && C_Timer.ElapsedUnits - DeathSentenceTimeEnd >= DEATHSENTENCE_DURATION)
+            {
+                DeathAbility.Use(Sentencer, this);
+            }
+                        
+            if (Peerless && V_Timer.ElapsedUnits - PeerlessTimeEnd >= PEERLESS_DURATION)
+            {
+                CurePeerless(this);
+            }
+                        
+            if (Paralysed && V_Timer.ElapsedUnits - ParalyzedTimeEnd >= PARALYZED_DURATION)
+            {
+                CureParalyzed(this);
+            }
         }
 
         protected void PauseTimers()
