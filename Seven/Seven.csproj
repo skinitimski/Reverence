@@ -224,10 +224,11 @@
     <Compile Include="Battle\Time\TurnTimer.cs" />
     <Compile Include="Battle\Time\EnemyTurnTimer.cs" />
     <Compile Include="Battle\Time\AllyTurnTimer.cs" />
-    <Compile Include="Battle\PoisonAbility.cs" />
     <Compile Include="Battle\Event\ChangeRowEvent.cs" />
     <Compile Include="Battle\PetrifyAbility.cs" />
     <Compile Include="Battle\DeathAbility.cs" />
+    <Compile Include="Battle\PoisonAbility.cs" />
+    <Compile Include="Screen\BattleState\PausedBar.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

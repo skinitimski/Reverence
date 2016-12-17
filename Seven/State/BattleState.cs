@@ -246,7 +246,6 @@ namespace Atmosphere.Reverence.Seven.State
             private BattleState Battle { get; set; }
         }
 
-
         private class EndOfBattleEvent : BattleEvent
         {
             public const int DURATION = 4000;
@@ -274,7 +273,7 @@ namespace Atmosphere.Reverence.Seven.State
 
             private string Text { get; set; }
         }
-        
+
 
         private BattleState(Seven seven)
             : base(seven)
@@ -918,6 +917,8 @@ namespace Atmosphere.Reverence.Seven.State
         
         public int SpeedValue { get; private set; }
         
+        public bool Paused { get; private set; }
+        
         private bool Victory { get; set; }
         private bool Loss { get; set; }
 
@@ -926,8 +927,6 @@ namespace Atmosphere.Reverence.Seven.State
         public Random Random { get; private set; }
 
         private PriorityQueue EventQueue { get; set; }
-
-        private bool Paused { get; set; }
 
         private ClockCollection CombatantClocks { get; set; }
         

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 
 using Atmosphere.Reverence.Exceptions;
+using Atmosphere.Reverence.Graphics;
 using Atmosphere.Reverence.Menu;
 using Atmosphere.Reverence.Seven.Battle;
 using GameMenu = Atmosphere.Reverence.Menu.Menu;
@@ -19,6 +20,9 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
     {
         private IController _controller;
         private List<IController> _controllerStack;
+
+
+        
 
 
 
@@ -37,7 +41,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             ItemMenu = new Screens.ItemMenu(battleState, state);
             WItemMenu = new Screens.WItemMenu(battleState, state);
 
-            
             MagicInfo = new Screens.Magic.Info(battleState, state);  
             EnemySkillInfo = new Screens.EnemySkill.Info(battleState, state);  
             SummonMenuInfo = new Screens.Summon.Info(battleState, state);  
@@ -46,6 +49,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             TargetSelector = new Screens.Selector.TargetSelector(battleState);
             GroupSelector = new Screens.Selector.GroupSelector(battleState);
             AreaSelector = new Screens.Selector.AreaSelector(battleState);
+
+            PausedBar = new Screens.PausedBar(state);
 
             _controllerStack = new List<IController>();
             _controller = null;
@@ -65,6 +70,10 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             InfoBar.Draw(d);
             EventBar.Draw(d);
 
+            if (BattleState.Paused)
+            {
+                PausedBar.Draw(d);
+            }
 
             lock (_controllerStack)
             {
@@ -284,6 +293,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         public Screens.Selector.TargetSelector TargetSelector { get; private set; }
         public Screens.Selector.GroupSelector GroupSelector { get; private set; }
         public Screens.Selector.AreaSelector AreaSelector { get; private set; }
+
+        public Screens.PausedBar PausedBar { get; private set; }
               
         public ISelectorUser User { get;  private set; }
 
