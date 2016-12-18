@@ -215,9 +215,9 @@ namespace Atmosphere.Reverence.Seven.State
             }
         }
 
-        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            _screen.Draw(d);
+            _screen.Draw(d, g, width, height, screenChanged);
         }
 
         public override void KeyPressHandle(Key k)

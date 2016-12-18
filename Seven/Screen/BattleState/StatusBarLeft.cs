@@ -34,10 +34,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             BattleState = battleState;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(28);
             
@@ -56,9 +54,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             {
                 DrawAllyStatus(g, BattleState.Allies[2], y2);
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         private void DrawAllyStatus(Context g, Ally a, int y)

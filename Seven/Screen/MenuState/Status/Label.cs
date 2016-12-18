@@ -48,17 +48,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             }
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             Text.ShadowedText(g, "Status", X + 20, Y + 25);
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         public override void SetAsControl()

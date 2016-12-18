@@ -49,7 +49,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             }
         }
 
-        public abstract void Draw(Gdk.Drawable d);
+        public abstract void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged);
         
         public virtual void SetAsControl() 
         {

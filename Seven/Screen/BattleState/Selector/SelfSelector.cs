@@ -21,17 +21,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         }
 
         
-        public override void Draw(Gdk.Drawable d)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             if (IsControl)
             {
                 Shapes.RenderCursor(g, _target.X - CURSOR_SPACING, _target.Y);
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         public override void SetAsControl()

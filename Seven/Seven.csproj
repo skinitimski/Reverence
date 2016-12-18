@@ -81,6 +81,7 @@
     <Folder Include="Screen\MenuState\Config\" />
     <Folder Include="Battle\Event\" />
     <Folder Include="Battle\Time\" />
+    <Folder Include="Field\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="State\MenuState.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Graphics\MateriaSlots.cs" />
     <Compile Include="Asset\SlotHolder.cs" />
     <Compile Include="State\BattleState.cs" />
+    <Compile Include="State\FieldState.cs" />
     <Compile Include="Battle\Enemy.cs" />
     <Compile Include="Battle\Combatant.cs" />
     <Compile Include="Screen\BattleState\BattleMenu.cs" />
@@ -207,8 +209,6 @@
     <Compile Include="Screen\PostBattleState\Victory\MateriaInfo.cs" />
     <Compile Include="Screen\BattleState\RecoveryIcon.cs" />
     <Compile Include="Battle\AbilityModifiers.cs" />
-    <Compile Include="Asset\Spell.cs" />
-    <Compile Include="Battle\Ability.cs" />
     <Compile Include="State\State.cs" />
     <Compile Include="Asset\Materia\MasterMateria.cs" />
     <Compile Include="DataStore.cs" />
@@ -229,6 +229,9 @@
     <Compile Include="Battle\DeathAbility.cs" />
     <Compile Include="Battle\PoisonAbility.cs" />
     <Compile Include="Screen\BattleState\PausedBar.cs" />
+    <Compile Include="Battle\Ability.cs" />
+    <Compile Include="Asset\Spell.cs" />
+    <Compile Include="Field\Room.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ReverenceLib\ReverenceLib.csproj">

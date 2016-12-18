@@ -27,9 +27,9 @@ namespace Atmosphere.Reverence.Seven.State
             Screen = new Prompt(this, state);
         }
         
-        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Screen.Draw(d);
+            Screen.Draw(d, g, width, height, screenChanged);
             Screen.Visible = true;
         }
         

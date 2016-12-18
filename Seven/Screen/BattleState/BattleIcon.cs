@@ -32,19 +32,14 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
         }
 
         
-        public void Draw(Gdk.Drawable d)
+        public void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(20);
             
             TextExtents te = g.TextExtents(Message);
             
             Text.ShadowedText(g, Color, Message, X - (te.Width / 2), Y - (te.Height / 2) + GetCurrentDisplacement());
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         private int GetCurrentDisplacement()

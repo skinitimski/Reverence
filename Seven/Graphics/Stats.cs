@@ -21,7 +21,7 @@ namespace Atmosphere.Reverence.Seven.Graphics
         const int yc = yb + 25; // subrow 3
 
         
-        public static void RenderCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int x, int y, bool showFurySadness = true)
+        public static void RenderCharacterStatus(Gdk.Drawable d, Cairo.Context g, Character c, int x, int y, bool showFurySadness = true)
         {   
             TextExtents te;
             

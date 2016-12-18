@@ -35,13 +35,10 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             PhsList = menuState.PhsList;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
             if (PhsList.IsControl)
             {
-                Gdk.GC gc = new Gdk.GC(d);
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
                 g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
                 g.SetFontSize(24);
             
@@ -52,16 +49,12 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             
                 if (c != null)
                 {
-                    Images.RenderProfileSmall(d, gc, X + xpic, Y + ypic, c);
+                    Images.RenderProfileSmall(d, X + xpic, Y + ypic, c);
 
-                    Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_stats, Y + y_stats, false);
+                    Graphics.Stats.RenderCharacterStatus(d, g, c, X + x_stats, Y + y_stats, false);
 
                 }
                 #endregion Character
-            
-            
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
             }
         }
 

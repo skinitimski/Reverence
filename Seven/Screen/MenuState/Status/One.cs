@@ -40,15 +40,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Visible = true;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-            
-            
+
             
             
             TextExtents te;
@@ -58,7 +54,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
             #region Top Row
 
-            DrawCharacterStatus(d, gc, g);
+            DrawCharacterStatus(d, g);
 
             exp = Party.Selected.Exp.ToString();
             next = Party.Selected.ExpToNextLevel.ToString();
@@ -169,10 +165,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Text.ShadowedText(g, Party.Selected.Accessory.Name, X + x8, Y + yl);
 
             #endregion Right
-            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
     }
 

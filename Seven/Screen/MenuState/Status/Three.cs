@@ -30,11 +30,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Visible = false;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
@@ -44,14 +41,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
 
             #region Character Status
             
-            DrawCharacterStatus(d, gc, g);
+            DrawCharacterStatus(d, g);
             
             #endregion Status
-            
-            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
     }
 }

@@ -92,10 +92,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             }
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
                         
@@ -107,10 +105,7 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
             foreach (Option option in Enum.GetValues(typeof(Option)))
             {
                 DrawOption(g, option);
-            }            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
+            }
         }
 
         private void DrawOption(Cairo.Context g, Option o)
@@ -121,8 +116,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Main
         }
         
         public Option Selection { get { return option; } }
-        public override string Info
-        { get { return ""; } }
+
+        public override string Info { get { return String.Empty; } }
 
         private SevenMenuState MenuState { get; set; }
     }

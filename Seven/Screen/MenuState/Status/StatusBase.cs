@@ -26,11 +26,11 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Status
             Party = menuState.Party;
         }
 
-        protected void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Context g)
+        protected void DrawCharacterStatus(Gdk.Drawable d, Context g)
         {
-            Images.RenderProfile(d, gc, X + xpic, Y + ypic, Party.Selected);
+            Images.RenderProfile(d, X + xpic, Y + ypic, Party.Selected);
             
-            Stats.RenderCharacterStatus(d, gc, g, Party.Selected, X + x_status, Y + y_status);
+            Stats.RenderCharacterStatus(d, g, Party.Selected, X + x_status, Y + y_status);
         }
         
         protected Party Party { get; private set; }

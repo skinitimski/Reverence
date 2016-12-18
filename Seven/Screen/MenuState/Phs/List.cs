@@ -104,18 +104,15 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             }
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             for (int a = 0; a <= 2; a++)
             {
                 for (int b = 0; b <= 2; b++)
                 {
                     if (MenuState.Party.Reserves[a, b] != null)
                     {
-                        Images.RenderProfileSmall(d, gc, X + x + b * xs, Y + y + a * ys, MenuState.Party.Reserves[a, b]);
+                        Images.RenderProfileSmall(d, X + x + b * xs, Y + y + a * ys, MenuState.Party.Reserves[a, b]);
                     }
                 }
             }
@@ -124,9 +121,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Phs
             {
                 Shapes.RenderCursor(g, X + cx, Y + cy - 15);
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         public void Update()

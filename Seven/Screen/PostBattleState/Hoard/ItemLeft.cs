@@ -101,10 +101,8 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             }
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
@@ -130,9 +128,6 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
             {
                 Shapes.RenderCursor(g, X + cx + x1, Y + cy + ys * (_option + 1));
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
 

@@ -377,7 +377,7 @@ namespace Atmosphere.Reverence.Seven.Battle
         {
             Gdk.GC gc = new Gdk.GC(d);
 
-            Images.RenderProfileTiny(d, gc, X - _icon_half_width, Y - _icon_half_height, _c);
+            Images.RenderProfileTiny(d, X - _icon_half_width, Y - _icon_half_height, _c);
         }
         
         #endregion Methods

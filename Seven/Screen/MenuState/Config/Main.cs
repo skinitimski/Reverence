@@ -106,10 +106,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             }
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
-        {      
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
+        {
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
@@ -119,16 +117,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 Text.ShadowedText(g, _options[i].Description, X + x_options, Y + _options[i].Y);
             }
 
-            WindowColorMenu.Draw(d);
-            BattleSpeedMenu.Draw(d);
+            WindowColorMenu.Draw(d, g, width, height, screenChanged);
+            BattleSpeedMenu.Draw(d, g, width, height, screenChanged);
                                      
             if (IsControl)
             {
                 Shapes.RenderCursor(g, X + x_cursor, Y + _options[option].Y + y_displacement_cursor);
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         public override void SetAsControl()

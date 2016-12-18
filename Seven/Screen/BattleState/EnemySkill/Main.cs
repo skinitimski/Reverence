@@ -145,10 +145,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
 
         
         
-        protected override void DrawContents(Gdk.Drawable d)
-        {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
+        {            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
@@ -180,11 +178,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.EnemySkill
             }
 
 
-            BattleState.Screen.EnemySkillInfo.Draw(d);
-            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
+            BattleState.Screen.EnemySkillInfo.Draw(d, g, width, height, screenChanged);
         }
         
         public override void Reset()

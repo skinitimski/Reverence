@@ -22,20 +22,18 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Hoard
                 screenState.Width - 10,
                 screenState.Height / 12 - 6)
         { }
+
         public override void ControlHandle(Key k) { }
-        protected override void DrawContents(Gdk.Drawable d)
+
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             Text.ShadowedText(g, "Gained gil and item(s).", X + xs, Y + ys);
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
-        public override string Info { get { return ""; } }
+
+        public override string Info { get { return String.Empty; } }
     }
 }
 

@@ -61,17 +61,12 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             base.ControlHandle(k);
         }
         
-        public override void Draw(Gdk.Drawable d)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             if (IsControl)
             {
                 Shapes.RenderCursor(g, _targets[_option].X - CURSOR_SPACING, _targets[_option].Y);
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         

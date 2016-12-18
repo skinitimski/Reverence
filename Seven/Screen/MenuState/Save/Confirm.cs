@@ -58,10 +58,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
                 default: break;
             }
         }
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
@@ -78,9 +76,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Save
             Text.ShadowedText(g, "Are you sure?", X + x1, Y + y0);
             Text.ShadowedText(g, "Yes", X + x0, Y + y1);
             Text.ShadowedText(g, "No", X + x2, Y + y1);
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         public override void SetAsControl()

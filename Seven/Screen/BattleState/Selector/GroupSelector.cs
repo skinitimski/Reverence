@@ -56,10 +56,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
             base.ControlHandle(k);
         }
         
-        public override void Draw(Gdk.Drawable d)
-        {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
+        {            
             if (IsControl)
             {
                 switch (_selectedGroup)
@@ -81,9 +79,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                         break;
                 }
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         public override void SetAsControl()

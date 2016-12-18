@@ -96,10 +96,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 }
             }
             
-            protected override void DrawContents(Gdk.Drawable d)
+            protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
             {
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
-                
                 g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
                 g.SetFontSize(24);
                                 
@@ -108,10 +106,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     Shapes.RenderCursor(g, X + cx, Y + cy);
                 }
                 
-                Text.ShadowedText(g, Colors.WHITE, "Change", X + x, Y + y0 + y);                                     
-                               
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
+                Text.ShadowedText(g, Colors.WHITE, "Change", X + x, Y + y0 + y);
             }
             
             public override void Reset()
@@ -690,10 +685,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             return true;
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
@@ -868,12 +861,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                     X + x + xs * (_itemMenuOption / _rows),
                     Y + ((_itemMenuOption % _rows + 1) * y) + y0);
             }
-
-
-
-
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         public override void SetAsControl()

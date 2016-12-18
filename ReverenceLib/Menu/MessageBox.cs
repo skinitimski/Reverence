@@ -29,10 +29,8 @@ namespace Atmosphere.Reverence.Menu
 
 
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-
             string message = Message(Timer);
 
             TextExtents te = g.TextExtents(message);
@@ -54,9 +52,6 @@ namespace Atmosphere.Reverence.Menu
             double y_text = Y + Height / 2 - te.Height / 2;
 
             Text.ShadowedText(g, message, x_text, y_text);
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         public Timer Timer { get; private set; }

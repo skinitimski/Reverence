@@ -174,11 +174,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             }
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
@@ -193,9 +190,9 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             
             #region Character Status
             
-            Images.RenderProfile(d, gc, X + xpic, Y + ypic, MenuState.Party.Selected);
+            Images.RenderProfile(d, X + xpic, Y + ypic, MenuState.Party.Selected);
             
-            Graphics.Stats.RenderCharacterStatus(d, gc, g, MenuState.Party.Selected, X + x_status, Y + y_status, false);
+            Graphics.Stats.RenderCharacterStatus(d, g, MenuState.Party.Selected, X + x_status, Y + y_status, false);
             
             #endregion Status
             
@@ -225,10 +222,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Materia
             {
                 Shapes.RenderCursor(g, X + cx, Y + cy);
             }
-
-
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         public int OptionX { get { return optionX; } }

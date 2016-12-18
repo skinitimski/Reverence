@@ -728,11 +728,9 @@ namespace Atmosphere.Reverence.Seven.State
         
         #region Override Methods
         
-        public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-
-            Screen.Draw(d, !_holdingSquare);
+            Screen.Draw(d, g, width, height, screenChanged, !_holdingSquare);
 
             foreach (Combatant a in Allies)
             {
@@ -754,11 +752,8 @@ namespace Atmosphere.Reverence.Seven.State
 
             foreach (BattleIcon icon in _battleIcons)
             {
-                icon.Draw(d);
+                icon.Draw(d, g, width, height, screenChanged);
             }
-
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
 

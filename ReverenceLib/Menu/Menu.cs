@@ -127,7 +127,7 @@ namespace Atmosphere.Reverence.Menu
             Shapes.RenderTriangle(_background, CP0, CP1, CP2);
         }
 
-        public void Draw(Gdk.Drawable d)
+        public void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
             if (!_visible)
             {
@@ -137,7 +137,6 @@ namespace Atmosphere.Reverence.Menu
             if (_w > 0 && _h > 0)
             {
                 Gdk.GC gc = new Gdk.GC(d);
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
 
                 d.DrawPixbuf(gc, _background, 0, 0, _x, _y, _w, _h, Gdk.RgbDither.None, 0, 0);
 
@@ -157,15 +156,16 @@ namespace Atmosphere.Reverence.Menu
                 g.LineWidth = 6;
                 g.Color = BorderColor;
                 g.Stroke();
-
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
             }
-                                                                                         
-            DrawContents(d);
+
+            g.Save();
+
+            DrawContents(d, g, width, height, screenChanged);
+
+            g.Restore();
         }
 
-        protected abstract void DrawContents(Gdk.Drawable d);
+        protected abstract void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged);
 
         protected void Move(int x, int y)
         {

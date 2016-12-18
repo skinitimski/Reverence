@@ -100,10 +100,8 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 Visible = Visible;
             }
             
-            protected override void DrawContents(Gdk.Drawable d)
+            protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
             {
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
-                
                 g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
                 g.SetFontSize(24);
 
@@ -130,11 +128,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 Text.ShadowedText(g, cr, "R", X + x0, Y + yr);
                 Text.ShadowedText(g, cg, "G", X + x0, Y + yg);
                 Text.ShadowedText(g, cb, "B", X + x0, Y + yb);
-
-
-                
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
             }
             
             private WindowColor Owner { get; set; }
@@ -229,16 +222,14 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
             Owner.Visible = Owner.Visible;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
             if (SubMenu != null)
             {
-                SubMenu.Draw(d);
+                SubMenu.Draw(d, g, width, height, screenChanged);
             }
             else
             {
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
                 g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
                 g.SetFontSize(24);
                        
@@ -249,9 +240,6 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Config
                 {
                     Shapes.RenderCursor(g, X + x_cursor, Y + y_cursor);
                 }
-                                        
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
             }
         }
         

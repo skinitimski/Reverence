@@ -34,7 +34,7 @@ namespace Atmosphere.Reverence
 
         public abstract void KeyReleaseHandle(Key k);
         
-        public abstract void Draw(Gdk.Drawable d, int width, int height, bool screenChanged);
+        public abstract void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged);
         
         public abstract void RunIteration();
         

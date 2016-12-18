@@ -20,10 +20,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
         }
 
         
-        public override void Draw(Gdk.Drawable d)
+        public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             if (IsControl)
             {
                 foreach (Combatant a in BattleState.Allies)
@@ -35,9 +33,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Selector
                     Shapes.RenderCursor(g, e.X - CURSOR_SPACING, e.Y);
                 }
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         protected override IEnumerable<Combatant> Selected

@@ -31,11 +31,11 @@ namespace Atmosphere.Reverence.Menu
             _control = defaultControl;
         }
         
-        public void Draw(Gdk.Drawable d)
+        public void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
             foreach (GameMenu m in _menus)
             {
-                m.Draw(d);
+                m.Draw(d, g, width, height, screenChanged);
             }
         }
         

@@ -31,25 +31,18 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
             Character = postBattleState.Party[index];
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
             TextExtents te;
-            
-
 
             Color textColor = Character.Death ? Colors.TEXT_RED : Colors.WHITE;
 
-
-
             if (Character != null)
             {
-                Images.RenderProfile(d, gc, X + xpic, Y + ypic, Character);
+                Images.RenderProfile(d, X + xpic, Y + ypic, Character);
                 
                 Text.ShadowedText(g, textColor,Character.Name, X + x1, Y + y0);
                 Text.ShadowedText(g, textColor, "Level:", X + x2, Y + y1);
@@ -74,10 +67,6 @@ namespace Atmosphere.Reverence.Seven.Screen.PostBattleState.Victory
                 te = g.TextExtents(expNext);
                 Text.ShadowedText(g, textColor, expNext, X + x5 - te.Width, Y + y1);
             }
-            
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
 
         protected Character Character { get; private set; }

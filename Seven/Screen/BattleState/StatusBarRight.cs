@@ -39,26 +39,24 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             BattleState = battleState;
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
             if (BattleState.Allies[0] != null)
             {
-                DrawAllyStatus(d, BattleState.Allies[0], y0);
+                DrawAllyStatus(d, g, BattleState.Allies[0], y0);
             }
             if (BattleState.Allies[1] != null)
             {
-                DrawAllyStatus(d, BattleState.Allies[1], y1);
+                DrawAllyStatus(d, g, BattleState.Allies[1], y1);
             }
             if (BattleState.Allies[2] != null)
             {
-                DrawAllyStatus(d, BattleState.Allies[2], y2);
+                DrawAllyStatus(d, g, BattleState.Allies[2], y2);
             }
         }
 
-        private void DrawAllyStatus(Gdk.Drawable d, Ally a, int y)
+        private void DrawAllyStatus(Gdk.Drawable d, Cairo.Context g, Ally a, int y)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
             
@@ -143,9 +141,6 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             
             te = g.TextExtents(time);
             Text.ShadowedText(g, time, X + x_time - te.Width + te.XBearing, Y + y);
-
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
         private SevenBattleState BattleState { get; set; }

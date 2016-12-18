@@ -57,21 +57,16 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
             BattleState = battleState;
         }
 
-        public void Draw(Gdk.Drawable d)
+        public void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged, bool stack = true)
         {
-            Draw(d, true);
-        }
-
-        public void Draw(Gdk.Drawable d, bool stack)
-        {
-            StatusBarLeft.Draw(d);
-            StatusBarRight.Draw(d);
-            InfoBar.Draw(d);
-            EventBar.Draw(d);
+            StatusBarLeft.Draw(d, g, width, height, screenChanged);
+            StatusBarRight.Draw(d, g, width, height, screenChanged);
+            InfoBar.Draw(d, g, width, height, screenChanged);
+            EventBar.Draw(d, g, width, height, screenChanged);
 
             if (BattleState.Paused)
             {
-                PausedBar.Draw(d);
+                PausedBar.Draw(d, g, width, height, screenChanged);
             }
 
             lock (_controllerStack)
@@ -80,7 +75,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState
                 {
                     foreach (IController c in _controllerStack)
                     {
-                        c.Draw(d);
+                        c.Draw(d, g, width, height, screenChanged);
                     }
                 }
             }

@@ -68,10 +68,8 @@ namespace Atmosphere.Reverence
             {                
             }
             
-            public override void Draw(Gdk.Drawable d, int width, int height, bool screenChanged)
+            public override void Draw(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
             {                
-                Cairo.Context g = Gdk.CairoHelper.Create(d);
-
                 g.MoveTo(0, 0);
                 g.LineTo(width, 0);
                 g.LineTo(width, height);
@@ -80,9 +78,6 @@ namespace Atmosphere.Reverence
                 g.ClosePath();
                 g.Color = GetCurrentColor();
                 g.Fill();
-                
-                ((IDisposable)g.Target).Dispose();
-                ((IDisposable)g).Dispose();
             }
 
             private Color GetCurrentColor()
@@ -208,12 +203,17 @@ namespace Atmosphere.Reverence
 
                     try
                     {
-                        State.Draw(_pixmap, w, h, screenChanged);
+                        Cairo.Context g = Gdk.CairoHelper.Create(_pixmap);
+
+                        State.Draw(_pixmap, g, w, h, screenChanged);
 
                         if (MessageBox != null)
                         {
-                            MessageBox.Draw(_pixmap);
+                            MessageBox.Draw(_pixmap, g, w, h, screenChanged);
                         }
+
+                        ((IDisposable)g.Target).Dispose();
+                        ((IDisposable)g).Dispose();
                     }
                     catch (Exception e)
                     {

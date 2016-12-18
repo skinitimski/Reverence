@@ -112,10 +112,8 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
             spell.Use(BattleState.Commanding, targets, new AbilityModifiers { ResetTurnTimer = releaseAlly});
         }
 
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
 
@@ -136,11 +134,7 @@ namespace Atmosphere.Reverence.Seven.Screen.BattleState.Summon
                     Y + cy + (_option - _topRow + 1) * ys);
             }
 
-            BattleState.Screen.SummonMenuInfo.Draw(d);
-
-
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
+            BattleState.Screen.SummonMenuInfo.Draw(d, g, width, height, screenChanged);
         }
 
         public override void Reset()

@@ -114,25 +114,19 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
             }
         }
         
-        protected override void DrawContents(Gdk.Drawable d)
+        protected override void DrawContents(Gdk.Drawable d, Cairo.Context g, int width, int height, bool screenChanged)
         {
-            Gdk.GC gc = new Gdk.GC(d);
-            Cairo.Context g = Gdk.CairoHelper.Create(d);
-            
             g.SelectFontFace(Text.MONOSPACE_FONT, FontSlant.Normal, FontWeight.Bold);
             g.SetFontSize(24);
-
-            
+                        
             for (int i = 0; i < Party.PARTY_SIZE; i++)
             {
                 if (MenuState.Party[i] != null)
                 {
-                    DrawCharacterStatus(d, gc, g, MenuState.Party[i], y_firstRow + i * row_height);
+                    DrawCharacterStatus(d, g, MenuState.Party[i], y_firstRow + i * row_height);
                 }
             } 
 
-            
-            
             if (IsControl)
             {
                 switch (_selectedItem.FieldTarget)
@@ -148,16 +142,13 @@ namespace Atmosphere.Reverence.Seven.Screen.MenuState.Item
                         break;
                 }
             }
-            
-            ((IDisposable)g.Target).Dispose();
-            ((IDisposable)g).Dispose();
         }
         
-        private void DrawCharacterStatus(Gdk.Drawable d, Gdk.GC gc, Cairo.Context g, Character c, int y)
+        private void DrawCharacterStatus(Gdk.Drawable d, Cairo.Context g, Character c, int y)
         {       
-            Images.RenderProfile(d, gc, X + x_pic, Y + y + y_displacement_pic, c);
+            Images.RenderProfile(d, X + x_pic, Y + y + y_displacement_pic, c);
 
-            Graphics.Stats.RenderCharacterStatus(d, gc, g, c, X + x_status, Y + y);
+            Graphics.Stats.RenderCharacterStatus(d, g, c, X + x_status, Y + y);
         }
 
 
